@@ -69,8 +69,8 @@ Route::group(['middleware'    => 'auth'],function(){
 
 
 Route::group(['middleware'    => 'auth'],function(){
-    Route::get('Home',[HomeController::class, 'index']);
-    Route::get('/',[HomeController::class, 'index']);
+    Route::get('Home',[HomeController::class, 'index'])->name('home');
+    Route::get('/',[HomeController::class, 'index'])->name('home');
 });
 
 
@@ -78,4 +78,3 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Auth::routes();
 Auth::routes(['verify' => true]);
-// Route::get('/home', 'HomeController@index')->name('home');
