@@ -69,7 +69,7 @@ Route::group(['middleware'    => 'auth'],function(){
 
 
 Route::group(['middleware'    => 'auth'],function(){
-    Route::get('Home',[HomeController::class, 'index'])->name('home');
+    Route::get('home',[HomeController::class, 'index'])->name('home');
     Route::get('/',[HomeController::class, 'index'])->name('home');
 });
 
