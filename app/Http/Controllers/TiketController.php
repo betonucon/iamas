@@ -581,7 +581,7 @@ class TiketController extends Controller
                 echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan</p>';
             }else{
                 $counttim=count($request->nik);
-                if($counttim>3){
+                if($counttim>2){
                         $image = $request->file('lampiran');
                         $size = $image->getSize();
                         $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
