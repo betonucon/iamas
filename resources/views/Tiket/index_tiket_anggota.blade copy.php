@@ -50,7 +50,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(tiket_get_anggota() as $no=>$data)
+								@foreach(tiket_get_tiket() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->tiket['id']}}" type="checkbox" name="id[]"></td>
@@ -60,20 +60,16 @@
 										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td>
-											@if($data->sts==2)
+											@if($data->sts==1)
 												<font color="red">On Proses</font>
-											@else
+											@endif
+											@if($data->sts>1)
 												<font color="blue">Selesai</font>
 											@endif
 											
 										</td>
 										<td>
-											@if($data->sts==2)
-												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
-											@else
-												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs">Proses</span> 
-											@endif
-											
+											<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
 										</td>
 									</tr>
 								@endforeach
@@ -153,14 +149,7 @@
 		} );
 
 		
-		function tambah(){
-			location.assign("{{url('TiketNew/Create')}}");
-		}
-
-		function ubah(id){
-			location.assign("{{url('TiketNew/Update')}}?id="+id);
-		}
-
+		
 		
 		function cek_file(a){
 			$('#modalfile').modal('show');

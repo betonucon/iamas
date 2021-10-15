@@ -17,7 +17,7 @@
 			<div class="panel panel-inverse" data-sortable-id="form-plugins-1">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">Daftar Tiket</h4>
+					<h4 class="panel-title">Approve Tiket</h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -29,8 +29,9 @@
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
 
-						<form id="tambah-data" action="{{url('/TiketNew')}}" method="post" enctype="multipart/form-data">
+						<form id="tambah-data" action="{{url('/TiketNew/Edit')}}" method="post" enctype="multipart/form-data">
 							@csrf
+							<input type="hidden" name="tiket_id" value="{{$data->id}}">
 							<ul class="nav nav-tabs">
 								<li class="nav-item">
 									<a href="#default-tab-1" data-toggle="tab" class="nav-link active">
@@ -58,11 +59,11 @@
 									<div class="col-xl-12">
 										<div class="form-group">
 											<label for="exampleInputEmail1">Aktivitas</label>
-											<select class="form-control" name="kode_aktivitas" onchange="pilih_aktivitas()" id="kode_aktivitas">
+											<select class="form-control" disabled  onchange="pilih_aktivitas()" id="kode_aktivitas">
 												<option value="">Pilih Aktivitas</option>
 												@foreach(aktivitas_get() as $aktifitas)
 													
-													<option value="{{$aktifitas['kode']}}" >[{{$aktifitas['kode']}}] {{$aktifitas['name']}}</option>
+													<option value="{{$aktifitas['kode']}}" @if($data->kode_aktivitas==$aktifitas['kode']) selected @endif >[{{$aktifitas['kode']}}] {{$aktifitas['name']}}</option>
 												@endforeach
 											</select>
 										</div>
@@ -73,16 +74,13 @@
 														<label for="exampleInputEmail1">Sumber Infomasi</label>
 														<div class="input-group">
 															<div class="input-group-prepend"><span class="input-group-text" style="cursor: pointer;" onclick="pilih_sumber()">Plih Sumber</span></div>
-															<input type="text" disabled id="sumbernya" class="form-control">
+															<input type="text" disabled   value="[{{$data->nomorinformasi}}] {{$data->judul}}" class="form-control">
 														</div>
-														<input type="hidden" name="tiket_id" id="tiket_id">
+														
 													</div>
 												</td>
 												<td width="30%">
-													<div class="form-group">
-														<label for="exampleInputEmail1">Lampiran</label>
-														<input type="file" class="form-control"  name="lampiran" >
-													</div>
+													
 												</td>
 											</tr>
 										</table>
@@ -93,11 +91,11 @@
 									<div class="col-xl-12">
 										<div class="form-group">
 											<label for="exampleInputEmail1">Judul</label>
-											<input type="text" class="form-control" name="judul" placeholder="Enter text ...">
+											<input type="text" class="form-control" disabled value="{{$data->judul_tiket}}" name="judul" placeholder="Enter text ...">
 										</div>
 										<div class="form-group">
 											<label for="exampleInputEmail1">Isi</label>
-											<textarea class="textarea form-control" name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="8"></textarea>
+											<textarea class="textarea form-control" disabled name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="8">{!!$data->keterangan_tiket!!}</textarea>
 										</div>
 									</div>
 								</div>
@@ -107,16 +105,16 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Obyek Audit </label>
 											<div class="col-lg-9 col-xl-9">
-												<input type="text" class="form-control" name="name"  placeholder="Ketik...">
+												<input type="text" class="form-control" disabled value="{{$data->surattugas['name']}}" name="name"  placeholder="Ketik...">
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja</label>
 											<div class="col-lg-9 col-xl-6">
-												<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
+												<select class="default-select2 form-control" disabled placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Unit Kerja</option>
 													@foreach(unitkerja_get() as $no=>$unitkerja_get)
-														<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+														<option value="{{$unitkerja_get->kode_unit}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode_unit) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
 													@endforeach
 													
 												</select>
@@ -125,10 +123,10 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Katagori Audit</label>
 											<div class="col-lg-9 col-xl-9">
-												<select class="default-select2 form-control" name="kode" placeholder="Pilih Unit Kerja">
+												<select class="default-select2 form-control" disabled  placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Katagori Audit</option>
 													@foreach(kodesurat_get() as $no=>$kodesurat_get)
-														<option value="{{$kodesurat_get->kode}}">[{{$kodesurat_get->kode}}] {{ucwords($kodesurat_get->keterangan)}}</option>
+														<option value="{{$kodesurat_get->kode}}" @if($data->surattugas['kode']==$kodesurat_get->kode) selected @endif>[{{$kodesurat_get->kode}}] {{ucwords($kodesurat_get->keterangan)}}</option>
 													@endforeach
 													
 												</select>
@@ -137,16 +135,16 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Tanggal (Mulai & Sampai)</label>
 											<div class="col-lg-9 col-xl-3">
-												<input type="text" class="form-control"  name="mulai" id="tanggalpicker" placeholder="Ketik...">
+												<input type="text" class="form-control" disabled name="mulai" value="{{$data->surattugas['mulai']}}" id="tanggalpicker" placeholder="Ketik...">
 											</div>
 											<div class="col-lg-9 col-xl-3">
-												<input type="text" class="form-control"  name="sampai"  id="tanggalpicker2" placeholder="Ketik...">
+												<input type="text" class="form-control" disabled name="sampai"  value="{{$data->surattugas['sampai']}}" id="tanggalpicker2" placeholder="Ketik...">
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Catatan Penting</label>
 											<div class="col-lg-9 col-xl-9">
-												<textarea class="textarea form-control" name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8"></textarea>
+												<textarea class="textarea form-control" disabled name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8">{!!$data->surattugas['catatan']!!}</textarea>
 											</div>
 											
 										</div>
@@ -158,9 +156,9 @@
 											<label class="col-lg-3 text-lg-right col-form-label">Pengawas</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group m-b-10">
-													<div class="input-group-prepend" onclick="cari_pengawas(1)"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
-													<input type="text" class="form-control" disabled id="pengawas" placeholder="Ketik...">
-													<input type="hidden" class="form-control" name="nik[]" id="nik_pengawas" placeholder="Username">
+													<div class="input-group-prepend" ><span class="input-group-text"><i class="fa fa-user"></i></span></div>
+													<input type="text" class="form-control" disabled id="pengawas" value="{{pengawas($data->id)->user['name']}}" placeholder="Ketik...">
+													<input type="hidden" class="form-control" name="nik[]" value="{{pengawas($data->id)['nik']}}" id="nik_pengawas"  placeholder="Username">
 													<input type="hidden" class="form-control" name="role[]" value="2" placeholder="Username">
 												</div>
 											</div>
@@ -170,9 +168,9 @@
 											<label class="col-lg-3 text-lg-right col-form-label">Ketua TIM</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group m-b-10">
-													<div class="input-group-prepend" onclick="cari_ketua(1)"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
-													<input type="text" class="form-control" disabled id="ketua" placeholder="Ketik...">
-													<input type="hidden" class="form-control" name="nik[]" id="nik_ketua" placeholder="Username">
+													<div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
+													<input type="text" class="form-control" disabled id="ketua" value="{{ketua($data->id)->user['name']}}" placeholder="Ketik...">
+													<input type="hidden" class="form-control" name="nik[]" value="{{ketua($data->id)['nik']}}" id="nik_ketua" placeholder="Username">
 													<input type="hidden" class="form-control" name="role[]" value="1" placeholder="Username">
 												</div>
 											</div>
@@ -181,11 +179,14 @@
 										<div class="form-group row m-b-10">
 											<label class="col-lg-3 text-lg-right col-form-label">Anggota</label>
 											<div class="col-lg-9 col-xl-9">
-												<select class="multiple-select2 form-control" name="nik[]" multiple="multiple">
+												<select class="multiple-select2 form-control" disabled name="nik[]" multiple="multiple">
 													<optgroup label="Pilih Anggota">
-													@foreach(katua_get() as $no=>$src_get)
-														<option value="{{$src_get->nik}}">{{ucwords($src_get->name)}}</option>
-													@endforeach
+													
+														@foreach(katua_get() as $no=>$src_get)
+															<option value="{{$src_get->nik}}" @if(anggota($data->id,$src_get->nik)>0) selected @endif > {{ucwords($src_get->name)}}</option>
+														@endforeach
+													
+													
 													</optgroup>
 												</select>
 											</div>
@@ -194,11 +195,13 @@
 									</div>
 									
 								</div>
-								<div class="modal-footer">
-									<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Simpan</a>
-									<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-								</div>
 								
+								<div class="modal-footer">
+									@if($data->surattugas['sts']==1)
+									<a href="javascript:;" class="btn btn-blue" onclick="approve()">Approve</a>
+									@endif
+									<a href="javascript:;" class="btn btn-red" onclick="sebelumnya()">Kembali</a>
+								</div>
 							</div>
 							
 						</form>
@@ -213,60 +216,50 @@
 	</div>
 	<div class="row">
 
-		<div class="modal" id="modaltambah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog" id="modal-sedeng">
+		<div class="modal" id="modalapprove" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Tambah Data</h4>
+						<h4 class="modal-title">Approve Tiket</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
-					<div class="modal-body" style="background: #b5b5d330;">
-						
+					<div class="modal-body">
+						<div class="alert alert-success fade show m-b-0">
+							<span class="close" data-dismiss="alert">×</span>
+							<strong>Notifikasi!</strong>
+							 Yakin menyetuji data dan melajutkan ke tahap berikutnya?
+						</div>
 						
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Simpan</a>
+						<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Approve</a>
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="modal" id="modalubah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog" id="modal-sedeng">
+		<div class="modal" id="modallampiran" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Ubah Data</h4>
+						<h4 class="modal-title">Ubah Lampiran</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
 						<div id="notifikasiubah"></div>
 						<form id="ubah-data" enctype="multipart/form-data">
 							@csrf
-							<div id="tampilubah"></div>
+							<input type="hidden" name="id" value="{{$data->id}}">
+							<input type="hidden" name="nomortiket" value="{{$data->nomortiket}}">
+							<div class="form-group">
+								<label>File Lampiran</label>
+								<input type="file" name="lampiran" class="form-control">
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Simpan</a>
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modalcektimaudit" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Ubah Data</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-						
-							<div id="tampilcektim"></div>
-						
-					</div>
-					<div class="modal-footer">
-						
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
@@ -291,77 +284,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal" id="modalketua" aria-hidden="true" style="display: none;background: rgb(53 26 88 / 49%);">
-			<div class="modal-dialog" style="max-width:50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Ketua Tim Audit</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-					    
-							<table class="table table-striped table-bordered table-td-valign-middle dataTable no-footer dtr-inline collapsed" border="1">
-								<tr>
-									<th>No</th>
-									<th>NIK</th>
-									<th>Nama</th>
-									<th>Jabatan</th>
-								</tr>
-								@foreach(katua_get() as $no=>$src_get)
-									<tr onclick="pilih_ketua({{$src_get->nik}},'{{$src_get->name}}')">
-										<td><input type="checkbox" name="nik[]" value="{{$src_get->nik}}"></td>
-										<td>{{$src_get->nik}}</td>
-										<td>{{$src_get->name}}</td>
-										<td>{{$src_get->posisi['name']}}</td>
-									</tr>
-								@endforeach
-							</table>
-						
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white" onclick="tutup_modal_ketua()">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modaltimaudit" aria-hidden="true" style="display: none;background: rgb(53 26 88 / 49%);">
-			<div class="modal-dialog" style="max-width:50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Pengawas</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-					   
-							<table class="table table-striped table-bordered table-td-valign-middle dataTable no-footer dtr-inline collapsed" border="1">
-								<tr>
-									<th>No</th>
-									<th>NIK</th>
-									<th>Nama</th>
-									<th>Jabatan</th>
-								</tr>
-								@foreach(src_get() as $no=>$src_get)
-									<tr onclick="pilih_pengawas({{$src_get->nik}},'{{$src_get->name}}')">
-										<td><input type="checkbox" name="nik[]" value="{{$src_get->nik}}"></td>
-										<td>{{$src_get->nik}}</td>
-										<td>{{$src_get->name}}</td>
-										<td>{{$src_get->posisi['name']}}</td>
-									</tr>
-								@endforeach
-							</table>
-						
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white" onclick="tutup_modal_tim()">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modalsumber" aria-hidden="true" style="display: none;background: #1717198a;">
+		
+		<div class="modal" id="modallampiran" aria-hidden="true" style="display: none;background: #1717198a;">
 			<div class="modal-dialog" style="margin-top:0px">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5>Pilih sumber informasi dibawah ini</h5>
+						<h5>Ubah Lampiran</h5>
 						
 					</div>
 					<div class="modal-body" id="tampil_pilihan_sumber" style="height: 450px;overflow-y: scroll;padding: 0px;">
@@ -418,23 +346,11 @@
 		
 		
 
-		function pilih_aktivitas(){
-			$('#tampiltim').html('');
+		function approve(){
+			$('#modalapprove').modal('show');
 		}
 
-		function cari_timaudit(a,role){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/tampil_tim')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#modaltimaudit').modal({backdrop: 'static',keyboard: false});
-					$('#tim_id').val(a);
-					$('#role_id').val(role);
-				}
-			}); 
-		}
+		
 		function pilih_sumber(){
 			var kode_aktivitas=$('#kode_aktivitas').val();
 			$.ajax({
@@ -455,20 +371,7 @@
 			$('#modalsumber').modal('toggle');
 		}
 
-		function cek_pilih_sumber(a,id){
-			var kode_aktivitas=$('#kode_aktivitas').val();
-			$('#sumbernya').val(a);
-			$('#tiket_id').val(id);
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/tampil_tim')}}",
-				data: "act=2&id="+id+"&kode_aktivitas="+kode_aktivitas,
-				success: function(msg){
-					$('#tampiltim').html(msg);
-				}
-			});
-			$('#modalsumber').modal('toggle');
-		}
+		
 
 		function cek_revisi(a){
 			$('#modalrevisi').modal('show');
@@ -502,84 +405,14 @@
 			}); 
 		}
 
-		function hapus_tim(id,tiket){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/hapus_tim')}}",
-				data: "id="+id+"&tiket="+tiket,
-				success: function(act){
-					$.ajax({
-						type: 'GET',
-						url: "{{url('TiketNew/tampil_tim')}}",
-						data: "id="+act,
-						success: function(msg){
-							document.getElementById("loadnya").style.width = "0px";
-							$('#tampiltim').html(msg);
-						}
-					});
-
-					$.ajax({
-						type: 'GET',
-						url: "{{url('TiketNew/cek_tim')}}",
-						data: "id="+act,
-						success: function(msg){
-							$('#tampilcektim').html(msg);
-						}
-					}); 
-				}
-			}); 
-		}
-
-		function cek_nomor_tiket(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Tiket/cek_nomor_tiket')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#nomorinformasi').val(msg);
-					
-				}
-			}); 
-		}
-
-		function pilih_pengawas(nik,name){
-			$('#modaltimaudit').modal('hide');
-			$('#pengawas').val('['+nik+']'+name);
-			$('#nik_pengawas').val(nik);
-		}
-		function tutup_modal_tim(){
-			$('#modaltimaudit').modal('hide');
-		}
-		function pilih_ketua(nik,name){
-			$('#modalketua').modal('hide');
-			$('#ketua').val('['+nik+']'+name);
-			$('#nik_ketua').val(nik);
-		}
-		function tutup_modal_ketua(){
-			$('#modalketua').modal('hide');
-		}
-		function ubah(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/ubah')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#modalubah').modal('show');
-					$('#tampilubah').html(msg);
-					
-				}
-			}); 
-		}
+		
 
 		function tambah_data(){
             var form=document.getElementById('tambah-data');
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/TiketNew')}}",
+                    url: "{{url('/TiketNew/Approve')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,
@@ -589,7 +422,7 @@
 					},
                     success: function(msg){
                         if(msg=='ok'){
-                            location.assign("{{url('/TiketNew')}}");
+                            location.assign("{{url('TiketNewHead')}}");
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
@@ -603,55 +436,13 @@
                 });
 
         } 
-		function simpan_tim(){
-            var form=document.getElementById('tim-data');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNew/tim')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(act){
-						
-                        $.ajax({
-							type: 'GET',
-							url: "{{url('TiketNew/tampil_tim')}}",
-							data: "id="+act,
-							success: function(msg){
-								document.getElementById("loadnya").style.width = "0px";
-								$('#tampiltim').html(msg);
-								
-								$('#modaltimaudit').modal('hide');
-							}
-						});
-
-						$.ajax({
-							type: 'GET',
-							url: "{{url('TiketNew/cek_tim')}}",
-							data: "id="+act,
-							success: function(msg){
-								$('#tampilcektim').html(msg);
-								$('#modaltimaudit').modal('hide');
-							}
-						}); 
-                        
-                        
-                    }
-                });
-
-        } 
 
 		function ubah_data(){
             var form=document.getElementById('ubah-data');
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/TiketNew/ubah_data')}}",
+                    url: "{{url('/TiketNew/Editlampiran')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,
@@ -665,8 +456,9 @@
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
-							document.getElementById("notifikasiubah").style.width = "100%";
-							$('#notifikasiubah').html(msg);
+							$('#modalnotif').modal('show');
+							document.getElementById("notifikasi").style.width = "100%";
+							$('#notifikasi').html(msg);
                         }
                         
                         
@@ -674,34 +466,7 @@
                 });
 
         } 
-
-		function hapus(){
-            var form=document.getElementById('data-all');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNew/hapus')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							alert(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
+		
 	</script>
 
 @endpush

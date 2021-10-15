@@ -70,7 +70,17 @@ class TiketController extends Controller
             }
             
         }else{
-            return view('error');
+            
+            if(Auth::user()['posisi_id']==1){
+                $menu='Approve Tiket ';
+                $data=Tiket::find($request->id);
+                return view('Tiket.view_tiket_head',compact('menu','data'));
+            }else{
+                $menu='View Tiket ';
+                $data=Tiket::find($request->id);
+                return view('Tiket.view_tiket',compact('menu','data'));
+            }
+           
         }
         
     }
@@ -303,79 +313,7 @@ class TiketController extends Controller
 
        ';
     }
-    public function proses_tiket(request $request){
-       $data=Tiket::find($request->id);
-       echo'
-       <input type="hidden" name="id" value="'.$data['id'].'">
-       <table width="100%">
-            <tr>
-                <td width="50%">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Kode Laporan</label>
-                        <select class="form-control" name="kode_laporan" >
-                            <option value="">Pilih Kode Laporan</option>';
-                            foreach(kodifikasilaporan_get() as $kodifikasilaporan_get){
-                                
-                                echo'<option value="'.$kodifikasilaporan_get['kode'].'" >['.$kodifikasilaporan_get['kode'].'] '.$kodifikasilaporan_get['name'].'</option>';
-                            }
-                        echo'
-                        </select>
-                    </div>
-                </td>
-                <td width="5%"></td>
-                <td>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Lampiran</label>
-                        <input type="file" class="form-control"  name="lampiran" >
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Kodefikasi</label>
-                        <select class="form-control" name="kodifikasi" >
-                            <option value="">Pilih Kodefikasi</option>';
-                            foreach(kodefikasi_get() as $kodefikasi){
-                                
-                                echo'<option value="'.$kodefikasi['kodifikasi'].'">['.$kodefikasi['kodifikasi'].'] '.$kodefikasi['kategori'].'</option>';
-                            }
-                        echo'
-                        </select>
-                    </div>  
-                </td>
-                <td></td>
-                <td>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tingkat Risiko</label>
-                        <div class="input-group m-b-10">
-                            <div class="input-group-prepend"><span class="input-group-text" onclick="tentukanresiko()">Risiko</span></div>
-                            <input type="text" id="divrisiko" class="form-control" placeholder="text">
-                            <input type="hidden" id="risiko" name="risiko" class="form-control" placeholder="text">
-                        </div>  
-                    </div>  
-                </td>
-            </tr>
-        </table>
-        	
-        
-        
-        <div class="form-group">
-            <label for="exampleInputEmail1">Judul</label>
-            <input type="text" class="form-control" value="" name="judul" value="'.$data['judul'].'" placeholder="Enter text ...">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Isi</label>
-            <textarea class="textarea form-control" name="keterangan" id="textarea" placeholder="Enter text ..." rows="12">'.$data['keterangan'].'</textarea>
-        </div>
-       ';
-       echo'
-            <script type="text/javascript">
-                $("#textarea").wysihtml5();
-            </script>
-
-       ';
-    }
+    
     public function ubah_tiket(request $request){
        $data=Tiket::find($request->id);
        echo'
@@ -478,6 +416,7 @@ class TiketController extends Controller
         if (trim($request->kode_laporan) == '') {$error[] = '-Pilih laporan';}
         if (trim($request->kodifikasi) == '') {$error[] = '- Pilih kodifikasi';}
         if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
+        if (trim($request->risiko) == '') {$error[] = '- Tentukan Risiko';}
         if (trim($request->lampiran) == '') {$error[] = '- Upload file Lampiran';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
@@ -508,9 +447,19 @@ class TiketController extends Controller
                             'kode_laporan'=>$request->kode_laporan,
                             'kodifikasi_laporan'=>$request->kodifikasi,
                             'keterangan_laporan'=>$request->keterangan,
+                            'risiko'=>$request->risiko,
                             'lampiran_laporan'=>$filePath,
                             'tanggal_laporan'=>date('Y-m-d'),
                             'sts'=>5,
+                        ]);
+
+                        $surat=Surattugas::where('tiket_id',$request->id)->update([
+                            'sts'=>3,
+                            'nomorlaporan'=>$nomorlaporan,
+                            'kode_laporan'=>$request->kode_laporan,
+                            'risiko'=>$request->risiko,
+                            'kodifikasi'=>$request->kodifikasi,
+                            'kodifikasi_laporan'=>$request->kodifikasi,
                         ]);
 
                         if($tiket['kode_aktivitas']=='03'){
@@ -820,6 +769,17 @@ class TiketController extends Controller
         $data=Tiket::where('id',$request->tiket_id)->update([
             'sts'=>4,
             'catatan_tiket'=>$request->catatan_tiket,
+            'tanggal_tiket_approve_head'=>date('Y-m-d'),
+        ]);
+        
+        if($data){
+            echo'ok';
+        }
+    }
+
+    public function approve_tiket(request $request){
+        $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
+            'sts'=>2,
             'tanggal_tiket_approve_head'=>date('Y-m-d'),
         ]);
         

@@ -30,7 +30,7 @@
 				<div class="panel-body">
 
 					<div class="btn-group btn-group-justified text-with">
-						<!-- <a class="btn btn-primary active" onclick="tambah()">Tambah </a> -->
+						<!-- <a class="btn btn-blue active" onclick="tambah()"><i class="fas fa-edit fa-sm"></i> Tambah </a> -->
 						<!-- <a class="btn btn-danger active" onclick="hapus()">Hapus</a> -->
 					</div>
 					<form id="data-all" enctype="multipart/form-data">
@@ -40,42 +40,41 @@
 								<tr>
 									<th width="1%"></th>
 									<th width="1%" data-orderable="false"></th>
-									<th width="10%" class="text-nowrap">No Tiket</th>
-									<th class="text-nowrap">Judul</th>
-									<th class="text-nowrap">Sumber</th>
-									<th width="3%" class="text-nowrap">file</th>
-									<th width="3%" class="text-nowrap">Tim</th>
-									<th width="9%" class="text-nowrap">Status</th>
-									<th width="6%" class="text-nowrap">Action</th>
+									<th width="10%" >No Tiket</th>
+									<th >Judul</th>
+									<th >Sumber</th>
+									<th width="3%">file</th>
+									<th width="3%">surat</th>
+									<th width="9%">Status</th>
+									<th width="8%">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(tiket_get_new_head() as $no=>$data)
+								@foreach(tiket_get_head() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
-										<td width="1%" class="with-img"><input value="{{$data->id}}" type="checkbox" name="id[]"></td>
+										<td width="1%" class="with-img"><input value="{{$data->tiket['id']}}" type="checkbox" name="id[]"></td>
 										<td>{{$data->nomortiket}}</td>
-										<td>{{$data->judul_tiket}}</td>
-										<td>[{{$data->nomorinformasi}}] {{$data->sumber['name']}}</td>
-										<td><span onclick="cek_file(`{{$data->lampiran_tiket}}`,`{{$data->keterangan_tiket}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
-										<td><span onclick="cek_tim({{$data->id}})" class="btn btn-blue btn-xs"><i class="fa fa-user"></i></span></td>
+										<td>{{$data->tiket['judul_tiket']}}</td>
+										<td>[{{$data->nomorinformasi}}] {{$data->tiket->sumber['name']}}</td>
+										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
+										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td>
-											@if($data->sts==3)
+											@if($data->sts==1)
 												<font color="red">On Proses</font>
 											@endif
-											@if($data->sts==4)
+											@if($data->sts>1)
 												<font color="blue">Selesai</font>
 											@endif
 											
 										</td>
 										<td>
-											@if($data->sts==4)
-											<font color="blue">Ok</font>
+											@if($data->sts==1)
+												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs"> Approve</span> 
 											@else
-												<span onclick="ubah({{$data->id}},`{{$data->keterangan_tiket}}`,`{{$data->judul_tiket}}`,`{{$data->nomorinformasi}}`)" class="btn btn-purple active btn-xs">Approve</span> 
+												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
 											@endif
-											
-										</td>
+											</td>
 									</tr>
 								@endforeach
 							</tbody>
@@ -92,115 +91,6 @@
 	</div>
 	<div class="row">
 
-		<div class="modal" id="modaltambah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog" id="modal-sedeng">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Tambah Data</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-						
-						<form id="tambah-data" action="{{url('Tiket')}}" method="post" enctype="multipart/form-data">
-							@csrf
-							<div class="col-xl-12">
-								<table width="100%">
-									<tr>
-										<td>
-											<div class="form-group">
-												<label for="exampleInputEmail1">Sumber Infomasi</label>
-												<div class="input-group">
-													<div class="input-group-prepend"><span class="input-group-text" onclick="pilih_sumber()">Plih Sumber</span></div>
-													<input type="text" disabled id="sumbernya" class="form-control">
-												</div>
-												<input type="hidden" name="tiket_id" id="tiket_id">
-											</div>
-										</td>
-										<td width="30%">
-											<div class="form-group">
-												<label for="exampleInputEmail1">Lampiran</label>
-												<input type="file" class="form-control"  name="lampiran" >
-											</div>
-										</td>
-									</tr>
-								</table>
-								
-								
-									
-							</div>
-							<div class="col-xl-12" style="margin-top:1%"">	
-								<div class="hljs-wrapper" id="tampiltim">
-									
-						    	</div>	
-						    </div>	
-							
-							<div class="col-xl-12">
-								<div class="form-group">
-									<label for="exampleInputEmail1">Judul</label>
-									<input type="text" class="form-control" name="judul" placeholder="Enter text ...">
-								</div>
-								
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Simpan</a>
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal" id="modalubah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Approve Tiket</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-						<div id="notifikasiubah"></div>
-						<form id="ubah-data" enctype="multipart/form-data">
-							@csrf
-							<input type="hidden" id="tiketnew_id" name="tiket_id">
-							<label for="exampleInputEmail1">Sumber Informasi</label>
-							<div style="width:100%;background:#f1f1f1;padding:1%" id="nomorinformasi"></div>
-							<label for="exampleInputEmail1">Judul</label>
-							<div style="width:100%;background:#f1f1f1;padding:1%" id="judul_tiket"></div>
-							<label for="exampleInputEmail1">Keterangan</label>
-							<div style="width:100%;background:#f1f1f1;padding:1%" id="isinya"></div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Catatan</label>
-								<textarea class="textarea form-control" name="catatan_tiket" id="wysihtml5" placeholder="Enter text ..." rows="8"></textarea>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Setujui</a>
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modalcektimaudit" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Ubah Data</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-						
-							<div id="tampilcektim"></div>
-						
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Simpan</a>
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
 		
 		<div class="modal" id="modalfile" aria-hidden="true" style="display: none;">
 			<div class="modal-dialog" id="modal-sedeng">
@@ -210,51 +100,12 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-							<label for="exampleInputEmail1">KETERANGAN</label>
-							<div id="keterangan" style="padding: 1%;background: #f3f3ff;margin-bottom: 1%;"></div>
-							
+						
 							<div id="tampilfile"></div>
 						
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modaltimaudit" aria-hidden="true" style="display: none;background: #1717198a;">
-			<div class="modal-dialog" style="max-width:50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Tim Audit</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-					    <form id="tim-data" enctype="multipart/form-data">
-							@csrf
-							<input type="hidden" name="tim_id" id="tim_id">
-							<input type="hidden" name="role_id" id="role_id">
-							<table class="table table-striped table-bordered table-td-valign-middle dataTable no-footer dtr-inline collapsed" border="1">
-								<tr>
-									<th>No</th>
-									<th>NIK</th>
-									<th>Nama</th>
-									<th>Jabatan</th>
-								</tr>
-								@foreach(src_get() as $no=>$src_get)
-									<tr>
-										<td><input type="checkbox" name="nik[]" value="{{$src_get->nik}}"></td>
-										<td>{{$src_get->nik}}</td>
-										<td>{{$src_get->name}}</td>
-										<td>{{$src_get->posisi['name']}}</td>
-									</tr>
-								@endforeach
-							</table>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-primary" onclick="simpan_tim()">Simpan</a>
-						<a href="javascript:;" class="btn btn-white" onclick="tutup_modal_tim()">Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -283,256 +134,44 @@
 	<script src="{{url('assets/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js')}}"></script>
 	<script src="{{url('assets/assets/js/demo/form-wysiwyg.demo.js')}}"></script>
 	<script>
+		$(document).ready(function() {
+            $('#tanggalpicker').datepicker({
+                format: 'yyyy-mm-dd',
+                
+            });
+            $('#tanggalpicker2').datepicker({
+                format: 'yyyy-mm-dd',
+                
+            });
+        });
+		
 		$('#myTable').DataTable( {
 			responsive: false,
 			paging: true,
 			info: true,
-			ordering:false,
 			lengthChange: false,
 		} );
 
 		
-		function ubah(a,keterangan_tiket,judul_tiket,nomorinformasi){
-			$('#tiketnew_id').val(a);
-			$('#judul_tiket').html(judul_tiket);
-			$('#nomorinformasi').html(nomorinformasi);
-			$('#isinya').html(keterangan_tiket);
-			$('#modalubah').modal('show');
-		}
-		function tutup_notif(){
-			$('#modalnotif').modal('toggle');
-		}
-		function tutup_sumber(){
-			$('#modalsumber').modal('toggle');
+		function tambah(){
+			location.assign("{{url('TiketNew/Create')}}");
 		}
 
-		function cek_pilih_sumber(a,id){
-			$('#sumbernya').val(a);
-			$('#tiket_id').val(id);
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/tampil_tim')}}",
-				data: "id="+id,
-				success: function(msg){
-					$('#tampiltim').html(msg);
-				}
-			});
-			$('#modalsumber').modal('toggle');
+		function ubah(id){
+			location.assign("{{url('TiketNew/Update')}}?id="+id);
 		}
 
-		function cek_revisi(a){
-			$('#modalrevisi').modal('show');
-			$('#tampilrevisi').html(a);
-		}
-
-		function cek_file(a,keterangan){
-			$('#modalfile').modal('show');
-			$('#keterangan').html(keterangan);
-			$('#tampilfile').html("<iframe src='{{url('_file_lampiran')}}/"+a+"' width='100%' height='600px'></iframe>");
-		}
-
-		function cari_timaudit(a,role){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/tampil_tim')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#modaltimaudit').modal({backdrop: 'static',keyboard: false});
-					$('#tim_id').val(a);
-					$('#role_id').val(role);
-				}
-			}); 
-		}
-
-		function cek_tim(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/cek_tim')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#modalcektimaudit').modal({backdrop: 'static',keyboard: false});
-					$('#tampilcektim').html(msg);
-				}
-			}); 
-		}
-
-		function hapus_tim(id,tiket){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('TiketNew/hapus_tim')}}",
-				data: "id="+id+"&tiket="+tiket,
-				success: function(act){
-					$.ajax({
-						type: 'GET',
-						url: "{{url('TiketNew/tampil_tim')}}",
-						data: "id="+act,
-						success: function(msg){
-							document.getElementById("loadnya").style.width = "0px";
-							$('#tampiltim').html(msg);
-						}
-					});
-
-					$.ajax({
-						type: 'GET',
-						url: "{{url('TiketNew/cek_tim')}}",
-						data: "id="+act,
-						success: function(msg){
-							$('#tampilcektim').html(msg);
-						}
-					}); 
-				}
-			}); 
-		}
-
-		function cek_nomor_tiket(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Tiket/cek_nomor_tiket')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#nomorinformasi').val(msg);
-					
-				}
-			}); 
-		}
-
-		function tutup_modal_tim(){
-			$('#modaltimaudit').modal('hide');
-		}
 		
+		function cek_file(a){
+			$('#modalfile').modal('show');
+			$('#tampilfile').html("<iframe src='{{url('_file_lampiran')}}/"+a+"?v={{date('ymdhis')}}' width='100%' height='600px'></iframe>");
+		}
+		function cek_surat_tugas(a){
+			$('#modalfile').modal('show');
+			$('#tampilfile').html("<iframe src='{{url('Surattugas')}}?id="+a+"' width='100%' height='600px'></iframe>");
+		}
 
-		function tambah_data(){
-            var form=document.getElementById('tambah-data');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNew')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							$('#modalnotif').modal('show');
-							document.getElementById("notifikasi").style.width = "100%";
-							$('#notifikasi').html(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
-		function simpan_tim(){
-            var form=document.getElementById('tim-data');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNew/tim')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(act){
-						
-                        $.ajax({
-							type: 'GET',
-							url: "{{url('TiketNew/tampil_tim')}}",
-							data: "id="+act,
-							success: function(msg){
-								document.getElementById("loadnya").style.width = "0px";
-								$('#tampiltim').html(msg);
-								
-								$('#modaltimaudit').modal('hide');
-							}
-						});
-
-						$.ajax({
-							type: 'GET',
-							url: "{{url('TiketNew/cek_tim')}}",
-							data: "id="+act,
-							success: function(msg){
-								$('#tampilcektim').html(msg);
-								$('#modaltimaudit').modal('hide');
-							}
-						}); 
-                        
-                        
-                    }
-                });
-
-        } 
-
-		function ubah_data(){
-            var form=document.getElementById('ubah-data');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNewHead/approve')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							document.getElementById("notifikasiubah").style.width = "100%";
-							$('#notifikasiubah').html(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
-
-		function hapus(){
-            var form=document.getElementById('data-all');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/TiketNew/hapus')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							alert(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
+		
 	</script>
 
 @endpush

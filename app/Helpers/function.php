@@ -231,7 +231,12 @@ function array_tiket_pengawas(){
 }
 
 function tiket_get_anggota(){
-   $data=App\Tiket::whereIn('sts',array('4','5'))->whereIn('id',array_tiket_anggota())->orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('sts',array('2','3'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
+   return $data;
+}
+
+function tiket_get_head(){
+   $data=App\Surattugas::orderBy('id','Desc')->get();
    return $data;
 }
 

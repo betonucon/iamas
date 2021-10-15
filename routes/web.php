@@ -44,6 +44,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('TiketNew',[TiketController::class, 'index_tiket']);
     Route::get('TiketNew/Create',[TiketController::class, 'create_tiket']);
     Route::get('TiketNew/Update',[TiketController::class, 'update_tiket']);
+    Route::get('TiketNew/view',[TiketController::class, 'view_tiket']);
     Route::get('TiketNew/tampil_pilihan_sumber',[TiketController::class, 'tampil_pilihan_sumber']);
     Route::get('TiketNew/tampil_tim',[TiketController::class, 'tampil_tim']);
     Route::get('TiketNew/cek_tim',[TiketController::class, 'cek_tim']);
@@ -62,6 +63,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('TiketNew/Proses',[TiketController::class, 'simpan_hasil']);
     Route::post('TiketNew/',[TiketController::class, 'simpan_tiket']);
     Route::post('/TiketNew/Edit',[TiketController::class, 'edit_tiket']);
+    Route::post('/TiketNew/Approve',[TiketController::class, 'approve_tiket']);
     Route::post('/TiketNew/Editlampiran',[TiketController::class, 'edit_lampiran_tiket']);
     Route::post('Tiket/hapus',[TiketController::class, 'hapus']);
     Route::post('TiketNew/hapus',[TiketController::class, 'hapus_tiket']);
