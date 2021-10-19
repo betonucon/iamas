@@ -7,6 +7,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GetareaController;
 use App\Http\Controllers\TiketController;
+use App\Http\Controllers\AuditplanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,8 +36,10 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Tiket',[TiketController::class, 'index']);
+    Route::get('Tiket/view',[TiketController::class, 'view']);
     Route::get('Surattugas',[TiketController::class, 'surattugas']);
     Route::get('TiketGL',[TiketController::class, 'index_gl']);
+    Route::get('TiketHD',[TiketController::class, 'index_hd']);
     Route::get('TiketAnggota',[TiketController::class, 'index_anggota']);
     Route::get('TiketPengawas',[TiketController::class, 'index_pengawas']);
     Route::get('TiketHead',[TiketController::class, 'index_head']);
@@ -59,6 +62,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('TiketNew/ubah_data',[TiketController::class, 'simpan_ubah_tiket']);
     Route::post('TiketNewHead/approve',[TiketController::class, 'approve_tiket_pengawas']);
     Route::post('Tiket/setujui',[TiketController::class, 'setujui']);
+    Route::post('Tiket/setujui_head',[TiketController::class, 'setujui_head']);
     Route::post('TiketNew/tim',[TiketController::class, 'simpan_tim']);
     Route::post('TiketNew/Proses',[TiketController::class, 'simpan_hasil']);
     Route::post('TiketNew/',[TiketController::class, 'simpan_tiket']);
@@ -76,7 +80,18 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('/','HomeController@index')->name('home');
 });
 
-
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Auditplan',[AuditplanController::class, 'index']);
+    Route::get('AccAuditplan',[AuditplanController::class, 'index_acc']);
+    Route::get('Auditplan/pilih_surat_tugas',[AuditplanController::class, 'pilih_surat_tugas']);
+    Route::get('Auditplan/Create',[AuditplanController::class, 'create']);
+    Route::get('Auditplan/Acc',[AuditplanController::class, 'acc']);
+    Route::get('Auditplan/Edit',[AuditplanController::class, 'edit']);
+    Route::post('Auditplan',[AuditplanController::class, 'save']);
+    Route::post('Auditplan/acc_head',[AuditplanController::class, 'acc_head']);
+    Route::post('Auditplan/Update',[AuditplanController::class, 'update']);
+    Route::post('Auditplan/Delete',[AuditplanController::class, 'delete']);
+});
 
 
 Auth::routes();

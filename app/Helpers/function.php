@@ -143,7 +143,7 @@ function anggota($id,$nik){
 }
 
 function kodifikasilaporan_get(){
-    $data=App\Kodifikasilaporan::orderBy('name','Asc')->get();
+    $data=App\Sumber::whereIn('id',array('16','17','18'))->orderBy('name','Asc')->get();
     return $data;
 }
 
@@ -153,7 +153,12 @@ function tiket_get(){
 }
 
 function tiket_get_gl(){
-    $data=App\Tiket::whereIn('sts',array('0','2','3','4'))->orderBy('id','Desc')->get();
+    $data=App\Tiket::whereIn('sts',array('1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
+    return $data;
+}
+
+function tiket_get_hd(){
+    $data=App\Tiket::whereIn('sts',array('0','1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
     return $data;
 }
 
@@ -207,9 +212,14 @@ function katua_get(){
     $data=App\User::whereIn('posisi_id',array('3','11','12'))->orderBy('name','Asc')->get();
     return $data;
 }
-function nomorsurat($kode,$unit){
-    $nomor=$kode.'/'.$unit.'/'.date('m').'/'.date('Y');
-    return $nomor;
+function nomorsurat($kode,$unit,$aktifitas){
+      if($kode=='NF'){
+         $nomor='NF'.$aktifitas.'/'.$unit.'/'.date('m').'/'.date('Y');
+      }else{
+         $nomor=$kode.'/'.$unit.'/'.date('m').'/'.date('Y');
+      }
+   
+      return $nomor;
 }
 
 function array_tiket_anggota(){
@@ -259,12 +269,32 @@ function akses_tiket_pengawas(){
    return $data;
 }
 
+function akses_tiket_ketua(){
+   $data=App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',1)->count();
+   return $data;
+}
+
 function sumber_get(){
    
    $data=App\Sumber::whereBetween('id',[1,15])->orderBy('urut','Asc')->get();
     
    return $data;
 }
+
+function surat_tugas_get(){
+   
+   $data=App\Surattugas::whereIn('tiket_id',array_tiket_pengawas())->where('sts',3)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function audit_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
 function cek_aktivitas($id){
    
    $data=App\Sumber::where('kode',$id)->first();

@@ -30,6 +30,15 @@ class TiketController extends Controller
         }
         
     }
+    public function index_hd(request $request){
+        if(Auth::user()->posisi_id==1){
+            $menu='Sumber Informasi ';
+            return view('Tiket.index_hd',compact('menu'));
+        }else{
+            return view('error');
+        }
+        
+    }
     public function index_head(request $request){
         if(Auth::user()->posisi_id==1){
             $menu='Sumber Informasi ';
@@ -282,29 +291,110 @@ class TiketController extends Controller
        $data=Tiket::find($request->id);
        echo'
        <input type="hidden" name="id" value="'.$data['id'].'">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Lampiran</label>
-            <input type="file" class="form-control"  name="lampiran" >
-        </div>	
-        <div class="form-group">
-            <label for="exampleInputEmail1">Kodefikasi</label>
-            <select class="form-control" name="kodifikasi" >
-                <option value="">Pilih Kodefikasi</option>';
-                foreach(kodefikasi_get() as $kodefikasi){
-                    
-                    echo'<option value="'.$kodefikasi['kodifikasi'].'"'; if($kodefikasi['kodifikasi']==$data['kodifikasi']){echo'selected';} echo' >['.$kodefikasi['kodifikasi'].'] '.$kodefikasi['kategori'].'</option>';
-                }
-            echo'
-            </select>
+       <div class="col-xl-10 offset-xl-1">
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Sumber Infomasi </label>
+                <div class="col-lg-9 col-xl-9">
+                    <select class="form-control" disabled name="kode_sumber" id="sumber-informasi" onchange="cek_nomor_tiket(this.value)">
+                        <option value="">Pilih Sumber Infomasi</option>';
+                        foreach(sumber_get(0) as $sumber){
+                           echo'<option value="'.$sumber['kode'].'"'; if($data['kode_sumber']==$sumber['kode']){echo'selected';} echo' >['.$sumber['kode'].'] '.$sumber['name'].'</option>';
+                        }
+                        echo'
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Kodifikasi & Lampiran </label>
+                <div class="col-lg-9 col-xl-5">
+                    <select class="form-control" name="kodifikasi" >
+                        <option value="">Pilih Kodefikasi</option>';
+                        foreach(kodefikasi_get() as $kodefikasi){
+                            
+                            echo'<option value="'.$kodefikasi['kodifikasi'].'"'; if($kodefikasi['kodifikasi']==$data['kodifikasi']){echo'selected';} echo' >['.$kodefikasi['kodifikasi'].'] '.$kodefikasi['kategori'].'</option>';
+                        }
+                    echo'
+                    </select>
+                </div>
+                <div class="col-lg-9 col-xl-4">
+                    <input type="file" class="form-control"  name="lampiran" >
+                </div>
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Judul </label>
+                <div class="col-lg-9 col-xl-9">
+                    <input type="text" class="form-control" value="'.$data['judul'].'" name="judul" placeholder="Enter text ...">
+                </div>
+                
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Isi/ Keterangan </label>
+                <div class="col-lg-9 col-xl-9">
+                    <textarea class="textarea form-control" name="keterangan" id="textarea" placeholder="Enter text ..." rows="12">'.$data['keterangan'].'</textarea>
+                </div>
+                
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Judul</label>
-            <input type="text" class="form-control" value="'.$data['judul'].'" name="judul" placeholder="Enter text ...">
+        
+        
+       ';
+       echo'
+            <script type="text/javascript">
+                $("#textarea").wysihtml5();
+            </script>
+
+       ';
+    }
+    public function view(request $request){
+       $data=Tiket::find($request->id);
+       echo'
+       <input type="hidden" name="id" value="'.$data['id'].'">
+       <div class="col-xl-10 offset-xl-1">
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Sumber Infomasi </label>
+                <div class="col-lg-9 col-xl-9">
+                    <select class="form-control" disabled name="kode_sumber" id="sumber-informasi" onchange="cek_nomor_tiket(this.value)">
+                        <option value="">Pilih Sumber Infomasi</option>';
+                        foreach(sumber_get(0) as $sumber){
+                           echo'<option value="'.$sumber['kode'].'"'; if($data['kode_sumber']==$sumber['kode']){echo'selected';} echo' >['.$sumber['kode'].'] '.$sumber['name'].'</option>';
+                        }
+                        echo'
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Kodifikasi & Lampiran </label>
+                <div class="col-lg-9 col-xl-5">
+                    <select class="form-control" disabled name="kodifikasi" >
+                        <option value="">Pilih Kodefikasi</option>';
+                        foreach(kodefikasi_get() as $kodefikasi){
+                            
+                            echo'<option value="'.$kodefikasi['kodifikasi'].'"'; if($kodefikasi['kodifikasi']==$data['kodifikasi']){echo'selected';} echo' >['.$kodefikasi['kodifikasi'].'] '.$kodefikasi['kategori'].'</option>';
+                        }
+                    echo'
+                    </select>
+                </div>
+                <div class="col-lg-9 col-xl-4">
+                    <input type="file" class="form-control" disabled name="lampiran" >
+                </div>
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Judul </label>
+                <div class="col-lg-9 col-xl-9">
+                    <input type="text" class="form-control" disabled value="'.$data['judul'].'" name="judul" placeholder="Enter text ...">
+                </div>
+                
+            </div>
+            <div class="form-group row m-b-10" >
+                <label class="col-lg-3 text-lg-right col-form-label">Isi/ Keterangan </label>
+                <div class="col-lg-9 col-xl-9">
+                    <textarea class="textarea form-control" disabled name="keterangan" id="textarea" placeholder="Enter text ..." rows="12">'.$data['keterangan'].'</textarea>
+                </div>
+                
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Isi</label>
-            <textarea class="textarea form-control" name="keterangan" id="textarea" placeholder="Enter text ..." rows="12">'.$data['keterangan'].'</textarea>
-        </div>
+        
+        
        ';
        echo'
             <script type="text/javascript">
@@ -514,10 +604,10 @@ class TiketController extends Controller
         if (trim($request->catatan) == '') {$error[] = '- Isi Catatan Penting';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $count=Tiket::where('nomortiket','!=',null)->count();
+            $count=Surattugas::count();
             
             if($count>0){
-                $cek=Tiket::where('nomortiket','!=',null)->orderBy('nomortiket','Desc')->firstOrfail();
+                $cek=Surattugas::orderBy('nomortiket','Desc')->firstOrfail();
                 $urutan = (int) substr($cek['nomortiket'], 9, 2);
                 $urutan++;
                 $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
@@ -525,7 +615,7 @@ class TiketController extends Controller
                 $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", 1);
                 
             }
-            $cektiket=Tiket::where('nomortiket',$nomortiket)->count();
+            $cektiket=Surattugas::where('nomortiket',$nomortiket)->count();
             if($cektiket>0){
                 echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan</p>';
             }else{
@@ -549,7 +639,7 @@ class TiketController extends Controller
                                     'sts'=>3,
                                 ]);
                                 $tiket=Tiket::where('id',$request->tiket_id)->first();
-                                $nomorsurat=nomorsurat($request->kode,$request->kode_unit);
+                                $nomorsurat=nomorsurat($request->kode,$request->kode_unit,$request->kode_aktivitas);
                                 $surat=Surattugas::create([
                                     'name'=>$request->name,
                                     'nomorinformasi'=>$tiket['nomorinformasi'],
@@ -606,7 +696,7 @@ class TiketController extends Controller
         else{
             
                 $counttim=count($request->nik);
-                if($counttim>3){
+                if($counttim>2){
                         
                     $data=Tiket::where('id',$request->tiket_id)->update([
                         'judul_tiket'=>$request->judul,
@@ -742,7 +832,7 @@ class TiketController extends Controller
                 if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
                 else{
                     $data=Tiket::where('id',$request->id)->update([
-                        'sts'=>1,
+                        'sts'=>10,
                         'alasan'=>$request->alasan,
                         'tanggal_create_approve'=>date('Y-m-d'),
                     ]);
@@ -763,6 +853,19 @@ class TiketController extends Controller
             }
             
         }
+    }
+
+    public function setujui_head(request $request){
+        
+            $data=Tiket::where('id',$request->id)->update([
+                'sts'=>1,
+                'tanggal_create_approve_head'=>date('Y-m-d'),
+            ]);
+
+            if($data){
+                echo'ok';
+            }
+        
     }
 
     public function approve_tiket_pengawas(request $request){

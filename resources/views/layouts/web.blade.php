@@ -42,6 +42,9 @@
 		.form-group {
 			margin-bottom: 0rem;
 		}
+		.boldtd{
+			font-weight:bold;
+		}
 		.loadnya {
 			height: 100%;
 			width: 0;

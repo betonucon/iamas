@@ -37,6 +37,7 @@
 									<th class="text-nowrap">Judul</th>
 									<th class="text-nowrap">Sumber</th>
 									<th width="3%" class="text-nowrap">file</th>
+									<th width="4%" class="text-nowrap">Detail</th>
 									<th width="9%" class="text-nowrap">Status</th>
 									<th width="3%" class="text-nowrap">Action</th>
 								</tr>
@@ -50,11 +51,12 @@
 										<td>{{$data->judul}}</td>
 										<td>[{{$data->kode_sumber}}] {{$data->sumber['name']}}</td>
 										<td><span onclick="cek_file(`{{$data->lampiran}}`)" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
+										<td><span onclick="view_data(`{{$data->id}}`)" class="btn btn-blue btn-sm"><i class="fa fa-search"></i></span></td>
 										<td>
-											@if($data->sts==0)
+											@if($data->sts==0 || $data->sts==1)
 												<font color="red">On Proses</font>
 											
-											@elseif($data->sts==1)
+											@elseif($data->sts==10)
 											<span onclick="cek_revisi(`{{$data->alasan}}`)" class="btn btn-purple btn-sm">Revisi</span> 
 											
 											@else
@@ -63,10 +65,10 @@
 											
 										</td>
 										<td>
-											@if($data->sts>=2)
-											<font color="blue">Ok</font>
-											@else
+											@if($data->sts=='0' || $data->sts=='10')
 												<span onclick="ubah({{$data->id}})" class="btn btn-purple active btn-icon btn-circle btn-sm"><i class="fas fa-edit fa-sm"></i></span> 
+											@else
+												<i class="fa fa-check"></i>
 											@endif
 											
 										</td>
@@ -97,45 +99,53 @@
 						<div id="notifikasi"></div>
 						<form id="tambah-data" action="{{url('Tiket')}}" method="post" enctype="multipart/form-data">
 							@csrf
-							
-								<div class="form-group">
-									<label for="exampleInputEmail1">Sumber Infomasi</label>
-									<select class="form-control" name="kode_sumber" id="sumber-informasi" onchange="cek_nomor_tiket(this.value)">
-										<option value="">Pilih Sumber Infomasi</option>
-										@foreach(sumber_get(0) as $sumber)
-											
-											<option value="{{$sumber['kode']}}" >[{{$sumber['kode']}}] {{$sumber['name']}}</option>
-										@endforeach
-									</select>
+							<div class="col-xl-10 offset-xl-1">
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Sumber Infomasi </label>
+									<div class="col-lg-9 col-xl-9">
+										<select class="form-control" name="kode_sumber" id="sumber-informasi" onchange="cek_nomor_tiket(this.value)">
+											<option value="">Pilih Sumber Infomasi</option>
+											@foreach(sumber_get(0) as $sumber)
+												
+												<option value="{{$sumber['kode']}}" >[{{$sumber['kode']}}] {{$sumber['name']}}</option>
+											@endforeach
+										</select>
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Kode Informasi</label>
-									<input type="text" class="form-control" id="nomorinformasi" name="nomorinformasi" >
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Kode Informasi & Lampiran</label>
+									<div class="col-lg-9 col-xl-5">
+										<input type="text" class="form-control" id="nomorinformasi" name="nomorinformasi" >
+									</div>
+									<div class="col-lg-9 col-xl-4">
+										<input type="file" class="form-control"  name="lampiran" >
+									</div>
 								</div>
-							
-								<div class="form-group">
-									<label for="exampleInputEmail1">Lampiran</label>
-									<input type="file" class="form-control"  name="lampiran" >
-								</div>	
-							
-								<div class="form-group">
-									<label for="exampleInputEmail1">Judul</label>
-									<input type="text" class="form-control" name="judul" placeholder="Enter text ...">
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+									<div class="col-lg-9 col-xl-9">
+										<input type="text" class="form-control" name="judul" placeholder="Enter text ...">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Kodefikasi</label>
-									<select class="form-control" name="kodifikasi" >
-										<option value="">Pilih Kodefikasi</option>
-										@foreach(kodefikasi_get() as $kodefikasi)
-											
-											<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
-										@endforeach
-									</select>
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi</label>
+									<div class="col-lg-9 col-xl-9">
+										<select class="form-control" name="kodifikasi" >
+											<option value="">Pilih Kodefikasi</option>
+											@foreach(kodefikasi_get() as $kodefikasi)
+												
+												<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+											@endforeach
+										</select>
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Isi</label>
-									<textarea class="textarea form-control" name="keterangan" id="wysihtml5" placeholder="Enter text ..." rows="12"></textarea>
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Isi / Keterangan</label>
+									<div class="col-lg-9 col-xl-9">
+										<textarea class="textarea form-control" name="keterangan" id="wysihtml5" placeholder="Enter text ..." rows="12"></textarea>
+									</div>
 								</div>
+							</div>
 							
 						</form>
 					</div>
@@ -146,9 +156,10 @@
 				</div>
 			</div>
 		</div>
+		
 
 		<div class="modal" id="modalubah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
+			<div class="modal-dialog" id="modal-sedeng">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title">Ubah Data</h4>
@@ -163,6 +174,23 @@
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Simpan</a>
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalview" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog" id="modal-sedeng">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">view Data</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<div id="tampilview"></div>
+						
+					</div>
+					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
@@ -215,6 +243,7 @@
 			responsive: true,
 			paging: true,
 			info: true,
+			ordering:false,
 			lengthChange: false,
 		} );
 
@@ -268,6 +297,19 @@
 				success: function(msg){
 					$('#modalubah').modal('show');
 					$('#tampilubah').html(msg);
+					
+				}
+			}); 
+		}
+		function view_data(a){
+			
+			$.ajax({
+				type: 'GET',
+				url: "{{url('Tiket/view')}}",
+				data: "id="+a,
+				success: function(msg){
+					$('#modalview').modal('show');
+					$('#tampilview').html(msg);
 					
 				}
 			}); 

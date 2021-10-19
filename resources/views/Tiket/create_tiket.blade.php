@@ -105,7 +105,7 @@
 								<div class="tab-pane fade" id="default-tab-2">
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Obyek Audit </label>
+											<label class="col-lg-3 text-lg-right col-form-label">Obyek Audit /Non Audit</label>
 											<div class="col-lg-9 col-xl-9">
 												<input type="text" class="form-control" name="name"  placeholder="Ketik...">
 											</div>
@@ -126,7 +126,7 @@
 											<label class="col-lg-3 text-lg-right col-form-label">Katagori Audit</label>
 											<div class="col-lg-9 col-xl-9">
 												<select class="default-select2 form-control" name="kode" placeholder="Pilih Unit Kerja">
-													<option value="">--Pilih Katagori Audit</option>
+													<option value="NF">--Pilih Katagori Audit</option>
 													@foreach(kodesurat_get() as $no=>$kodesurat_get)
 														<option value="{{$kodesurat_get->kode}}">[{{$kodesurat_get->kode}}] {{ucwords($kodesurat_get->keterangan)}}</option>
 													@endforeach

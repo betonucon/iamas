@@ -36,13 +36,13 @@
 									<th class="text-nowrap">Judul</th>
 									<th class="text-nowrap">Sumber</th>
 									<th width="3%" class="text-nowrap">file</th>
-									<th width="4%" class="text-nowrap">Detail</th>
+									<th width="3%" class="text-nowrap">Detail</th>
 									<th width="9%" class="text-nowrap">Status</th>
 									<th width="3%" class="text-nowrap">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(tiket_get_gl('0') as $no=>$data)
+								@foreach(tiket_get_hd('0') as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->nik}}" type="checkbox" name="id[]"></td>
@@ -52,7 +52,7 @@
 										<td><span onclick="cek_file(`{{$data->lampiran}}`,`{{$data->keterangan}}`)" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="view_data(`{{$data->id}}`)" class="btn btn-blue btn-sm"><i class="fa fa-search"></i></span></td>
 										<td>
-											@if($data->sts==1)
+											@if($data->sts==0)
 												<font color="#000">On Proses</font>
 											@else
 												<font color="blue">Selesai</font>
@@ -62,7 +62,7 @@
 										<td>
 											
 
-											@if($data->sts==1)
+											@if($data->sts==0)
 												<span onclick="ubah({{$data->id}},`{{$data->keterangan}}`,`{{$data->kodifikasi}}`,`{{$data->kodif['kategori']}}`)" class="btn btn-purple btn-sm">Approve</span> 
 											@else
 												<i class="fa fa-check"></i>
@@ -97,22 +97,26 @@
 						<form id="ubah-data" enctype="multipart/form-data">
 							@csrf
 							<input type="hidden" id="id_sumber" name="id">
-							<label for="exampleInputEmail1">Keterangan</label>
-							<div style="width:100%;background:#f1f1f1;padding:1%" id="isinya"></div>
-							<label for="exampleInputEmail1">Kodifikasi</label>
-							<div style="width:100%;background:#f1f1f1;padding:1%" id="namakodifikasi"></div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Status</label>
-								<select class="form-control" name="sts"  onchange="cek_status(this.value)">
-									<option value="">Pilih Status</option>
-									<option value="2">Setujui</option>
-									<option value="1">Kembalikan</option>
-								</select>
+							<div class="alert alert-yellow fade show m-b-10">
+								<span class="close" data-dismiss="alert">×</span>
+								<strong>Notifikasi!</strong>
+								Yakin menyetuji data dan melajutkan ke tahap berikutnya?
 							</div>
-							<div class="form-group" id="alasan">
-								<label for="exampleInputEmail1">Alasan</label>
-								<textarea class="form-control" name="alasan"></textarea>
+							<div class="col-xl-10 offset-xl-1">
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi </label>
+									<div class="col-lg-9 col-xl-9">
+										<input type="text" class="form-control" disabled id="namakodifikasi"  placeholder="Ketik...">
+									</div>
+								</div>
+								<div class="form-group row m-b-10" >
+									<label class="col-lg-3 text-lg-right col-form-label">Keterangan </label>
+									<div class="col-lg-9 col-xl-9">
+										<div style="width:100%;padding:1%" id="isinya"></div>
+									</div>
+								</div>
 							</div>
+							
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -168,11 +172,11 @@
 		$('#myTable').DataTable( {
 			responsive: true,
 			paging: true,
-			ordering:false,
 			info: true,
+			ordering:false,
 			lengthChange: false,
 		});
-
+		$("#textareacatatan").wysihtml5();
 		
 		$('#alasan').hide();
 		
@@ -189,7 +193,7 @@
 		function ubah(a,isi,kodifikasi,nama){
 			$('#id_sumber').val(a);
 			$('#kodifikasi').val(kodifikasi);
-			$('#namakodifikasi').html('['+kodifikasi+'] '+nama);
+			$('#namakodifikasi').val('['+kodifikasi+'] '+nama);
 			$('#id_sumber').val(a);
 			$('#isinya').html(isi);
 			$('#modalubah').modal('show');
@@ -200,7 +204,6 @@
 			$('#keterangan').html(keterangan);
 			$('#tampilfile').html("<iframe src='{{url('_file_lampiran')}}/"+a+"' width='100%' height='600px'></iframe>");
 		}
-
 		function view_data(a){
 			
 			$.ajax({
@@ -220,7 +223,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Tiket/setujui')}}",
+                    url: "{{url('/Tiket/setujui_head')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,
