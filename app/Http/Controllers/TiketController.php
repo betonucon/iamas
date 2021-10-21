@@ -738,7 +738,7 @@ class TiketController extends Controller
                                         'sts'=>$sts2,
                                     ]);
 
-                                    if($data){
+                                    if($data==0){
                                         
                                         for($x=0;$x<$counttim;$x++){
                                             if($request->role[$x]==''){$role=3;}else{$role=$request->role[$x];}
@@ -750,7 +750,11 @@ class TiketController extends Controller
                                             ]);
                                         }
                                         echo'ok';
+                                    }else{
+                                        echo'ok';
                                     }
+                            }else{
+                                echo'gagal upload';
                             }
                         }else{
                             echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Format File Harus PDF</p>';
