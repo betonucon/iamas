@@ -30,7 +30,7 @@
 				<div class="panel-body">
 
 					<div class="btn-group btn-group-justified text-with">
-						<a class="btn btn-blue active" onclick="tambah()"><i class="fas fa-edit fa-sm"></i> Tambah </a>
+						<!-- <a class="btn btn-blue active" onclick="tambah()"><i class="fas fa-edit fa-sm"></i> Tambah </a> -->
 						<!-- <a class="btn btn-danger active" onclick="hapus()">Hapus</a> -->
 					</div>
 					<form id="data-all" enctype="multipart/form-data">
@@ -50,7 +50,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(tiket_get_tiket() as $no=>$data)
+								@foreach(tiket_get_tiket_acc_head() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->tiket['id']}}" type="checkbox" name="id[]"></td>
@@ -60,7 +60,7 @@
 										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td>
-											@if($data->sts==1 || $data->sts==2 || $data->sts==3)
+											@if($data->sts==4)
 												<font color="red">On Proses</font>
 											@else
 												<font color="blue">Selesai</font>
@@ -68,7 +68,12 @@
 											
 										</td>
 										<td>
-											<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
+											@if($data->sts==4)
+												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs"> Approve</span> 
+											@else
+												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
+											@endif
+											
 										</td>
 									</tr>
 								@endforeach
@@ -234,7 +239,7 @@
 		}
 
 		function ubah(id){
-			location.assign("{{url('TiketNew/Update')}}?id="+id);
+			location.assign("{{url('AccTiketPengawas/acc')}}?id="+id);
 		}
 
 		

@@ -227,34 +227,7 @@
 						@csrf
 						<input type="text" name="id" value="{{$data->id}}">
 						<div class="col-xl-10 offset-xl-1">
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan & Lampiran</label>
-								<div class="col-lg-9 col-xl-5">
-								<select class="form-control" name="kode_laporan" >
-									<option value="">Pilih Kode Laporan</option>';
-									@foreach(kodifikasilaporan_get() as $kodifikasilaporan_get)
-										
-									<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
-									@endforeach
-								</select>
-								</div>
-								<div class="col-lg-9 col-xl-4">
-									<input type="file" class="form-control"  name="lampiran" >
-								</div>
-							</div>
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi</label>
-								<div class="col-lg-9 col-xl-6">
-									<select class="form-control" name="kodifikasi" >
-										<option value="">Pilih Kodifikasi</option>';
-										@foreach(kodefikasi_get() as $kodefikasi)
-											
-											<option value="{{$kodefikasi['kodifikasi']}}">[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
-										@endforeach
-									
-									</select>
-								</div>
-							</div>
+							
 							<div class="form-group row m-b-10" >
 								<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
 								<div class="col-lg-9 col-xl-5">
@@ -271,6 +244,12 @@
 								<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
 								<div class="col-lg-9 col-xl-9">
 									<input type="text" class="form-control" value="" name="judul"  placeholder="Enter text ...">
+								</div>
+							</div>
+							<div class="form-group row m-b-10" >
+								<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
+								<div class="col-lg-9 col-xl-4">
+									<input type="file" class="form-control"  name="lampiran" >
 								</div>
 							</div>
 							<div class="form-group row m-b-10" >

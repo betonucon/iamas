@@ -42,6 +42,9 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('TiketHD',[TiketController::class, 'index_hd']);
     Route::get('TiketAnggota',[TiketController::class, 'index_anggota']);
     Route::get('TiketPengawas',[TiketController::class, 'index_pengawas']);
+    Route::get('AccTiketPengawas',[TiketController::class, 'index_acc_pengawas']);
+    Route::get('AccTiketHead',[TiketController::class, 'index_acc_head']);
+    Route::get('AccTiketPengawas/acc',[TiketController::class, 'view_tiket_pengawas']);
     Route::get('TiketHead',[TiketController::class, 'index_head']);
     Route::get('TiketNewHead',[TiketController::class, 'index_tiket_head']);
     Route::get('TiketNew',[TiketController::class, 'index_tiket']);
@@ -60,6 +63,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('Tiket',[TiketController::class, 'simpan']);
     Route::post('Tiket/ubah_data',[TiketController::class, 'simpan_ubah']);
     Route::post('TiketNew/ubah_data',[TiketController::class, 'simpan_ubah_tiket']);
+    Route::post('AccTiketPengawas',[TiketController::class, 'approve_pengawas']);
+    Route::post('AccTiketHead',[TiketController::class, 'approve_head']);
     Route::post('TiketNewHead/approve',[TiketController::class, 'approve_tiket_pengawas']);
     Route::post('Tiket/setujui',[TiketController::class, 'setujui']);
     Route::post('Tiket/setujui_head',[TiketController::class, 'setujui_head']);

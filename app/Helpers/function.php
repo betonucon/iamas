@@ -142,8 +142,29 @@ function anggota($id,$nik){
     return $data;
 }
 
-function kodifikasilaporan_get(){
-    $data=App\Sumber::whereIn('id',array('16','17','18'))->orderBy('name','Asc')->get();
+function kodifikasilaporan_get($id){
+   if($id=='01'){
+      $data=App\Sumber::whereIn('id',array('16','18','19'))->orderBy('name','Asc')->get();
+   }
+   if($id=='02'){
+      $data=App\Sumber::whereIn('id',array('20','25'))->orderBy('name','Asc')->get();
+   }
+   if($id=='03'){
+      $data=App\Sumber::whereIn('id',array('17','21','22'))->orderBy('name','Asc')->get();
+   }
+   if($id=='04'){
+      $data=App\Sumber::whereIn('id',array('26'))->orderBy('name','Asc')->get();
+   }
+   if($id=='05'){
+      $data=App\Sumber::whereIn('id',array('26'))->orderBy('name','Asc')->get();
+   }
+   if($id=='06'){
+      $data=App\Sumber::whereIn('id',array('26'))->orderBy('name','Asc')->get();
+   }
+   if($id=='07'){
+      $data=App\Sumber::whereIn('id',array('27'))->orderBy('name','Asc')->get();
+   }
+    
     return $data;
 }
 
@@ -169,29 +190,40 @@ function new_(){
 
 function sumbertiket_get($id){
    if($id=='01'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('1'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('W1','W2','R1','R2','I1','I2','P1','P2','P3','A1','A2'))->orderBy('id','Desc')->get();  
    }
    if($id=='02'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('2'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('AS','KS'))->orderBy('id','Desc')->get();  
    }
    if($id=='03'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('3'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('AP','RIM','LMI','AR'))->orderBy('id','Desc')->get();  
    }
    if($id=='04'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('1'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('LPK'))->orderBy('id','Desc')->get();  
    }
    if($id=='05'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('2'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('RAN','QA2'))->orderBy('id','Desc')->get();  
    }
    if($id=='06'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('aktivitas_id',array('2'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('RAN','QA2'))->orderBy('id','Desc')->get();  
    }
-    
+   if($id=='07'){
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('PA2'))->orderBy('id','Desc')->get();  
+   }
     return $data;
 }
 
 function tiket_get_tiket(){
-    $data=App\Surattugas::whereIn('sts',array('1','2'))->orderBy('id','Desc')->get();
+    $data=App\Surattugas::orderBy('id','Desc')->get();
+    return $data;
+}
+
+function tiket_get_tiket_acc_pengawas(){
+    $data=App\Surattugas::whereIn('sts',array('3','4','5'))->whereIn('tiket_id',array_tiket_pengawas())->orderBy('id','Desc')->get();
+    return $data;
+}
+function tiket_get_tiket_acc_head(){
+    $data=App\Surattugas::whereIn('sts',array('4','5'))->orderBy('id','Desc')->get();
     return $data;
 }
 
@@ -241,7 +273,7 @@ function array_tiket_pengawas(){
 }
 
 function tiket_get_anggota(){
-   $data=App\Surattugas::whereIn('sts',array('2','3'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('sts',array('2','3'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
    return $data;
 }
 
@@ -250,7 +282,13 @@ function tiket_get_head(){
    return $data;
 }
 
+
+
 function tiket_get_pengawas(){
+   $data=App\Tiket::whereIn('sts',array('3','4','5'))->whereIn('id',array_tiket_pengawas())->orderBy('id','Desc')->get();
+   return $data;
+}
+function tiket_get_accpengawas(){
    $data=App\Tiket::whereIn('sts',array('3','4','5'))->whereIn('id',array_tiket_pengawas())->orderBy('id','Desc')->get();
    return $data;
 }
@@ -283,7 +321,7 @@ function sumber_get(){
 
 function surat_tugas_get(){
    
-   $data=App\Surattugas::whereIn('tiket_id',array_tiket_pengawas())->where('sts',3)->orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('tiket_id',array_tiket_pengawas())->whereIn('kode_aktivitas',array('04','05','06'))->where('sts',5)->orderBy('id','Desc')->get();
     
    return $data;
 }

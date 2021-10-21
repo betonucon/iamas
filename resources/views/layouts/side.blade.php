@@ -32,6 +32,8 @@
             @if(Auth::user()->posisi_id==1)
                 <li><a href="{{url('TiketHD')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
                 <li><a href="{{url('TiketNewHead')}}"><i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
+                <li><a href="{{url('AccTiketHead')}}"><i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
+
                 <li class="has-sub lilinya">
                     <a href="javascript:;">
                         <b class="caret"></b>
@@ -48,9 +50,10 @@
                 </li>
             @endif
 
+            @if(akses_tiket_pengawas()>0)
+                <li><a href="{{url('AccTiketPengawas')}}"><i class="fa fa-gavel"></i><span>Penyelesaian Tiket</span></a></li>
 
-
-
+            @endif
             @if(akses_tiket_anggota()>0)
                 <li><a href="{{url('TiketAnggota')}}"><i class="fa fa-ticket-alt"></i><span>Tiket Anggota</span></a></li>
                 <li class="has-sub lilinya">
@@ -83,7 +86,6 @@
                 </li>
             @endif
             @if(akses_tiket_pengawas()>0)
-                <!-- <li><a href="{{url('TiketPengawas')}}"><i class="fa fa-ticket-alt"></i><span>Tiket Pengawas</span></a></li> -->
                 <li class="has-sub lilinya">
                     <a href="javascript:;">
                         <b class="caret"></b>
