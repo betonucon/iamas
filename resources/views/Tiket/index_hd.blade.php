@@ -52,7 +52,7 @@
 										<td><span onclick="cek_file(`{{$data->lampiran}}`,`{{$data->keterangan}}`)" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="view_data(`{{$data->id}}`)" class="btn btn-blue btn-sm"><i class="fa fa-search"></i></span></td>
 										<td>
-											@if($data->sts==0)
+											@if($data->sts==1)
 												<font color="#000">On Proses</font>
 											@else
 												<font color="blue">Selesai</font>
@@ -62,7 +62,7 @@
 										<td>
 											
 
-											@if($data->sts==0)
+											@if($data->sts==1)
 												<span onclick="ubah({{$data->id}},`{{$data->keterangan}}`,`{{$data->kodifikasi}}`,`{{$data->kodif['kategori']}}`)" class="btn btn-purple btn-sm">Approve</span> 
 											@else
 												<i class="fa fa-check"></i>

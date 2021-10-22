@@ -223,49 +223,146 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-					<form id="tambah-data" action="{{url('/TiketNew/Proses')}}" method="post" enctype="multipart/form-data">
-						@csrf
-						<input type="text" name="id" value="{{$data->id}}">
-						<div class="col-xl-10 offset-xl-1">
-							
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
-								<div class="col-lg-9 col-xl-5">
-									<input type="text" onkeypress="return hanyaAngka(event)" onkeyup="cari_risiko(this.value)" class="form-control" placeholder="Ketik disini">
-								</div>
-								<div class="col-lg-9 col-xl-4">
+					
+						@if($data->kode_aktivitas=='03')
+							@if($data->kode_sumber=='AR')
+								<form id="tambah-judul"  method="post" enctype="multipart/form-data">
+									@csrf
+									<input type="hidden" name="id" value="{{$data->id}}">
+									<div class="col-xl-10 offset-xl-1">
+										
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
+											<div class="col-lg-9 col-xl-5">
+												<input type="text" onkeypress="return hanyaAngka(event)" onkeyup="cari_risiko(this.value)" class="form-control" placeholder="Ketik disini">
+											</div>
+											<div class="col-lg-9 col-xl-4">
+												
+												<input type="text" id="divrisiko" disabled class="form-control" placeholder="Ketik disini">
+												<input type="hidden" id="risiko" name="risiko" class="form-control" placeholder="text">
+												
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+											<div class="col-lg-9 col-xl-9">
+												<input type="text" class="form-control" value="" name="judul"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
+											<div class="col-lg-9 col-xl-4">
+												<input type="file" class="form-control"  name="lampiran" >
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
+											<div class="col-lg-9 col-xl-9">
+												<textarea class="textarea form-control" name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="12"></textarea>
+											</div>
+										</div>
+										
+									</div>
+									<div class="modal-footer">
+										<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Proses</a>
+										<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+									</div>
+								</form>
+							@else
+								<form id="tambah-judul"  method="post" enctype="multipart/form-data">
+									@csrf
+									<input type="hidden" name="id" value="{{$data->id}}">
+									<input type="hidden" name="tiket_id" value="{{$data->id}}">
+										<div class="col-xl-10 offset-xl-1">
+										
+											
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
+												<div class="col-lg-9 col-xl-3">
+													<input type="text" onkeypress="return hanyaAngka(event)" onkeyup="cari_risiko(this.value)" class="form-control kosong" placeholder="Ketik disini">
+												</div>
+												<div class="col-lg-9 col-xl-4">
+													
+													<input type="text" id="divrisiko" disabled class="form-control kosong" placeholder="Ketik disini">
+													<input type="hidden" id="risiko" name="risiko" class="form-control kosong" placeholder="text">
+													
+												</div>
+											</div>
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+												<div class="col-lg-9 col-xl-9">
+													<input type="text" class="form-control kosong" value="" name="judul"  placeholder="Enter text ...">
+												</div>
+											</div>
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Tujuan</label>
+												<div class="col-lg-9 col-xl-9">
+													<textarea class="textarea form-control kosong" name="keterangan"id="textareatiket" placeholder="Enter text ..." rows="3"></textarea>
+												</div>
+											</div>
+										
+										</div>
+										<div>
+											<a href="javascript:;" class="btn btn-green" onclick="tambah_judul()">Tambah</a>
+											<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Selesai</a>
+											<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+										</div>
+										<div class="col-xl-12" style="margin-top:2%">
+											<div class="table-responsive">
+												<div id="tabel_judul" style="overflow-y: scroll;height: 300px;"></div>
+											</div>
+										</div>
+
 									
-									<input type="text" id="divrisiko" disabled class="form-control" placeholder="Ketik disini">
-									<input type="hidden" id="risiko" name="risiko" class="form-control" placeholder="text">
+								</form>
+							@endif
+						@else
+							<form id="tambah-judul"  method="post" enctype="multipart/form-data">
+								@csrf
+								<input type="hidden" name="id" value="{{$data->id}}">
+								<div class="col-xl-10 offset-xl-1">
+									
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
+										<div class="col-lg-9 col-xl-5">
+											<input type="text" onkeypress="return hanyaAngka(event)" onkeyup="cari_risiko(this.value)" class="form-control" placeholder="Ketik disini">
+										</div>
+										<div class="col-lg-9 col-xl-4">
+											
+											<input type="text" id="divrisiko" disabled class="form-control" placeholder="Ketik disini">
+											<input type="hidden" id="risiko" name="risiko" class="form-control" placeholder="text">
+											
+										</div>
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+										<div class="col-lg-9 col-xl-9">
+											<input type="text" class="form-control" value="" name="judul"  placeholder="Enter text ...">
+										</div>
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
+										<div class="col-lg-9 col-xl-4">
+											<input type="file" class="form-control"  name="lampiran" >
+										</div>
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
+										<div class="col-lg-9 col-xl-9">
+											<textarea class="textarea form-control" name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="12"></textarea>
+										</div>
+									</div>
 									
 								</div>
-							</div>
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
-								<div class="col-lg-9 col-xl-9">
-									<input type="text" class="form-control" value="" name="judul"  placeholder="Enter text ...">
+								<div class="modal-footer">
+									<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Proses</a>
+									<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 								</div>
-							</div>
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
-								<div class="col-lg-9 col-xl-4">
-									<input type="file" class="form-control"  name="lampiran" >
-								</div>
-							</div>
-							<div class="form-group row m-b-10" >
-								<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
-								<div class="col-lg-9 col-xl-9">
-									<textarea class="textarea form-control" name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="12"></textarea>
-								</div>
-							</div>
-							
-						</div>
-					</form>	
+							</form>
+						@endif
+						
 					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Proses</a>
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -352,6 +449,35 @@
 		
 		function approve(){
 			$('#modalapprove').modal('show');
+			var tiket_id="{{$data->id}}";
+			$.ajax({
+				type: 'GET',
+				url: "{{url('TiketNew/tampil_judul')}}",
+				data: "tiket_id="+tiket_id,
+				success: function(msg){
+					$('#tabel_judul').html(msg);
+				}
+			});
+		}
+
+		function hapus_judul(id){
+			var tiket_id="{{$data->id}}";
+			$.ajax({
+				type: 'GET',
+				url: "{{url('TiketNew/hapus_judul')}}",
+				data: "id="+id,
+				success: function(tex){
+					$.ajax({
+						type: 'GET',
+						url: "{{url('TiketNew/tampil_judul')}}",
+						data: "tiket_id="+tiket_id,
+						success: function(msg){
+							$('#tabel_judul').html(msg);
+						}
+					});
+				}
+			});
+			
 		}
 
 		function cari_risiko(a){
@@ -365,15 +491,14 @@
 		}
 
 		
-		function pilih_sumber(){
-			var kode_aktivitas=$('#kode_aktivitas').val();
+		function tampil_judul(){
+			var tiket_id="{{$data->id}}";
 			$.ajax({
 				type: 'GET',
-				url: "{{url('TiketNew/tampil_pilihan_sumber')}}",
-				data: "kode_aktivitas="+kode_aktivitas,
+				url: "{{url('TiketNew/tampil_judul')}}",
+				data: "tiket_id="+tiket_id,
 				success: function(msg){
-					$('#modalsumber').modal('show');
-					$('#tampil_pilihan_sumber').html(msg);
+					$('#tabel_judul').html(msg);
 				}
 			});
 			
@@ -422,7 +547,7 @@
 		
 
 		function tambah_data(){
-            var form=document.getElementById('tambah-data');
+            var form=document.getElementById('tambah-judul');
             
                 $.ajax({
                     type: 'POST',
@@ -437,6 +562,47 @@
                     success: function(msg){
                         if(msg=='ok'){
                             location.assign("{{url('TiketAnggota')}}");
+                               
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+							$('#modalnotif').modal('show');
+							document.getElementById("notifikasi").style.width = "100%";
+							$('#notifikasi').html(msg);
+                        }
+                        
+                        
+                    }
+                });
+
+        } 
+
+		function tambah_judul(){
+            var form=document.getElementById('tambah-judul');
+            
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('/TiketNew/save_judul')}}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+						document.getElementById("loadnya").style.width = "100%";
+					},
+                    success: function(msg){
+                        if(msg=='ok'){
+                            var tiket_id="{{$data->id}}";
+							$.ajax({
+								type: 'GET',
+								url: "{{url('TiketNew/tampil_judul')}}",
+								data: "tiket_id="+tiket_id,
+								success: function(msg){
+									$('#tabel_judul').html(msg);
+									$('.kosong').val("");
+									$('.textarea').val("");
+									document.getElementById("loadnya").style.width = "0px";
+								}
+							});
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";

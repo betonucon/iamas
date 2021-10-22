@@ -174,17 +174,22 @@ function tiket_get(){
 }
 
 function tiket_get_gl(){
-    $data=App\Tiket::whereIn('sts',array('1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
+    $data=App\Tiket::whereIn('sts',array('0','1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
     return $data;
 }
 
 function tiket_get_hd(){
-    $data=App\Tiket::whereIn('sts',array('0','1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
+    $data=App\Tiket::whereIn('sts',array('1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();
     return $data;
 }
 
 function new_(){
     $data=App\Tiket::whereIn('sts',array('2','3','4'))->orderBy('id','Desc')->get();
+    return $data;
+}
+
+function judul_get($tiket){
+    $data=App\Judul::where('tiket_id',$tiket)->orderBy('id','Asc')->get();
     return $data;
 }
 
@@ -245,8 +250,8 @@ function katua_get(){
     return $data;
 }
 function nomorsurat($kode,$unit,$aktifitas){
-      if($kode=='NF'){
-         $nomor='NF'.$aktifitas.'/'.$unit.'/'.date('m').'/'.date('Y');
+      if($kode=='NA'){
+         $nomor='NA'.$aktifitas.'/'.$unit.'/'.date('m').'/'.date('Y');
       }else{
          $nomor=$kode.'/'.$unit.'/'.date('m').'/'.date('Y');
       }

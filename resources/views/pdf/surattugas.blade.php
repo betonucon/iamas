@@ -35,7 +35,7 @@
                 <td width="100%" class="ttdhead-h1" >SURAT TUGAS INTERNAL AUDIT (STIA)</td>
             </tr>
             <tr>
-                <td width="100%" class="ttdhead-h2">Nomor : STIA0421J02</td>
+                <td width="100%" class="ttdhead-h2">Nomor : {{$data->surattugas['nomortiket']}}</td>
             </tr>
         </table>
         <table width="100%" >

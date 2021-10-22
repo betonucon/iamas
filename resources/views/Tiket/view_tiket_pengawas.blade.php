@@ -62,50 +62,87 @@
 							<div class="tab-content" style="margin-bottom:0px;padding:1%">
 						
 								<div class="tab-pane fade active show" id="default-tab-0">
-									
-									<div class="col-xl-10 offset-xl-1">
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan & Lampiran</label>
-											<div class="col-lg-9 col-xl-8">
-											<select class="form-control" name="kode_laporan" >
-												<option value="">Pilih Kode Laporan </option>';
-												@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+								@if($data->kode_aktivitas=='03')
+									@if($data->kode_sumber=='AR')	
+
+									@else
+											<table class="table table-bordered m-b-0">
+												<thead>
+													<tr>
+														<th class="tth" width="5%">No</th>
+														<th class="tth" width="3%"></th>
+														<th class="tth"  width="30%">Judul</th>
+														<th class="tth" >Tujuan</th>
+														<th  class="tth" width="20%"></th>
+													</tr>
+												</thead>
+												<tbody>
+												@foreach(judul_get($data->id) as $no=>$o)
 													
-												<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
-												@endforeach
-											</select>
+													<tr>
+														<td style="vertical-align:top">{{($no+1)}}</td>
+														<td style="vertical-align:top"><input type="checkbox" class="ceklisnya{{$no+1}}"></td>
+														<td style="vertical-align:top">{{$o['judul']}}</td>
+														<td style="vertical-align:top">{!!$o['tujuan']!!}</td>
+														<td style="vertical-align:top">
+															<select name="kodifikasi[{{$o->id}}]" >
+																<option value="">Pilih Kodifikasi</option>';
+																@foreach(kodefikasi_get() as $kodefikasi)
+																	
+																	<option value="{{$kodefikasi['kodifikasi']}}">[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+																@endforeach
+															
+															</select>
+														</td>
+													</tr>
+												@endforeach   
+												</tbody>
+											</table>
+									@endif
+								@else
+										<div class="col-xl-10 offset-xl-1">
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan & Lampiran</label>
+												<div class="col-lg-9 col-xl-8">
+												<select class="form-control" name="kode_laporan" >
+													<option value="">Pilih Kode Laporan </option>';
+													@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+														
+													<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+													@endforeach
+												</select>
+												</div>
+												
+											</div>
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi</label>
+												<div class="col-lg-9 col-xl-6">
+													<select class="form-control" name="kodifikasi" >
+														<option value="">Pilih Kodifikasi</option>';
+														@foreach(kodefikasi_get() as $kodefikasi)
+															
+															<option value="{{$kodefikasi['kodifikasi']}}">[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+														@endforeach
+													
+													</select>
+												</div>
+											</div>
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+												<div class="col-lg-9 col-xl-9">
+													<input type="text" class="form-control"  disabled name="judul" value="{{$data->judul_laporan}}"  placeholder="Enter text ...">
+												</div>
+											</div>
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
+												<div class="col-lg-9 col-xl-9">
+													<textarea class="textarea form-control" name="keterangan" disabled id="textareatiket" placeholder="Enter text ..." rows="12">{!!$data->keterangan_laporan!!}</textarea>
+												</div>
 											</div>
 											
 										</div>
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi</label>
-											<div class="col-lg-9 col-xl-6">
-												<select class="form-control" name="kodifikasi" >
-													<option value="">Pilih Kodifikasi</option>';
-													@foreach(kodefikasi_get() as $kodefikasi)
-														
-														<option value="{{$kodefikasi['kodifikasi']}}">[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
-													@endforeach
-												
-												</select>
-											</div>
-										</div>
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
-											<div class="col-lg-9 col-xl-9">
-												<input type="text" class="form-control"  disabled name="judul" value="{{$data->judul_laporan}}"  placeholder="Enter text ...">
-											</div>
-										</div>
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
-											<div class="col-lg-9 col-xl-9">
-												<textarea class="textarea form-control" name="keterangan" disabled id="textareatiket" placeholder="Enter text ..." rows="12">{!!$data->keterangan_laporan!!}</textarea>
-											</div>
-										</div>
-										
-									</div>
 
-
+								@endif
 								</div>
 								<div class="tab-pane fade" id="default-tab-1">
 									<div class="col-xl-12">
@@ -400,6 +437,14 @@
 
 		function approve(){
 			$('#modalapprove').modal('show');
+		}
+		function ceklis_judul(a,no){
+			if(a==''){
+
+			}else{
+				alert(a)
+				$(".ceklisnya"+no).prop('checked');
+			}
 		}
 
 		
