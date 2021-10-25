@@ -296,7 +296,7 @@ function tiket_get_anggota(){
 }
 
 function tiket_get_head(){
-   $data=App\Surattugas::whereIn('sts',array('3','4','5'))->whereIn('tiket_id',array_tiket_head())->orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('tiket_id',array_tiket_head())->orderBy('id','Desc')->get();
    return $data;
 }
 

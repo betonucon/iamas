@@ -69,9 +69,9 @@
 										</td>
 										<td>
 											@if($data->sts==2)
-												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
-											@else
 												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs">Proses</span> 
+											@else
+												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
 											@endif
 											
 										</td>
