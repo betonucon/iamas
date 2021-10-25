@@ -59,22 +59,42 @@
 										<td>[{{$data->nomorinformasi}}] {{$data->tiket->sumber['name']}}</td>
 										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
-										<td>
-											@if($data->sts==1)
-												<font color="red">On Proses</font>
-											@endif
-											@if($data->sts>1)
-												<font color="blue">Selesai</font>
-											@endif
-											
-										</td>
-										<td>
-											@if($data->sts==1)
-												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs"> Approve</span> 
-											@else
-												<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
-											@endif
+										@if(Auth::user()->posisi_id==1)	
+											<td>
+												@if($data->sts==1)
+													<font color="red">On Proses</font>
+												@endif
+												@if($data->sts>1)
+													<font color="blue">Selesai</font>
+												@endif
+												
 											</td>
+											<td>
+												@if($data->sts==1)
+													<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs"> Approve</span> 
+												@else
+													<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
+												@endif
+											</td>
+										@endif
+										@if(Auth::user()->posisi_id==13)	
+											<td>
+												@if($data->sts==4)
+													<font color="red">On Proses</font>
+												@endif
+												@if($data->sts>4)
+													<font color="blue">Selesai</font>
+												@endif
+												
+											</td>
+											<td>
+												@if($data->sts==4)
+													<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-blue active btn-xs"> Approve</span> 
+												@else
+													<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
+												@endif
+											</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

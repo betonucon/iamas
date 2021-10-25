@@ -29,11 +29,12 @@
                 <li><a href="{{url('TiketNew')}}"><i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
             @endif
 
-            @if(Auth::user()->posisi_id==1)
+            @if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13)
                 <li><a href="{{url('TiketHD')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
                 <li><a href="{{url('TiketNewHead')}}"><i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
-                <li><a href="{{url('AccTiketHead')}}"><i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
-
+                @if(Auth::user()->posisi_id==1)    
+                    <li><a href="{{url('AccTiketHead')}}"><i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
+                @endif
                 <li class="has-sub lilinya">
                     <a href="javascript:;">
                         <b class="caret"></b>

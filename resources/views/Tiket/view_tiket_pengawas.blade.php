@@ -70,10 +70,10 @@
 												<thead>
 													<tr>
 														<th class="tth" width="5%">No</th>
-														<th class="tth" width="3%"></th>
 														<th class="tth"  width="30%">Judul</th>
 														<th class="tth" >Tujuan</th>
-														<th  class="tth" width="20%"></th>
+														<th  class="tth" width="15%">Tingkat</th>
+														<th  class="tth" width="20%">Kodifikasi</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -81,9 +81,9 @@
 													
 													<tr>
 														<td style="vertical-align:top">{{($no+1)}}</td>
-														<td style="vertical-align:top"><input type="checkbox" class="ceklisnya{{$no+1}}"></td>
 														<td style="vertical-align:top">{{$o['judul']}}</td>
 														<td style="vertical-align:top">{!!$o['tujuan']!!}</td>
+														<td style="vertical-align:top">{{$o['risiko']}}</td>
 														<td style="vertical-align:top">
 															<select name="kodifikasi[{{$o->id}}]" >
 																<option value="">Pilih Kodifikasi</option>';

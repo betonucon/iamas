@@ -195,13 +195,22 @@
 									</div>
 									
 								</div>
-								
-								<div class="modal-footer">
-									@if($data->surattugas['sts']==1)
-									<a href="javascript:;" class="btn btn-blue" onclick="approve()">Approve</a>
-									@endif
-									<a href="javascript:;" class="btn btn-red" onclick="sebelumnya()">Kembali</a>
-								</div>
+								@if(Auth::user()->posisi_id==1)
+									<div class="modal-footer">
+										@if($data->surattugas['sts']==1)
+										<a href="javascript:;" class="btn btn-blue" onclick="approve()">Approve</a>
+										@endif
+										<a href="javascript:;" class="btn btn-red" onclick="sebelumnya()">Kembali</a>
+									</div>
+								@endif
+								@if(Auth::user()->posisi_id==13)
+									<div class="modal-footer">
+										@if($data->surattugas['sts']==4)
+										<a href="javascript:;" class="btn btn-blue" onclick="approve()">Approve</a>
+										@endif
+										<a href="javascript:;" class="btn btn-red" onclick="sebelumnya()">Kembali</a>
+									</div>
+								@endif
 							</div>
 							
 						</form>

@@ -62,7 +62,35 @@
 							<div class="tab-content" style="margin-bottom:0px;padding:1%">
 						
 								<div class="tab-pane fade active show" id="default-tab-0">
-									
+								@if($data->kode_aktivitas=='03')
+									@if($data->kode_sumber=='AR')	
+
+									@else
+											<table class="table table-bordered m-b-0">
+												<thead>
+													<tr>
+														<th class="tth" width="5%">No</th>
+														<th class="tth"  width="30%">Judul</th>
+														<th class="tth" >Tujuan</th>
+														<th  class="tth" width="15%">Tingkat</th>
+														<th  class="tth" width="20%">Kodifikasi</th>
+													</tr>
+												</thead>
+												<tbody>
+												@foreach(judul_get($data->id) as $no=>$o)
+													
+													<tr>
+														<td style="vertical-align:top">{{($no+1)}}</td>
+														<td style="vertical-align:top">{{$o['judul']}}</td>
+														<td style="vertical-align:top">{!!$o['tujuan']!!}</td>
+														<td style="vertical-align:top">{{$o['risiko']}}</td>
+														<td style="vertical-align:top">{{$o['kodifikasi']}}</td>
+													</tr>
+												@endforeach   
+												</tbody>
+											</table>
+									@endif
+								@else
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Nomor Laporan</label>
@@ -101,7 +129,7 @@
 										
 									</div>
 
-
+								@endif
 								</div>
 								<div class="tab-pane fade" id="default-tab-1">
 									<div class="col-xl-12">

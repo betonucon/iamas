@@ -241,6 +241,10 @@ function src_get(){
     $data=App\User::whereIn('posisi_id',array('1','2'))->orderBy('name','Asc')->get();
     return $data;
 }
+function aproval_get(){
+    $data=App\User::whereIn('posisi_id',array('1','13'))->orderBy('name','Asc')->get();
+    return $data;
+}
 function unitkerja_get(){
     $data=App\Unitkerja::orderBy('name','Asc')->get();
     return $data;
@@ -277,13 +281,22 @@ function array_tiket_pengawas(){
     return $data;
 }
 
+function array_tiket_head(){
+   $data  = array_column(
+      App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',6)
+      ->get()
+      ->toArray(),'tiket_id'
+   );
+    return $data;
+}
+
 function tiket_get_anggota(){
    $data=App\Surattugas::whereIn('sts',array('2','3'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
    return $data;
 }
 
 function tiket_get_head(){
-   $data=App\Surattugas::orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('sts',array('3','4','5'))->whereIn('tiket_id',array_tiket_head())->orderBy('id','Desc')->get();
    return $data;
 }
 
@@ -309,6 +322,11 @@ function akses_tiket_anggota(){
 
 function akses_tiket_pengawas(){
    $data=App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',2)->count();
+   return $data;
+}
+
+function akses_tiket_head(){
+   $data=App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',6)->count();
    return $data;
 }
 

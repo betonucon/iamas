@@ -155,6 +155,18 @@
 								<div class="tab-pane fade" id="default-tab-3">
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10">
+											<label class="col-lg-3 text-lg-right col-form-label">Approval</label>
+											<div class="col-lg-9 col-xl-6">
+												<div class="input-group m-b-10">
+													<div class="input-group-prepend" onclick="cari_approval(1)"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
+													<input type="text" class="form-control" disabled id="approval" placeholder="Ketik...">
+													<input type="hidden" class="form-control" name="nik[]" id="nik_approval" placeholder="Username">
+													<input type="hidden" class="form-control" name="role[]" value="6" placeholder="Username">
+												</div>
+											</div>
+											
+										</div>
+										<div class="form-group row m-b-10">
 											<label class="col-lg-3 text-lg-right col-form-label">Pengawas</label>
 											<div class="col-lg-9 col-xl-6">
 												<div class="input-group m-b-10">
@@ -357,6 +369,39 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal" id="modalapprovalaudit" aria-hidden="true" style="display: none;background: rgb(53 26 88 / 49%);">
+			<div class="modal-dialog" style="max-width:50%">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Aproval</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+					   
+							<table class="table table-striped table-bordered table-td-valign-middle dataTable no-footer dtr-inline collapsed" border="1">
+								<tr>
+									<th>No</th>
+									<th>NIK</th>
+									<th>Nama</th>
+									<th>Jabatan</th>
+								</tr>
+								@foreach(aproval_get() as $no=>$aproval_get)
+									<tr onclick="pilih_aproval({{$aproval_get->nik}},'{{$aproval_get->name}}')">
+										<td><input type="checkbox" name="nik[]" value="{{$aproval_get->nik}}"></td>
+										<td>{{$aproval_get->nik}}</td>
+										<td>{{$aproval_get->name}}</td>
+										<td>{{$aproval_get->posisi['name']}}</td>
+									</tr>
+								@endforeach
+							</table>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" onclick="tutup_modal_tim()">Tutup</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="modal" id="modalsumber" aria-hidden="true" style="display: none;background: #1717198a;">
 			<div class="modal-dialog modal-lg" style="margin-top:0px">
 				<div class="modal-content">
@@ -480,6 +525,10 @@
 			$('#tampilfile').html("<iframe src='{{url('_file_lampiran')}}/"+a+"' width='100%' height='600px'></iframe>");
 		}
 
+		function cari_approval(a){
+			$('#modalapprovalaudit').modal({backdrop: 'static',keyboard: false});
+					
+		}
 		function cari_pengawas(a){
 			$('#modaltimaudit').modal({backdrop: 'static',keyboard: false});
 					
@@ -548,6 +597,11 @@
 			$('#modaltimaudit').modal('hide');
 			$('#pengawas').val('['+nik+']'+name);
 			$('#nik_pengawas').val(nik);
+		}
+		function pilih_aproval(nik,name){
+			$('#modalapprovalaudit').modal('hide');
+			$('#approval').val('['+nik+']'+name);
+			$('#nik_approval').val(nik);
 		}
 		function tutup_modal_tim(){
 			$('#modaltimaudit').modal('hide');

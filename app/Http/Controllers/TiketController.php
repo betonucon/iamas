@@ -32,7 +32,7 @@ class TiketController extends Controller
         
     }
     public function index_hd(request $request){
-        if(Auth::user()->posisi_id==1){
+        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Sumber Informasi ';
             return view('Tiket.index_hd',compact('menu'));
         }else{
@@ -92,7 +92,7 @@ class TiketController extends Controller
             
         }else{
             
-            if(Auth::user()['posisi_id']==1){
+            if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
                 $menu='Approve Tiket ';
                 $data=Tiket::find($request->id);
                 return view('Tiket.view_tiket_head',compact('menu','data'));
@@ -134,7 +134,7 @@ class TiketController extends Controller
         
     }
     public function index_acc_head(request $request){
-        if(Auth::user()->posisi_id==1){
+        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Approve Penyelesaian Tiket ';
             return view('Tiket.index_tiket_acchead',compact('menu'));
         }else{
@@ -143,7 +143,7 @@ class TiketController extends Controller
         
     }
     public function index_tiket_head(request $request){
-        if(Auth::user()->posisi_id==1){
+        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='List Tiket ';
             return view('Tiket.index_tiket_head',compact('menu'));
         }else{
@@ -664,6 +664,10 @@ class TiketController extends Controller
                     foreach($getjudul as $no=>$o){
                         $nomorlaporan='LPK'.date('y').kode_bulan(date('m')).sprintf("%02s", ($no+1));
                         
+                        $jdul=Judul::where('id',$o['id'])->update([
+                            'kodifikasi'=>$request->kodifikasi[$o['id']],
+                        ]);
+
                         $data=Tiket::create([
                             'nik'=>Auth::user()['nik'],
                             'kode_sumber'=>'LPK',
@@ -869,7 +873,7 @@ class TiketController extends Controller
                 echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan</p>';
             }else{
                 $counttim=count($request->nik);
-                if($counttim>2){
+                if($counttim>3){
                         $image = $request->file('lampiran');
                         $size = $image->getSize();
                         $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
@@ -1141,14 +1145,25 @@ class TiketController extends Controller
     }
 
     public function approve_tiket(request $request){
-        $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
-            'sts'=>2,
-            'tanggal_tiket_approve_head'=>date('Y-m-d'),
-        ]);
-        
-        if($data){
+        if(Auth::user()['posisi_id']==1){
+            $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
+                'sts'=>2,
+                'tanggal_tiket_approve_head'=>date('Y-m-d'),
+            ]);
+            
             echo'ok';
+           
         }
+        if(Auth::user()['posisi_id']==13){
+            $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',4)->update([
+                'sts'=>5,
+                'tanggal_tiket_approve_head'=>date('Y-m-d'),
+            ]);
+            echo'ok';
+            
+        }
+        
+        
     }
 
     public function hapus(request $request){
