@@ -21,8 +21,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(request $request)
     {   $menu='Dashboard';
-        return view('welcome',compact('menu'));
+        if($request->tahun==''){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
+        return view('welcome',compact('menu','tahun'));
     }
 }

@@ -189,7 +189,7 @@
 												<select class="multiple-select2 form-control" name="nik[]" multiple="multiple">
 													<optgroup label="Pilih Anggota">
 													
-														@foreach(katua_get() as $no=>$src_get)
+														@foreach(anggota_get() as $no=>$src_get)
 															<option value="{{$src_get->nik}}" @if(anggota($data->id,$src_get->nik)>0) selected @endif >{{ucwords($src_get->name)}}</option>
 														@endforeach
 													

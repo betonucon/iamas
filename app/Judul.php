@@ -14,5 +14,11 @@ class Judul extends Model
         'judul', 
         'tujuan',
         'risiko',
+        'kodifikasi',
+        'kode_unit',
     ];
+
+    function unitkerja(){
+        return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');
+    }
 }

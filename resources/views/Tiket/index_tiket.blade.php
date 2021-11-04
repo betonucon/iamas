@@ -60,7 +60,7 @@
 										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td>
-											@if($data->sts==1)
+											@if($data->sts<5)
 												<font color="red">On Proses</font>
 											@else
 												<font color="blue">Selesai</font>

@@ -237,8 +237,36 @@ function aktivitas_get(){
     return $data;
 }
 
+function surattugas_unit($tahun){
+    $data=App\Surattugas::select('kode_unit')->where('tahun',$tahun)->whereIn('kode_aktivitas',array('01','02','03'))->groupBy('kode_unit')->get();
+    return $data;
+}
+function surattugas_perunit($tahun,$kode_unit){
+    $data=App\Surattugas::where('kode_unit',$kode_unit)->where('tahun',$tahun)->whereIn('kode_aktivitas',array('01','02','03'))->get();
+    return $data;
+}
+function progres_surattugas_perunit($tahun,$id){
+    $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
+    if($data['sts']==1){
+       $persn=30;
+    }
+    if($data['sts']==2){
+       $persn=40;
+    }
+    if($data['sts']==3){
+       $persn=60;
+    }
+    if($data['sts']==4){
+       $persn=80;
+    }
+    if($data['sts']==5){
+       $persn=100;
+    }
+    return $persn;
+}
+
 function src_get(){
-    $data=App\User::whereIn('posisi_id',array('1','2'))->orderBy('name','Asc')->get();
+    $data=App\User::whereIn('posisi_id',array('1','2','12','7'))->orderBy('name','Asc')->get();
     return $data;
 }
 function aproval_get(){
@@ -246,11 +274,15 @@ function aproval_get(){
     return $data;
 }
 function unitkerja_get(){
-    $data=App\Unitkerja::orderBy('name','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array('1','3','5'))->orderBy('name','Asc')->get();
     return $data;
 }
 function katua_get(){
-    $data=App\User::whereIn('posisi_id',array('3','11','12'))->orderBy('name','Asc')->get();
+    $data=App\User::whereIn('posisi_id',array('2','7','12','3','4','5','6'))->orderBy('name','Asc')->get();
+    return $data;
+}
+function anggota_get(){
+    $data=App\User::whereIn('posisi_id',array('10','11','3','4','5','6'))->orderBy('name','Asc')->get();
     return $data;
 }
 function nomorsurat($kode,$unit,$aktifitas){

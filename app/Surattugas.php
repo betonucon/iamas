@@ -32,6 +32,9 @@ class Surattugas extends Model
         'tanggal',
         'kode_unit',
         'sts',
+        'kodifikasi_rekomendasi',
+        'rekomendasi',
+        
 
         
 

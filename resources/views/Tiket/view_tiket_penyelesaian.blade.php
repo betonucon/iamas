@@ -64,7 +64,66 @@
 								<div class="tab-pane fade active show" id="default-tab-0">
 								@if($data->kode_aktivitas=='03')
 									@if($data->kode_sumber=='AR')	
-
+									<div class="col-xl-10 offset-xl-1">
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan</label>
+											<div class="col-lg-9 col-xl-8">
+												<select class="form-control"disabled name="kode_laporan" >
+													<option value="">Pilih Kode Laporan </option>';
+													@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+														
+													<option value="{{$kodifikasilaporan_get['kode']}}" @if($data->kode_laporan==$kodifikasilaporan_get['kode']) selected @endif>[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+													@endforeach
+												</select>
+											</div>
+											
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi</label>
+											<div class="col-lg-9 col-xl-6">
+												<select class="form-control"  disabled name="kodifikasi" >
+													<option value="" >Pilih Kodifikasi</option>';
+													@foreach(kodefikasi_get() as $kodefikasi)
+														
+														<option value="{{$kodefikasi['kodifikasi']}}" @if($data->kodifikasi==$kodefikasi['kodifikasi']) selected @endif >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+													@endforeach
+												
+												</select>
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
+											<div class="col-lg-9 col-xl-9">
+												<input type="text" class="form-control"  disabled name="judul" value="{{$data->judul_laporan}}"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+											<div class="col-lg-9 col-xl-9">
+												<input type="text" disabled class="form-control kosong" value="{{$data->rekomendasi}}" name="rekomendasi"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi Rekomendasi</label>
+											<div class="col-lg-9 col-xl-5">
+												<select class="form-control"  disabled name="kodifikasi_rekomendasi" >
+													<option value="" >Pilih Kodifikasi</option>';
+													@foreach(kodefikasi_get() as $kodefikasi)
+															
+														<option value="{{$kodefikasi['kodifikasi']}}" @if($data->kodifikasi_rekomendasi==$kodefikasi['kodifikasi']) selected @endif>[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+													@endforeach
+												
+												</select>
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Isi</label>
+											<div class="col-lg-9 col-xl-9">
+												<textarea class="textarea form-control" name="keterangan" disabled id="textareatiket" placeholder="Enter text ..." rows="12">{!!$data->keterangan_laporan!!}</textarea>
+											</div>
+										</div>
+										
+									</div>
 									@else
 											<table class="table table-bordered m-b-0">
 												<thead>
@@ -93,11 +152,15 @@
 								@else
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Nomor Laporan</label>
+											<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan</label>
 											<div class="col-lg-9 col-xl-8">
-											
-													<input type="text" class="form-control"  disabled value="{{$data->nomorlaporan}}"  placeholder="Enter text ...">
-											
+												<select class="form-control"disabled name="kode_laporan" >
+													<option value="">Pilih Kode Laporan </option>';
+													@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+														
+													<option value="{{$kodifikasilaporan_get['kode']}}" @if($data->kode_laporan==$kodifikasilaporan_get['kode']) selected @endif>[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+													@endforeach
+												</select>
 											</div>
 											
 										</div>
@@ -118,6 +181,25 @@
 											<label class="col-lg-3 text-lg-right col-form-label">Judul</label>
 											<div class="col-lg-9 col-xl-9">
 												<input type="text" class="form-control"  disabled name="judul" value="{{$data->judul_laporan}}"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+											<div class="col-lg-9 col-xl-9">
+												<input type="text" disabled class="form-control kosong" value="{{$data->rekomendasi}}" name="rekomendasi"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi Rekomendasi</label>
+											<div class="col-lg-9 col-xl-5">
+												<select class="form-control"  disabled name="kodifikasi_rekomendasi" >
+													<option value="" >Pilih Kodifikasi</option>';
+													@foreach(kodefikasi_get() as $kodefikasi)
+															
+														<option value="{{$kodefikasi['kodifikasi']}}" @if($data->kodifikasi_rekomendasi==$kodefikasi['kodifikasi']) selected @endif>[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+													@endforeach
+												
+												</select>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -258,7 +340,7 @@
 												<select class="multiple-select2 form-control" disabled name="nik[]" multiple="multiple">
 													<optgroup label="Pilih Anggota">
 													
-														@foreach(katua_get() as $no=>$src_get)
+														@foreach(anggota_get() as $no=>$src_get)
 															<option value="{{$src_get->nik}}" @if(anggota($data->id,$src_get->nik)>0) selected @endif > {{ucwords($src_get->name)}}</option>
 														@endforeach
 													

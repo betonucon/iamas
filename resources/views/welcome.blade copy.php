@@ -4,15 +4,14 @@
 <link href="{{url('assets/assets/plugins/nvd3/build/nv.d3.css')}}" rel="stylesheet" />
 @endpush
 @section('contex')
-	
 	<!-- begin row -->
 	<div class="row">
 		<!-- begin col-6 -->
-		<div class="col-xl-12">
+		<div class="col-xl-6">
 			<!-- begin panel -->
 			<div class="panel panel-inverse">
 				<div class="panel-heading">
-					<h4 class="panel-title">DASHBOARD STIA 1,2,3</h4>
+					<h4 class="panel-title">Line Chart </h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -21,75 +20,128 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<div class="col-12">
-
-						<div class="form-group">
-							<select class="form-control" style="width:30%" onchange="cari_tahun(this.value)">
-								@for($th=2021;$th<2040;$th++)
-									<option value="{{$th}}" @if($tahun==$th) selected @endif>Tahun {{$th}}</option>
-								@endfor
-							</select>
-						</div>
-						<div class="alert alert-primary fade show m-b-10" style="margin-top:2%">
-							<strong>Keterangan Progres Tiket STIA [01] [02] [03]</strong>
-							<div class="m-b-3">
-								<span class="label label-orange">30% Pembuatan Tiket</span>
-								<span class="label label-orange">40% Approval Head</span>
-								<span class="label label-green">60% Penyelesaian Tiket</span>
-								<span class="label label-green">80% Approval Pengawas</span>
-								<span class="label label-blue">100% Approval Penyelesaian Head</span>
-							</div>
-						</div>
-					</div>
-					<hr>
-					@foreach(surattugas_unit($tahun) as $surattugas_unit)
-						<div class="col-12">
-							<div class="widget-chart-info">
-								<h4 class="widget-chart-info-title"> {{$surattugas_unit->unitkerja['name']}} </h4>
-								<p class="widget-chart-info-desc">Kode Unit: {{$surattugas_unit->kode_unit}}</p>
-								@foreach(surattugas_perunit($tahun,$surattugas_unit->kode_unit) as $surattugas_perunit)
-								<div class="widget-chart-info-progress" style="margin-left: 4%;">
-									<b>{{$surattugas_perunit->nomortiket}} </b>
-									<span class="pull-right">{{progres_surattugas_perunit($tahun,$surattugas_perunit->id)}}%</span>
-									<div class="progress progress-sm">
-										@if(progres_surattugas_perunit($tahun,$surattugas_perunit->id)==30 || progres_surattugas_perunit($tahun,$surattugas_perunit->id)==40)
-											<div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-orange" style="width:{{progres_surattugas_perunit($tahun,$surattugas_perunit->id)}}%;"></div>
-										@endif
-										@if(progres_surattugas_perunit($tahun,$surattugas_perunit->id)==60 || progres_surattugas_perunit($tahun,$surattugas_perunit->id)==80)
-											<div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-green" style="width:{{progres_surattugas_perunit($tahun,$surattugas_perunit->id)}}%;"></div>
-										@endif
-										@if(progres_surattugas_perunit($tahun,$surattugas_perunit->id)==100)
-											<div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-blue" style="width:{{progres_surattugas_perunit($tahun,$surattugas_perunit->id)}}%;"></div>
-										@endif
-									</div>
-								</div>
-								@endforeach
-							</div>
-							
-							
-						</div>
-					@endforeach
+					<div id="nv-line-chart" class="height-sm"></div>
 				</div>
 			</div>
 			<!-- end panel -->
 		</div>
-		<!-- end col-12 -->
-		
+		<!-- end col-6 -->
+		<!-- begin col-6 -->
+		<div class="col-xl-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Bar Chart</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="nv-bar-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
 	</div>
 	<!-- end row -->
-	
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-6 -->
+		<div class="col-xl-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Stacked Area Chart</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="nv-stacked-area-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+		<!-- begin col-6 -->
+		<div class="col-xl-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Stacked Bar Chart</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="nv-stacked-bar-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+	</div>
+	<!-- end row -->
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-6 -->
+		<div class="col-xl-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Pie Chart</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="nv-pie-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+		<!-- begin col-6 -->
+		<div class="col-xl-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Donut Chart</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="nv-donut-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+	</div>
+	<!-- end row -->
 @endsection
 @push('ajax')
 <script src="{{url('assets/assets/plugins/d3/d3.min.js')}}"></script>
 <script src="{{url('assets/assets/plugins/nvd3/build/nv.d3.min.js')}}"></script>
 
 <script>
-	function cari_tahun(tahun){
-		location.assign("{{url('home')}}?tahun="+tahun);
-	}
-</script>
-<script>
-
     var handleLineChart = function() {
 	"use strict";
 

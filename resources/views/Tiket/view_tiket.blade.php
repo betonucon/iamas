@@ -181,7 +181,7 @@
 												<select class="multiple-select2 form-control" disabled name="nik[]" multiple="multiple">
 													<optgroup label="Pilih Anggota">
 													
-														@foreach(katua_get() as $no=>$src_get)
+														@foreach(anggota_get() as $no=>$src_get)
 															<option value="{{$src_get->nik}}" @if(anggota($data->id,$src_get->nik)>0) selected @endif > {{ucwords($src_get->name)}}</option>
 														@endforeach
 													
@@ -230,7 +230,28 @@
 									@csrf
 									<input type="hidden" name="id" value="{{$data->id}}">
 									<div class="col-xl-10 offset-xl-1">
-										
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja &Kodifikasi</label>
+											<div class="col-lg-9 col-xl-4">
+												<select class="form-control"   name="kodifikasi" >
+													<option value="" >Pilih Kodifikasi</option>';
+													@foreach(kodefikasi_get() as $kodefikasi)
+														
+														<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+													@endforeach
+												
+												</select>
+											</div>
+											<div class="col-lg-9 col-xl-4">
+												<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
+													<option value="">--Pilih Unit Kerja</option>
+													@foreach(unitkerja_get() as $no=>$unitkerja_get)
+														<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+													@endforeach
+													
+												</select>
+											</div>
+										</div>
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
 											<div class="col-lg-9 col-xl-5">
@@ -250,9 +271,38 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
+											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+											<div class="col-lg-9 col-xl-9">
+												<input type="text" class="form-control kosong" value="" name="rekomendasi"  placeholder="Enter text ...">
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan</label>
+											<div class="col-lg-9 col-xl-8">
+											<select class="form-control" name="kode_laporan" >
+												<option value="">Pilih Kode Laporan </option>';
+												@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+													
+												<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+												@endforeach
+											</select>
+											</div>
+											
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Lampiran & Kodifikasi Rekomendasi</label>
 											<div class="col-lg-9 col-xl-4">
 												<input type="file" class="form-control"  name="lampiran" >
+											</div>
+											<div class="col-lg-9 col-xl-5">
+												<select class="form-control"   name="kodifikasi_rekomendasi" >
+													<option value="" >Pilih Kodifikasi</option>';
+													@foreach(kodefikasi_get() as $kodefikasi)
+														
+														<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+													@endforeach
+												
+												</select>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -275,6 +325,28 @@
 									<input type="hidden" name="tiket_id" value="{{$data->id}}">
 										<div class="col-xl-10 offset-xl-1">
 										
+											<div class="form-group row m-b-10" >
+												<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja &Kodifikasi</label>
+												<div class="col-lg-9 col-xl-4">
+													<select class="form-control"   name="kodifikasi" >
+														<option value="" >Pilih Kodifikasi</option>';
+														@foreach(kodefikasi_get() as $kodefikasi)
+															
+															<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+														@endforeach
+													
+													</select>
+												</div>
+												<div class="col-lg-9 col-xl-4">
+													<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
+														<option value="">--Pilih Unit Kerja</option>
+														@foreach(unitkerja_get() as $no=>$unitkerja_get)
+															<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+														@endforeach
+														
+													</select>
+												</div>
+											</div>
 											
 											<div class="form-group row m-b-10" >
 												<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
@@ -294,6 +366,7 @@
 													<input type="text" class="form-control kosong" value="" name="judul"  placeholder="Enter text ...">
 												</div>
 											</div>
+											
 											<div class="form-group row m-b-10" >
 												<label class="col-lg-3 text-lg-right col-form-label">Tujuan</label>
 												<div class="col-lg-9 col-xl-9">
@@ -321,7 +394,28 @@
 								@csrf
 								<input type="hidden" name="id" value="{{$data->id}}">
 								<div class="col-xl-10 offset-xl-1">
-									
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja &Kodifikasi</label>
+										<div class="col-lg-9 col-xl-4">
+											<select class="form-control"   name="kodifikasi" >
+												<option value="" >Pilih Kodifikasi</option>';
+												@foreach(kodefikasi_get() as $kodefikasi)
+													
+													<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+												@endforeach
+											
+											</select>
+										</div>
+										<div class="col-lg-9 col-xl-4">
+											<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
+												<option value="">--Pilih Unit Kerja</option>
+												@foreach(unitkerja_get() as $no=>$unitkerja_get)
+													<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+												@endforeach
+												
+											</select>
+										</div>
+									</div>
 									<div class="form-group row m-b-10" >
 										<label class="col-lg-3 text-lg-right col-form-label">Tingkat Risiko</label>
 										<div class="col-lg-9 col-xl-5">
@@ -341,9 +435,38 @@
 										</div>
 									</div>
 									<div class="form-group row m-b-10" >
-										<label class="col-lg-3 text-lg-right col-form-label">Lampiran</label>
+										<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+										<div class="col-lg-9 col-xl-9">
+											<input type="text" class="form-control kosong" value="" name="rekomendasi"  placeholder="Enter text ...">
+										</div>
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan</label>
+										<div class="col-lg-9 col-xl-8">
+										<select class="form-control" name="kode_laporan" >
+											<option value="">Pilih Kode Laporan </option>';
+											@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+												
+											<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+											@endforeach
+										</select>
+										</div>
+										
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Lampiran & Kodifikasi Rekomendasi</label>
 										<div class="col-lg-9 col-xl-4">
 											<input type="file" class="form-control"  name="lampiran" >
+										</div>
+										<div class="col-lg-9 col-xl-5">
+											<select class="form-control"   name="kodifikasi_rekomendasi" >
+												<option value="" >Pilih Kodifikasi</option>';
+												@foreach(kodefikasi_get() as $kodefikasi)
+													
+													<option value="{{$kodefikasi['kodifikasi']}}" >[{{$kodefikasi['kodifikasi']}}] {{$kodefikasi['kategori']}}</option>
+												@endforeach
+											
+											</select>
 										</div>
 									</div>
 									<div class="form-group row m-b-10" >
@@ -481,12 +604,21 @@
 		}
 
 		function cari_risiko(a){
-			if(a>5000000){
-				$('#divrisiko').val('Tinggi');
-				$('#risiko').val('Tinggi');
+			if(a>50000000000){
+				$('#divrisiko').val('TINGGI');
+				$('#risiko').val('TINGGI');
+			}else if(a>25000000000){
+				$('#divrisiko').val('TINGGI');
+				$('#risiko').val('TINGGI');
+			}else if(a>2500000000){
+				$('#divrisiko').val('TINGGI');
+				$('#risiko').val('TINGGI');
+			}else if(a>125000000){
+				$('#divrisiko').val('MODERAT');
+				$('#risiko').val('MODERAT');
 			}else{
-				$('#divrisiko').val('Rendah');
-				$('#risiko').val('Rendah');
+				$('#divrisiko').val('RENDAH');
+				$('#risiko').val('RENDAH');
 			}
 		}
 
