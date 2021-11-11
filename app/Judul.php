@@ -16,6 +16,7 @@ class Judul extends Model
         'risiko',
         'kodifikasi',
         'kode_unit',
+        'as',
     ];
 
     function unitkerja(){

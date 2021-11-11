@@ -237,6 +237,16 @@ function aktivitas_get(){
     return $data;
 }
 
+function aktivitas_get_dashboard(){
+    $data=App\Surattugas::whereIn('kode_aktivitas',array('01','02','03'))->orderBy('kode_aktivitas','Asc')->get();
+    return $data;
+}
+
+function unit_as($kode){
+    $data=App\Unitkerja::where('kode',$kode)->first();
+    return $data['as'];
+}
+
 function surattugas_unit($tahun){
     $data=App\Surattugas::select('kode_unit')->where('tahun',$tahun)->whereIn('kode_aktivitas',array('01','02','03'))->groupBy('kode_unit')->get();
     return $data;

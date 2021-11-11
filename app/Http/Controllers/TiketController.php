@@ -538,6 +538,7 @@ class TiketController extends Controller
                 'judul'=>$request->judul,
                 'kodifikasi'=>$request->kodifikasi,
                 'kode_unit'=>$request->kode_unit,
+                'as'=>unit_as($request->kode_unit),
                 'tujuan'=>$request->keterangan,
                 'risiko'=>$request->risiko,
                 'tiket_id'=>$request->tiket_id,
@@ -671,8 +672,15 @@ class TiketController extends Controller
                     $surattugas=Surattugas::where('tiket_id',$request->id)->update([
                         'sts'=>4,
                     ]);
+                    $jumlpk=Tiket::where('kode_sumber','LPK')->count();
+                    if($jumlpk>0){
+
+                    }else{
+
+                    }
                     foreach($getjudul as $no=>$o){
-                        $nomorlaporan='LPK'.date('y').kode_bulan(date('m')).sprintf("%02s", ($no+1));
+                        $noo=$no+1;
+                        $nomorlaporan='LPK'.(date('y')+1).$o['as'].sprintf("%02s", ($jumlpk+$noo));
                         
                         $jdul=Judul::where('id',$o['id'])->update([
                             'kodifikasi'=>$request->kodifikasi[$o['id']],

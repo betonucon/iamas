@@ -28,6 +28,6 @@ class HomeController extends Controller
         }else{
             $tahun=$request->tahun;
         }
-        return view('welcome',compact('menu','tahun'));
+        return view('home',compact('menu','tahun'));
     }
 }

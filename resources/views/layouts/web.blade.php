@@ -446,6 +446,7 @@
 	<script src="{{url('assets/assets/plugins/datatables.net-fixedheader/js/dataTables.fixedheader.min.js')}}"></script>
 	<script src="{{url('assets/assets/plugins/datatables.net-fixedheader-bs4/js/fixedheader.bootstrap4.min.js')}}"></script>
 	<script src="{{url('assets/assets/js/demo/table-manage-fixed-header.demo.js')}}"></script>
+	<script src="{{url('assets/assets/plugins/chart.js/dist/Chart.min.js')}}"></script>
 	@stack('ajax')
 	<script>
 		function sebelumnya(){
