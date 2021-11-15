@@ -4,6 +4,7 @@
 <link href="{{url('assets/assets/plugins/nvd3/build/nv.d3.css')}}" rel="stylesheet" />
 @endpush
 @section('contex')
+		@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
             <div class="row">
 				
 				<!-- begin col-6 -->
@@ -13,7 +14,7 @@
 					<!-- begin panel -->
 					<div class="panel panel-inverse" data-sortable-id="chart-js-2">
 						<div class="panel-heading">
-							<h4 class="panel-title">Dashboard</h4>
+							<h4 class="panel-title">Dashboard STIA{{$pertama_aktivitas_get->kode}}</h4>
 							<div class="panel-heading-btn">
 								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -23,10 +24,10 @@
 						</div>
 						<div class="panel-body">
 							<p>
-                                Histogram Progres Total  Surat Tugas (STIA 1,2,3)
+                                Histogram Progres Total  Surat Tugas (STIA{{$pertama_aktivitas_get->kode}})
                             </p>
 							<div>
-								<canvas id="bar-chart" data-render="chart-js"></canvas>
+								<canvas id="bar-chart{{$pertama_aktivitas_get->kode}}" data-render="chart-js"></canvas>
 							</div>
 						</div>
 					</div>
@@ -36,7 +37,7 @@
                 </div>
 			</div>
 			<!-- end row -->
-			
+		@endforeach	
 			
 @endsection
 @push('ajax')
@@ -70,35 +71,36 @@ var lineChartData = {
 	}]
 };
 
-var barChartData = {
-	labels: [
-            @foreach(aktivitas_get_dashboard() as $gte)
-                '{{$gte->nomortiket}}',
-            @endforeach
-        ],
-	datasets: [{
-		label: 'PLAN',
-		borderWidth: 2,
-		borderColor: COLOR_DARK,
-		backgroundColor: "blue",
-		data: [
-            @foreach(aktivitas_get_dashboard() as $gte)
-                {{$gte->id}},
-            @endforeach
-        ]
-	}, {
-		label: 'REAL',
-		borderWidth: 2,
-		borderColor: COLOR_DARK,
-		backgroundColor: "yellow",
-		data: [
-            @foreach(aktivitas_get_dashboard() as $gte)
-                {{($gte->id+2)}},
-            @endforeach
-        ]
-	}]
-};
-
+@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
+	var barChartData{{$pertama_aktivitas_get->kode}} = {
+		labels: [
+				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
+					'{{$gte->nomortiket}}',
+				@endforeach
+			],
+		datasets: [{
+			label: 'PLAN',
+			borderWidth: 2,
+			borderColor: COLOR_DARK,
+			backgroundColor: "blue",
+			data: [
+				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
+					{{nilai_plan($gte->id)}},
+				@endforeach
+			]
+		}, {
+			label: 'REAL',
+			borderWidth: 2,
+			borderColor: COLOR_DARK,
+			backgroundColor: "red",
+			data: [
+				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
+					{{nilai_real($gte->id)}},
+				@endforeach
+			]
+		}]
+	};
+@endforeach
 var radarChartData = {
 	labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
 	datasets: [{
@@ -155,13 +157,13 @@ var doughnutChartData = {
 
 var handleChartJs = function() {
 	
-
-	var ctx2 = document.getElementById('bar-chart').getContext('2d');
-	var barChart = new Chart(ctx2, {
-		type: 'bar',
-		data: barChartData
-	});
-
+	@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
+		var ctx2{{$pertama_aktivitas_get->kode}} = document.getElementById('bar-chart{{$pertama_aktivitas_get->kode}}').getContext('2d');
+		var barChart{{$pertama_aktivitas_get->kode}} = new Chart(ctx2{{$pertama_aktivitas_get->kode}}, {
+			type: 'bar',
+			data: barChartData{{$pertama_aktivitas_get->kode}}
+		});
+	@endforeach
 	var ctx3 = document.getElementById('radar-chart').getContext('2d');
 	var radarChart = new Chart(ctx3, {
 		type: 'radar',

@@ -22,12 +22,22 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(request $request)
-    {   $menu='Dashboard';
+    {   $menu='Dashboard STIA[1,2,3]';
         if($request->tahun==''){
             $tahun=date('Y');
         }else{
             $tahun=$request->tahun;
         }
         return view('home',compact('menu','tahun'));
+    }
+
+    public function index_kodifikasi(request $request)
+    {   $menu='Dashboard Kodifikasi';
+        if($request->tahun==''){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
+        return view('home_kodifikasi',compact('menu','tahun'));
     }
 }

@@ -84,7 +84,8 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('/home','HomeController@index')->name('home');
-    Route::get('/Home','HomeController@index')->name('home');
+    Route::get('/DashboardStia','HomeController@index');
+    Route::get('/DashboardKodifikasi','HomeController@index_kodifikasi');
     Route::get('/','HomeController@index')->name('home');
 });
 

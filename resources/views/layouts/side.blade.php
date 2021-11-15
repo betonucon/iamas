@@ -8,8 +8,8 @@
                     <span>Dashboard</span>
                 </a>
                 <ul class="sub-menu" style="display: block;">
-                    <li><a href="{{url('home')}}">Dashboard v1</a></li>
-                    <li><a href="{{url('home')}}">Dashboard v2</a></li>
+                    <li><a href="{{url('DashboardStia')}}">Dashboard STIA [1,2,3]</a></li>
+                    <li><a href="{{url('DashboardKodifikasi')}}">Dashboard Kodifikasi</a></li>
                     <li><a href="{{url('home')}}">Dashboard v3</a></li>
                 </ul>
             </li>

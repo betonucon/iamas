@@ -633,6 +633,7 @@ class TiketController extends Controller
                         'kode_laporan'=>$request->kode_laporan,
                         'sts'=>4,
                         'kodifikasi_laporan'=>$request->kodifikasi,
+                        'tgl_pengawas'=>date('Y-m-d'),
                         
                     ]);
                     
@@ -671,6 +672,7 @@ class TiketController extends Controller
                     ]);
                     $surattugas=Surattugas::where('tiket_id',$request->id)->update([
                         'sts'=>4,
+                        'tgl_pengawas'=>date('Y-m-d'),
                     ]);
                     $jumlpk=Tiket::where('kode_sumber','LPK')->count();
                     if($jumlpk>0){
@@ -740,6 +742,7 @@ class TiketController extends Controller
                         'kode_laporan'=>$request->kode_laporan,
                         'sts'=>4,
                         'kodifikasi_laporan'=>$request->kodifikasi,
+                        'tgl_pengawas'=>date('Y-m-d'),
                         
                     ]);
                     
@@ -768,6 +771,7 @@ class TiketController extends Controller
             $surattugas=Surattugas::where('tiket_id',$request->id)->update([
                 'tanggal_tiket_approve_head'=>date('Y-m-d'),
                 'sts'=>5,
+                'tgl_approval'=>date('Y-m-d'),
             ]);
             
             
@@ -817,6 +821,7 @@ class TiketController extends Controller
                                     'kode_laporan'=>$request->kode_laporan,
                                     'kodifikasi_rekomendasi'=>$request->kodifikasi_rekomendasi,
                                     'rekomendasi'=>$request->rekomendasi,
+                                    'tgl_anggota'=>date('Y-m-d'),
                                 ]);
 
                                 if($tiket['kode_aktivitas']=='03'){
@@ -854,6 +859,7 @@ class TiketController extends Controller
 
                     $surat=Surattugas::where('tiket_id',$request->id)->update([
                         'sts'=>3,
+                        'tgl_anggota'=>date('Y-m-d'),
                     ]);
 
                     echo'ok';
@@ -903,6 +909,7 @@ class TiketController extends Controller
                                 'kode_laporan'=>$request->kode_laporan,
                                 'kodifikasi_rekomendasi'=>$request->kodifikasi_rekomendasi,
                                 'rekomendasi'=>$request->rekomendasi,
+                                'tgl_anggota'=>date('Y-m-d'),
                             ]);
 
                             if($tiket['kode_aktivitas']=='03'){
@@ -958,10 +965,10 @@ class TiketController extends Controller
         if (trim($request->catatan) == '') {$error[] = '- Isi Catatan Penting';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $count=Surattugas::count();
+            $count=Surattugas::where('kode_aktivitas',$request->kode_aktivitas)->count();
             
             if($count>0){
-                $cek=Surattugas::orderBy('nomortiket','Desc')->firstOrfail();
+                $cek=Surattugas::orderBy('nomortiket','Desc')->where('kode_aktivitas',$request->kode_aktivitas)->firstOrfail();
                 $urutan = (int) substr($cek['nomortiket'], 9, 2);
                 $urutan++;
                 $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
@@ -1252,6 +1259,7 @@ class TiketController extends Controller
             $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
                 'sts'=>2,
                 'tanggal_tiket_approve_head'=>date('Y-m-d'),
+                'tgl_head'=>date('Y-m-d'),
             ]);
             
             echo'ok';

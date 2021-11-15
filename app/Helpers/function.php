@@ -59,6 +59,58 @@ function selisih_hari($mulai,$sampai){
    return $x;
 }
 
+function nilai_plan($id){
+   $data=App\Surattugas::where('id',$id)->first();
+   $begin = new DateTime($data['mulai']);
+   $end = new DateTime($data['sampai']);
+   
+   $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
+   $i=0;
+   $x     =    0;
+   $end     =    1;
+   
+   foreach($daterange as $date){
+      $daterange     = $date->format("Y-m-d");
+      $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
+      $day         = $datetime->format('D');
+      if($day!="Sun" && $day!="Sat") {
+           $x    +=    $end-$i;
+           
+       }
+       $end++;
+       $i++;
+   }  
+   return $x;
+}
+
+function nilai_real($id){
+   $data=App\Surattugas::where('id',$id)->first();
+   if($data['sts']==5){
+      $begin = new DateTime($data['tgl_head']);
+      $end = new DateTime($data['tgl_approval']);
+      
+      $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
+      $i=0;
+      $x     =    0;
+      $end     =    1;
+      
+      foreach($daterange as $date){
+         $daterange     = $date->format("Y-m-d");
+         $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
+         $day         = $datetime->format('D');
+         if($day!="Sun" && $day!="Sat") {
+            $x    +=    $end-$i;
+            
+         }
+         $end++;
+         $i++;
+      }  
+      return $x;
+   }else{
+      return '0';
+   }
+}
+
 function tgl_indo($tgl){
    $tg=explode('-',$tgl);
    $data=$tg[2].' '.bulan($tg[1]).' '.$tg[0];
@@ -236,9 +288,13 @@ function aktivitas_get(){
     $data=App\Aktivitas::orderBy('kode','Asc')->get();
     return $data;
 }
+function pertama_aktivitas_get(){
+    $data=App\Aktivitas::whereIn('kode',array('01','02','03'))->orderBy('kode','Asc')->get();
+    return $data;
+}
 
-function aktivitas_get_dashboard(){
-    $data=App\Surattugas::whereIn('kode_aktivitas',array('01','02','03'))->orderBy('kode_aktivitas','Asc')->get();
+function aktivitas_get_dashboard($kode){
+    $data=App\Surattugas::where('kode_aktivitas',$kode)->orderBy('kode_aktivitas','Asc')->get();
     return $data;
 }
 
@@ -414,6 +470,18 @@ function role_get(){
 function kodefikasi_get(){
     
     $data=App\Kodefikasi::orderBy('kodifikasi','Asc')->get();
+    return $data;
+}
+
+function total_kodifikasi($kodifikasi){
+    
+    $data=App\Surattugas::where('kodifikasi_laporan',$kodifikasi)->count();
+    return $data;
+}
+
+function total_kodifikasi_rekomendasi($kodifikasi){
+    
+    $data=App\Surattugas::where('kodifikasi_rekomendasi',$kodifikasi)->count();
     return $data;
 }
 
