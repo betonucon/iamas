@@ -389,7 +389,7 @@ function array_tiket_head(){
 }
 
 function tiket_get_anggota(){
-   $data=App\Surattugas::whereIn('sts',array('2','3'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
+   $data=App\Surattugas::whereIn('sts',array('2','3','4','5'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
    return $data;
 }
 
