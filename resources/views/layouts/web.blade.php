@@ -72,6 +72,11 @@
 			background: #f3cbcb;
 			color: #fff;
 		}
+		.notifnya{
+			width: 0%;
+			background: #f3cbcb;
+			color: #fff;
+		}
 		#notifikasiubah{
 			width: 0%;
 			background: #f3cbcb;
@@ -127,7 +132,7 @@
 						<span class="label">5</span>
 					</a>
 					<div class="dropdown-menu media-list dropdown-menu-right">
-						<div class="dropdown-header">NOTIFICATIONS (5)</div>
+						<div class="dropdown-header">{{$side}}</div>
 						<a href="javascript:;" class="dropdown-item media">
 							<div class="media-left">
 								<i class="fa fa-bug media-object bg-silver-darker"></i>

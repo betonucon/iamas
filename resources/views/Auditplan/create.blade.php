@@ -349,6 +349,8 @@
 					$('#pengawas').val(data[3]);
 					$('#ketua_tim').val(data[4]);
 					$('#anggota').html(data[5]);
+					$('#tangal_penerbitan').val(data[6]);
+
 					
 				}
 			});

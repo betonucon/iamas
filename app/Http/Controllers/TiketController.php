@@ -16,7 +16,8 @@ class TiketController extends Controller
         
         if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11){
             $menu='Sumber Informasi ';
-            return view('Tiket.index',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index',compact('menu','tiket','side'));
 
         }else{
             return view('error');
@@ -25,7 +26,8 @@ class TiketController extends Controller
     public function index_gl(request $request){
         if(Auth::user()->posisi_id==12){
             $menu='Sumber Informasi ';
-            return view('Tiket.index_gl',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_gl',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -34,7 +36,8 @@ class TiketController extends Controller
     public function index_hd(request $request){
         if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Sumber Informasi ';
-            return view('Tiket.index_hd',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_hd',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -43,7 +46,8 @@ class TiketController extends Controller
     public function index_head(request $request){
         if(Auth::user()->posisi_id==1){
             $menu='Sumber Informasi ';
-            return view('Tiket.index_head',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_head',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -52,7 +56,8 @@ class TiketController extends Controller
     public function index_tiket(request $request){
         if(Auth::user()->posisi_id==12){
             $menu='List Tiket ';
-            return view('Tiket.index_tiket',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -62,7 +67,8 @@ class TiketController extends Controller
     public function create_tiket(request $request){
         if(Auth::user()->posisi_id==12){
             $menu='Buat Tiket ';
-            return view('Tiket.create_tiket',compact('menu'));
+            $side='tiket';
+            return view('Tiket.create_tiket',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -72,34 +78,36 @@ class TiketController extends Controller
     public function view_tiket_pengawas(request $request){
         
         $data=Tiket::find($request->id);
+        $side='tiket';
         if($data->surattugas['sts']==3){
             $menu='Approve Penyelesaian Tiket ';
-            return view('Tiket.view_tiket_pengawas',compact('menu','data'));
+            return view('Tiket.view_tiket_pengawas',compact('menu','data','side'));
         }else{
             $menu='View Penyelesaian Tiket ';
-            return view('Tiket.view_tiket_penyelesaian',compact('menu','data'));
+            return view('Tiket.view_tiket_penyelesaian',compact('menu','data','side'));
         }
     }
     public function update_tiket(request $request){
         if(Auth::user()->posisi_id==12){
             $menu='View Tiket ';
+            $side='tiket';
             $data=Tiket::find($request->id);
             if($data->surattugas['sts']==1){
-                return view('Tiket.update_tiket',compact('menu','data'));
+                return view('Tiket.update_tiket',compact('menu','data','side'));
             }else{
-                return view('Tiket.view_tiket',compact('menu','data'));
+                return view('Tiket.view_tiket',compact('menu','data','side'));
             }
             
         }else{
-            
+            $side='tiket';
             if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
                 $menu='Approve Tiket ';
                 $data=Tiket::find($request->id);
-                return view('Tiket.view_tiket_head',compact('menu','data'));
+                return view('Tiket.view_tiket_head',compact('menu','data','side'));
             }else{
                 $menu='View Tiket ';
                 $data=Tiket::find($request->id);
-                return view('Tiket.view_tiket',compact('menu','data'));
+                return view('Tiket.view_tiket',compact('menu','data','side'));
             }
            
         }
@@ -109,7 +117,8 @@ class TiketController extends Controller
     public function index_anggota(request $request){
         if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==4 || Auth::user()->posisi_id==5 || Auth::user()->posisi_id==6 || Auth::user()->posisi_id==10){
             $menu='List Tiket ';
-            return view('Tiket.index_tiket_anggota',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket_anggota',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -118,7 +127,8 @@ class TiketController extends Controller
     public function index_pengawas(request $request){
         if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==12){
             $menu='List Tiket ';
-            return view('Tiket.index_tiket_pengawas',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket_pengawas',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -127,7 +137,8 @@ class TiketController extends Controller
     public function index_acc_pengawas(request $request){
         if(akses_tiket_pengawas()>0){
             $menu='Approve Penyelesaian Tiket ';
-            return view('Tiket.index_tiket_accpengawas',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket_accpengawas',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -136,7 +147,8 @@ class TiketController extends Controller
     public function index_acc_head(request $request){
         if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Approve Penyelesaian Tiket ';
-            return view('Tiket.index_tiket_acchead',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket_acchead',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -145,7 +157,8 @@ class TiketController extends Controller
     public function index_tiket_head(request $request){
         if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='List Tiket ';
-            return view('Tiket.index_tiket_head',compact('menu'));
+            $side='tiket';
+            return view('Tiket.index_tiket_head',compact('menu','side'));
         }else{
             return view('error');
         }
@@ -990,8 +1003,8 @@ class TiketController extends Controller
                         if($image->getClientOriginalExtension()=='pdf'){
                             if($file->put($filePath, file_get_contents($image))){
                                 if($request->kode_aktivitas=='04' || $request->kode_aktivitas=='05' || $request->kode_aktivitas=='05' ){
-                                    $sts1=4;
-                                    $sts2=4;
+                                    $sts1=3;
+                                    $sts2=1;
                                 }else{
                                     $sts1=3;
                                     $sts2=1;
@@ -1202,7 +1215,7 @@ class TiketController extends Controller
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             if($request->sts==1){
-                if (trim($request->alasan) == '') {$error[] = '- Isi alasan dikembalikan';}
+                if (trim($request->alasan) == '') {$error[] = '- Isi alasan dikembalikan Status';}
                 if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
                 else{
                     $data=Tiket::where('id',$request->id)->update([
@@ -1256,8 +1269,14 @@ class TiketController extends Controller
 
     public function approve_tiket(request $request){
         if(Auth::user()['posisi_id']==1){
+            $surat=Surattugas::where('tiket_id',$request->tiket_id)->first();
+            if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='05' ){
+                $sts1=5;
+            }else{
+                $sts1=2;
+            }
             $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
-                'sts'=>2,
+                'sts'=>$sts1,
                 'tanggal_tiket_approve_head'=>date('Y-m-d'),
                 'tgl_head'=>date('Y-m-d'),
             ]);

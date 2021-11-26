@@ -49,9 +49,13 @@ class Audit extends Model
         'sts_compliance',
         'sts_substantive',
         'sts_lha',
+        'tgl_sts1',
 
     ];
     function unitkerja(){
         return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');
+    }
+    function stsaudit(){
+        return $this->belongsTo('App\Stsaudit','sts','id');
     }
 }

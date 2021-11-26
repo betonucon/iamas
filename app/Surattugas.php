@@ -46,4 +46,5 @@ class Surattugas extends Model
     function tiket(){
         return $this->belongsTo('App\Tiket','tiket_id','id');
     }
+    
 }

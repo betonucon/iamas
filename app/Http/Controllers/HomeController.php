@@ -23,21 +23,23 @@ class HomeController extends Controller
      */
     public function index(request $request)
     {   $menu='Dashboard STIA[1,2,3]';
+        $side="home";
         if($request->tahun==''){
             $tahun=date('Y');
         }else{
             $tahun=$request->tahun;
         }
-        return view('home',compact('menu','tahun'));
+        return view('home',compact('menu','tahun','side'));
     }
 
     public function index_kodifikasi(request $request)
     {   $menu='Dashboard Kodifikasi';
+        $side="home";
         if($request->tahun==''){
             $tahun=date('Y');
         }else{
             $tahun=$request->tahun;
         }
-        return view('home_kodifikasi',compact('menu','tahun'));
+        return view('home_kodifikasi',compact('menu','tahun','side'));
     }
 }

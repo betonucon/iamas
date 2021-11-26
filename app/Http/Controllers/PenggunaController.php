@@ -9,7 +9,8 @@ class PenggunaController extends Controller
 {
     public function index(request $request){
         $menu='Pengguna Aplikasi';
-        return view('pengguna.index',compact('menu'));
+        $side="master";
+        return view('pengguna.index',compact('menu','side'));
     }
 
     public function ubah(request $request){

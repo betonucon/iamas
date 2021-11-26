@@ -8,6 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GetareaController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\AuditplanController;
+use App\Http\Controllers\DeskauditController;
+use App\Http\Controllers\ComplianceController;
+use App\Http\Controllers\SubstantiveController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,15 +94,111 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Auditplan',[AuditplanController::class, 'index']);
+    Route::get('Auditplan/file',[AuditplanController::class, 'file']);
     Route::get('AccAuditplan',[AuditplanController::class, 'index_acc']);
     Route::get('Auditplan/pilih_surat_tugas',[AuditplanController::class, 'pilih_surat_tugas']);
     Route::get('Auditplan/Create',[AuditplanController::class, 'create']);
+    Route::get('Auditplan/send_to_head',[AuditplanController::class, 'send_to_head']);
     Route::get('Auditplan/Acc',[AuditplanController::class, 'acc']);
     Route::get('Auditplan/Edit',[AuditplanController::class, 'edit']);
     Route::post('Auditplan',[AuditplanController::class, 'save']);
     Route::post('Auditplan/acc_head',[AuditplanController::class, 'acc_head']);
     Route::post('Auditplan/Update',[AuditplanController::class, 'update']);
     Route::post('Auditplan/Delete',[AuditplanController::class, 'delete']);
+});
+
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Deskaudit',[DeskauditController::class, 'index']);
+    Route::get('Deskaudit/ubah_pokok',[DeskauditController::class, 'ubah_pokok']);
+    Route::get('Deskauditcatatan',[DeskauditController::class, 'index_catatan']);
+    Route::get('Deskauditpengawas',[DeskauditController::class, 'index_pengawas']);
+    Route::get('Deskauditcatatanpengawas',[DeskauditController::class, 'index_catatanpengawas']);
+    Route::get('Deskauditanggota',[DeskauditController::class, 'index_anggota']);
+    Route::get('AccDeskaudit',[DeskauditController::class, 'index_acc']);
+    Route::get('Deskaudit/tampil_langkah_kerja',[DeskauditController::class, 'tampil_langkah_kerja']);
+    Route::get('Deskaudit/hapus_pokok',[DeskauditController::class, 'hapus_pokok']);
+    Route::get('Deskaudit/Create',[DeskauditController::class, 'create']);
+    Route::get('Deskaudit/Catatan',[DeskauditController::class, 'catatan']);
+    Route::get('Deskaudit/Isicatatan',[DeskauditController::class, 'isi_catatan']);
+    Route::get('Deskaudit/Approvepengawas',[DeskauditController::class, 'approve_pengawas']);
+    Route::get('Deskaudit/Approvecatatanpengawas',[DeskauditController::class, 'approve_catatanpengawas']);
+    Route::get('Deskaudit/send_to_pengawas',[DeskauditController::class, 'send_to_pengawas']);
+    Route::get('Deskaudit/send_catatan_to_pengawas',[DeskauditController::class, 'send_catatan_to_pengawas']);
+    Route::get('Deskaudit/send_to_head',[DeskauditController::class, 'send_to_head']);
+    Route::get('Deskaudit/Acc',[DeskauditController::class, 'acc']);
+    Route::get('Deskaudit/Edit',[DeskauditController::class, 'edit']);
+    Route::post('Deskaudit/proses_approve_pengawas',[DeskauditController::class, 'proses_approve_pengawas']);
+    Route::post('Deskaudit/proses_approve_catatan_pengawas',[DeskauditController::class, 'proses_approve_catatan_pengawas']);
+    Route::post('Deskaudit/langkah',[DeskauditController::class, 'save_langkah']);
+    Route::post('Deskaudit/proses_catatan',[DeskauditController::class, 'proses_catatan']);
+    Route::get('Deskaudit/hapus_langkah',[DeskauditController::class, 'hapus_langkah']);
+    Route::post('Deskaudit',[DeskauditController::class, 'save']);
+    Route::post('Deskaudit/acc_head',[DeskauditController::class, 'acc_head']);
+    Route::post('Deskaudit/Update',[DeskauditController::class, 'update']);
+    Route::post('Deskaudit/Delete',[DeskauditController::class, 'delete']);
+});
+
+
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Compliance',[ComplianceController::class, 'index']);
+    Route::get('Compliance/ubah_pokok',[ComplianceController::class, 'ubah_pokok']);
+    Route::get('Compliancecatatan',[ComplianceController::class, 'index_catatan']);
+    Route::get('Compliancepengawas',[ComplianceController::class, 'index_pengawas']);
+    Route::get('Compliancecatatanpengawas',[ComplianceController::class, 'index_catatanpengawas']);
+    Route::get('Complianceanggota',[ComplianceController::class, 'index_anggota']);
+    Route::get('AccCompliance',[ComplianceController::class, 'index_acc']);
+    Route::get('Compliance/tampil_langkah_kerja',[ComplianceController::class, 'tampil_langkah_kerja']);
+    Route::get('Compliance/hapus_pokok',[ComplianceController::class, 'hapus_pokok']);
+    Route::get('Compliance/Create',[ComplianceController::class, 'create']);
+    Route::get('Compliance/Catatan',[ComplianceController::class, 'catatan']);
+    Route::get('Compliance/Isicatatan',[ComplianceController::class, 'isi_catatan']);
+    Route::get('Compliance/Approvepengawas',[ComplianceController::class, 'approve_pengawas']);
+    Route::get('Compliance/Approvecatatanpengawas',[ComplianceController::class, 'approve_catatanpengawas']);
+    Route::get('Compliance/send_to_pengawas',[ComplianceController::class, 'send_to_pengawas']);
+    Route::get('Compliance/send_catatan_to_pengawas',[ComplianceController::class, 'send_catatan_to_pengawas']);
+    Route::get('Compliance/send_to_head',[ComplianceController::class, 'send_to_head']);
+    Route::get('Compliance/Acc',[ComplianceController::class, 'acc']);
+    Route::get('Compliance/Edit',[ComplianceController::class, 'edit']);
+    Route::post('Compliance/proses_approve_pengawas',[ComplianceController::class, 'proses_approve_pengawas']);
+    Route::post('Compliance/proses_approve_catatan_pengawas',[ComplianceController::class, 'proses_approve_catatan_pengawas']);
+    Route::post('Compliance/langkah',[ComplianceController::class, 'save_langkah']);
+    Route::post('Compliance/proses_catatan',[ComplianceController::class, 'proses_catatan']);
+    Route::get('Compliance/hapus_langkah',[ComplianceController::class, 'hapus_langkah']);
+    Route::post('Compliance',[ComplianceController::class, 'save']);
+    Route::post('Compliance/acc_head',[ComplianceController::class, 'acc_head']);
+    Route::post('Compliance/Update',[ComplianceController::class, 'update']);
+    Route::post('Compliance/Delete',[ComplianceController::class, 'delete']);
+});
+
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Substantive',[SubstantiveController::class, 'index']);
+    Route::get('Substantive/ubah_pokok',[SubstantiveController::class, 'ubah_pokok']);
+    Route::get('Substantivecatatan',[SubstantiveController::class, 'index_catatan']);
+    Route::get('Substantivepengawas',[SubstantiveController::class, 'index_pengawas']);
+    Route::get('Substantivecatatanpengawas',[SubstantiveController::class, 'index_catatanpengawas']);
+    Route::get('Substantiveanggota',[SubstantiveController::class, 'index_anggota']);
+    Route::get('AccSubstantive',[SubstantiveController::class, 'index_acc']);
+    Route::get('Substantive/tampil_langkah_kerja',[SubstantiveController::class, 'tampil_langkah_kerja']);
+    Route::get('Substantive/hapus_pokok',[SubstantiveController::class, 'hapus_pokok']);
+    Route::get('Substantive/Create',[SubstantiveController::class, 'create']);
+    Route::get('Substantive/Catatan',[SubstantiveController::class, 'catatan']);
+    Route::get('Substantive/Isicatatan',[SubstantiveController::class, 'isi_catatan']);
+    Route::get('Substantive/Approvepengawas',[SubstantiveController::class, 'approve_pengawas']);
+    Route::get('Substantive/Approvecatatanpengawas',[SubstantiveController::class, 'approve_catatanpengawas']);
+    Route::get('Substantive/send_to_pengawas',[SubstantiveController::class, 'send_to_pengawas']);
+    Route::get('Substantive/send_catatan_to_pengawas',[SubstantiveController::class, 'send_catatan_to_pengawas']);
+    Route::get('Substantive/send_to_head',[SubstantiveController::class, 'send_to_head']);
+    Route::get('Substantive/Acc',[SubstantiveController::class, 'acc']);
+    Route::get('Substantive/Edit',[SubstantiveController::class, 'edit']);
+    Route::post('Substantive/proses_approve_pengawas',[SubstantiveController::class, 'proses_approve_pengawas']);
+    Route::post('Substantive/proses_approve_catatan_pengawas',[SubstantiveController::class, 'proses_approve_catatan_pengawas']);
+    Route::post('Substantive/langkah',[SubstantiveController::class, 'save_langkah']);
+    Route::post('Substantive/proses_catatan',[SubstantiveController::class, 'proses_catatan']);
+    Route::get('Substantive/hapus_langkah',[SubstantiveController::class, 'hapus_langkah']);
+    Route::post('Substantive',[SubstantiveController::class, 'save']);
+    Route::post('Substantive/acc_head',[SubstantiveController::class, 'acc_head']);
+    Route::post('Substantive/Update',[SubstantiveController::class, 'update']);
+    Route::post('Substantive/Delete',[SubstantiveController::class, 'delete']);
 });
 
 

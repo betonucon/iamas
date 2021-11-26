@@ -10,7 +10,7 @@
 			<div class="panel panel-inverse" data-sortable-id="form-plugins-1">
 				<!-- begin panel-heading -->
 				<div class="panel-heading">
-					<h4 class="panel-title">List Data</h4>
+					<h4 class="panel-title">LIST DATA</h4>
 					<div class="panel-heading-btn">
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
@@ -22,10 +22,10 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 
-					<div class="btn-group btn-group-justified">
+					<!-- <div class="btn-group btn-group-justified">
 						<a class="btn btn-primary btn-sm active" onclick="create()"><i class="fa fa-plus"></i> Tambah </a>
 						<a class="btn btn-danger btn-sm active" onclick="hapus()"><i class="fa fa-trash"></i> Hapus</a>
-					</div>
+					</div> -->
 					<form id="data-all" enctype="multipart/form-data">
 						@csrf
 						<table id="myTable" class="table table-striped table-bordered table-td-valign-middle">
@@ -36,15 +36,14 @@
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Penerbitan</th>
-									<th width="7%" class="text-nowrap">Status</th>
+									<th width="13%" class="text-nowrap">Status</th>
 									<th width="5%" class="text-nowrap">File</th>
 									
-									<th width="5%" class="text-nowrap">Send</th>
 									<th width="8%" class="text-nowrap">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(audit_get() as $no=>$data)
+								@foreach(compliance_anggota_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td class="boldtd">{{$data->nomorsurat}}</td>
@@ -55,20 +54,14 @@
 											{{$data->stsaudit['name']}}	
 										</td>
 										<td><span onclick="cek_file_audit({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
-										
 										<td>
-											@if($data->sts==1)
-												<span onclick="send_to({{$data->id}})" class="btn btn-purple active btn-sm" Title="Kirim"><i class="fas fa-paper-plane fa-sm"></i></span> 
+											
+											@if($data->sts_compliance>2)
+												<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-yellow active btn-xs">View</span> 
 											@else
-												<i class="fas fa-check fa-sm"></i> 
+												<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-blue active btn-xs">Catatan</span> 
 											@endif
-										</td>
-										<td>
-											@if($data->sts==1)
-												<span onclick="edit({{$data->tiket_id}})" class="btn btn-purple active btn-xs"><i class="fas fa-edit fa-sm"></i> Ubah</span> 
-											@else
-												<span onclick="edit({{$data->tiket_id}})" class="btn btn-green  btn-xs"><i class="fas fa-search fa-sm"></i> View</span> 
-											@endif
+											
 										</td>
 									</tr>
 								@endforeach
@@ -87,18 +80,34 @@
 	<div class="row">
 
 		
-		<div class="modal" id="modalview" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog" id="modal-sedeng">
+		<div class="modal" id="modalubah" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog ">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">view Data</h4>
+						<h4 class="modal-title">Approve</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-						<div id="tampilview"></div>
-						
+						<div id="notifikasiubah"></div>
+						<form id="ubah-data" enctype="multipart/form-data">
+							@csrf
+							<input type="hidden" id="audit_id" name="id">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Status</label>
+								<select class="form-control" name="sts"  onchange="cek_status(this.value)">
+									<option value="">Pilih Status</option>
+									<option value="3">Setujui</option>
+									<option value="2">Kembalikan</option>
+								</select>
+							</div>
+							<div class="form-group" id="alasan">
+								<label for="exampleInputEmail1">Alasan</label>
+								<textarea class="form-control" name="alasan"></textarea>
+							</div>
+						</form>
 					</div>
 					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Simpan</a>
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
@@ -123,6 +132,23 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="modal" id="modalnotif" aria-hidden="true" style="display: none;background: rgb(56 48 48 / 49%);">
+			<div class="modal-dialog" >
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5>Notifikasi</h5>
+						
+					</div>
+					<div class="modal-body" style="">
+						<div id="notifikasi"></div>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white"onclick="tutup_notif()">Tutup</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 @endsection
 @push('ajax')
@@ -138,77 +164,32 @@
 			lengthChange: false,
 		} );
 
+		$('#alasan').hide();
+
+		function tutup_notif(){
+			$('#modalnotif').modal('toggle');
+		}
 		
-		function create(){
-			location.assign("{{url('/Auditplan/Create')}}");
+		function cek_status(a){
+			if(a=='2'){
+				$('#alasan').show();
+			}else if(a=='3'){
+				$('#alasan').hide();
+			}else{
+				$('#alasan').hide();
+			}
 		}
 
-		function edit(a){
-			location.assign("{{url('/Auditplan/Edit')}}?id="+a);
+
+		function create(a){
+			location.assign("{{url('/Compliance/Catatan')}}?id="+a);
 		}
 
-		
 		function cek_file_audit(a){
 			$('#modalfile').modal('show');
 			$('#tampilfile').html("<iframe src='{{url('Auditplan/file')}}?id="+a+"' width='100%' height='600px'></iframe>");
 		}
 
-		function send_to(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Auditplan/send_to_head')}}",
-				data: "id="+a,
-				success: function(msg){
-					location.reload();
-				}
-			}); 
-		}
-
-		
-		function view_data(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Tiket/view')}}",
-				data: "id="+a,
-				success: function(msg){
-					$('#modalview').modal('show');
-					$('#tampilview').html(msg);
-					
-				}
-			}); 
-		}
-
-		
-
-		function hapus(){
-            var form=document.getElementById('data-all');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/Tiket/hapus')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							alert(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
 	</script>
 
 @endpush

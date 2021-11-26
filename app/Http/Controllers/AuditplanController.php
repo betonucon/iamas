@@ -14,29 +14,32 @@ class AuditplanController extends Controller
 {
     public function index(request $request){
         $menu='AuditPlan';
-        return view('Auditplan.index',compact('menu'));
+        $side="auditpengawas";
+        return view('Auditplan.index',compact('menu','side'));
     }
 
     public function index_acc(request $request){
         $menu='AuditPlan';
-        return view('Auditplan.index_acc',compact('menu'));
+        $side="audithead";
+        return view('Auditplan.index_acc',compact('menu','side'));
     }
 
     public function create(request $request){
         $menu='Buat AuditPlan';
-        return view('Auditplan.create',compact('menu'));
+        $side="auditpengawas";
+        return view('Auditplan.create',compact('menu','side'));
     }
 
     public function edit(request $request){
-        
+        $side="auditpengawas";
         $data=Audit::where('tiket_id',$request->id)->first();
         
         if($data['sts_audit']==1){
             $menu='View AuditPlan';
-            return view('Auditplan.edit',compact('menu','data'));
+            return view('Auditplan.edit',compact('menu','data','side'));
         }else{
             $menu='View ';
-            return view('Auditplan.view',compact('menu','data'));
+            return view('Auditplan.view',compact('menu','data','side'));
         }
         
     }
@@ -44,12 +47,13 @@ class AuditplanController extends Controller
     public function acc(request $request){
         
         $data=Audit::where('tiket_id',$request->id)->first();
+        $side="audithead";
         if($data['sts_audit']==1){
             $menu='Approve ';
-            return view('Auditplan.acc_head',compact('menu','data'));
+            return view('Auditplan.acc_head',compact('menu','data','side'));
         }else{
             $menu='View ';
-            return view('Auditplan.view',compact('menu','data'));
+            return view('Auditplan.view',compact('menu','data','side'));
         }
         
         
@@ -67,7 +71,7 @@ class AuditplanController extends Controller
         }
         $anggota.='</select>';
         
-        echo $data['name'].'@'.$data['kode_unit'].'@'.$data->unitkerja['name'].'@'.$pengawas->user['name'].'@'.$ketua->user['name'].'@'.$anggota;
+        echo $data['name'].'@'.$data['kode_unit'].'@'.$data->unitkerja['name'].'@'.$pengawas->user['name'].'@'.$ketua->user['name'].'@'.$anggota.'@'.$data['sampai'].'@';
         
         echo'
             <script>
@@ -78,6 +82,12 @@ class AuditplanController extends Controller
     }
 
     
+    public function send_to_head(request $request){
+        $data=Audit::where('id',$request->id)->update([
+            'sts'=>2,
+            'tgl_sts2'=>date('Y-m-d'),
+        ]);
+    }
     public function save(request $request){
 
         if (trim($request->tiket_id) == '') {$error[] = '- Pilih Surat Tugas';}
@@ -119,6 +129,7 @@ class AuditplanController extends Controller
                     'bulan'=>date('m'),
                     'tahun'=>date('Y'),
                     'tanggal'=>date('Y-m-d'),
+                    'tgl_sts1'=>date('Y-m-d'),
                     'kode_unit'=>$surat['kode_unit'],
                     'sts'=>1,
                     'sts_audit'=>1,
@@ -203,10 +214,24 @@ class AuditplanController extends Controller
     }
 
     public function acc_head(request $request){
-        $acc=Audit::where('tiket_id',$request->tiket_id)->update([
-            'sts_audit'=>2,
-        ]);
-        echo'ok';
+        if (trim($request->sts) == '') {$error[] = '- Pilih Status';}
+        if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+        else{
+            if($request->sts==2){
+                $acc=Audit::where('id',$request->id)->update([
+                    'sts'=>1,
+                    'alasan_head'=>$request->alasan,
+                ]);
+                echo'ok';
+            }else{
+                $acc=Audit::where('id',$request->id)->update([
+                    'sts'=>$request->sts,
+                    'tgl_sts3'=>date('Y-m-d'),
+                ]);
+                echo'ok';
+            }
+        }
+        
     }
 
     public function hapus(request $request){
@@ -217,5 +242,13 @@ class AuditplanController extends Controller
         else{
             
         }
+    }
+
+    public function file(request $request){
+        $data=Audit::where('id',$request->id)->first();
+        $tim=Timaudit::where('tiket_id',$data['tiket_id'])->where('role_id','!=',6)->orderBy('id','Asc')->get();
+        $pdf = PDF::loadView('pdf.auditplan', compact('data','tim'));
+        $pdf->setPaper('A4', 'Potrait');
+        return $pdf->stream();
     }
 }

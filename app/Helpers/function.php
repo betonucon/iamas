@@ -31,6 +31,13 @@ function bulan($bulan)
    return $bulan;
 }
 
+function coder($id){
+   return base64_encode(base64_encode($id));
+}
+function encoder($id){
+   return base64_decode(base64_decode($id));
+}
+
 function bulan_indo(){
    $data=date('d').' '.bulan(date('m')).' '.date('Y');
    return $data;
@@ -276,7 +283,7 @@ function tiket_get_tiket(){
 }
 
 function tiket_get_tiket_acc_pengawas(){
-    $data=App\Surattugas::whereIn('sts',array('3','4','5'))->whereIn('tiket_id',array_tiket_pengawas())->orderBy('id','Desc')->get();
+    $data=App\Surattugas::where('sts','>',2)->whereIn('tiket_id',array_tiket_pengawas())->orderBy('id','Desc')->get();
     return $data;
 }
 function tiket_get_tiket_acc_head(){
@@ -370,6 +377,15 @@ function array_tiket_anggota(){
     return $data;
 }
 
+function array_tiket_ketua(){
+   $data  = array_column(
+      App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',1)
+      ->get()
+      ->toArray(),'tiket_id'
+   );
+    return $data;
+}
+
 function array_tiket_pengawas(){
    $data  = array_column(
       App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',2)
@@ -454,6 +470,142 @@ function audit_get(){
    return $data;
 }
 
+function audit_head_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_head())->where('sts','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+//--deskaudit
+
+function langkah_deskaudit($id){
+   $data=App\Desklangkahkerja::where('deskaudit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+
+function deskaudit_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',2)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function deskaudit_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_deskaudit','>',0)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function deskaudit_anggota_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts_deskaudit','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function deskaudit_catatan_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts_deskaudit','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function deskaudit_catatan_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_deskaudit','>',2)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+//--Compliance
+
+function langkah_compliance($id){
+   $data=App\Complangkahkerja::where('compliance_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+
+function compliance_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',4)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function compliance_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_compliance','>',0)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function compliance_anggota_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts_compliance','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function compliance_catatan_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts_compliance','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function compliance_catatan_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_compliance','>',2)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+//--Substantive
+
+function langkah_substantive($id){
+   $data=App\Subslangkahkerja::where('substantive_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+
+function substantive_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',6)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function substantive_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_substantive','>',0)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function substantive_anggota_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts_substantive','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function substantive_catatan_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts_substantive','>',1)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function substantive_catatan_pengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_substantive','>',2)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+
+//---
+
 function cek_aktivitas($id){
    
    $data=App\Sumber::where('kode',$id)->first();
@@ -500,6 +652,8 @@ function user_get($peg){
     
     return $data;
 }
+
+
 
 
 

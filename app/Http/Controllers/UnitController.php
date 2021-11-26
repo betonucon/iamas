@@ -8,7 +8,8 @@ class UnitController extends Controller
 {
     public function index(request $request){
         $menu='Unit Kerja';
-        return view('unitkerja.index',compact('menu'));
+        $side="master";
+        return view('unitkerja.index',compact('menu','side'));
     }
 
     public function ubah(request $request){
