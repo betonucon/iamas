@@ -37,6 +37,7 @@ class Tiket extends Model
         'kode_laporan',
         'tanggal_tiket_approve_head',
         'catatan_tiket',
+        'kode_unit',
         
 
     ];
@@ -52,5 +53,8 @@ class Tiket extends Model
     }
     function aktifitas(){
       return $this->belongsTo('App\Aktivitas','kode_aktivitas','kode');
+    }
+    function unitkerja(){
+      return $this->belongsTo('App\Unitkerja','kode_unit','kode');
     }
 }

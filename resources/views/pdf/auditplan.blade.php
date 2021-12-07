@@ -66,7 +66,7 @@
             </tr>
             <tr>
                 <td class="ttd" >Periode Audit</td>
-                <td class="ttd" >:</td>
+                <td class="ttd" >: {{$data->surattugas['tgl_approval']}}</td>
             </tr>
             <tr>
                 <td colspan="2"  class="ttd" ><hr></td>
@@ -132,6 +132,10 @@
             <tr>
                 <td class="ttd" ></td>
                 <td class="ttds" >
+                    <?php
+                        $total=(selisih_hari($data->tgl_deskaudit_program_start,$data->tgl_deskaudit_program_end)+selisih_hari($data->tgl_deskaudit_hasil_start,$data->tgl_deskaudit_hasil_end)+selisih_hari($data->tgl_compliance_program_start,$data->tgl_compliance_program_end)+selisih_hari($data->tgl_compliance_hasil_start,$data->tgl_compliance_hasil_end)+selisih_hari($data->tgl_substantive_program_start,$data->tgl_substantive_program_end)+selisih_hari($data->tgl_substantive_hasil_start,$data->tgl_substantive_hasil_end)+selisih_hari($data->tgl_lha_start,$data->tgl_lha_end)+selisih_hari($data->tgl_lha_draf_start,$data->tgl_lha_draf_end)+selisih_hari($data->tgl_lha_finis_start,$data->tgl_lha_finis_end));
+
+                    ?>
                     <table width="100%" border="1">
                         <tr>
                             <td class="ttds" align="center" rowspan="2" width="5%">NO</td>
@@ -240,6 +244,10 @@
                             <td align="center" class="ttds">{{$data->tgl_lha_finis_start}}</td>
                             <td align="center" class="ttds">{{$data->tgl_lha_finis_end}}</td>
                             <td align="center" class="ttds">{{selisih_hari($data->tgl_lha_finis_start,$data->tgl_lha_finis_end)}}</td>
+                        </tr>
+                        <tr>
+                            <td class="ttds" colspan="4">Total</td>
+                            <td align="center" class="ttds">{{$total}}</td>
                         </tr>
                         
                     </table>

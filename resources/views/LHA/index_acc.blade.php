@@ -38,12 +38,11 @@
 									<th width="7%" class="text-nowrap">Penerbitan</th>
 									<th width="5%" class="text-nowrap">File</th>
 									<th width="13%" class="text-nowrap">Status</th>
-									<th width="5%" class="text-nowrap"></th>
 									<th width="8%" class="text-nowrap">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(compliance_get() as $no=>$data)
+								@foreach(audit_head_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td class="boldtd">{{$data->nomorsurat}}</td>
@@ -55,27 +54,10 @@
 											{{$data->stsaudit['name']}}	
 										</td>
 										<td>
-											@if($data->sts==5)
-												@if($data->sts_compliance==null)
-													<span onclick="send_to({{$data->id}})" class="btn btn-purple active btn-xs" Title="Kirim"><i class="fas fa-paper-plane fa-sm"></i></span> 
-												@else
-													<i class="fas fa-check fa-sm"></i> 
-												@endif
+											@if($data->sts==2)
+												<span onclick="approve({{$data->id}})" class="btn btn-purple active btn-xs">Approve</span> 
 											@else
 												<i class="fas fa-check fa-sm"></i> 
-											@endif
-										</td>
-										<td>
-											@if($data->sts==5)
-												@if($data->sts_compliance==null)
-													<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-green active btn-xs">Program</span> 
-												@else
-													<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-yellow active btn-xs">View</span> 
-												@endif
-												
-											@else
-												<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-yellow active btn-xs">View</span> 
-												
 											@endif
 										</td>
 									</tr>
@@ -147,23 +129,6 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="modal" id="modalnotif" aria-hidden="true" style="display: none;background: rgb(56 48 48 / 49%);">
-			<div class="modal-dialog" >
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5>Notifikasi</h5>
-						
-					</div>
-					<div class="modal-body" style="">
-						<div id="notifikasi"></div>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white"onclick="tutup_notif()">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 @endsection
 @push('ajax')
@@ -180,34 +145,6 @@
 		} );
 
 		$('#alasan').hide();
-
-		function send_to(a){
-			
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Compliance/send_to_pengawas')}}",
-				data: "id="+a,
-				beforeSend: function() {
-					document.getElementById("loadnya").style.width = "100%";
-				},
-				success: function(msg){
-					if(msg=='ok'){
-						location.reload();
-							
-					}else{
-						document.getElementById("loadnya").style.width = "0px";
-						$('#modalnotif').modal('show');
-						document.getElementById("notifikasi").style.width = "100%";
-						$('#notifikasi').html(msg);
-					}
-					
-					
-				}
-			}); 
-		}
-		function tutup_notif(){
-			$('#modalnotif').modal('toggle');
-		}
 		
 		function cek_status(a){
 			if(a=='2'){
@@ -219,6 +156,10 @@
 			}
 		}
 
+		function cek_file_audit(a){
+			$('#modalfile').modal('show');
+			$('#tampilfile').html("<iframe src='{{url('Auditplan/file')}}?id="+a+"' width='100%' height='600px'></iframe>");
+		}
 		function ubah_data(){
             var form=document.getElementById('ubah-data');
             
@@ -238,9 +179,8 @@
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
-							$('#modalnotif').modal('show');
-							document.getElementById("notifikasi").style.width = "100%";
-							$('#notifikasi').html(msg);
+							document.getElementById("notifikasiubah").style.width = "100%";
+							$('#notifikasiubah').html(msg);
                         }
                         
                         
@@ -249,8 +189,8 @@
 
         }
 
-		function create(a){
-			location.assign("{{url('/Compliance/Create')}}?id="+a);
+		function create(){
+			location.assign("{{url('/Auditplan/Create')}}");
 		}
 
 		function acc(a){
@@ -258,9 +198,9 @@
 		}
 
 		
-		function cek_file_audit(a){
+		function cek_file(a){
 			$('#modalfile').modal('show');
-			$('#tampilfile').html("<iframe src='{{url('Auditplan/file')}}?id="+a+"' width='100%' height='600px'></iframe>");
+			$('#tampilfile').html("<iframe src='{{url('_file_lampiran')}}/"+a+"?v={{date('ymdhis')}}' width='100%' height='600px'></iframe>");
 		}
 
 		function cek_sumber(a){
@@ -303,7 +243,7 @@
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
-							
+							alert(msg);
                         }
                         
                         

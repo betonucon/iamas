@@ -63,7 +63,7 @@ function selisih_hari($mulai,$sampai){
        $end++;
        $i++;
    }  
-   return $x;
+   return ($x+1);
 }
 
 function nilai_plan($id){
@@ -466,6 +466,20 @@ function surat_tugas_get(){
 function audit_get(){
    
    $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+
+function audit_lha_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts',9)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+// ===Lha
+function lha_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',9)->orderBy('id','Desc')->get();
     
    return $data;
 }

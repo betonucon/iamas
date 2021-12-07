@@ -75,7 +75,7 @@
 													<option value="">Pilih Surat Tugas</option>
 													@foreach(surat_tugas_get() as $surat_tugas_get)
 														
-														<option value="{{$surat_tugas_get['tiket_id']}}" >[{{$surat_tugas_get['nomortiket']}}]</option>
+														<option value="{{$surat_tugas_get['tiket_id']}}" >[{{$surat_tugas_get['nomorsurat']}}] {{$surat_tugas_get['name']}}</option>
 													@endforeach
 												</select>
 											</div>

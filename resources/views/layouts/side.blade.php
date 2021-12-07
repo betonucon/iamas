@@ -115,8 +115,17 @@
                                     Substantive Test
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Substantivepengawas')}}">Program</a></li>
+                                    <li><a href="{{url('/Lha')}}">Program</a></li>
                                     <li><a href="{{url('/Substantivecatatanpengawas')}}">Catatan</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-sub expand">
+                                <a href="javascript:;">
+                                    <b class="caret"></b>
+                                    LHA
+                                </a>
+                                <ul class="sub-menu" style="display: block;">
+                                    <li><a href="{{url('/Lha')}}">Program</a></li>
                                 </ul>
                             </li>
                             

@@ -55,6 +55,9 @@ class Audit extends Model
     function unitkerja(){
         return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');
     }
+    function surattugas(){
+        return $this->belongsTo('App\Surattugas','tiket_id','tiket_id');
+    }
     function stsaudit(){
         return $this->belongsTo('App\Stsaudit','sts','id');
     }

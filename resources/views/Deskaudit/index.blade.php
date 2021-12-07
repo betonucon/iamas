@@ -74,7 +74,7 @@
 												@endif
 												
 											@else
-												<i class="fas fa-check fa-sm"></i> 
+												<span onclick="create(`{{coder($data->id)}}`)" class="btn btn-yellow active btn-xs">View</span>
 												
 											@endif
 										</td>

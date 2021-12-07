@@ -11,6 +11,7 @@ use App\Http\Controllers\AuditplanController;
 use App\Http\Controllers\DeskauditController;
 use App\Http\Controllers\ComplianceController;
 use App\Http\Controllers\SubstantiveController;
+use App\Http\Controllers\LhaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -105,6 +106,21 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('Auditplan/acc_head',[AuditplanController::class, 'acc_head']);
     Route::post('Auditplan/Update',[AuditplanController::class, 'update']);
     Route::post('Auditplan/Delete',[AuditplanController::class, 'delete']);
+});
+
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Lha',[LhaController::class, 'index']);
+    Route::get('Lha/file',[LhaController::class, 'file']);
+    Route::get('AccLha',[LhaController::class, 'index_acc']);
+    Route::get('Lha/pilih_surat_tugas',[LhaController::class, 'pilih_surat_tugas']);
+    Route::get('Lha/Create',[LhaController::class, 'create']);
+    Route::get('Lha/send_to_head',[LhaController::class, 'send_to_head']);
+    Route::get('Lha/Acc',[LhaController::class, 'acc']);
+    Route::get('Lha/Edit',[LhaController::class, 'edit']);
+    Route::post('Lhasimpan',[LhaController::class, 'save']);
+    Route::post('Lha/acc_head',[LhaController::class, 'acc_head']);
+    Route::post('Lha/Update',[LhaController::class, 'update']);
+    Route::post('Lha/Delete',[LhaController::class, 'delete']);
 });
 
 Route::group(['middleware'    => 'auth'],function(){

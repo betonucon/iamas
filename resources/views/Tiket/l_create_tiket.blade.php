@@ -93,7 +93,7 @@
 									<div class="col-xl-12">
 										<div class="form-group">
 											<label for="exampleInputEmail1">Judul</label>
-											<input type="text" class="form-control" name="judul" id="judul_1"placeholder="Enter text ...">
+											<input type="text" class="form-control" name="judul" placeholder="Enter text ...">
 										</div>
 										<div class="form-group">
 											<label for="exampleInputEmail1">Isi</label>
@@ -107,16 +107,19 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Obyek Audit /Non Audit</label>
 											<div class="col-lg-9 col-xl-9">
-												<input type="text" class="form-control" id="judul_2" name="name"  placeholder="Ketik...">
+												<input type="text" class="form-control" name="name"  placeholder="Ketik...">
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja</label>
 											<div class="col-lg-9 col-xl-6">
-												<div class="col-lg-9 col-xl-9">
-													<input type="text"disabled class="form-control" id="nama_unit"  placeholder="Ketik...">
-													<input type="hidden" class="form-control" name="kode_unit"  id="kode_unit" placeholder="Ketik...">
-												</div>
+												<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
+													<option value="">--Pilih Unit Kerja</option>
+													@foreach(unitkerja_get() as $no=>$unitkerja_get)
+														<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+													@endforeach
+													
+												</select>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -497,14 +500,10 @@
 			$('#modalsumber').modal('toggle');
 		}
 
-		function cek_pilih_sumber(a,id,kode_unit,nama_unit,judul){
+		function cek_pilih_sumber(a,id){
 			var kode_aktivitas=$('#kode_aktivitas').val();
 			$('#sumbernya').val(a);
 			$('#tiket_id').val(id);
-			$('#kode_unit').val(kode_unit);
-			$('#nama_unit').val(nama_unit);
-			$('#judul_1').val(judul);
-			$('#judul_2').val(judul);
 			$.ajax({
 				type: 'GET',
 				url: "{{url('TiketNew/tampil_tim')}}",

@@ -72,11 +72,11 @@
                     <table width="80%">
                         <tr>
                             <td class="td" width="25%">Obyek Audit </td>
-                            <td class="td">Nama</td>
+                            <td class="td">{{$data->name}}</td>
                         </tr>
                         <tr>
                             <td class="td">Lokasi</td>
-                            <td class="td">{{$data->surattugas['name']}}</td>
+                            <td class="td">Cilegon</td>
                         </tr>
                         <tr>
                             <td class="td">Kode Audit</td>

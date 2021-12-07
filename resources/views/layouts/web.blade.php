@@ -52,8 +52,7 @@
 			z-index: 1070;
 			top: 0;
 			left: 0;
-			background-color: rgb(0,0,0);
-			background-color: rgb(0 0 0 / 55%);
+			background-color: rgb(181 167 167 / 79%);
 			overflow-x: hidden;
 			transition: transform .9s;
 		}
@@ -107,7 +106,7 @@
 	<div id="loadnya" class="loadnya">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <div class="loadnya-content">
-            
+			<img src="{{url('img/loading.gif')}}" width="30%">
         </div>
 	</div> 
 	<!-- begin #page-container -->
