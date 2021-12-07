@@ -971,7 +971,6 @@ class TiketController extends Controller
         if (trim($request->kode_aktivitas) == '') {$error[] = '- Pilih Aktivitas';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (trim($request->name) == '') {$error[] = '- Isi Obyek Audit';}
-        if (trim($request->kode_unit) == '') {$error[] = '- Pilih Unit Kerja';}
         if (trim($request->kode) == '') {$error[] = '- Pilih Kategori Audit';}
         if (trim($request->mulai) == '') {$error[] = '- Isi Tanggal mulai audit';}
         if (trim($request->sampai) == '') {$error[] = '- Isi Tanggal Selesai audit';}

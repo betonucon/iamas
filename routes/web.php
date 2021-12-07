@@ -22,6 +22,15 @@ use App\Http\Controllers\LhaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/cache-clear', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache facade value cleared</h1>';
+});
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Cache facade value cleared</h1>';
+});
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Unitkerja',[UnitController::class, 'index']);
     Route::get('Unitkerja/ubah',[UnitController::class, 'ubah']);
