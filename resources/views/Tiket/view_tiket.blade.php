@@ -434,31 +434,26 @@
 											<input type="text" class="form-control" value="" name="judul"  placeholder="Enter text ...">
 										</div>
 									</div>
+									
 									<div class="form-group row m-b-10" >
-										<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
-										<div class="col-lg-9 col-xl-9">
-											<input type="text" class="form-control kosong" value="" name="rekomendasi"  placeholder="Enter text ...">
-										</div>
-									</div>
-									<div class="form-group row m-b-10" >
-										<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan</label>
-										<div class="col-lg-9 col-xl-8">
-										<select class="form-control" name="kode_laporan" >
-											<option value="">Pilih Kode Laporan </option>';
-											@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
-												
-											<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
-											@endforeach
-										</select>
-										</div>
-										
-									</div>
-									<div class="form-group row m-b-10" >
-										<label class="col-lg-3 text-lg-right col-form-label">Lampiran & Kodifikasi Rekomendasi</label>
+										<label class="col-lg-3 text-lg-right col-form-label">Lampiran & Kode Laporan</label>
 										<div class="col-lg-9 col-xl-4">
 											<input type="file" class="form-control"  name="lampiran" >
 										</div>
 										<div class="col-lg-9 col-xl-5">
+											<select class="form-control" name="kode_laporan" >
+												<option value="">Pilih Kode Laporan </option>';
+												@foreach(kodifikasilaporan_get($data->kode_aktivitas) as $kodifikasilaporan_get)
+													
+												<option value="{{$kodifikasilaporan_get['kode']}}" >[{{$kodifikasilaporan_get['kode']}}] {{$kodifikasilaporan_get['name']}}</option>
+												@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi Rekomendasi</label>
+										<div class="col-lg-9 col-xl-8">
+											
 											<select class="form-control"   name="kodifikasi_rekomendasi" >
 												<option value="" >Pilih Kodifikasi</option>';
 												@foreach(kodefikasi_get() as $kodefikasi)
@@ -467,6 +462,13 @@
 												@endforeach
 											
 											</select>
+										</div>
+										
+									</div>
+									<div class="form-group row m-b-10" >
+										<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+										<div class="col-lg-9 col-xl-9">
+											<textarea class="textarea form-control" name="rekomendasi" id="textarearekomendasi" placeholder="Enter text ..." rows="12"></textarea>
 										</div>
 									</div>
 									<div class="form-group row m-b-10" >
@@ -527,7 +529,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal" id="modalnotif" aria-hidden="true" style="display: none;background: #ea59597d;">
+		<div class="modal" id="modalnotif" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;background: #ea59597d;">
 			<div class="modal-dialog" >
 				<div class="modal-content">
 					<div class="modal-header">
@@ -538,7 +540,7 @@
 						<div id="notifikasi"></div>
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white"onclick="tutup_notif()">Tutup</a>
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -561,6 +563,7 @@
             });
         });
 		$("#textareatiket").wysihtml5();
+		$("#textarearekomendasi").wysihtml5();
 		$("#textareacatatan").wysihtml5();
 		$('#myTable').DataTable( {
 			responsive: true,
@@ -636,7 +639,7 @@
 			
 		}
 		function tutup_notif(){
-			$('#modalnotif').modal('toggle');
+			$('#modalnotif').modal('hide');
 		}
 		function tutup_sumber(){
 			$('#modalsumber').modal('toggle');

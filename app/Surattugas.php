@@ -31,6 +31,7 @@ class Surattugas extends Model
         'tahun',
         'tanggal',
         'kode_unit',
+        'lokasi_id',
         'sts',
         'kodifikasi_rekomendasi',
         'rekomendasi',
@@ -45,6 +46,9 @@ class Surattugas extends Model
     }
     function tiket(){
         return $this->belongsTo('App\Tiket','tiket_id','id');
+    }
+    function lokasi(){
+        return $this->belongsTo('App\Lokasi','lokasi_id','id');
     }
     
 }

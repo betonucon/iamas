@@ -20,7 +20,7 @@
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
 					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" style="background: #bfbfd3">
 					<div id="nv-bar-chart" class="height-sm"></div>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
 					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" style="background:#bfbfd3">
 					<div id="nv-bar-chart-rekomendasi" class="height-sm"></div>
 				</div>
 			</div>

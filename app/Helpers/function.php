@@ -42,6 +42,10 @@ function bulan_indo(){
    $data=date('d').' '.bulan(date('m')).' '.date('Y');
    return $data;
 }
+function uang($id){
+   $data=number_format($id,2);
+   return $data;
+}
 
 function selisih_hari($mulai,$sampai){
    $begin = new DateTime($mulai);
@@ -66,57 +70,65 @@ function selisih_hari($mulai,$sampai){
    return ($x+1);
 }
 
-function nilai_plan($id){
-   $data=App\Surattugas::where('id',$id)->first();
-   $begin = new DateTime($data['mulai']);
-   $end = new DateTime($data['sampai']);
+function rekapan_aktivitas_get_dashboard($id,$tahun){
+   $total=(dashboard_nilai_plan($id,$tahun)-dashboard_nilai_real($id,$tahun));
+   return $total;
+
+}
+function dashboard_nilai_plan($id,$tahun){
+   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->get();
+      $nilai=0;
+      foreach($data as $o){
+         $first=App\Surattugas::where('id',$o['id'])->first();
+         $nilai+=selisih_hari($first['mulai'],$first['sampai']);
+      }
+      $nil=uang($nilai/$cek);
+   }else{
+      $nil=0;
+   }
+   return $nil;
+}
+function dashboard_nilai_real($id,$tahun){
+   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->get();
+      $nilai=0;
+      foreach($data as $o){
+         $first=App\Surattugas::where('id',$o['id'])->first();
+         $nilai+=selisih_hari($first['tgl_head'],$first['tgl_approval']);
+      }
+      $nil=uang($nilai/$cek);
+   }else{
+      $nil=0;
+   }
+   return $nil;
+}
+function nilai_plan($id,$tahun){
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
+      return selisih_hari($data['mulai'],$data['sampai']);
+   }else{
+      return 0;
+   }
+      
    
-   $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
-   $i=0;
-   $x     =    0;
-   $end     =    1;
+}
+function nilai_real($id,$tahun){
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
+      return selisih_hari($data['tgl_head'],$data['tgl_approval']);
+   }else{
+      return 0;
+   }
+      
    
-   foreach($daterange as $date){
-      $daterange     = $date->format("Y-m-d");
-      $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
-      $day         = $datetime->format('D');
-      if($day!="Sun" && $day!="Sat") {
-           $x    +=    $end-$i;
-           
-       }
-       $end++;
-       $i++;
-   }  
-   return $x;
 }
 
-function nilai_real($id){
-   $data=App\Surattugas::where('id',$id)->first();
-   if($data['sts']==5){
-      $begin = new DateTime($data['tgl_head']);
-      $end = new DateTime($data['tgl_approval']);
-      
-      $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
-      $i=0;
-      $x     =    0;
-      $end     =    1;
-      
-      foreach($daterange as $date){
-         $daterange     = $date->format("Y-m-d");
-         $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
-         $day         = $datetime->format('D');
-         if($day!="Sun" && $day!="Sat") {
-            $x    +=    $end-$i;
-            
-         }
-         $end++;
-         $i++;
-      }  
-      return $x;
-   }else{
-      return '0';
-   }
-}
+
 
 function tgl_indo($tgl){
    $tg=explode('-',$tgl);
@@ -156,6 +168,10 @@ function kode_bulan($bulan)
 
 function head_of(){
    $data=App\User::where('posisi_id',1)->first();
+   return $data;
+}
+function lokasi_get(){
+   $data=App\Lokasi::orderBy('name','Asc')->get();
    return $data;
 }
 function nik_pengawas($id){
@@ -251,6 +267,94 @@ function judul_get($tiket){
     $data=App\Judul::where('tiket_id',$tiket)->orderBy('id','Asc')->get();
     return $data;
 }
+//--notif-----------------------------------
+
+function notif_tiket_gl(){
+   $data=App\Tiket::whereIn('sts',array('2'))->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_sumber_gl(){
+   $data=App\Tiket::where('sts',0)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_sumber_head(){
+   $data=App\Tiket::where('sts',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_tiket_head(){
+   $data=App\Surattugas::whereIn('tiket_id',array_tiket_head())->where('sts',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_auditplan_pengawas(){
+   $data=App\Surattugas::whereIn('tiket_id',array_tiket_pengawas())->whereIn('kode_aktivitas',array('04','05','06'))->where('sts',5)->count();
+    
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_auditplan_head(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_head())->where('sts',2)->count();
+    
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_deskaudit_program_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',2)->where('sts_deskaudit',null)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_deskaudit_catatan_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',2)->where('sts_deskaudit',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+function notif_deskaudit_program_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',2)->where('sts_deskaudit',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+
+//--end notif-----------------------------------
 
 function sumbertiket_get($id){
    if($id=='01'){
@@ -300,8 +404,12 @@ function pertama_aktivitas_get(){
     return $data;
 }
 
-function aktivitas_get_dashboard($kode){
-    $data=App\Surattugas::where('kode_aktivitas',$kode)->orderBy('kode_aktivitas','Asc')->get();
+function aktivitas_get_dashboard($kode,$tahun){
+    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->orderBy('kode_aktivitas','Asc')->get();
+    return $data;
+}
+function total_aktivitas_get_dashboard($kode,$tahun){
+    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->count();
     return $data;
 }
 

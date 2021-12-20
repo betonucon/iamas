@@ -29,8 +29,8 @@
 
             <!-----Menu GL Untuk Tiket---->
             @if(Auth::user()->posisi_id==12)
-                <li><a href="{{url('TiketGL')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
-                <li><a href="{{url('TiketNew')}}"><i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
+                <li><a href="{{url('TiketGL')}}">{!! notif_sumber_gl()!!}<i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                <li><a href="{{url('TiketNew')}}">{!! notif_tiket_gl() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
             @endif
 
             <!-----Menu Anggota Untuk Tiket---->
@@ -46,8 +46,8 @@
             <!-----Menu Head Untuk Tiket---->
             @if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13)
                 @if(Auth::user()->posisi_id==1)
-                <li><a href="{{url('TiketHD')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
-                <li><a href="{{url('TiketNewHead')}}"><i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
+                <li><a href="{{url('TiketHD')}}">{!! notif_sumber_head()!!}<i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                <li><a href="{{url('TiketNewHead')}}">{!! notif_tiket_head() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
                 @endif
                 @if(akses_tiket_head()>0)
                 <li><a href="{{url('AccTiketHead')}}"><i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
@@ -58,7 +58,7 @@
                         <span>Persetujuan Audit </span>
                     </a>
                     <ul class="sub-menu" style="display: @if($side=='audithead') block @endif;">
-                        <li><a href="{{url('/AccAuditplan')}}">Audit Plan </a></li>
+                        <li><a href="{{url('/AccAuditplan')}}">{!! notif_auditplan_head() !!} Audit Plan </a></li>
                         <li class="has-sub expand">
                             <a href="javascript:;">
                                 <b class="caret"></b>
@@ -88,14 +88,14 @@
                             <span>Audit Pengawas</span>
                         </a>
                         <ul class="sub-menu" style="display: @if($side=='deskauditpengawas' || $side=='auditpengawas') block @endif;" >
-                            <li><a href="{{url('/Auditplan')}}">Audit Plan</a></li>
+                            <li><a href="{{url('/Auditplan')}}">{!! notif_auditplan_pengawas() !!} Audit Plan</a></li>
                             <li class="has-sub expand">
                                 <a href="javascript:;">
                                     <b class="caret"></b>
                                     DeskAudit
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Deskauditpengawas')}}">Program</a></li>
+                                    <li><a href="{{url('/Deskauditpengawas')}}">{!! notif_deskaudit_program_pengawas() !!} Program</a></li>
                                     <li><a href="{{url('/Deskauditcatatanpengawas')}}">Catatan</a></li>
                                 </ul>
                             </li>
@@ -148,8 +148,8 @@
                                 DeskAudit
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Deskaudit')}}">Program</a></li>
-                                <li><a href="{{url('/Deskauditcatatan')}}">Catatan</a></li>
+                                <li><a href="{{url('/Deskaudit')}}">{!! notif_deskaudit_program_ketua() !!} Program</a></li>
+                                <li><a href="{{url('/Deskauditcatatan')}}">{!! notif_deskaudit_catatan_ketua() !!} Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">

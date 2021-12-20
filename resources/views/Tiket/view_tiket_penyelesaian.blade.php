@@ -98,12 +98,6 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
-											<div class="col-lg-9 col-xl-9">
-												<input type="text" disabled class="form-control kosong" value="{{$data->rekomendasi}}" name="rekomendasi"  placeholder="Enter text ...">
-											</div>
-										</div>
-										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi Rekomendasi</label>
 											<div class="col-lg-9 col-xl-5">
 												<select class="form-control"  disabled name="kodifikasi_rekomendasi" >
@@ -114,6 +108,12 @@
 													@endforeach
 												
 												</select>
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+											<div class="col-lg-9 col-xl-9">
+												<textarea class="textarea form-control" name="rekomendasi" disabled id="textarearekomendasi" placeholder="Enter text ..." rows="12">{!!$data->rekomendasi!!}</textarea>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -184,12 +184,6 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
-											<div class="col-lg-9 col-xl-9">
-												<input type="text" disabled class="form-control kosong" value="{{$data->rekomendasi}}" name="rekomendasi"  placeholder="Enter text ...">
-											</div>
-										</div>
-										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Kodifikasi Rekomendasi</label>
 											<div class="col-lg-9 col-xl-5">
 												<select class="form-control"  disabled name="kodifikasi_rekomendasi" >
@@ -200,6 +194,12 @@
 													@endforeach
 												
 												</select>
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
+											<div class="col-lg-9 col-xl-9">
+												<textarea class="textarea form-control" name="rekomendasi" disabled id="textarearekomendasi" placeholder="Enter text ..." rows="12">{!!$data->rekomendasi!!}</textarea>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -494,6 +494,7 @@
                 
             });
         });
+		$("#textarearekomendasi").wysihtml5();
 		$("#textareatiket").wysihtml5();
 		$("#textareacatatan").wysihtml5();
 		$('#myTable').DataTable( {

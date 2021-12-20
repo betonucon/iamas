@@ -96,6 +96,16 @@
 											<input type="text" class="form-control" name="judul" id="judul_1"placeholder="Enter text ...">
 										</div>
 										<div class="form-group">
+											<label for="exampleInputEmail1">Lokasi</label>
+											<select class="form-control" name="lokasi_id"  style="width:30%">
+												<option value="">Pilih Lokasi</option>
+												@foreach(lokasi_get() as $lokasi)
+													
+													<option value="{{$lokasi->id}}" >{{$lokasi->name}}</option>
+												@endforeach
+											</select>
+										</div>
+										<div class="form-group">
 											<label for="exampleInputEmail1">Isi</label>
 											<textarea class="textarea form-control" name="keterangan" id="textareatiket" placeholder="Enter text ..." rows="8"></textarea>
 										</div>
@@ -113,10 +123,13 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja</label>
 											<div class="col-lg-9 col-xl-6">
-												<div class="col-lg-9 col-xl-9">
-													<input type="text"disabled class="form-control" id="nama_unit"  placeholder="Ketik...">
-													<input type="hidden" class="form-control" name="kode_unit"  id="kode_unit" placeholder="Ketik...">
-												</div>
+												<select class="default-select2 form-control" id="kode_unit" name="kode_unit" placeholder="Pilih Unit Kerja">
+													<option value="">--Pilih Unit Kerja</option>
+													@foreach(unitkerja_get() as $no=>$unitkerja_get)
+														<option value="{{$unitkerja_get->kode}}">{{ucwords($unitkerja_get->name)}}</option>
+													@endforeach
+													
+												</select>
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
@@ -140,13 +153,7 @@
 												<input type="text" class="form-control"  name="sampai"  id="tanggalpicker2" placeholder="Ketik...">
 											</div>
 										</div>
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Catatan Penting</label>
-											<div class="col-lg-9 col-xl-9">
-												<textarea class="textarea form-control" name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8"></textarea>
-											</div>
-											
-										</div>
+										
 									</div>
 								</div>
 								<div class="tab-pane fade" id="default-tab-3">
@@ -501,10 +508,13 @@
 			var kode_aktivitas=$('#kode_aktivitas').val();
 			$('#sumbernya').val(a);
 			$('#tiket_id').val(id);
-			$('#kode_unit').val(kode_unit);
-			$('#nama_unit').val(nama_unit);
-			$('#judul_1').val(judul);
-			$('#judul_2').val(judul);
+			if(kode_aktivitas=='04' || kode_aktivitas=='05' || kode_aktivitas=='06'){
+				$('#kode_unit').html('<option value="'+kode_unit+'">'+nama_unit+'</option>');
+				$('#judul_1').val(judul);
+				$('#judul_2').val(judul);
+				
+			}
+			
 			$.ajax({
 				type: 'GET',
 				url: "{{url('TiketNew/tampil_tim')}}",

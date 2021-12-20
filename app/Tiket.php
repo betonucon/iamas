@@ -37,6 +37,7 @@ class Tiket extends Model
         'kode_laporan',
         'tanggal_tiket_approve_head',
         'catatan_tiket',
+        'lokasi_id',
         'kode_unit',
         
 
@@ -44,6 +45,9 @@ class Tiket extends Model
 
     function sumber(){
 		  return $this->belongsTo('App\Sumber','kode_sumber','kode');
+    }
+    function lokasi(){
+		  return $this->belongsTo('App\Lokasi','lokasi_id','id');
     }
     function surattugas(){
 		  return $this->belongsTo('App\Surattugas','id','tiket_id');

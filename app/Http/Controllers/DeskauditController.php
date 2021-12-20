@@ -189,8 +189,8 @@ class DeskauditController extends Controller
         $data=Desklangkahkerja::where('id',$request->id)->first();
         echo'
             <div class="form-group">
-                <label>Tanggal</label>
-                <input type="text" placeholder="yyyy-mm-dd" class="form-control" name="tanggal_aktual" value="'.$data['tanggal_aktual'].'" style="width:20%" id="tgl_langkahkerja" />
+                <label>Lampiran</label>
+                <input type="file" placeholder="yyyy-mm-dd" class="form-control" name="file" style="width:40%"  />
             </div>
             <div class="form-group">
                 <label>Catatan</label>
@@ -283,15 +283,24 @@ class DeskauditController extends Controller
     }
 
     public function proses_catatan(request $request){
-        if (trim($request->tanggal_aktual) =='') {$error[] = '- Isi Tanggal aktual';}
+        if (trim($request->file) =='') {$error[] = '- Upload file lampiran';}
         if (trim($request->catatan) =='') {$error[] = '- Isi Catatan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $data=Desklangkahkerja::where('id',$request->id)->update([
-                'catatan'=>$request->catatan,
-                'tanggal_aktual'=>$request->tanggal_aktual,
-            ]);
-            echo 'ok';
+            $image = $request->file('file');
+            $size = $image->getSize();
+            $imageFileName ='catatanlangkah'.$request->id.'.'. $image->getClientOriginalExtension();
+            $filePath =$imageFileName;
+            $file = \Storage::disk('public_uploads');
+           
+            if($file->put($filePath, file_get_contents($image))){
+                $data=Desklangkahkerja::where('id',$request->id)->update([
+                    'catatan'=>$request->catatan,
+                    'tanggal_aktual'=>date('Y-m-d'),
+                    'file'=>$filePath,
+                ]);
+                echo 'ok';
+            }
         }
     }
 

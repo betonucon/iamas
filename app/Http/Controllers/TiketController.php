@@ -798,8 +798,8 @@ class TiketController extends Controller
                 if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
                 if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
                 if (trim($request->risiko) == '') {$error[] = '- Tentukan Risiko';}
-                if (trim($request->rekomendasi) == '') {$error[] = '- Pilih rekomendasi';}
-                if (trim($request->rekomendasi) == '') {$error[] = '- Pilih rekomendasi';}
+                if (trim($request->kodifikasi_rekomendasi) == '') {$error[] = '- Pilih kode rekomendasi';}
+                if (trim($request->rekomendasi) == '') {$error[] = '- Isi rekomendasi';}
                 if (trim($request->kode_laporan) == '') {$error[] = '- Pilih kode laporan';}
                 if (trim($request->lampiran) == '') {$error[] = '- Upload file Lampiran';}
                 if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
@@ -966,15 +966,16 @@ class TiketController extends Controller
     public function simpan_tiket(request $request){
         error_reporting(0);
         if (trim($request->tiket_id) == '') {$error[] = '-Pilih Sumber';}
+        if (trim($request->lokasi_id) == '') {$error[] = '-Pilih Lokasi';}
         if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
         if (trim($request->lampiran) == '') {$error[] = '- Upload file Lampiran';}
         if (trim($request->kode_aktivitas) == '') {$error[] = '- Pilih Aktivitas';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (trim($request->name) == '') {$error[] = '- Isi Obyek Audit';}
+        if (trim($request->kode_unit) == '') {$error[] = '- Pilih Unit Kerja';}
         if (trim($request->kode) == '') {$error[] = '- Pilih Kategori Audit';}
         if (trim($request->mulai) == '') {$error[] = '- Isi Tanggal mulai audit';}
         if (trim($request->sampai) == '') {$error[] = '- Isi Tanggal Selesai audit';}
-        if (trim($request->catatan) == '') {$error[] = '- Isi Catatan Penting';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             $count=Surattugas::where('kode_aktivitas',$request->kode_aktivitas)->count();
@@ -1016,11 +1017,11 @@ class TiketController extends Controller
                                         'tiket_id'=>$tiket['id'],
                                         'nomortiket'=>$nomortiket,
                                         'kode_sumber'=>$tiket['kode_sumber'],
+                                        'lokasi_id'=>$request->lokasi_id,
                                         'kode_aktivitas'=>$request->kode_aktivitas,
                                         'kode_unit'=>$request->kode_unit,
                                         'mulai'=>$request->mulai,
                                         'sampai'=>$request->sampai,
-                                        'catatan'=>$request->catatan,
                                         'kode'=>$request->kode,
                                         'nomorsurat'=>$nomorsurat,
                                         'bulan'=>date('m'),
@@ -1035,6 +1036,7 @@ class TiketController extends Controller
                                             'kode_aktivitas'=>$request->kode_aktivitas,
                                             'bulan_tiket'=>date('m'),
                                             'tahun_tiket'=>date('Y'),
+                                            'lokasi_id'=>$request->lokasi_id,
                                             'keterangan_tiket'=>$request->keterangan,
                                             'lampiran_tiket'=>$filePath,
                                             'sts'=>$sts1,
@@ -1268,19 +1270,20 @@ class TiketController extends Controller
 
     public function approve_tiket(request $request){
         if(Auth::user()['posisi_id']==1){
-            $surat=Surattugas::where('tiket_id',$request->tiket_id)->first();
-            if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='05' ){
-                $sts1=5;
-            }else{
-                $sts1=2;
-            }
-            $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
-                'sts'=>$sts1,
-                'tanggal_tiket_approve_head'=>date('Y-m-d'),
-                'tgl_head'=>date('Y-m-d'),
-            ]);
-            
-            echo'ok';
+                $surat=Surattugas::where('tiket_id',$request->tiket_id)->first();
+                if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='05' ){
+                    $sts1=5;
+                }else{
+                    $sts1=2;
+                }
+                $data=Surattugas::where('tiket_id',$request->tiket_id)->where('sts',1)->update([
+                    'sts'=>$sts1,
+                    'catatan'=>$request->catatan,
+                    'tanggal_tiket_approve_head'=>date('Y-m-d'),
+                    'tgl_head'=>date('Y-m-d'),
+                ]);
+                
+                echo'ok';
            
         }
         if(Auth::user()['posisi_id']==13){

@@ -29,9 +29,7 @@
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
 
-						<form id="tambah-data" action="{{url('/TiketNew/Edit')}}" method="post" enctype="multipart/form-data">
-							@csrf
-							<input type="hidden" name="tiket_id" value="{{$data->id}}">
+						
 							<ul class="nav nav-tabs">
 								<li class="nav-item">
 									<a href="#default-tab-1" data-toggle="tab" class="nav-link active">
@@ -49,6 +47,12 @@
 									<a href="#default-tab-3" data-toggle="tab" class="nav-link">
 										<span class="d-sm-none">Tab 3</span>
 										<span class="d-sm-block d-none">Tim Audit</span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="#default-tab-4" data-toggle="tab" class="nav-link">
+										<span class="d-sm-none">Tab 4</span>
+										<span class="d-sm-block d-none">Lampiran</span>
 									</a>
 								</li>
 								
@@ -141,13 +145,7 @@
 												<input type="text" class="form-control" disabled name="sampai"  value="{{$data->surattugas['sampai']}}" id="tanggalpicker2" placeholder="Ketik...">
 											</div>
 										</div>
-										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Catatan Penting</label>
-											<div class="col-lg-9 col-xl-9">
-												<textarea class="textarea form-control" disabled name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8">{!!$data->surattugas['catatan']!!}</textarea>
-											</div>
-											
-										</div>
+										
 									</div>
 								</div>
 								<div class="tab-pane fade" id="default-tab-3">
@@ -195,6 +193,10 @@
 									</div>
 									
 								</div>
+								<div class="tab-pane fade" id="default-tab-4">
+									<label>Lampiran </label>
+									<iframe src="{{url('_file_lampiran/'.$data->lampiran_tiket)}}?v={{date('ymdhis')}}" width="100%" height="600px"></iframe>
+								</div>
 								@if(Auth::user()->posisi_id==1)
 									<div class="modal-footer">
 										@if($data->surattugas['sts']==1)
@@ -212,9 +214,7 @@
 									</div>
 								@endif
 							</div>
-							
-						</form>
-
+						
 				</div>
 				<!-- end panel-body -->
 			</div>
@@ -232,13 +232,21 @@
 						<h4 class="modal-title">Approve Tiket</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body" >
 						<div class="alert alert-success fade show m-b-0">
 							<span class="close" data-dismiss="alert">×</span>
 							<strong>Notifikasi!</strong>
 							 Yakin menyetuji data dan melajutkan ke tahap berikutnya?
+							 
 						</div>
-						
+						<form id="tambah-data" action="{{url('/TiketNew/Edit')}}" method="post" enctype="multipart/form-data">
+							@csrf
+							<input type="hidden" name="tiket_id" value="{{$data->id}}">
+							<div class="form-group" style="margin-top:2%">
+								<label>Catatan Penting</label>
+								<textarea class="textarea form-control" name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8"></textarea>
+							</div>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Approve</a>

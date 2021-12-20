@@ -2,205 +2,135 @@
 
 @push('style')
 <link href="{{url('assets/assets/plugins/nvd3/build/nv.d3.css')}}" rel="stylesheet" />
+<style>
+	.progress.progress-xs {
+    	height: 7px;
+	}
+</style>
 @endpush
 @section('contex')
-		@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
-            <div class="row">
-				
-				<!-- begin col-6 -->
-				<div class="col-xl-1">
-                </div>
-				<div class="col-xl-10">
-					<!-- begin panel -->
-					<div class="panel panel-inverse" data-sortable-id="chart-js-2">
-						<div class="panel-heading">
-							<h4 class="panel-title">Dashboard STIA{{$pertama_aktivitas_get->kode}}</h4>
-							<div class="panel-heading-btn">
-								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
-								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
-							</div>
-						</div>
-						<div class="panel-body">
-							<p>
-                                Histogram Progres Total  Surat Tugas (STIA{{$pertama_aktivitas_get->kode}})
-                            </p>
-							<div>
-								<canvas id="bar-chart{{$pertama_aktivitas_get->kode}}" data-render="chart-js"></canvas>
+			<div class="d-sm-flex align-items-center mb-3" style="padding: 1%;background: #8195a9;">
+				<label style="color:#fff">PILIH TAHUN &nbsp;&nbsp;</label>
+				<select onchange="pilih_tahun(this.value)" style="width:30%;display:inline" class="form-control">
+					@for($x=2020;$x<=date('Y');$x++)
+						<option value="{{$x}}" @if($tahun==$x) selected @endif> Dashboard Tahun {{$x}}</option>
+					@endfor
+				</select>
+			</div>
+			<div class="row">
+					
+				@foreach(pertama_aktivitas_get() as $aktv)
+					<div class="col-xl-4">
+						<div class="card border-0 mb-3 overflow-hidden bg-dark text-white">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xl-7 col-lg-8">
+										<div class="mb-3 text-grey">
+											<b>STIA{{$aktv->kode}}</b>
+											<span class="ml-2">
+												<i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Total sales" data-placement="top" data-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i>
+											</span>
+										</div>
+										<div class="d-flex mb-1">
+											<h2 class="mb-0">%<span data-animation="number" data-value="{{rekapan_aktivitas_get_dashboard($aktv->kode,$tahun)}}">0.00</span></h2>
+											<div class="ml-auto mt-n1 mb-n1"><div id="total-sales-sparkline"></div></div>
+										</div>
+										<div class="mb-3 text-grey">
+											<i class="fa fa-caret-up"></i> <span data-animation="number" data-value="{{rekapan_aktivitas_get_dashboard($aktv->kode,$tahun)}}">0.00</span>
+										</div>
+										<hr class="bg-white-transparent-2" />
+										<div class="row text-truncate">
+											<div class="col-6">
+												<div class="f-s-12 text-grey">PLAN</div>
+												<div class="f-s-18 m-b-5 f-w-600 p-b-1">%<span data-animation="number" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}">0.00</span></div>
+												<div class="progress progress-xs rounded-lg bg-dark-darker m-b-5">
+													<div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}%" style="width: 0%"></div>
+												</div>
+											</div>
+											<div class="col-6">
+												<div class="f-s-12 text-grey">REAL</div>
+												<div class="f-s-18 m-b-5 f-w-600 p-b-1">%<span data-animation="number" data-value="{{dashboard_nilai_real($aktv->kode,$tahun)}}">0.00</span></div>
+												<div class="progress progress-xs rounded-lg bg-dark-darker m-b-5">
+													<div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="{{dashboard_nilai_real($aktv->kode,$tahun)}}%" style="width: 0%"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-5 col-lg-4 align-items-center d-flex justify-content-center">
+										<img src="{{url('assets/assets/img/svg/img-1.svg')}}" height="50%" class="d-none d-lg-block" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<!-- end panel -->
-				</div>
-				<div class="col-xl-1">
-                </div>
+				@endforeach
+				<div class="col-xl-12">
+					
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card border-0 text-truncate mb-3 bg-dark text-white">
+									<div class="card-body">
+										<div class="mb-3 text-grey">
+											<b class="mb-3">DETAIL DASHBOARD</b> 
+											<span class="ml-2"><i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Conversion Rate" data-placement="top" data-content="Percentage of sessions that resulted in orders from total number of sessions." data-original-title="" title=""></i></span>
+										</div>
+										
+										
+										@foreach(pertama_aktivitas_get() as $aktv)
+											<div class="d-flex mb-2">
+												<div class="d-flex align-items-center">
+													<i class="fa fa-circle text-warning f-s-8 mr-2"></i>
+													Total Dokumen STIA{{$aktv->kode}} ({{total_aktivitas_get_dashboard($aktv->kode,$tahun)}}) Dokumen
+												</div>
+												<div class="d-flex align-items-center ml-auto">
+													<div class="width-50 text-right pl-2 f-w-600"><span data-animation="number" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}">3.85</span>%</div>
+												</div>
+											</div>
+											@foreach(aktivitas_get_dashboard($aktv->kode,$tahun) as $do=>$dok)
+												<div class="col-12">
+													<div class="m-b-2 text-truncate">{{$do+1}}. {{$dok->nomortiket}}</div>
+												</div>
+												<div class="col-12" style="padding-left:3%">
+													<div class="m-b-2 text-truncate" style="color:yellow;font-weight:bold">PLAN</div>
+													<div class="d-flex align-items-center m-b-2">
+														<div class="flex-grow-1">
+															<div class="progress progress-xs rounded-corner bg-white-transparent-1">
+																<div class="progress-bar progress-bar-striped bg-yellow" data-animation="width" data-value="{{nilai_plan($dok->id,$tahun)}}%" style="width: 80%;"></div>
+															</div>
+														</div>
+														<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{nilai_plan($dok->id,$tahun)}}">{{nilai_plan($dok->id,$tahun)}}</span>%</div>
+													</div>
+													<div class="m-b-2 text-truncate" style="color:#9dc8f5;font-weight:bold">REAL</div>
+													<div class="d-flex align-items-center m-b-2">
+														<div class="flex-grow-1">
+															<div class="progress progress-xs rounded-corner bg-white-transparent-1">
+																<div class="progress-bar progress-bar-striped bg-aqua" data-animation="width" data-value="{{nilai_real($dok->id,$tahun)}}%" style="width: {{nilai_real($dok->id,$tahun)}}%;"></div>
+															</div>
+														</div>
+														<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{nilai_real($dok->id,$tahun)}}">{{nilai_real($dok->id,$tahun)}}</span>%</div>
+													</div>
+												</div>
+											@endforeach
+										@endforeach
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 			</div>
-			<!-- end row -->
-		@endforeach	
-			
+	
 @endsection
 @push('ajax')
+<script src="{{url('assets/assets/plugins/d3/d3.min.js')}}"></script>
+<script src="{{url('assets/assets/plugins/nvd3/build/nv.d3.min.js')}}"></script>
+
 <script>
-Chart.defaults.global.defaultFontColor = COLOR_DARK;
-Chart.defaults.global.defaultFontFamily = FONT_FAMILY;
-Chart.defaults.global.defaultFontStyle = FONT_WEIGHT;
+	function pilih_tahun(tahun){
+		location.assign("{{url('DashboardStia')}}?tahun="+tahun);
+	}
+</script>
+<script>
 
-var randomScalingFactor = function() { 
-	return Math.round(Math.random()*100)
-};
-
-var lineChartData = {
-	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-	datasets: [{
-		label: 'Dataset 1',
-		borderColor: COLOR_BLUE,
-		pointBackgroundColor: COLOR_BLUE,
-		pointRadius: 2,
-		borderWidth: 2,
-		backgroundColor: COLOR_BLUE_TRANSPARENT_3,
-		data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-	}, {
-		label: 'Dataset 2',
-		borderColor: COLOR_DARK_LIGHTER,
-		pointBackgroundColor: COLOR_DARK,
-		pointRadius: 2,
-		borderWidth: 2,
-		backgroundColor: COLOR_DARK_TRANSPARENT_3,
-		data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-	}]
-};
-
-@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
-	var barChartData{{$pertama_aktivitas_get->kode}} = {
-		labels: [
-				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
-					'{{$gte->nomortiket}}',
-				@endforeach
-			],
-		datasets: [{
-			label: 'PLAN',
-			borderWidth: 2,
-			borderColor: COLOR_DARK,
-			backgroundColor: "blue",
-			data: [
-				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
-					{{nilai_plan($gte->id)}},
-				@endforeach
-			]
-		}, {
-			label: 'REAL',
-			borderWidth: 2,
-			borderColor: COLOR_DARK,
-			backgroundColor: "red",
-			data: [
-				@foreach(aktivitas_get_dashboard($pertama_aktivitas_get->kode) as $gte)
-					{{nilai_real($gte->id)}},
-				@endforeach
-			]
-		}]
-	};
-@endforeach
-var radarChartData = {
-	labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-	datasets: [{
-		label: 'Dataset 1',
-		borderWidth: 2,
-		borderColor: COLOR_RED,
-		pointBackgroundColor: COLOR_RED,
-		pointRadius: 2,
-		backgroundColor: COLOR_RED_TRANSPARENT_2,
-		data: [65,59,90,81,56,55,40]
-	}, {
-		label: 'Dataset 2',
-		borderWidth: 2,
-		borderColor: COLOR_DARK,
-		pointBackgroundColor: COLOR_DARK,
-		pointRadius: 2,
-		backgroundColor: COLOR_DARK_TRANSPARENT_2,
-		data: [28,48,40,19,96,27,100]
-	}]
-};
-
-var polarAreaData = {
-	labels: ['Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5'],
-	datasets: [{
-		data: [300, 160, 100, 200, 120],
-		backgroundColor: [COLOR_INDIGO_TRANSPARENT_7, COLOR_BLUE_TRANSPARENT_7, COLOR_GREEN_TRANSPARENT_7, COLOR_GREY_TRANSPARENT_7, COLOR_DARK_TRANSPARENT_7],
-		borderColor: [COLOR_INDIGO, COLOR_BLUE, COLOR_GREEN, COLOR_GREY, COLOR_DARK],
-		borderWidth: 2,
-		label: 'My dataset'
-	}]
-};
-
-var pieChartData = {
-	labels: ['Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5'],
-	datasets: [{
-		data: [300, 50, 100, 40, 120],
-		backgroundColor: [COLOR_RED_TRANSPARENT_7, COLOR_ORANGE_TRANSPARENT_7, COLOR_MUTED_TRANSPARENT_7, COLOR_GREY_TRANSPARENT_7, COLOR_DARK_TRANSPARENT_7],
-		borderColor: [COLOR_RED, COLOR_ORANGE, COLOR_MUTED, COLOR_GREY, COLOR_DARK],
-		borderWidth: 2,
-		label: 'My dataset'
-	}]
-};
-
-var doughnutChartData = {
-	labels: ['Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5'],
-	datasets: [{
-		data: [300, 50, 100, 40, 120],
-		backgroundColor: [COLOR_INDIGO_TRANSPARENT_7, COLOR_BLUE_TRANSPARENT_7, COLOR_GREEN_TRANSPARENT_7, COLOR_GREY_TRANSPARENT_7, COLOR_DARK_TRANSPARENT_7],
-		borderColor: [COLOR_INDIGO, COLOR_BLUE, COLOR_GREEN, COLOR_GREY, COLOR_DARK],
-		borderWidth: 2,
-		label: 'My dataset'
-  }]
-};
-
-var handleChartJs = function() {
-	
-	@foreach(pertama_aktivitas_get() as $pertama_aktivitas_get)
-		var ctx2{{$pertama_aktivitas_get->kode}} = document.getElementById('bar-chart{{$pertama_aktivitas_get->kode}}').getContext('2d');
-		var barChart{{$pertama_aktivitas_get->kode}} = new Chart(ctx2{{$pertama_aktivitas_get->kode}}, {
-			type: 'bar',
-			data: barChartData{{$pertama_aktivitas_get->kode}}
-		});
-	@endforeach
-	var ctx3 = document.getElementById('radar-chart').getContext('2d');
-	var radarChart = new Chart(ctx3, {
-		type: 'radar',
-		data: radarChartData
-	});
-
-	var ctx4 = document.getElementById('polar-area-chart').getContext('2d');
-	var polarAreaChart = new Chart(ctx4, {
-		type: 'polarArea',
-		data: polarAreaData
-	});
-
-	var ctx5 = document.getElementById('pie-chart').getContext('2d');
-	window.myPie = new Chart(ctx5, {
-		type: 'pie',
-		data: pieChartData
-	});
-
-	var ctx6 = document.getElementById('doughnut-chart').getContext('2d');
-	window.myDoughnut = new Chart(ctx6, {
-		type: 'doughnut',
-		data: doughnutChartData
-	});
-};
-
-var ChartJs = function () {
-	"use strict";
-	return {
-		//main function
-		init: function () {
-			handleChartJs();
-		}
-	};
-}();
-
-$(document).ready(function() {
-	ChartJs.init();
-});
+   
 </script>
 @endpush
