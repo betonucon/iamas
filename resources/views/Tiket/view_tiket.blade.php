@@ -113,7 +113,7 @@
 												<select class="default-select2 form-control" disabled placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Unit Kerja</option>
 													@foreach(unitkerja_get() as $no=>$unitkerja_get)
-														<option value="{{$unitkerja_get->kode_unit}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode_unit) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
+														<option value="{{$unitkerja_get->kode}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
 													@endforeach
 													
 												</select>
@@ -246,7 +246,7 @@
 												<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Unit Kerja</option>
 													@foreach(unitkerja_get() as $no=>$unitkerja_get)
-														<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+														<option value="{{$unitkerja_get->kode}}">{{ucwords($unitkerja_get->name)}}</option>
 													@endforeach
 													
 												</select>
@@ -341,7 +341,7 @@
 													<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
 														<option value="">--Pilih Unit Kerja</option>
 														@foreach(unitkerja_get() as $no=>$unitkerja_get)
-															<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+															<option value="{{$unitkerja_get->kode}}">{{ucwords($unitkerja_get->name)}}</option>
 														@endforeach
 														
 													</select>
@@ -410,7 +410,7 @@
 											<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
 												<option value="">--Pilih Unit Kerja</option>
 												@foreach(unitkerja_get() as $no=>$unitkerja_get)
-													<option value="{{$unitkerja_get->kode_unit}}">{{ucwords($unitkerja_get->name)}}</option>
+													<option value="{{$unitkerja_get->kode}}">{{ucwords($unitkerja_get->name)}}</option>
 												@endforeach
 												
 											</select>
