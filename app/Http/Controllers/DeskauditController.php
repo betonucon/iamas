@@ -32,7 +32,33 @@ class DeskauditController extends Controller
             return view('error');
         }
     }
-
+    public function index_head(request $request){
+        if(akses_tiket_head()>0){
+            $menu='Deskaudit';
+            $side="audithead";
+            return view('Deskaudit.index_head',compact('menu','side'));
+        }else{
+            return view('error');
+        }
+    }
+    public function view_catatan_head(request $request){
+        $data=Audit::where('id',encoder($request->id))->first();
+        
+        if(Auth::user()['role_id']==7){
+            $menu=' Review Deskaudit';
+            $label='<div class="alert alert-warning fade show m-b-10">
+                        <span class="close" data-dismiss="alert">×</span>
+                        <b>NO SURAT : '.$data['nomorsurat'].'</b><br>Jika sudah melakukan review silahkan tentukan hasil review .
+                    </div>';
+        }else{
+            $menu=' Deskaudit Catatan';
+            $label='';
+        }
+        $side="audithead";
+        $program=Deskaudit::where('audit_id',encoder($request->id))->get();
+        return view('Deskaudit.view_catatan',compact('menu','data','program','side','label'));
+        
+    }
     public function index_catatanpengawas(request $request){
         if(akses_tiket_pengawas()>0){
             $menu='Deskaudit Catatan';
@@ -68,16 +94,28 @@ class DeskauditController extends Controller
     public function create(request $request){
         error_reporting(0);
         $cek=Audit::where('id',encoder($request->id))->count();
-        
+        $act=$request->act;
+        // dd($act);
         if(akses_tiket_ketua()>0 && $cek>0){
-            $menu='Deskaudit Program';
+            if($act=='revisi'){
+                $menu='Perbaikan Deskaudit Program';
+            }else{
+                $menu='Deskaudit Program';
+            }
+            
+            
             $data=Audit::where('id',encoder($request->id))->first();
             $program=Deskaudit::where('audit_id',encoder($request->id))->get();
             
             if($data['sts_deskaudit']==null || $data['sts_deskaudit']==0){
-                return view('Deskaudit.create',compact('menu','data','program'));
+                return view('Deskaudit.create',compact('menu','data','program','act'));
             }else{
-                return view('Deskaudit.view',compact('menu','data','program'));
+                if($data['sts_revisi_deskaudit_langkah']==2){
+                    return view('Deskaudit.create',compact('menu','data','program','act'));
+                }else{
+                    return view('Deskaudit.view',compact('menu','data','program'));
+                }
+                
             }
             
         }else{
@@ -115,28 +153,49 @@ class DeskauditController extends Controller
         }
     }
 
+    
     public function catatan(request $request){
         error_reporting(0);
         if(akses_tiket_anggota()>0 || akses_tiket_ketua()>0){
+            $act=$request->act;
             if(akses_tiket_anggota()>0){
-                $menu=' Deskaudit Catatan';
+                if($act=='revisi'){
+                    $menu='Perbaikan Deskaudit Catatan';
+                }else{
+                    $menu='Deskaudit Catatan';
+                }
                 $side="auditanggota";
+                $label='';
                 $data=Audit::where('id',encoder($request->id))->first();
                 $program=Deskaudit::where('audit_id',encoder($request->id))->get();
                 if($data['sts_deskaudit']==2){
                     return view('Deskaudit.view_anggota',compact('menu','data','program','side'));
                 }else{
-                    return view('Deskaudit.view_catatan',compact('menu','data','program','side'));
+                    if($data['sts_revisi_deskaudit_catatan']==2){
+                        return view('Deskaudit.view_anggota',compact('menu','data','program','side','act'));
+                    }else{
+                        return view('Deskaudit.view_catatan',compact('menu','data','program','side','label'));
+                    }
+                    
                 }
             }else{
-                $menu=' Deskaudit Catatan';
+                if($act=='revisi'){
+                    $menu='Perbaikan Deskaudit Catatan';
+                }else{
+                    $menu='Deskaudit Catatan';
+                }
                 $side="auditketua";
+                $label='';
                 $data=Audit::where('id',encoder($request->id))->first();
                 $program=Deskaudit::where('audit_id',encoder($request->id))->get();
                 if($data['sts_deskaudit']==2){
                     return view('Deskaudit.view_anggota',compact('menu','data','program','side'));
                 }else{
-                    return view('Deskaudit.view_catatan',compact('menu','data','program','side'));
+                    if($data['sts_revisi_deskaudit_catatan']==2){
+                        return view('Deskaudit.view_anggota',compact('menu','data','program','side','act'));
+                    }else{
+                        return view('Deskaudit.view_catatan',compact('menu','data','program','side','label'));
+                    }
                 }
             }
            
@@ -194,33 +253,17 @@ class DeskauditController extends Controller
             </div>
             <div class="form-group">
                 <label>Catatan</label>
-                <textarea class="form-control" rows="8" name="catatan" placeholder="Ketik disini...." id="textareatiket">'.$data['catatan'].'</textarea>
+                <textarea class="form-control" rows="8"  placeholder="Ketik disini...." id="isinya">'.$data['catatan'].'</textarea>
             </div>
 
         ';
         echo'
             <script>
                 $(document).ready(function() {
-                    $("#tgl_langkahkerja").datepicker({format: "yyyy-mm-dd",autoclose: true});
+                    CKEDITOR.replace( "isinya" );
                 });
 
-                $("#textareatiket").wysihtml5({
-                    locale: "zh-TW",
-                    name: "t-iframe",
-                    events: {
-                        load: function(){
-                            var $body = $(this.composer.element);
-                            var $iframe = $(this.composer.iframe);
-                            iframeh = Math.max($body[0].scrollHeight, $body.height()) + 250;
-                            document.getElementsByClassName("wysihtml5-sandbox")[0].setAttribute("style","height: " + iframeh +"px !important");
-                        },change: function(){
-                            var $abody = $(this.composer.element);
-                            var $aiframe = $(this.composer.iframe);
-                            aiframeh = Math.max($abody[0].scrollHeight, $abody.height()) + 250;
-                            document.getElementsByClassName("wysihtml5-sandbox")[0].setAttribute("style","height: " + aiframeh +"px !important");
-                        }
-                    }
-                });
+                
             </script>
 
         ';
@@ -284,7 +327,7 @@ class DeskauditController extends Controller
 
     public function proses_catatan(request $request){
         if (trim($request->file) =='') {$error[] = '- Upload file lampiran';}
-        if (trim($request->catatan) =='') {$error[] = '- Isi Catatan';}
+        if (trim($request->content) =='') {$error[] = '- Isi Catatan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             $image = $request->file('file');
@@ -295,7 +338,7 @@ class DeskauditController extends Controller
            
             if($file->put($filePath, file_get_contents($image))){
                 $data=Desklangkahkerja::where('id',$request->id)->update([
-                    'catatan'=>$request->catatan,
+                    'catatan'=>$request->content,
                     'tanggal_aktual'=>date('Y-m-d'),
                     'file'=>$filePath,
                 ]);
@@ -313,6 +356,7 @@ class DeskauditController extends Controller
                     'sts_deskaudit'=>2,
                     'tgl_sts4'=>date('Y-m-d'),
                     'sts'=>4,
+                    'sts_revisi_deskaudit_langkah'=>1,
                 ]);
             }else{
                 $data=Audit::where('id',$request->id)->update([
@@ -335,6 +379,7 @@ class DeskauditController extends Controller
                     'sts_deskaudit'=>4,
                     'tgl_sts5'=>date('Y-m-d'),
                     'sts'=>5,
+                    'sts_revisi_deskaudit_catatan'=>1,
                 ]);
             }else{
                 $data=Audit::where('id',$request->id)->update([
@@ -387,6 +432,7 @@ class DeskauditController extends Controller
                     
                 ]);
                 if($data){
+                    
                     echo'ok';
                 }
                     
@@ -407,7 +453,11 @@ class DeskauditController extends Controller
                 'sts'=>0,
                 'deskaudit_id'=>$request->deskaudit_id
             ]);
-            echo'ok';
+            if($data){
+                
+                echo'ok';
+            }
+            
         }
     }
 

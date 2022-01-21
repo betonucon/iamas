@@ -44,7 +44,7 @@
 					<div class="tab-content" style="margin-bottom:0px;padding:1%">
 
 						<div class="tab-pane fade active show" id="default-tab-1">
-							{!! $label !!}	
+							
 								<div class="panel-body" style="overflow: auto;">
 									<table class="table table-bordered">
 										<thead>

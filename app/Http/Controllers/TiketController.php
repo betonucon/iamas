@@ -115,10 +115,20 @@ class TiketController extends Controller
     }
 
     public function index_anggota(request $request){
-        if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==4 || Auth::user()->posisi_id==5 || Auth::user()->posisi_id==6 || Auth::user()->posisi_id==10){
+        if(akses_tiket_anggota()>0){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_anggota',compact('menu','side'));
+        }else{
+            return view('error');
+        }
+        
+    }
+    public function index_ketua(request $request){
+        if(akses_tiket_ketua()>0){
+            $menu='List Tiket ';
+            $side='tiket';
+            return view('Tiket.index_tiket_ketua',compact('menu','side'));
         }else{
             return view('error');
         }

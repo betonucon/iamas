@@ -36,64 +36,44 @@
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  class="nav-link active">
-								<span class="d-sm-none">COMPLIANCE CATATAN</span>
-								<span class="d-sm-block d-none">COMPLIANCE CATATAN</span>
+								<span class="d-sm-none">DRAFT PEMERIKAAN</span>
+								<span class="d-sm-block d-none">DRAFT PEMERIKAAN</span>
 							</a>
 						</li>
 					</ul>
 					<div class="tab-content" style="margin-bottom:0px;padding:1%">
 
 						<div class="tab-pane fade active show" id="default-tab-1">
-							{!! $label !!}	
+							
 								<div class="panel-body" style="overflow: auto;">
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th width="3%" class="text-nowrap">No</th>
-												<th width="10%" class="text-nowrap">Pokok Materi</th>
-												<th class="text-nowrap">Langkah Kerja</th>
+									<div class="col-xl-12 col-lg-6">
+								
+										<div class="m-b-10 m-t-10 f-s-10">
+											<a href="#modal-widget-list" class="pull-right text-grey-darker m-r-3 f-w-700" data-toggle="modal">source code</a>
+											<b class="text-inverse">WIDGET LIST</b>
+										</div>
+										<div class="widget-list widget-list-rounded m-b-30" data-id="widget">
+											<!-- begin widget-list-item -->
+											<div class="widget-list-item">
+												<div class="widget-list-media">
+													<img src="{{url('img/file.png')}}" alt="" class="rounded">
+												</div>
+												<div class="widget-list-content">
+													<h4 class="widget-list-title">DESKAUDIT</h4>
+													<p class="widget-list-desc">Deskaudit Langkah Kerja dan Catatan</p>
+												</div>
+												<div class="widget-list-content">
+													<h4 class="widget-list-title">DESKAUDIT</h4>
+													<p class="widget-list-desc">Deskaudit Langkah Kerja dan Catatan</p>
+												</div>
+												<div class="widget-list-action">
+													<a href="{{url('/Deskaudit/Catatanhead?id='.coder($data->id))}}"  class="text-muted pull-right"><i class="fa fa-ellipsis-h f-s-14"></i></a>
+												</div>
 												
-											</tr>
-											@foreach($program as $no=>$prog)
-												<tr>
-													<td>{{$no+1}}</td>
-													<td>{{$prog->name}}</td>
-													<td>
-														<table class="table table-bordered">
-															<thead>
-																<tr>
-																	<th width="3%" class="text-nowrap">No</th>
-																	<th width="22%" class="text-nowrap">Langkah Kerja</th>
-																	<th width="3%">File</th>
-																	<th width="55%">Catatan</th>
-																	<th width="17%" class="text-nowrap">Tanggal</th>
-																	
-																</tr>
-															</thead>
-															<tbody>
-																@foreach(langkah_compliance($prog->id) as $la=>$langkah)
-																	<tr>
-																		<td>{{$la+1}}</td>
-																		<td>{{$langkah->name}}</td>
-																		<td><span class="btn btn-green btn-xs" onclick="lihat_file(`{{$langkah->file}}`)"><i class="fas fa-file fa-fw"></i></span></td>
-																		<td style="width:300px">
-																			@if($langkah->catatan=='')
-																				<font color="aqua">Belum diisi</font>
-																			@else
-																				{!!$langkah->catatan!!}
-																			@endif
-																		</td>
-																		<td><b><u>RENCANA</u></b><br>{{$langkah->tanggal}}<br><b><u>AKTUAL</u></b><br>{{$langkah->tanggal_aktual}}</td>
-																	</tr>
-																@endforeach
-															</tbody>
-														</table>
-
-													</td>
-												</tr>
-											@endforeach
-										</thead>
-									</table>
+											</div>
+											
+										</div>
+									</div>
 								</div>	
 						</div>
 						<!-- <div class="modal-footer">

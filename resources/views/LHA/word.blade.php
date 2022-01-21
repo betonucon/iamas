@@ -1,4 +1,13 @@
+<?php
+ $phpWord = new \PhpOffice\PhpWord\PhpWord();
+ $section = $phpWord->addSection();
+ $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+ $objWriter->save('Appdividend.docx');
+ header("Content-type: application/vnd.ms-word");
+ header("Content-Disposition: attachment;Filename=".rand().".doc"); 
+ header("Pragma: no-cache"); header("Expires: 0");
 
+?>
 <html>
 	<head>
 		<title>LHA</title>
@@ -8,10 +17,9 @@
 			}
 			td{
 				font-size:13px;
-				vertical-align:top;
 			}
 			body{
-				margin:3% 6%;
+				margin:10%;
 			}
 		</style>
 	</head>

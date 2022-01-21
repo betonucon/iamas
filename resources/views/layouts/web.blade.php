@@ -85,6 +85,7 @@
 			background: #f3cbcb;
 			color: #fff;
 		}
+		
 		@media only screen and (min-width: 600px) {
 			#modal-sedeng{
 				max-width:75%;
@@ -403,6 +404,13 @@
 		function hanyaAngka(evt) {
 		  var charCode = (evt.which) ? evt.which : event.keyCode
 		   if (charCode > 31 && (charCode < 48 || charCode > 57))
+ 
+		    return false;
+		  return true;
+		}
+		function hanyaAngkaTitik(evt) {
+		  var charCode = (evt.which) ? evt.which : event.keyCode
+		   if (charCode > 31 && (charCode < 46 || charCode > 57 || charCode==47))
  
 		    return false;
 		  return true;

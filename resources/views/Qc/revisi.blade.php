@@ -35,47 +35,50 @@
 					<form id="data-all" enctype="multipart/form-data">
 						@csrf
 						<table id="myTable" class="table table-striped table-bordered table-td-valign-top">
-							<thead>
+						<thead>
 								<tr>
 									<th width="3%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
-									<th width="18%" class="text-nowrap">Unit Kerja</th>
+									<th width="30%" class="text-nowrap">Laporan</th>
 									<th class="text-nowrap">Obyek</th>
-									<th width="7%" class="text-nowrap">Status</th>
-									<th width="8%">Kesimpulan</th>
-									
-									<th width="8%">Rekomendasi</th>
-									<th width="4%">Send</th>
-									<th width="8%">File</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(lha_get() as $no=>$data)
+								@foreach(get_text_revisi() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
-										<td>{{$data->unitkerja['name']}}</td>
-										<td>{{$data->name}}</td>
-										<td style="text-align:center">
-											{{$data->stsaudit['name']}}	
+										<td ">
+											<b><u>No Surat :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['nomorsurat']}}</p>
+											<b><u>Unit Kerja :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['unitkerja']['name']}}</p>
+											<b><u>Obyek :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['name']}}</p>
 										</td>
-										@if($data->sts_lha=='0')
-											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> Proses</span></td>
-											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  Proses</span></td>
-											<td>
-												<span onclick="sand_lha({{$data->id}})" title="Kirim" class="btn btn-blue btn-xs"><i class="fa fa-share"></i></span>
-												@if($data->alasan_lha==null)
+										<td>
+											<table width="100%">
+												<tr>
+													<th width="5%">No</th>
+													<th width="11%">Act</th>
+													<th width="5%">View</th>
+													<th width="20%">Keterangan</th>
+													<th>Revisi</th>
+												</tr>
+												@foreach(get_detail_text_revisi($data->audit_id) as $nom=>$o)
+													<tr>
+														<td>{{$nom+1}}</td>
+														<td>
+															@if($o->sts==1)
+																<span class="btn btn-success btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})"> Proses</span>
+															@endif
+															@if($o->sts==4)
+																<span class="btn btn-blue btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})">Kirim</span>
+															@endif
 
-												@else
-													<span onclick="alasan_revisi(`{{$data->alasan_lha}}`)" title="Alasan Revisi" class="btn btn-yellow btn-xs" style="margin-top:1%"><i class="fa fa-comment"></i></span>
-												@endif
-											</td>
-										@else
-											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> View</span></td>
-											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  View</span></td>
-											<td><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
-										@endif
-										<td><span onclick="cek_file_lha({{$data->id}})" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
+														</td>
+														<td><span class="btn btn-aqua btn-xs" onclick="proses_perbaikan(`{{coder($o->audit_id)}}`,`{{$o->kategori}}`)"> Lihat</span></td>
+														<td>{{$o->kategori}}</td>
+														<td><b>14 Hari Kerja ({{$o->mulai}} s/d {{$o->sampai}})</b><br>{{$o->keterangan}}</td>
+													</tr>
+												@endforeach
+											</table>
+										</td>
 										
 									</tr>
 								@endforeach
@@ -199,8 +202,35 @@
 		} );
 
 		
-		function proses_kesimpulan(id){
-			location.assign("{{url('/Lha/Create')}}?id="+id);
+		function proses_qc(id){
+			location.assign("{{url('/Qcview')}}?id="+id);
+		}
+		function proses_perbaikan(id,kategori){
+			if(kategori=='deskaudit_langkah'){
+				location.assign("{{url('/Deskaudit/Create')}}?act=revisi&id="+id);
+			}
+			if(kategori=='deskaudit_catatan'){
+				location.assign("{{url('/Deskaudit/Catatan')}}?act=revisi&id="+id);
+			}
+			if(kategori=='compliance_langkah'){
+				location.assign("{{url('/Compliance/Create')}}?act=revisi&id="+id);
+			}
+			if(kategori=='compliance_catatan'){
+				location.assign("{{url('/Compliance/Catatan')}}?act=revisi&id="+id);
+			}
+			if(kategori=='substantive_langkah'){
+				location.assign("{{url('/Substantive/Create')}}?act=revisi&id="+id);
+			}
+			if(kategori=='substantive_catatan'){
+				location.assign("{{url('/Substantive/Catatan')}}?act=revisi&id="+id);
+			}
+			if(kategori=='draf_lha'){
+				location.assign("{{url('/Lha/Create')}}?act=revisi&id="+id);
+			}
+			if(kategori=='draf_lha_saran'){
+				location.assign("{{url('/Lha/Create')}}?act=revisi&id="+id);
+			}
+			
 		}
 		function sand_lha(id){
 			$('#audit_id').val(id);
@@ -234,6 +264,17 @@
 				type: 'GET',
 				url: "{{url('Lha/send_to_head')}}",
 				data: "id="+a,
+				success: function(msg){
+					location.reload();
+				}
+			}); 
+		}
+		function proses_revisi(a,sts){
+			
+			$.ajax({
+				type: 'GET',
+				url: "{{url('Qc/proses_pengerjaan')}}",
+				data: "id="+a+"&sts="+sts,
 				success: function(msg){
 					location.reload();
 				}

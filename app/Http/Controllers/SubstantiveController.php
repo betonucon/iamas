@@ -32,7 +32,33 @@ class SubstantiveController extends Controller
             return view('error');
         }
     }
-
+    public function index_head(request $request){
+        if(akses_tiket_head()>0){
+            $menu='Substantive';
+            $side="audithead";
+            return view('Substantive.index_head',compact('menu','side'));
+        }else{
+            return view('error');
+        }
+    }
+    public function view_catatan_head(request $request){
+        $data=Audit::where('id',encoder($request->id))->first();
+        
+        if(Auth::user()['role_id']==7){
+            $menu=' Review Substantive';
+            $label='<div class="alert alert-warning fade show m-b-10">
+                        <span class="close" data-dismiss="alert">×</span>
+                        <b>NO SURAT : '.$data['nomorsurat'].'</b><br>Jika sudah melakukan review silahkan tentukan hasil review .
+                    </div>';
+        }else{
+            $menu=' Substantive Catatan';
+            $label='';
+        }
+        $side="audithead";
+        $program=Substantive::where('audit_id',encoder($request->id))->get();
+        return view('Substantive.view_catatan',compact('menu','data','program','side','label'));
+        
+    }
     public function index_catatanpengawas(request $request){
         if(akses_tiket_pengawas()>0){
             $menu='Substantive Catatan';
@@ -68,17 +94,25 @@ class SubstantiveController extends Controller
     public function create(request $request){
         error_reporting(0);
         $cek=Audit::where('id',encoder($request->id))->count();
-        
+        $act=$request->act;
         if(akses_tiket_ketua()>0 && $cek>0){
-            $menu='Substantive Program';
+            if($act=='revisi'){
+                $menu='Perbaikan Substantive Program';
+            }else{
+                $menu='Substantive Program';
+            }
             $side="auditketua";
             $data=Audit::where('id',encoder($request->id))->first();
             $program=Substantive::where('audit_id',encoder($request->id))->get();
             
             if($data['sts_substantive']==null || $data['sts_substantive']==0){
-                return view('Substantive.create',compact('menu','data','program','side'));
+                return view('Substantive.create',compact('menu','data','program','side','act'));
             }else{
-                return view('Substantive.view',compact('menu','data','program','side'));
+                if($data['sts_revisi_substantive_langkah']==2){
+                    return view('Substantive.create',compact('menu','data','program','side','act'));
+                }else{
+                    return view('Substantive.view',compact('menu','data','program','side'));
+                }
             }
             
         }else{
@@ -118,26 +152,46 @@ class SubstantiveController extends Controller
 
     public function catatan(request $request){
         error_reporting(0);
+        $act=$request->act;
         if(akses_tiket_anggota()>0 || akses_tiket_ketua()>0){
             if(akses_tiket_ketua()>0){
-                $menu=' Substantive Catatan';
+                if($act=='revisi'){
+                    $menu='Perbaikan Substantive Catatan';
+                }else{
+                    $menu='Substantive Catatan';
+                }
                 $side="auditketua";
+                $label='';
                 $data=Audit::where('id',encoder($request->id))->first();
                 $program=Substantive::where('audit_id',encoder($request->id))->get();
                 if($data['sts_substantive']==2){
-                    return view('Substantive.view_anggota',compact('menu','data','program','side'));
+                    return view('Substantive.view_anggota',compact('menu','data','program','side','act'));
                 }else{
-                    return view('Substantive.view_catatan',compact('menu','data','program','side'));
+                    
+                    if($data['sts_revisi_substantive_catatan']==2){
+                        return view('Substantive.view_anggota',compact('menu','data','program','side','act'));
+                    }else{
+                        return view('Substantive.view_catatan',compact('menu','data','program','side','label'));
+                    }
                 }
             }else{
-                $menu=' Substantive Catatan';
+                if($act=='revisi'){
+                    $menu='Perbaikan Substantive Catatan';
+                }else{
+                    $menu='Substantive Catatan';
+                }
                 $side="auditketua";
+                $label='';
                 $data=Audit::where('id',encoder($request->id))->first();
                 $program=Substantive::where('audit_id',encoder($request->id))->get();
                 if($data['sts_substantive']==2){
-                    return view('Substantive.view_anggota',compact('menu','data','program','side'));
+                    return view('Substantive.view_anggota',compact('menu','data','program','side','act'));
                 }else{
-                    return view('Substantive.view_catatan',compact('menu','data','program','side'));
+                    if($data['sts_revisi_substantive_catatan']==2){
+                        return view('Substantive.view_anggota',compact('menu','data','program','side','act'));
+                    }else{
+                        return view('Substantive.view_catatan',compact('menu','data','program','side','label'));
+                    }
                 }
             }
            
@@ -197,34 +251,18 @@ class SubstantiveController extends Controller
             </div>
             <div class="form-group">
                 <label>Catatan</label>
-                <textarea class="form-control" rows="8" name="catatan" placeholder="Ketik disini...." id="textareatiket">'.$data['catatan'].'</textarea>
+                <textarea class="form-control" rows="8"  placeholder="Ketik disini...." id="isinya">'.$data['catatan'].'</textarea>
             </div>
 
         ';
         echo'
-            <script>
-                $(document).ready(function() {
-                    $("#tgl_langkahkerja").datepicker({format: "yyyy-mm-dd",autoclose: true});
-                });
+        <script>
+            $(document).ready(function() {
+                CKEDITOR.replace( "isinya" );
+            });
 
-                $("#textareatiket").wysihtml5({
-                    locale: "zh-TW",
-                    name: "t-iframe",
-                    events: {
-                        load: function(){
-                            var $body = $(this.composer.element);
-                            var $iframe = $(this.composer.iframe);
-                            iframeh = Math.max($body[0].scrollHeight, $body.height()) + 200;
-                            document.getElementsByClassName("wysihtml5-sandbox")[0].setAttribute("style","height: " + iframeh +"px !important");
-                        },change: function(){
-                            var $abody = $(this.composer.element);
-                            var $aiframe = $(this.composer.iframe);
-                            aiframeh = Math.max($abody[0].scrollHeight, $abody.height()) + 200;
-                            document.getElementsByClassName("wysihtml5-sandbox")[0].setAttribute("style","height: " + aiframeh +"px !important");
-                        }
-                    }
-                });
-            </script>
+
+        </script>
 
         ';
     }
@@ -307,6 +345,7 @@ class SubstantiveController extends Controller
                     'sts_substantive'=>2,
                     'tgl_sts8'=>date('Y-m-d'),
                     'sts'=>8,
+                    'sts_revisi_substantive_langkah'=>1,
                 ]);
             }else{
                 $data=Audit::where('id',$request->id)->update([
@@ -329,6 +368,7 @@ class SubstantiveController extends Controller
                     'sts_substantive'=>4,
                     'tgl_sts9'=>date('Y-m-d'),
                     'sts'=>9,
+                    'sts_revisi_substantive_catatan'=>1,
                 ]);
             }else{
                 $data=Audit::where('id',$request->id)->update([

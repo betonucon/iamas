@@ -32,7 +32,9 @@
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
 
-						
+					@if($act=='revisi')
+				    	<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+					@endif		
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  class="nav-link active">
@@ -65,6 +67,7 @@
 																	<th width="3%" class="text-nowrap">No</th>
 																	<th width="22%" class="text-nowrap">Langkah Kerja</th>
 																	<th width="3%" class="text-nowrap">Act</th>
+																	<th width="3%" class="text-nowrap">File</th>
 																	<th width="55%">Catatan</th>
 																	<th width="17%" class="text-nowrap">Tanggal</th>
 																	
@@ -76,6 +79,7 @@
 																		<td>{{$la+1}}</td>
 																		<td>{{$langkah->name}}</td>
 																		<td><span class="btn btn-blue btn-xs" onclick="isi_catatan({{$langkah->id}})"><i class="fas fa-pencil-alt fa-fw"></i></span></td>
+																		<td><span class="btn btn-green btn-xs" onclick="lihat_file(`{{$langkah->file}}`)"><i class="fas fa-file fa-fw"></i></span></td>
 																		<td style="width:300px">
 																			@if($langkah->catatan=='')
 																				<font color="aqua">Belum diisi</font>
@@ -177,6 +181,9 @@
 
 		$('#alasan').hide();
 		
+		function lihat_file(file){
+			window.open("{{url('_file_lampiran')}}/"+file,"_blank");
+		}
 		function cek_status(a){
 			if(a=='2'){
 				$('#alasan').show();
@@ -201,23 +208,7 @@
 			
 		}
 
-		$("#textareatiket2").wysihtml5({
-			locale: 'zh-TW',
-			name: 't-iframe',
-			events: {
-				load: function(){
-					var $body = $(this.composer.element);
-					var $iframe = $(this.composer.iframe);
-					iframeh = Math.max($body[0].scrollHeight, $body.height()) + 300;
-					document.getElementsByClassName('wysihtml5-sandbox')[0].setAttribute('style','height: ' + iframeh +'px !important');
-				},change: function(){
-					var $abody = $(this.composer.element);
-					var $aiframe = $(this.composer.iframe);
-					aiframeh = Math.max($abody[0].scrollHeight, $abody.height()) + 300;
-					document.getElementsByClassName('wysihtml5-sandbox')[0].setAttribute('style','height: ' + aiframeh +'px !important');
-				}
-			}
-		});
+		
 		$('#myTable').DataTable( {
 			responsive: true,
 			paging: true,
@@ -227,11 +218,12 @@
 
 		function ubah_data(){
             var form=document.getElementById('ubah-data');
-            
+            var data = new FormData(form);
+            	data.append('content', CKEDITOR.instances['isinya'].getData());
                 $.ajax({
                     type: 'POST',
                     url: "{{url('/Deskaudit/proses_catatan')}}",
-                    data: new FormData(form),
+                    data: data,
                     contentType: false,
                     cache: false,
                     processData:false,

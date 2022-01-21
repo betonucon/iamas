@@ -64,6 +64,7 @@
 																<tr>
 																	<th width="3%" class="text-nowrap">No</th>
 																	<th width="22%" class="text-nowrap">Langkah Kerja</th>
+																	<th width="3%">file</th>
 																	<th width="55%">Catatan</th>
 																	<th width="17%" class="text-nowrap">Tanggal</th>
 																	
@@ -74,6 +75,7 @@
 																	<tr>
 																		<td>{{$la+1}}</td>
 																		<td>{{$langkah->name}}</td>
+																		<td><span class="btn btn-green btn-xs" onclick="lihat_file(`{{$langkah->file}}`)"><i class="fas fa-file fa-fw"></i></span></td>
 																		<td style="width:300px">
 																			@if($langkah->catatan=='')
 																				<font color="aqua">Belum diisi</font>
@@ -184,6 +186,9 @@
 				}
 			}); 
         });
+		function lihat_file(file){
+			window.open("{{url('_file_lampiran')}}/"+file,"_blank");
+		}
 
 		$('#alasan').hide();
 		

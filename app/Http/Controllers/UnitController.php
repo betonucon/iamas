@@ -24,6 +24,53 @@ class UnitController extends Controller
        ';
     }
 
+    public function get_organisasi(){
+        $json = file_get_contents('https://portal.krakatausteel.com/eos/api/organization');
+        $item = json_decode($json,true);
+        
+        $unit=$item;
+        //var_dump($item);
+        foreach($unit as $o){
+            $potng=explode(' ',$o['Objectname']);
+            $cekdata=UnitKerja::where('kode',$o['ObjectID'])->count();
+            
+            if($potng[0]=='Subdit'){$unt=1; $pim='General Manager';$urut=2;}
+            elseif($potng[0]=='Divisi'){$unt=3;$pim='Manager';$urut=3;}
+            elseif($potng[0]=='Direktorat'){$unt=5;$pim='Direktur Utama';$urut=1;}
+            elseif($potng[0]=='Dinas'){$unt=4;$pim='Supertintendant';$urut=4;}
+            elseif($potng[0]=='PT'){$unt=6;$pim='Direktur Utama';$urut=1;}
+            else{$unt=2;$pim='none';$urut=8;}
+
+            if($cekdata>0){
+                $key            =   UnitKerja::where('kode',$o['ObjectID'])->first();
+                $key->kode      =   $o['ObjectID'];
+                $key->name      =   $o['Objectname'];
+                $key->kode_unit =   $o['Objectabbr'];
+                $key->unit_id   =   $unt;
+                $key->pimpinan  =   $pim;
+                $key->save();
+                
+            }else{
+                $key            =   New UnitKerja;
+                $key->kode      =   $o['ObjectID'];
+                $key->name      =   $o['Objectname'];
+                $key->kode_unit =   $o['Objectabbr'];
+                $key->unit_id   =   $unt;
+                $key->pimpinan  =   $pim;
+                $key->as  =   $urut;
+                $key->save();
+
+                
+            }
+           
+           
+            
+        }
+        //$items = UnitKerja::where('unit_id',$id)->get();
+        var_dump($item);
+       
+    }
+
     public function simpan(request $request){
 
         if (trim($request->kode) == '') {$error[] = '- Isi Kode Unit Kerja';}

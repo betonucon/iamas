@@ -33,13 +33,7 @@
 				<div class="panel-body" style="background: #b5b5d330;">
 					<div class="col-md-12" style="margin-bottom:2%">
 						<div class="btn-group">
-							<button class="btn btn-blue btn-sm" onclick="tambah_data()"><i class="fas fa-plus"></i> Tambah Temuan</button>
-							<button class="btn btn-aqua btn-sm"><i class="fas fa-check"></i> Selesai</button>
-							@if($act=='revisi')
-				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@else
-								<a href="{{url('Lha')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@endif
+							<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -53,8 +47,6 @@
 
 						?>
 						<div class="alert alert-{{$warna}} fade show m-b-10">
-							<span class="btn btn-blue btn-xs close" style="opacity: 1;" onclick="ubah({{$kes->id}})"><i class="fas fa-pencil-alt fa-fw"></i> Ubah</span>
-							<span class="btn btn-red btn-xs close" style="opacity: 1;" onclick="hapus({{$kes->id}})"><i class="fas fa-trash-alt fa-fw"></i> Hapus</span>
 							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}</u></b></br>
 							<table style="margin-left:2%" width="100%">
 								<tr>

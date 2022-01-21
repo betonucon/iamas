@@ -9,6 +9,7 @@ use App\Http\Controllers\GetareaController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\AuditplanController;
 use App\Http\Controllers\DeskauditController;
+use App\Http\Controllers\QcController;
 use App\Http\Controllers\ComplianceController;
 use App\Http\Controllers\SubstantiveController;
 use App\Http\Controllers\LhaController;
@@ -33,6 +34,7 @@ Route::get('/config-cache', function() {
 });
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Unitkerja',[UnitController::class, 'index']);
+    Route::get('get_organisasi',[UnitController::class, 'get_organisasi']);
     Route::get('Unitkerja/ubah',[UnitController::class, 'ubah']);
     Route::post('Unitkerja',[UnitController::class, 'simpan']);
     Route::post('Unitkerja/ubah_data',[UnitController::class, 'simpan_ubah']);
@@ -54,6 +56,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('TiketGL',[TiketController::class, 'index_gl']);
     Route::get('TiketHD',[TiketController::class, 'index_hd']);
     Route::get('TiketAnggota',[TiketController::class, 'index_anggota']);
+    Route::get('TiketKetua',[TiketController::class, 'index_ketua']);
     Route::get('TiketPengawas',[TiketController::class, 'index_pengawas']);
     Route::get('AccTiketPengawas',[TiketController::class, 'index_acc_pengawas']);
     Route::get('AccTiketHead',[TiketController::class, 'index_acc_head']);
@@ -119,17 +122,29 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Lha',[LhaController::class, 'index']);
-    Route::get('Lha/file',[LhaController::class, 'file']);
+    Route::get('Lha/ubah',[LhaController::class, 'ubah']);
+    Route::get('Lha/view',[LhaController::class, 'view']);
+    Route::get('Lha/tampiltambahtemuan',[LhaController::class, 'tampiltambahtemuan']);
+    Route::get('Lha/tampiltambahrekomendasi',[LhaController::class, 'tampiltambahrekomendasi']);
+    Route::get('Lha/word',[LhaController::class, 'word']);
+    Route::get('Lha/ubah_rekomendasi',[LhaController::class, 'ubah_rekomendasi']);
     Route::get('AccLha',[LhaController::class, 'index_acc']);
     Route::get('Lha/pilih_surat_tugas',[LhaController::class, 'pilih_surat_tugas']);
     Route::get('Lha/Create',[LhaController::class, 'create']);
+    Route::get('Lha/Catatanhead',[LhaController::class, 'view_head']);
+    Route::get('Lha/Createrekomendasi',[LhaController::class, 'createrekomendasi']);
     Route::get('Lha/send_to_head',[LhaController::class, 'send_to_head']);
     Route::get('Lha/Acc',[LhaController::class, 'acc']);
+    Route::get('Lha/hapus',[LhaController::class, 'delete']);
+    Route::get('Lha/hapus_rekomendasi',[LhaController::class, 'delete_rekomendasi']);
     Route::get('Lha/Edit',[LhaController::class, 'edit']);
-    Route::post('Lhasimpan',[LhaController::class, 'save']);
-    Route::post('Lha/acc_head',[LhaController::class, 'acc_head']);
-    Route::post('Lha/Update',[LhaController::class, 'update']);
-    Route::post('Lha/Delete',[LhaController::class, 'delete']);
+    Route::post('Lha/simpan',[LhaController::class, 'save']);
+    Route::post('Lha/send_data',[LhaController::class, 'send_data']);
+    Route::post('Lha/approve_pengawas',[LhaController::class, 'send_to_pengawas']);
+    Route::post('Lha/approve_head',[LhaController::class, 'send_to_head']);
+    Route::post('Lha/simpan_rekomendasi',[LhaController::class, 'save_rekomendasi']);
+    Route::post('Lha/ubah',[LhaController::class, 'update']);
+    Route::post('Lha/ubah_rekomendasi',[LhaController::class, 'update_rekomendasi']);
 });
 
 Route::group(['middleware'    => 'auth'],function(){
@@ -137,6 +152,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('Deskaudit/ubah_pokok',[DeskauditController::class, 'ubah_pokok']);
     Route::get('Deskauditcatatan',[DeskauditController::class, 'index_catatan']);
     Route::get('Deskauditpengawas',[DeskauditController::class, 'index_pengawas']);
+    Route::get('Deskaudithead',[DeskauditController::class, 'index_head']);
+    Route::get('Deskaudit/Catatanhead',[DeskauditController::class, 'view_catatan_head']);
     Route::get('Deskauditcatatanpengawas',[DeskauditController::class, 'index_catatanpengawas']);
     Route::get('Deskauditanggota',[DeskauditController::class, 'index_anggota']);
     Route::get('AccDeskaudit',[DeskauditController::class, 'index_acc']);
@@ -144,6 +161,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('Deskaudit/hapus_pokok',[DeskauditController::class, 'hapus_pokok']);
     Route::get('Deskaudit/Create',[DeskauditController::class, 'create']);
     Route::get('Deskaudit/Catatan',[DeskauditController::class, 'catatan']);
+    
     Route::get('Deskaudit/Isicatatan',[DeskauditController::class, 'isi_catatan']);
     Route::get('Deskaudit/Approvepengawas',[DeskauditController::class, 'approve_pengawas']);
     Route::get('Deskaudit/Approvecatatanpengawas',[DeskauditController::class, 'approve_catatanpengawas']);
@@ -168,6 +186,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('Compliance',[ComplianceController::class, 'index']);
     Route::get('Compliance/ubah_pokok',[ComplianceController::class, 'ubah_pokok']);
     Route::get('Compliancecatatan',[ComplianceController::class, 'index_catatan']);
+    Route::get('Compliancehead',[ComplianceController::class, 'index_head']);
+    Route::get('Compliance/Catatanhead',[ComplianceController::class, 'view_catatan_head']);
     Route::get('Compliancepengawas',[ComplianceController::class, 'index_pengawas']);
     Route::get('Compliancecatatanpengawas',[ComplianceController::class, 'index_catatanpengawas']);
     Route::get('Complianceanggota',[ComplianceController::class, 'index_anggota']);
@@ -196,9 +216,20 @@ Route::group(['middleware'    => 'auth'],function(){
 });
 
 Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Qc',[QcController::class, 'index']);
+    Route::get('Qcrevisi',[QcController::class, 'index_revisi']);
+    Route::post('Qc/proses_revisi',[QcController::class, 'proses_revisi']);
+    Route::get('Qc/proses_pengerjaan',[QcController::class, 'proses_pengerjaan']);
+    Route::get('Qc/send_to_head',[QcController::class, 'send_to_head']);
+    Route::get('Qcview',[QcController::class, 'view']);
+
+});
+Route::group(['middleware'    => 'auth'],function(){
     Route::get('Substantive',[SubstantiveController::class, 'index']);
     Route::get('Substantive/ubah_pokok',[SubstantiveController::class, 'ubah_pokok']);
     Route::get('Substantivecatatan',[SubstantiveController::class, 'index_catatan']);
+    Route::get('Substantivehead',[SubstantiveController::class, 'index_head']);
+    Route::get('Substantive/Catatanhead',[SubstantiveController::class, 'view_catatan_head']);
     Route::get('Substantivepengawas',[SubstantiveController::class, 'index_pengawas']);
     Route::get('Substantivecatatanpengawas',[SubstantiveController::class, 'index_catatanpengawas']);
     Route::get('Substantiveanggota',[SubstantiveController::class, 'index_anggota']);

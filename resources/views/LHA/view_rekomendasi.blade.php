@@ -31,19 +31,24 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
-					<div class="col-md-12" style="margin-bottom:2%">
-						<div class="btn-group">
-							<button class="btn btn-blue btn-sm" onclick="tambah_data()"><i class="fas fa-plus"></i> Tambah Temuan</button>
-							<button class="btn btn-aqua btn-sm"><i class="fas fa-check"></i> Selesai</button>
-							@if($act=='revisi')
-				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@else
-								<a href="{{url('Lha')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@endif
+					<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #e3e3e9;">
+						<div class="form-group">
+							<label>PILIH TEMUAN</label>
+							<select onchange="pilih_temuan(this.value)" style="width:50%" class="form-control">
+								@foreach(kesimpulan_get($id) as $kesim)
+									<option value="{{$kesim->id}}" @if($kesimpulan_id==$kesim->id) selected @endif >Temuan {{$kesim->nomor}} </option>
+								@endforeach
+							</select>
 						</div>
 					</div>
+					<div class="col-md-12" style="margin-bottom:2%">
+						<div class="btn-group">
+							<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
+						</div>
+					</div>
+					
 					<div class="col-md-12">
-						@foreach(kesimpulan_get($id) as $no=>$kes)
+						@foreach(rekomendasi_get($kesimpulan_id) as $no=>$kes)
 						<?php
 						  if(($no+1)%2==0){
 							$warna='lime';
@@ -53,14 +58,12 @@
 
 						?>
 						<div class="alert alert-{{$warna}} fade show m-b-10">
-							<span class="btn btn-blue btn-xs close" style="opacity: 1;" onclick="ubah({{$kes->id}})"><i class="fas fa-pencil-alt fa-fw"></i> Ubah</span>
-							<span class="btn btn-red btn-xs close" style="opacity: 1;" onclick="hapus({{$kes->id}})"><i class="fas fa-trash-alt fa-fw"></i> Hapus</span>
-							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}</u></b></br>
+							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}.{{$kes->urutan}}</u></b></br>
 							<table style="margin-left:2%" width="100%">
 								<tr>
-									<td class="text-toop" width="15%"><b>Judul</b></td>
+									<td class="text-toop" width="15%"><b>PIC</b></td>
 									<td class="text-toop" width="2%"><b>:</b></td>
-									<td class="text-toop">{{$kes->name}}</td>
+									<td class="text-toop">{{$kes->unitkerja['pimpinan']}} {{$kes->unitkerja['name']}}</td>
 								</tr>
 								<tr>
 									<td class="text-toop"><b>Kodifikasi</b></td>
@@ -68,14 +71,14 @@
 									<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
 								</tr>
 								<tr>
-									<td class="text-toop"><b>Isi Kesimpulan</b></td>
+									<td class="text-toop"><b>Isi Rekomendasi</b></td>
 									<td class="text-toop"><b>:</b></td>
 									<td class="text-toop">{!! $kes->isi !!}</td>
 								</tr>
 								<tr>
-									<td class="text-toop"><b>Risiko</b></td>
+									<td class="text-toop"><b>Nilai</b></td>
 									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
+									<td class="text-toop">{{uang($kes->nilai)}}</td>
 								</tr>
 							</table>
 						</div>
@@ -92,16 +95,14 @@
 	<div class="row">
 
 		<div class="modal" id="modaltambah" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog" style="max-width:80%">
+			<div class="modal-dialog " style="max-width:80%">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title">Tambah Data</h4>
 						<button type="button" class="close" onclick="batal()" >×</button>
 					</div>
 					<div class="modal-body">
-						
 						<div id="tampil-tambah"></div>
-						
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="simpan_data()">Simpan</a>
@@ -153,25 +154,15 @@
 	<script src="{{url('assets/assets/plugins/ckeditor/ckeditor.js')}}"></script>
 	<script src="{{url('assets/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js')}}"></script>
 	<script src="{{url('assets/assets/js/demo/form-wysiwyg.demo.js')}}"></script>
-	<link href="{{url('assets/assets/plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
-	<script src="{{url('assets/assets/plugins/summernote/dist/summernote.min.js')}}"></script>
+	
 	<script>
-		$(document).ready(function() {
-            $('#tanggalpicker').datepicker({
-                format: 'yyyy-mm-dd',
-                
-            });
-            $('#tangal_penerbitan').datepicker({
-                format: 'yyyy-mm-dd',
-                
-            });
-        });
 		
+
 		function tambah_data(){
 			$.ajax({
 				type: 'GET',
-				url: "{{url('Lha/tampiltambahtemuan')}}",
-				data: "id={{$id}}",
+				url: "{{url('Lha/tampiltambahrekomendasi')}}",
+				data: "kesimpulan_id={{$kesimpulan_id}}&nomor={{$nomor}}",
 				beforeSend: function() {
 					document.getElementById("loadnya").style.width = "100%";
 				},
@@ -190,8 +181,8 @@
 		function ubah(id){
 			$.ajax({
 				type: 'GET',
-				url: "{{url('Lha/tampiltambahtemuan')}}",
-				data: "id={{$id}}&kesimpulan_id="+id,
+				url: "{{url('Lha/tampiltambahrekomendasi')}}",
+				data: "kesimpulan_id={{$kesimpulan_id}}&nomor={{$nomor}}&rekomendasi_id="+id,
 				beforeSend: function() {
 					document.getElementById("loadnya").style.width = "100%";
 				},
@@ -218,7 +209,11 @@
 		}
 
 		$("#textareaisi").wysihtml5();
+		$("#textareaisiubahrekomendasi").wysihtml5();
 		
+		function pilih_temuan(nomor){
+			location.assign("{{url('/Lha/Createrekomendasi?id='.$id)}}&nomor="+nomor);
+		}
 		function kembali(){
 			location.assign("{{url('/Lha/')}}");
 		}
@@ -233,7 +228,7 @@
 		function hapus(id){
 			$.ajax({
 				type: 'GET',
-				url: "{{url('Lha/hapus')}}",
+				url: "{{url('Lha/hapus_rekomendasi')}}",
 				data: "id="+id,
 				beforeSend: function() {
 					document.getElementById("loadnya").style.width = "100%";
@@ -243,8 +238,6 @@
 				}
 			});
 		}
-		 
-		
 		
 		
 	</script>

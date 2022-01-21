@@ -36,15 +36,65 @@
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  class="nav-link active">
-								<span class="d-sm-none">COMPLIANCE CATATAN</span>
-								<span class="d-sm-block d-none">COMPLIANCE CATATAN</span>
+								<span class="d-sm-none">DESKAUDIT CATATAN</span>
+								<span class="d-sm-block d-none">DESKAUDIT CATATAN</span>
 							</a>
 						</li>
 					</ul>
 					<div class="tab-content" style="margin-bottom:0px;padding:1%">
 
 						<div class="tab-pane fade active show" id="default-tab-1">
-							{!! $label !!}	
+								<div class="widget-list widget-list-rounded m-b-30" data-id="widget">
+									<a href="#" class="widget-list-item">
+										<div class="widget-list-media icon" style="vertical-align: top;" onclick="proses_revisi({{$data->id}},'deskaudit_langkah','Pemeriksaan Langkah Kerja')">
+											<i class="fa fa-cog bg-blue text-white"></i>
+										</div>
+										<div class="widget-list-content" style="width:15%;vertical-align: top;">
+											<h4 class="widget-list-title">LANGKAH KERJA</h4>
+										</div>
+										<div class="widget-list-content" style="width:1%;vertical-align: top;">
+											<h4 class="widget-list-title">:</h4>
+										</div>
+										<div class="widget-list-content" style="vertical-align: top;">
+											@if($data->sts_revisi_deskaudit_langkah=="" || $data->sts_revisi_deskaudit_langkah=="0")
+												<h4 class="widget-list-title">Menunggu Review</h4>
+											@endif
+											@if($data->sts_revisi_deskaudit_langkah==2 )
+												<h4 class="widget-list-title">{!! text_revisi($data->id,'deskaudit_langkah') !!}</h4>
+											@endif
+											@if($data->sts_revisi_deskaudit_langkah==1 )
+
+											@endif
+											
+										</div>
+										
+									</a>
+									<a href="#" class="widget-list-item">
+										<div class="widget-list-media icon" style="vertical-align: top;" onclick="proses_revisi({{$data->id}},'deskaudit_catatan','Pemeriksaan Langkah Kerja')">
+											<i class="fa fa-cog bg-blue text-white"></i>
+										</div>
+										<div class="widget-list-content" style="width:15%;vertical-align: top;">
+											<h4 class="widget-list-title">CATATAN</h4>
+										</div>
+										<div class="widget-list-content" style="width:1%;vertical-align: top;">
+											<h4 class="widget-list-title">:</h4>
+										</div>
+										<div class="widget-list-content" style="vertical-align: top;">
+											@if($data->sts_revisi_deskaudit_langkah=="" || $data->sts_revisi_deskaudit_langkah=="0")
+												<h4 class="widget-list-title">Menunggu Review</h4>
+											@endif
+											@if($data->sts_revisi_deskaudit_langkah==2 )
+												<h4 class="widget-list-title">{!! text_revisi($data->id,'deskaudit_catatan') !!}</h4>
+											@endif
+											@if($data->sts_revisi_deskaudit_langkah==1 )
+
+											@endif
+											
+										</div>
+										
+									</a>
+									
+								</div>
 								<div class="panel-body" style="overflow: auto;">
 									<table class="table table-bordered">
 										<thead>
@@ -71,7 +121,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																@foreach(langkah_compliance($prog->id) as $la=>$langkah)
+																@foreach(langkah_deskaudit($prog->id) as $la=>$langkah)
 																	<tr>
 																		<td>{{$la+1}}</td>
 																		<td>{{$langkah->name}}</td>
@@ -97,7 +147,7 @@
 								</div>	
 						</div>
 						<!-- <div class="modal-footer">
-							@if($data->sts_compliance==1)
+							@if($data->sts_deskaudit==1)
 							<a href="javascript:;" class="btn btn-blue" onclick="approve()">Approve</a>
 							@endif
 							<a href="javascript:;" class="btn btn-red" onclick="sebelumnya()">Kembali</a>
@@ -117,19 +167,31 @@
 	</div>
 	<div class="row">
 
-		<div class="modal" id="modalcatatan" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog modal-lg" id="modal-sedeng">
+		<div class="modal" id="modalrevisi" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Catatan</h4>
+						<h4 class="modal-title" id="labelrevisi"></h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
 						<div id="notifikasiubah"></div>
 						<form id="ubah-data" enctype="multipart/form-data">
 							@csrf
-							<input type="hidden"  name="id" id="kode">
-							<div id="isi-catatan"></div>
+							<input type="text"  name="audit_id" id="audit_id">
+							<input type="text"  name="kategori" id="kategori">
+							<div class="form-grup">
+								<label>Status</label>
+								<select name="sts" onchange="pilih_status(this.value)" class="form-control">
+									<option value="">Pilih Status</option>
+									<option value="2">Revisi</option>
+									<option value="1">Disetujui</option>
+								</select>
+							</div>
+							<div class="form-grup" id="keterangan">
+								<label>Keterangan</label>
+								<textarea class="form-control" name="keterangan" id="textareaketerangan"></textarea>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -167,16 +229,35 @@
             $('#tgl_langkahkerja2').datepicker({format: 'yyyy-mm-dd',autoclose: true});
             $.ajax({
 				type: 'GET',
-				url: "{{url('compliance/tampil_langkah_kerja')}}",
+				url: "{{url('Deskaudit/tampil_langkah_kerja')}}",
 				data: "id={{$data->id}}",
 				success: function(msg){
 					$('#tampil-langkah').html(msg);
 				}
 			}); 
+			$('#keterangan').hide();
         });
+		function pilih_status(id){
+			if(id==2){
+				$('#keterangan').show();
+			}
+			else if(id==1){
+				$('#keterangan').hide();
+			}
+			else{
+				$('#keterangan').hide();
+			}
+		}
+		function proses_revisi(id,kategori,label){
+			$('#audit_id').val(id);
+			$('#kategori').val(kategori);
+			$('#labelrevisi').html(label);
+			$('#modalrevisi').modal('show');
+		}
 		function lihat_file(file){
 			window.open("{{url('_file_lampiran')}}/"+file,"_blank");
 		}
+
 		$('#alasan').hide();
 		
 		function cek_status(a){
@@ -193,7 +274,7 @@
 			$('#kode').val(a);
 			$.ajax({
 				type: 'GET',
-				url: "{{url('compliance/Isicatatan')}}",
+				url: "{{url('Deskaudit/Isicatatan')}}",
 				data: "id="+a,
 				success: function(msg){
 					$('#isi-catatan').html(msg);
@@ -203,23 +284,7 @@
 			
 		}
 
-		$("#textareatiket2").wysihtml5({
-			locale: 'zh-TW',
-			name: 't-iframe',
-			events: {
-				load: function(){
-					var $body = $(this.composer.element);
-					var $iframe = $(this.composer.iframe);
-					iframeh = Math.max($body[0].scrollHeight, $body.height()) + 300;
-					document.getElementsByClassName('wysihtml5-sandbox')[0].setAttribute('style','height: ' + iframeh +'px !important');
-				},change: function(){
-					var $abody = $(this.composer.element);
-					var $aiframe = $(this.composer.iframe);
-					aiframeh = Math.max($abody[0].scrollHeight, $abody.height()) + 300;
-					document.getElementsByClassName('wysihtml5-sandbox')[0].setAttribute('style','height: ' + aiframeh +'px !important');
-				}
-			}
-		});
+		$("#textareaketerangan").wysihtml5();
 		$('#myTable').DataTable( {
 			responsive: true,
 			paging: true,
@@ -232,7 +297,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/compliance/proses_catatan')}}",
+                    url: "{{url('/Qc/proses_revisi')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

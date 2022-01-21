@@ -28,8 +28,9 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
-
-						
+					@if($act=='revisi')
+				    	<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm">Kembali</a>
+					@endif	
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  onclick="tambah()" class="nav-link active">

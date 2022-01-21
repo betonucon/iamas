@@ -31,55 +31,65 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
-					<div class="col-md-12" style="margin-bottom:2%">
-						<div class="btn-group">
-							<button class="btn btn-blue btn-sm" onclick="tambah_data()"><i class="fas fa-plus"></i> Tambah Temuan</button>
-							<button class="btn btn-aqua btn-sm"><i class="fas fa-check"></i> Selesai</button>
-							@if($act=='revisi')
-				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@else
-								<a href="{{url('Lha')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@endif
-						</div>
-					</div>
-					<div class="col-md-12">
-						@foreach(kesimpulan_get($id) as $no=>$kes)
-						<?php
-						  if(($no+1)%2==0){
-							$warna='lime';
-						  }else{
-							$warna='info';
-						  }
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+								<span class="d-sm-none">TEMUAN</span>
+								<span class="d-sm-block d-none">TEMUAN</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{url('Lha/Catatanhead?id='.coder($id))}}&aksi=rekomendasi"  class="nav-link">
+								<span class="d-sm-none">REKOMENDASI</span>
+								<span class="d-sm-block d-none">REKOMENDASI</span>
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content" style="margin-bottom:0px;padding:1%">
+						<div class="tab-pane fade active show" id="default-tab-1">
+							<div class="col-md-12" style="margin-bottom:2%">
+								<div class="btn-group">
+									<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
+								</div>
+							</div>
+							<div class="col-md-12">
+								@foreach(kesimpulan_get($id) as $no=>$kes)
+								<?php
+								if(($no+1)%2==0){
+									$warna='lime';
+								}else{
+									$warna='info';
+								}
 
-						?>
-						<div class="alert alert-{{$warna}} fade show m-b-10">
-							<span class="btn btn-blue btn-xs close" style="opacity: 1;" onclick="ubah({{$kes->id}})"><i class="fas fa-pencil-alt fa-fw"></i> Ubah</span>
-							<span class="btn btn-red btn-xs close" style="opacity: 1;" onclick="hapus({{$kes->id}})"><i class="fas fa-trash-alt fa-fw"></i> Hapus</span>
-							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}</u></b></br>
-							<table style="margin-left:2%" width="100%">
-								<tr>
-									<td class="text-toop" width="15%"><b>Judul</b></td>
-									<td class="text-toop" width="2%"><b>:</b></td>
-									<td class="text-toop">{{$kes->name}}</td>
-								</tr>
-								<tr>
-									<td class="text-toop"><b>Kodifikasi</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
-								</tr>
-								<tr>
-									<td class="text-toop"><b>Isi Kesimpulan</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{!! $kes->isi !!}</td>
-								</tr>
-								<tr>
-									<td class="text-toop"><b>Risiko</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
-								</tr>
-							</table>
+								?>
+								<div class="alert alert-{{$warna}} fade show m-b-10">
+									<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}</u></b></br>
+									<table style="margin-left:2%" width="100%">
+										<tr>
+											<td class="text-toop" width="15%"><b>Judul</b></td>
+											<td class="text-toop" width="2%"><b>:</b></td>
+											<td class="text-toop">{{$kes->name}}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Kodifikasi</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Isi Kesimpulan</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{!! $kes->isi !!}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Risiko</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
+										</tr>
+									</table>
+								</div>
+								@endforeach
+							</div>
 						</div>
-						@endforeach
 					</div>
 				</div>
 				<!-- end panel-body -->
@@ -220,7 +230,7 @@
 		$("#textareaisi").wysihtml5();
 		
 		function kembali(){
-			location.assign("{{url('/Lha/')}}");
+			location.assign("{{url('/Qc/')}}");
 		}
 		$('#myTable').DataTable( {
 			responsive: true,

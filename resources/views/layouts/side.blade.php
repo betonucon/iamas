@@ -1,4 +1,4 @@
-    <ul class="nav">
+<ul class="nav">
         <li class="nav-header">Navigation</li>
         
             <li class="has-sub ">
@@ -32,7 +32,10 @@
                 <li><a href="{{url('TiketGL')}}">{!! notif_sumber_gl()!!}<i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
                 <li><a href="{{url('TiketNew')}}">{!! notif_tiket_gl() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
             @endif
-
+            @if(akses_tiket_ketua()>0)
+                <li><a href="{{url('TiketKetua')}}"><i class="fa fa-ticket-alt"></i><span>Tiket Ketua</span></a></li>
+            
+            @endif
             <!-----Menu Anggota Untuk Tiket---->
             @if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==4 || Auth::user()->posisi_id==5 || Auth::user()->posisi_id==6 || Auth::user()->posisi_id==10)
                 <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
@@ -54,23 +57,15 @@
                 <li class="has-sub lilinya">
                     <a href="javascript:;">
                         <b class="caret"></b>
-                        <i class="fa fa-gavel"></i>
-                        <span>Persetujuan Audit </span>
+                        <i class="fa fa-clipboard"></i>
+                        <span>Audit </span>
                     </a>
                     <ul class="sub-menu" style="display: @if($side=='audithead') block @endif;">
                         <li><a href="{{url('/AccAuditplan')}}">{!! notif_auditplan_head() !!} Audit Plan </a></li>
-                        <li class="has-sub expand">
-                            <a href="javascript:;">
-                                <b class="caret"></b>
-                                DeskAudit
-                            </a>
-                            <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Deskaudit')}}">Program</a></li>
-                                <li><a href="javascript:;">Catatan</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{{url('/ListKaryawan')}}">Compliance</a></li>
-                        <li><a href="{{url('/ListKaryawan')}}">Substantive</a></li>
+                        <li><a href="{{url('/Deskaudithead')}}">Deskaudit</a></li>
+                        <li><a href="{{url('/Compliancehead')}}">Compliance</a></li>
+                        <li><a href="{{url('/Substantivehead')}}">Substantive</a></li>
+                        <li><a href="{{url('/Lha')}}">{!! notif_lha_head() !!} Lha</a></li>
                         
                     </ul>
                 </li>
@@ -125,7 +120,7 @@
                                     LHA
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Lha')}}">Program</a></li>
+                                    <li><a href="{{url('/Lha')}}">{!! notif_lha_pengawas() !!} Program</a></li>
                                 </ul>
                             </li>
                             
@@ -172,7 +167,15 @@
                                 <li><a href="{{url('/Substantivecatatan')}}">Catatan</a></li>
                             </ul>
                         </li>
-                        
+                        <li class="has-sub expand">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                LHA
+                            </a>
+                            <ul class="sub-menu" style="display: block;">
+                                <li><a href="{{url('/Lha')}}">Program</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
             @endif
@@ -212,9 +215,31 @@
                                 <li><a href="{{url('/Substantiveanggota')}}">Catatan</a></li>
                             </ul>
                         </li>
-                        
+                        <li class="has-sub expand">
+                            <a href="javascript:;">
+                                <b class="caret"></b>
+                                LHA
+                            </a>
+                            <ul class="sub-menu" style="display: block;">
+                                <li><a href="{{url('/Lha')}}">Program</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
+                <li class="has-sub lilinya">
+                    <a href="{{url('Qcrevisi')}}">
+                        <i class="fa fa-clipboard"></i>
+                        <span>Draf Perbaikan</span>
+                    </a>
+                </li>
+            @endif
+
+            @if(Auth::user()->role_id==7)
+                <li><a href="{{url('/Qc')}}"><i class="fa fa-clipboard"></i>
+                        <span>Draf Pemeriksaan</span>
+                    </a>
+                </li>
+                        
             @endif
         
         <!-- end sidebar minify button -->
