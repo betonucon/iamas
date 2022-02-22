@@ -28,6 +28,50 @@ class QcController extends Controller
         }
         
     }
+    public function index_head(request $request){
+        $menu='LHA Hasil QC Audit';
+        if(Auth::user()['role_id']==1){
+            $side="audithead";
+            return view('Qc.index_head',compact('menu','side'));
+        }
+        
+        else{
+
+        }
+        
+    }
+    public function index_temuan(request $request){
+        $menu='Temuan ';
+        $side="no";
+        return view('Qc.index_temuan',compact('menu','side'));
+        
+    }
+    public function index_temuan_head(request $request){
+        $menu='Temuan ';
+        $side="no";
+        return view('Qc.index_temuan_head',compact('menu','side'));
+        
+    }
+    public function index_temuan_ketua(request $request){
+        $menu='Temuan ';
+        $side="no";
+        return view('Qc.index_temuan_ketua',compact('menu','side'));
+        
+    }
+    public function index_temuan_pengawas(request $request){
+        $menu='Temuan ';
+        $side="no";
+        return view('Qc.index_temuan_pengawas',compact('menu','side'));
+        
+    }
+    public function view_temuan(request $request){
+        $id=encoder($request->id);
+        $data=Audit::where('id',$id)->first();
+        $menu='Temuan '.$data['nomorsurat'];
+        $side="auditpengawas";
+        return view('Qc.view_temuan',compact('menu','side','data','id'));
+        
+    }
     public function index_revisi(request $request){
         $menu='Laporan Perbaikan Audit';
         $side="auditpengawas";
@@ -179,6 +223,7 @@ class QcController extends Controller
                                     'mulai'=>date('Y-m-d'),
                                     'sampai'=>tgl_kedepan(date('Y-m-d'),14),
                                     'sts'=>1,
+                                    'role_id'=>Auth::user()['role_id'],
                                 ]);
     
                                 echo'ok';
@@ -192,6 +237,7 @@ class QcController extends Controller
                                 'mulai'=>date('Y-m-d'),
                                 'sampai'=>tgl_kedepan(date('Y-m-d'),14),
                                 'sts'=>1,
+                                'role_id'=>Auth::user()['role_id'],
                             ]);
 
                             echo'ok';
@@ -221,6 +267,7 @@ class QcController extends Controller
                                 'mulai'=>date('Y-m-d'),
                                 'sampai'=>date('Y-m-d'),
                                 'sts'=>2,
+                                'role_id'=>Auth::user()['role_id'],
                             ]);
 
                             echo'ok';
@@ -235,64 +282,84 @@ class QcController extends Controller
 
         
     }
-    public function save_rekomendasi(request $request){
-        if($request->act=='New'){
-            if (trim($request->kesimpulan_id) == '') {$error[] = '- Pilih Obyek Audit';}
-            if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
-            if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
-            if (trim($request->content) == '') {$error[] = '- Lengkapi isi kesimpulan';}
-            if (trim($request->nilai) == '') {$error[] = '- Lengkapi isi nilai';}
-            if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-            else{
-                $data=Rekomendasi::create([
-                    'kesimpulan_id'=>$request->kesimpulan_id,
-                    'nomor'=>$request->nomor,
-                    'kode_unit'=>$request->kode_unit,
-                    'isi'=>$request->content,
-                    'kodifikasi'=>$request->kodifikasi,
-                    'nilai'=>ubah_uang($request->nilai),
-                ]);
+    // public function save_rekomendasi(request $request){
+    //     if($request->act=='New'){
+    //         if (trim($request->kesimpulan_id) == '') {$error[] = '- Pilih Obyek Audit';}
+    //         if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
+    //         if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
+    //         if (trim($request->content) == '') {$error[] = '- Lengkapi isi kesimpulan';}
+    //         if (trim($request->nilai) == '') {$error[] = '- Lengkapi isi nilai';}
+    //         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+    //         else{
+    //             $data=Rekomendasi::create([
+    //                 'kesimpulan_id'=>$request->kesimpulan_id,
+    //                 'nomor'=>$request->nomor,
+    //                 'kode_unit'=>$request->kode_unit,
+    //                 'isi'=>$request->content,
+    //                 'kodifikasi'=>$request->kodifikasi,
+    //                 'nilai'=>ubah_uang($request->nilai),
+    //             ]);
 
-                $get=Rekomendasi::where('kesimpulan_id',$request->kesimpulan_id)->orderBy('id','Asc')->get();
-                if($data){
-                    foreach($get as $no=>$o){
+    //             $get=Rekomendasi::where('kesimpulan_id',$request->kesimpulan_id)->orderBy('id','Asc')->get();
+    //             if($data){
+    //                 foreach($get as $no=>$o){
                         
-                        $data=Rekomendasi::where('id',$o['id'])->update([
-                            'urutan'=>($no+1),
-                        ]);
-                    }
+    //                     $data=Rekomendasi::where('id',$o['id'])->update([
+    //                         'urutan'=>($no+1),
+    //                     ]);
+    //                 }
 
-                    echo'ok';
-                }
+    //                 echo'ok';
+    //             }
                 
-            }
-        }else{
-            if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
-            if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
-            if (trim($request->content) == '') {$error[] = '- Lengkapi isi kesimpulan';}
-            if (trim($request->nilai) == '') {$error[] = '- Lengkapi isi nilai';}
-            if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-            else{
-                $data=Rekomendasi::where('id',$request->rekomendasi_id)->update([
-                    'kode_unit'=>$request->kode_unit,
-                    'isi'=>$request->content,
-                    'kodifikasi'=>$request->kodifikasi,
-                    'nilai'=>ubah_uang($request->nilai),
-                ]);
+    //         }
+    //     }else{
+    //         if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
+    //         if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
+    //         if (trim($request->content) == '') {$error[] = '- Lengkapi isi kesimpulan';}
+    //         if (trim($request->nilai) == '') {$error[] = '- Lengkapi isi nilai';}
+    //         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+    //         else{
+    //             $data=Rekomendasi::where('id',$request->rekomendasi_id)->update([
+    //                 'kode_unit'=>$request->kode_unit,
+    //                 'isi'=>$request->content,
+    //                 'kodifikasi'=>$request->kodifikasi,
+    //                 'nilai'=>ubah_uang($request->nilai),
+    //             ]);
 
-                if($data){
+    //             if($data){
                 
-                    echo'ok';
-                }
+    //                 echo'ok';
+    //             }
                 
-            }
-        }
-    }
+    //         }108597
+    //     }
+    // }
     public function send_to_head(request $request){
         $data=Audit::where('id',$request->id)->update([
             'sts_lha'=>4,
         ]);
 
+        echo'ok';
+    }
+    public function penerbitan_lha(request $request){
+        $data=Audit::where('id',$request->id)->update([
+            'sts_lha'=>5,
+            'sts'=>12,
+        ]);
+        $get=Kesimpulan::where('audit_id',$request->id)->orderBy('id','Asc')->get();
+        foreach($get as $x=>$o){
+            $bulan=date('m');
+            $kodesumber=$o['kode_sumber'];
+            $tahun=date('Y');
+            $tahunkode=date('y');
+            $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", $o['kdr']);
+            $data=Kesimpulan::where('id',$o['id'])->update([
+                'nomorkode'=>$nomorkode,
+                
+                
+            ]);
+        }
         echo'ok';
     }
 

@@ -31,32 +31,15 @@
 				<!-- end panel-heading -->
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
-					<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #e3e3e9;">
-						<div class="form-group">
-							<label>PILIH TEMUAN</label>
-							<select onchange="pilih_temuan(this.value)" style="width:50%" class="form-control">
-								@foreach(kesimpulan_get($id) as $kesim)
-									<option value="{{$kesim->id}}" @if($kesimpulan_id==$kesim->id) selected @endif >Temuan {{$kesim->nomor}} </option>
-								@endforeach
-							</select>
-						</div>
-					</div>
+					
 					<div class="col-md-12" style="margin-bottom:2%">
 						<div class="btn-group">
-							<button class="btn btn-blue btn-sm" onclick="tambah_data()"><i class="fas fa-plus"></i> Tambah Rekomendasi</button>
-							@if($act=='revisi')
-				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@else
-								<a href="{{url('Lha')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-							@endif
+							<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
 						</div>
 					</div>
-					<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #ecf1dc;">
-						<b>KESIMPULAN</b><hr>
-						{!! $namakesimpulan !!}
-					</div>
+					
 					<div class="col-md-12">
-						@foreach(rekomendasi_get($kesimpulan_id) as $no=>$kes)
+						@foreach(temuan_get($id) as $no=>$kes)
 						<?php
 						  if(($no+1)%2==0){
 							$warna='lime';
@@ -66,15 +49,19 @@
 
 						?>
 						<div class="alert alert-{{$warna}} fade show m-b-10">
-							<span class="btn btn-blue btn-xs close" style="opacity: 1;" onclick="ubah({{$kes->id}})"><i class="fas fa-pencil-alt fa-fw"></i> Ubah</span>
-							<span class="btn btn-red btn-xs close" style="opacity: 1;" onclick="hapus({{$kes->id}})"><i class="fas fa-trash-alt fa-fw"></i> Hapus</span>
 							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}.{{$kes->urutan}}</u></b></br>
 							<table style="margin-left:2%" width="100%">
+								<tr>
+									<td class="text-toop"><b>Kesimpulan</b></td>
+									<td class="text-toop"><b>:</b></td>
+									<td class="text-toop"><b>{{$kes->kesimpulan['name']}}</b></td>
+								</tr>
 								<tr>
 									<td class="text-toop" width="15%"><b>PIC</b></td>
 									<td class="text-toop" width="2%"><b>:</b></td>
 									<td class="text-toop">{{$kes->unitkerja['pimpinan']}} {{$kes->unitkerja['name']}}</td>
 								</tr>
+								
 								<tr>
 									<td class="text-toop"><b>Kodifikasi</b></td>
 									<td class="text-toop"><b>:</b></td>
@@ -89,6 +76,16 @@
 									<td class="text-toop"><b>Risiko</b></td>
 									<td class="text-toop"><b>:</b></td>
 									<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
+								</tr>
+								<tr>
+									<td class="text-toop" colspan="3"><br>
+									<b><u>Tanggapan Auditee </u></b><br>
+									@if($kes->catatan==null)
+						  				<font color="grey">Ketik........</font>
+									@else
+						  				{!! $kes->catatan !!}
+									@endif
+								</td>
 								</tr>
 							</table>
 						</div>
@@ -168,46 +165,7 @@
 	<script>
 		
 
-		function tambah_data(){
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Lha/tampiltambahrekomendasi')}}",
-				data: "kesimpulan_id={{$kesimpulan_id}}&nomor={{$nomor}}",
-				beforeSend: function() {
-					document.getElementById("loadnya").style.width = "100%";
-				},
-				success: function(msg){
-					document.getElementById("loadnya").style.width = "0px";
-					$('#modaltambah').modal({
-						backdrop: 'static',
-						keyboard: true, 
-						show: true
-					});
-					$('#tampil-tambah').html(msg);
-				}
-			});
-			
-		}
-		function ubah(id){
-			$.ajax({
-				type: 'GET',
-				url: "{{url('Lha/tampiltambahrekomendasi')}}",
-				data: "kesimpulan_id={{$kesimpulan_id}}&nomor={{$nomor}}&rekomendasi_id="+id,
-				beforeSend: function() {
-					document.getElementById("loadnya").style.width = "100%";
-				},
-				success: function(msg){
-					document.getElementById("loadnya").style.width = "0px";
-					$('#modaltambah').modal({
-						backdrop: 'static',
-						keyboard: true, 
-						show: true
-					});
-					$('#tampil-tambah').html(msg);
-				}
-			});
-			
-		}
+		
 		function batal(){
 			$('#modaltambah').modal('toggle');
 		}
@@ -222,10 +180,10 @@
 		$("#textareaisiubahrekomendasi").wysihtml5();
 		
 		function pilih_temuan(nomor){
-			location.assign("{{url('/Lha/Createrekomendasi?id='.coder($id))}}&nomor="+nomor);
+			location.assign("{{url('/Lha/Createrekomendasi?id='.$id)}}&nomor="+nomor);
 		}
 		function kembali(){
-			location.assign("{{url('/Lha/')}}");
+			history.back();
 		}
 		$('#myTable').DataTable( {
 			responsive: true,

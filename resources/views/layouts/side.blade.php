@@ -66,9 +66,11 @@
                         <li><a href="{{url('/Compliancehead')}}">Compliance</a></li>
                         <li><a href="{{url('/Substantivehead')}}">Substantive</a></li>
                         <li><a href="{{url('/Lha')}}">{!! notif_lha_head() !!} Lha</a></li>
+                        <li><a href="{{url('/Qchead')}}">{!! notif_qc_head() !!} Qc Head</a></li>
                         
                     </ul>
                 </li>
+                <li><a href="{{url('Temuanhead')}}"><i class="fa fa-clipboard"></i><span>Temuan</span></a></li>
                 @endif
             @endif
 
@@ -91,7 +93,7 @@
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
                                     <li><a href="{{url('/Deskauditpengawas')}}">{!! notif_deskaudit_program_pengawas() !!} Program</a></li>
-                                    <li><a href="{{url('/Deskauditcatatanpengawas')}}">Catatan</a></li>
+                                    <li><a href="{{url('/Deskauditcatatanpengawas')}}">{!! notif_deskaudit_catatan_pengawas() !!} Catatan</a></li>
                                 </ul>
                             </li>
                             <li class="has-sub expand">
@@ -100,8 +102,8 @@
                                     Compliance
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Compliancepengawas')}}">Program</a></li>
-                                    <li><a href="{{url('/Compliancecatatanpengawas')}}">Catatan</a></li>
+                                    <li><a href="{{url('/Compliancepengawas')}}">{!! notif_compliance_program_pengawas() !!} Program</a></li>
+                                    <li><a href="{{url('/Compliancecatatanpengawas')}}">{!! notif_compliance_catatan_pengawas() !!} Catatan</a></li>
                                 </ul>
                             </li>
                             <li class="has-sub expand">
@@ -110,8 +112,8 @@
                                     Substantive Test
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Lha')}}">Program</a></li>
-                                    <li><a href="{{url('/Substantivecatatanpengawas')}}">Catatan</a></li>
+                                    <li><a href="{{url('/Substantivepengawas')}}">{!! notif_substantive_program_pengawas() !!} Program</a></li>
+                                    <li><a href="{{url('/Substantivecatatanpengawas')}}">{!! notif_substantive_catatan_pengawas() !!} Catatan</a></li>
                                 </ul>
                             </li>
                             <li class="has-sub expand">
@@ -126,6 +128,7 @@
                             
                         </ul>
                     </li>
+                    <li><a href="{{url('Temuanpengawas')}}"><i class="fa fa-clipboard"></i><span>Temuan pengawas</span></a></li>
                 @endif
             @endif
 
@@ -153,8 +156,8 @@
                                 Compliance
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Compliance')}}">Program</a></li>
-                                <li><a href="{{url('/Compliancecatatan')}}">Catatan</a></li>
+                                <li><a href="{{url('/Compliance')}}">{!! notif_compliance_program_ketua() !!} Program</a></li>
+                                <li><a href="{{url('/Compliancecatatan')}}">{!! notif_compliance_catatan_ketua() !!} Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">
@@ -163,8 +166,8 @@
                                 Substantive Test
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Substantive')}}">Program</a></li>
-                                <li><a href="{{url('/Substantivecatatan')}}">Catatan</a></li>
+                                <li><a href="{{url('/Substantive')}}">{!! notif_substantive_program_ketua() !!} Program</a></li>
+                                <li><a href="{{url('/Substantivecatatan')}}">{!! notif_substantive_catatan_ketua() !!} Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">
@@ -178,6 +181,7 @@
                         </li>
                     </ul>
                 </li>
+                <li><a href="{{url('Temuanketua')}}"><i class="fa fa-clipboard"></i><span>Temuan ketua</span></a></li>
             @endif
             
             @if(akses_tiket_anggota()>0)
@@ -194,7 +198,7 @@
                                 DeskAudit
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Deskauditanggota')}}">Catatan</a></li>
+                                <li><a href="{{url('/Deskauditanggota')}}">{!! notif_deskaudit_catatan_anggota() !!}Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">
@@ -203,7 +207,7 @@
                                 Compliance
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Complianceanggota')}}">Catatan</a></li>
+                                <li><a href="{{url('/Complianceanggota')}}">{!! notif_compliance_catatan_anggota() !!} Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">
@@ -212,7 +216,7 @@
                                 Substantive Test
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Substantiveanggota')}}">Catatan</a></li>
+                                <li><a href="{{url('/Substantiveanggota')}}">{!! notif_substantive_catatan_anggota() !!} Catatan</a></li>
                             </ul>
                         </li>
                         <li class="has-sub expand">
@@ -232,6 +236,7 @@
                         <span>Draf Perbaikan</span>
                     </a>
                 </li>
+                <li><a href="{{url('Temuan')}}"><i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
             @endif
 
             @if(Auth::user()->role_id==7)

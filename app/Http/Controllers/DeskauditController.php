@@ -95,7 +95,7 @@ class DeskauditController extends Controller
         error_reporting(0);
         $cek=Audit::where('id',encoder($request->id))->count();
         $act=$request->act;
-        // dd($act);
+        $side="auditketua";
         if(akses_tiket_ketua()>0 && $cek>0){
             if($act=='revisi'){
                 $menu='Perbaikan Deskaudit Program';
@@ -108,12 +108,12 @@ class DeskauditController extends Controller
             $program=Deskaudit::where('audit_id',encoder($request->id))->get();
             
             if($data['sts_deskaudit']==null || $data['sts_deskaudit']==0){
-                return view('Deskaudit.create',compact('menu','data','program','act'));
+                return view('Deskaudit.create',compact('menu','data','program','act','side'));
             }else{
                 if($data['sts_revisi_deskaudit_langkah']==2){
-                    return view('Deskaudit.create',compact('menu','data','program','act'));
+                    return view('Deskaudit.create',compact('menu','data','program','act','side'));
                 }else{
-                    return view('Deskaudit.view',compact('menu','data','program'));
+                    return view('Deskaudit.view',compact('menu','data','program','side'));
                 }
                 
             }

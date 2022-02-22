@@ -32,6 +32,7 @@
 				<!-- begin panel-body -->
 				<div class="panel-body" style="background: #b5b5d330;">
 					<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #e3e3e9;">
+						
 						<div class="form-group">
 							<label>PILIH TEMUAN</label>
 							<select onchange="pilih_temuan(this.value)" style="width:50%" class="form-control">
@@ -46,7 +47,10 @@
 							<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
 						</div>
 					</div>
-					
+					<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #ecf1dc;">
+						<b>KESIMPULAN</b><hr>
+						{!! $namakesimpulan !!}
+					</div>
 					<div class="col-md-12">
 						@foreach(rekomendasi_get($kesimpulan_id) as $no=>$kes)
 						<?php
@@ -76,9 +80,9 @@
 									<td class="text-toop">{!! $kes->isi !!}</td>
 								</tr>
 								<tr>
-									<td class="text-toop"><b>Nilai</b></td>
+									<td class="text-toop"><b>Risiko</b></td>
 									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{{uang($kes->nilai)}}</td>
+									<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
 								</tr>
 							</table>
 						</div>

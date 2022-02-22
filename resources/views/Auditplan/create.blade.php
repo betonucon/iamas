@@ -151,7 +151,7 @@
 								<div class="tab-pane fade" id="default-tab-5">
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Tanggal Penerbitan Laporan</label>
+											<label class="col-lg-3 text-lg-right col-form-label">Tanggal Surat Tugas</label>
 											<div class="col-lg-9 col-xl-4">
 												<input type="text" class="form-control" name="tgl_penerbitan"  id="tangal_penerbitan" placeholder="Enter text ..." >
 											</div>
@@ -167,7 +167,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">(Hasil)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">(Catatan)</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_deskaudit_hasil_start"  id="tgl_deskaudit_hasil_start" placeholder="Enter text ..." >
 											</div>
@@ -185,7 +185,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">(Hasil)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">(Catatan)</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_compliance_hasil_start"  id="tgl_compliance_hasil_start" placeholder="Enter text ..." >
 											</div>
@@ -203,7 +203,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">(Hasil)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">(Catatan)</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_substantive_hasil_start"  id="tgl_substantive_hasil_start" placeholder="Enter text ..." >
 											</div>
@@ -212,7 +212,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">(Penyusunan LHA)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">4. Penyusunan Draft LHA</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_lha_start"  id="tgl_lha_start" placeholder="Enter text ..." >
 											</div>
@@ -221,7 +221,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">4. Reporting Audit (Draft)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">5. QC Audit</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_lha_draf_start"  id="tgl_lha_draf_start" placeholder="Enter text ..." >
 											</div>
@@ -230,7 +230,7 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">(Penyelesaian)</label>
+											<label class="col-lg-3 text-lg-right col-form-label">6. Penerbitan LHA</label>
 											<div class="col-lg-9 col-xl-3">
 												<input type="text" class="form-control" readonly name="tgl_lha_finis_start"  id="tgl_lha_finis_start" placeholder="Enter text ..." >
 											</div>

@@ -224,59 +224,20 @@ class LhaController extends Controller
     }
 
     public function send_to_pengawas(request $request){
-        error_reporting(0);
-        $id=encoder($request->audit_id);
         if($request->sts=='0'){
-            $data=Audit::where('id',$id)->update([
+            $data=Audit::where('id',$request->audit_id)->update([
                 'sts_lha'=>$request->sts,
                 'alasan_lha'=>$request->alasan,
             ]);
             echo'ok';
         }else{
-            
-            $lha=Kesimpulan::where('audit_id',$id)->whereNull('kdr')->where('kode_sumber','LHA')->orderBy('id','Asc')->get();
-            foreach($lha as $x=>$o){
-                $bulan=date('m');
-                $kodesumber='LHA';
-                $tahun=date('Y');
-                $tahunkode=date('y');
-                $cekcount=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber','LHA')->where('kdr','>',0)->count();
-                if($cekcount>0){
-                    $cek=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber','LHA')->where('kdr','>',0)->orderBy('id','Desc')->firstOrfail();
-                    $nm=$cek['kdr'];
-                }else{
-                    $nm=0;
-                }
-                $nomor=$nm+1;
-                $kesi=Kesimpulan::where('id',$o['id'])->update([
-                    'kdr'=>$nomor,
-                ]);
-            }
-            $lhp=Kesimpulan::where('audit_id',$id)->whereNull('kdr')->where('kode_sumber','LHP')->orderBy('id','Asc')->get();
-            foreach($lhp as $x=>$o){
-                $bulan=date('m');
-                $kodesumber='LHP';
-                $tahun=date('Y');
-                $tahunkode=date('y');
-                $cekcount=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber','LHP')->where('kdr','>',0)->count();
-                if($cekcount>0){
-                    $cek=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber','LHP')->where('kdr','>',0)->orderBy('id','Desc')->firstOrfail();
-                    $nm=$cek['kdr'];
-                }else{
-                    $nm=0;
-                }
-                $nomor=($nm+1);
-                $kesi=Kesimpulan::where('id',$o['id'])->update([
-                    'kdr'=>$nomor,
-                ]);
-            }
-            $data=Audit::where('id',$id)->update([
+            $data=Audit::where('id',$request->audit_id)->update([
                 'sts_lha'=>3,
                 'sts'=>11,
             ]);
             echo'ok';
+        }
             
-        }   
             
     }
 
@@ -290,6 +251,20 @@ class LhaController extends Controller
             if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
             else{
                 $audit=Audit::where('id',$request->audit_id)->first();
+                $bulan=date('m');
+                $kodesumber=kodesumber(ket_risiko($request->risiko),$audit['kode_aktivitas']);
+                $tahun=date('Y');
+                $tahunkode=date('y');
+                $cekcount=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber',$kodesumber)->count();
+                        
+                if($cekcount>0){
+                    $cek=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber',$kodesumber)->orderBy('id','Desc')->firstOrfail();
+                    $urutan = (int) substr($cek['nomorkode'], 6, 2);
+                    $urutan++;
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", $urutan);
+                }else{
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", 1);
+                }
                 $data=Kesimpulan::create([
                     'audit_id'=>$request->audit_id,
                     'name'=>$request->name,
@@ -297,6 +272,7 @@ class LhaController extends Controller
                     'ket_risiko'=>ket_risiko($request->risiko),
                     'kodifikasi'=>$request->kodifikasi,
                     'kode'=>$audit['kode_aktivitas'],
+                    'nomorkode'=>$nomorkode,
                     'isi'=>$request->content,
                     'sts'=>1,
                     'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$audit['kode_aktivitas']),
@@ -331,13 +307,27 @@ class LhaController extends Controller
             if (isset($error)) {echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
             else{
                 $kesim=Kesimpulan::where('id',$request->kesimpulan_id)->first();
-                
+                $bulan=date('m');
+                $kodesumber=kodesumber(ket_risiko($request->risiko),$kesim['kode_sumber']);
+                $tahun=date('Y');
+                $tahunkode=date('y');
+                $cekcount=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber',$kodesumber)->count();
+                        
+                if($cekcount>0){
+                    $cek=Kesimpulan::where('bulan',$bulan)->where('tahun',$tahun)->where('kode_sumber',$kodesumber)->orderBy('id','Desc')->firstOrfail();
+                    $urutan = (int) substr($cek['nomorkode'], 6, 2);
+                    $urutan++;
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", $urutan);
+                }else{
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", 1);
+                }
                 $data=Kesimpulan::where('id',$request->kesimpulan_id)->update([
                     'name'=>$request->name,
                     'risiko'=>$request->risiko,
                     'ket_risiko'=>ket_risiko($request->risiko),
                     'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$kesim['kode']),
                     'kodifikasi'=>$request->kodifikasi,
+                    'nomorkode'=>$nomorkode,
                     'isi'=>$request->content,
                 ]);
 

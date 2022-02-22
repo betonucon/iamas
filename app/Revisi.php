@@ -17,6 +17,7 @@ class Revisi extends Model
         'tiket_id',
         'kategori',
         'sts',
+        'role_id',
 
         
 

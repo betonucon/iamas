@@ -35,6 +35,7 @@ Route::get('/config-cache', function() {
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Unitkerja',[UnitController::class, 'index']);
     Route::get('get_organisasi',[UnitController::class, 'get_organisasi']);
+    Route::get('get_nik',[UnitController::class, 'get_nik']);
     Route::get('Unitkerja/ubah',[UnitController::class, 'ubah']);
     Route::post('Unitkerja',[UnitController::class, 'simpan']);
     Route::post('Unitkerja/ubah_data',[UnitController::class, 'simpan_ubah']);
@@ -217,10 +218,17 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Qc',[QcController::class, 'index']);
+    Route::get('Temuan',[QcController::class, 'index_temuan']);
+    Route::get('Temuanhead',[QcController::class, 'index_temuan_head']);
+    Route::get('Temuanketua',[QcController::class, 'index_temuan_ketua']);
+    Route::get('Temuanpengawas',[QcController::class, 'index_temuan_pengawas']);
+    Route::get('Temuan/view',[QcController::class, 'view_temuan']);
+    Route::get('Qchead',[QcController::class, 'index_head']);
     Route::get('Qcrevisi',[QcController::class, 'index_revisi']);
     Route::post('Qc/proses_revisi',[QcController::class, 'proses_revisi']);
     Route::get('Qc/proses_pengerjaan',[QcController::class, 'proses_pengerjaan']);
     Route::get('Qc/send_to_head',[QcController::class, 'send_to_head']);
+    Route::get('Qc/penerbitan_lha',[QcController::class, 'penerbitan_lha']);
     Route::get('Qcview',[QcController::class, 'view']);
 
 });

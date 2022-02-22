@@ -37,37 +37,25 @@
 						<table id="myTable" class="table table-striped table-bordered table-td-valign-top">
 							<thead>
 								<tr>
-									<th width="3%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
+									<th width="3%">No</th>
+									<th width="12%" class="text-nowrap">Surat Tugas</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
-									<th width="7%" class="text-nowrap">Status</th>
-									<th width="8%">Kesimpulan</th>
-									
-									<th width="8%">Rekomendasi</th>
-									<th width="4%">Approve</th>
-									<th width="8%">File</th>
+									<th width="11%" class="text-nowrap">Status</th>
+									<th width="9%">Temuan</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(lha_pengawas_get() as $no=>$data)
+								@foreach(index_temuan_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
+										<td class="boldtd">{{$data->tiket['nomortiket']}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
-										<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-search"></i> View</span></td>
-										<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-search"></i>  View</span></td>
-										@if($data->sts_lha=='1')
-											<td class="text-center"><span onclick="sand_lha(`{{coder($data->id)}}`)" title="Approve" class="btn btn-blue btn-xs">Approve</span></td>
-										@else
-											
-											<td class="text-center"><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
-										@endif
-										<td><span onclick="cek_file_lha(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
+										<td><span onclick="proses_temuan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-search"></i> Temuan</span></td>
 										
 									</tr>
 								@endforeach
@@ -94,7 +82,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-						<form id="kirim-data" action="{{url('/Lha/approve_pengawas')}}" method="post" enctype="multipart/form-data">
+						<form id="kirim-data" method="post" enctype="multipart/form-data">
         					@csrf
 							<input type="hidden" name="audit_id" id="audit_id">
 							<div class="note note-warning note-with-right-icon m-b-15">
@@ -106,23 +94,35 @@
 								</div>
 								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
 							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Status</label>
-								<select class="form-control" name="sts"  onchange="cek_status(this.value)">
-									<option value="2">Setujui</option>
-									<option value="0">Kembalikan</option>
-								</select>
-							</div>
-							<div class="form-group" id="kolom-alasan">
-								<label for="exampleInputEmail1">Alasan</label>
-								<textarea class="form-control" placeholder="Ketik alasan......" name="alasan" ></textarea>
-							</div>
-							<input type="submit">
 						</form>
 						
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Approve</a>
+						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Kirim</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalalasan" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">&nbsp;</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						
+							<div class="note note-warning note-with-right-icon m-b-15">
+								<div class="note-content">
+									<h4><b>Alasan</b></h4>
+									<p id="alasan_revisi"></p>
+								</div>
+								
+							</div>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" data-dismiss="modal" >Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -178,15 +178,7 @@
 			lengthChange: false,
 		} );
 
-		$('#kolom-alasan').hide();
-
-		function cek_status(id){
-			if(id=='0'){
-				$('#kolom-alasan').show();
-			}else{
-				$('#kolom-alasan').hide();
-			}
-		}
+		
 		function proses_kesimpulan(id){
 			location.assign("{{url('/Lha/Create')}}?id="+id);
 		}
@@ -194,12 +186,14 @@
 			$('#audit_id').val(id);
 			$('#modalsend').modal('show');
 		}
-		function proses_rekomendasi(id,nilai){
-			if(nilai==0){
-				alert('Buat Kesimpulan terlebih dahulu');
-			}else{
-				location.assign("{{url('/Lha/Createrekomendasi')}}?id="+id);
-			}
+		function alasan_revisi(id){
+			$('#alasan_revisi').html(id);
+			$('#modalalasan').modal('show');
+		}
+		function proses_temuan(id,nilai){
+			
+			location.assign("{{url('Temuan/view')}}?id="+id);
+			
 		}
 
 		function edit(a){
@@ -273,7 +267,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Lha/approve_pengawas')}}",
+                    url: "{{url('/Lha/send_data')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

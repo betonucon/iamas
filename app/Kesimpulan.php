@@ -18,6 +18,12 @@ class Kesimpulan extends Model
         'keterangan',
         'risiko',
         'ket_risiko',
+        'nomorkode',
+        'kode',
+        'kode_sumber',
+        'tanggal',
+        'bulan',
+        'tahun',
         'sts',
    ];
     

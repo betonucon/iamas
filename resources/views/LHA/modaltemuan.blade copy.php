@@ -1,4 +1,4 @@
-<form id="tambah-data" method="post" action="{{url('Lha/simpan')}}" enctype="multipart/form-data">
+    <form id="tambah-data" method="post" action="{{url('Lha/simpan')}}" enctype="multipart/form-data">
         @csrf
         <div id="notifikasitambah"></div>
         <input type="hidden" value="{{$id}}" name="audit_id">
@@ -27,7 +27,7 @@
             <label for="exampleInputEmail1">Risiko</label>
             <input type="text" name="risiko" value="{{$data->risiko}}" onkeypress="return hanyaAngka(event)" style="width:30%" placeholder="Ketik disini....." class="form-control">
         </div>
-        
+        <input type="submit">
 </form>
 
 <script src="{{url('assets/assets/plugins/ckeditor/ckeditor.js')}}"></script>

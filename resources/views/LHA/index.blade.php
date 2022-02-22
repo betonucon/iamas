@@ -59,7 +59,7 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
-										@if($data->sts_lha=='0')
+										@if($data->sts_lha=='0' || $data->sts_lha=='')
 											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> Proses</span></td>
 											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  Proses</span></td>
 											<td>

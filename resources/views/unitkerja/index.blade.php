@@ -33,6 +33,7 @@
 									<th width="1%" data-orderable="false"></th>
 									<th width="15%" class="text-nowrap">Kode Unit</th>
 									<th class="text-nowrap">Nama</th>
+									<th width="30%" class="text-nowrap">Pimpinan Unit</th>
 									<th width="3%" class="text-nowrap"></th>
 								</tr>
 							</thead>
@@ -43,6 +44,7 @@
 										<td width="1%" class="with-img"><input value="{{$data->kode}}" type="checkbox" name="id[]"></td>
 										<td>{{$data->kode}}</td>
 										<td>{{$data->name}}</td>
+										<td>{{$data->nik}} {{$data->nama_atasan}}</td>
 										<td>
 											<span onclick="ubah({{$data->id}})" class="btn btn-purple active btn-icon btn-circle btn-sm"><i class="fas fa-edit fa-sm"></i></span> 
 										</td>
@@ -81,6 +83,24 @@
 								<label for="exampleInputEmail1">Nama Unit Kerja</label>
 								<input type="text" class="form-control" name="name"  placeholder="Enter..">
 							</div>
+							<div class="form-group">
+            					<label for="exampleInputEmail1">Pimpinan</label>
+								<div class="row">
+									<div class="col-3">
+										<div class="input-group m-b-10">
+											<input type="text" class="form-control" name="nik" id="nik" value="" placeholder="Enter..">
+											<div class="input-group-append"><span class="input-group-text" onclick="add_cari_nik()"><i class="fa fa-search"></i></span></div>
+										</div>
+									</div>
+									<div class="col-4">
+										<input type="text" class="form-control" readonly name="nama_atasan" id="add_nama_atasan" value="" placeholder="Enter..">
+									</div>
+									<div class="col-5">
+										<input type="text" class="form-control" readonly name="position_name" id="add_position_name"  value="" placeholder="Enter..">
+									</div>
+								</div>
+								
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -100,9 +120,10 @@
 					</div>
 					<div class="modal-body">
 						<div id="notifikasiubah"></div>
-						<form id="ubah-data" enctype="multipart/form-data">
+						<form id="ubah-data" method="post" action="{{url('Unitkerja/ubah_data')}}" enctype="multipart/form-data">
 							@csrf
 							<div id="tampilubah"></div>
+							
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -136,6 +157,42 @@
 				success: function(msg){
 					$('#modalubah').modal('show');
 					$('#tampilubah').html(msg);
+					
+				}
+			}); 
+		}
+		function add_cari_nik(){
+			var nik=$('#nik').val();
+			$.ajax({
+				type: 'GET',
+				url: "{{url('get_nik')}}",
+				data: "nik="+nik,
+				beforeSend: function() {
+					document.getElementById("loadnya").style.width = "100%";
+				},
+				success: function(msg){
+					var data=msg.split('@');
+					document.getElementById("loadnya").style.width = "0px";
+					$('#add_nama_atasan').val(data[0]);
+					$('#add_position_name').val(data[1]);
+					
+				}
+			}); 
+		}
+		function cari_nik(){
+			var nik=$('#nik_ubah').val();
+			$.ajax({
+				type: 'GET',
+				url: "{{url('get_nik')}}",
+				data: "nik="+nik,
+				beforeSend: function() {
+					document.getElementById("loadnya").style.width = "100%";
+				},
+				success: function(msg){
+					var data=msg.split('@');
+					document.getElementById("loadnya").style.width = "0px";
+					$('#nama_atasan').val(data[0]);
+					$('#position_name').val(data[1]);
 					
 				}
 			}); 

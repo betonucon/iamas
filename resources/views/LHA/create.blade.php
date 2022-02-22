@@ -34,7 +34,6 @@
 					<div class="col-md-12" style="margin-bottom:2%">
 						<div class="btn-group">
 							<button class="btn btn-blue btn-sm" onclick="tambah_data()"><i class="fas fa-plus"></i> Tambah Temuan</button>
-							<button class="btn btn-aqua btn-sm"><i class="fas fa-check"></i> Selesai</button>
 							@if($act=='revisi')
 				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
 							@else
@@ -153,8 +152,7 @@
 	<script src="{{url('assets/assets/plugins/ckeditor/ckeditor.js')}}"></script>
 	<script src="{{url('assets/assets/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js')}}"></script>
 	<script src="{{url('assets/assets/js/demo/form-wysiwyg.demo.js')}}"></script>
-	<link href="{{url('assets/assets/plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
-	<script src="{{url('assets/assets/plugins/summernote/dist/summernote.min.js')}}"></script>
+	
 	<script>
 		$(document).ready(function() {
             $('#tanggalpicker').datepicker({

@@ -33,8 +33,8 @@
         <textarea class="form-control" id="isinya" placeholder="Ketik disini....." >{{$data->isi}}</textarea>
     </div>
     <div class="form-group">
-        <label for="exampleInputEmail1">Nilai</label>
-        <input type="text" name="nilai" style="width:40%" value="{{$data->nilai}}" id="inputmask" data-inputmask="'alias': 'currency'" onkeypress="return hanyaAngkaTitik(event)" placeholder="Ketik disini....." class="form-control">
+        <label for="exampleInputEmail1">Risiko</label>
+        <input type="text" name="risiko" style="width:40%" value="{{$data->risiko}}"  onkeypress="return hanyaAngkaTitik(event)" placeholder="Ketik disini....." class="form-control">
     </div>
 </form>    
 <link href="{{url('assets/assets/plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet" />

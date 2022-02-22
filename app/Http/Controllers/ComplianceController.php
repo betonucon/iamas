@@ -252,10 +252,6 @@ class ComplianceController extends Controller
         $data=Complangkahkerja::where('id',$request->id)->first();
         echo'
             <div class="form-group">
-                <label>Tanggal</label>
-                <input type="text" placeholder="yyyy-mm-dd" class="form-control" name="tanggal_aktual" value="'.$data['tanggal_aktual'].'" style="width:20%" id="tgl_langkahkerja" />
-            </div>
-            <div class="form-group">
                 <label>Catatan</label>
                 <textarea class="form-control" rows="8"  placeholder="Ketik disini...." id="isinya">'.$data['catatan'].'</textarea>
             </div>
@@ -330,13 +326,12 @@ class ComplianceController extends Controller
     }
 
     public function proses_catatan(request $request){
-        if (trim($request->tanggal_aktual) =='') {$error[] = '- Isi Tanggal aktual';}
         if (trim($request->content) =='') {$error[] = '- Isi Catatan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             $data=Complangkahkerja::where('id',$request->id)->update([
                 'catatan'=>$request->content,
-                'tanggal_aktual'=>$request->tanggal_aktual,
+                'tanggal_aktual'=>date('Y-m-d'),
             ]);
             echo 'ok';
         }

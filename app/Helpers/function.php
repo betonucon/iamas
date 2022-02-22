@@ -183,6 +183,19 @@ function ket_risiko($nilai){
    }
    return $data;
 }
+function kodesumber($risiko,$kode){
+   if($kode=='06'){
+      $data='LHK';
+   }else{
+      if($risiko=='RENDAH'){
+         $data='LHA';
+      }else{
+         $data='LHP';
+      }
+   }
+
+   return $data;
+}
 function cek_total_setujui($id){
    $cek=App\Revisi::where('audit_id',$id)->where('sts',2)->count();
    return $cek;
@@ -289,7 +302,8 @@ function tgl_kedepan($tanggal,$lama)
 {
    $tgl=explode(' ',$tanggal);
    $hari=$lama;
-   $kedepan = date('Y-m-d', strtotime("$hari Weekday", strtotime($tgl[0])));
+   
+   $kedepan = date('Y-m-27', strtotime("$hari Weekday", strtotime($tgl[0])));
    return  $kedepan;
 }
 
@@ -470,10 +484,38 @@ function notif_lha_head(){
       return '';
    }
 }
+function notif_qc_head(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_head())->where('sts_lha',3)->count();
+    
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
 
 function notif_deskaudit_program_ketua(){
    
    $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',2)->where('sts_deskaudit',null)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_compliance_program_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',3)->where('sts_compliance',null)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_substantive_program_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',6)->where('sts_substantive',null)->count();
    if($data>0){
       return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
    }else{
@@ -490,10 +532,99 @@ function notif_deskaudit_catatan_ketua(){
       return '';
    }
 }
-
+function notif_compliance_catatan_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',3)->where('sts_compliance',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_substantive_catatan_ketua(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',6)->where('sts_substantive',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_deskaudit_catatan_anggota(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',2)->where('sts_deskaudit',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_compliance_catatan_anggota(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',3)->where('sts_compliance',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_substantive_catatan_anggota(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',7)->where('sts_substantive',2)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
 function notif_deskaudit_program_pengawas(){
    
    $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',2)->where('sts_deskaudit',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_compliance_program_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',3)->where('sts_compliance',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_substantive_program_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',6)->where('sts_substantive',1)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_deskaudit_catatan_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',2)->where('sts_deskaudit',3)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_compliance_catatan_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',3)->where('sts_compliance',3)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return '';
+   }
+}
+function notif_substantive_catatan_pengawas(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts','>',6)->where('sts_substantive',3)->count();
    if($data>0){
       return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
    }else{
@@ -629,7 +760,7 @@ function aproval_get(){
     return $data;
 }
 function unitkerja_get(){
-    $data=App\Unitkerja::whereIn('unit_id',array('1','3','5'))->orderBy('name','Asc')->get();
+    $data=App\Unitkerja::where('name','not LIKE','%xx%')->orderBy('name','Asc')->get();
     return $data;
 }
 function katua_get(){
@@ -795,7 +926,31 @@ function audit_lha_get(){
 // ===Lha
 function lha_get(){
    
-   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',9)->orderBy('id','Desc')->get();
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',8)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+function index_temuan_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts_lha','>',4)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+function index_temuanketua_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts_lha','>',4)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+function index_temuanhead_get(){
+   
+   $data=App\Audit::where('sts_lha','>',4)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+function index_temuanpengawas_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_pengawas())->where('sts_lha','>',4)->orderBy('id','Desc')->get();
     
    return $data;
 }
@@ -817,6 +972,12 @@ function lha_qc_get(){
     
    return $data;
 }
+function lha_qchead_get(){
+   
+   $data=App\Audit::where('sts_lha','>','2')->orderBy('id','Desc')->get();
+    
+   return $data;
+}
 
 function audit_head_get(){
    
@@ -831,6 +992,10 @@ function kesimpulan_get($id){
 }
 function rekomendasi_get($kesimpulan){
    $data=App\Rekomendasi::where('kesimpulan_id',$kesimpulan)->orderBy('urutan','Asc')->get();
+   return $data;
+}
+function temuan_get($kesimpulan){
+   $data=App\Rekomendasi::where('audit_id',$kesimpulan)->orderBy('urutan','Asc')->get();
    return $data;
 }
 function kesimpulan_count($id){

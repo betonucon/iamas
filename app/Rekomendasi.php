@@ -17,8 +17,16 @@ class Rekomendasi extends Model
         'isi',
         'keterangan',
         'nomor',
-        'nilai',
+        'risiko',
+        'ket_risiko',
+        'nomorkode',
+        'kode',
         'urutan',
+        'kode_sumber',
+        'tanggal',
+        'bulan',
+        'tahun',
+        'sts',
 
    ];
    function unitkerja(){
@@ -26,5 +34,8 @@ class Rekomendasi extends Model
    }
    function getkodifikasi(){
          return $this->belongsTo('App\Kodefikasi','kodifikasi','kodifikasi');
+   }
+   function kesimpulan(){
+         return $this->belongsTo('App\Kesimpulan','kesimpulan_id','id');
    }
 }
