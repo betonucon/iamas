@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Audit;
 class HomeController extends Controller
 {
     /**
@@ -30,6 +30,19 @@ class HomeController extends Controller
             $tahun=$request->tahun;
         }
         return view('home',compact('menu','tahun','side'));
+    }
+
+    public function index_audit(request $request)
+    {   $menu='Dashboard STIA[4,5,6]';
+        $side="home";
+        
+        if($request->tahun==''){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
+        $data=Audit::where('tahun',$tahun)->orderBy('kode_aktivitas')->get();
+        return view('homeaudit',compact('menu','tahun','side','data'));
     }
 
     public function index_kodifikasi(request $request)

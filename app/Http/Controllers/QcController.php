@@ -67,9 +67,10 @@ class QcController extends Controller
     public function view_temuan(request $request){
         $id=encoder($request->id);
         $data=Audit::where('id',$id)->first();
+        $kesimpulan=Kesimpulan::where('audit_id',$id)->orderBy('id','asc')->get();
         $menu='Temuan '.$data['nomorsurat'];
         $side="auditpengawas";
-        return view('Qc.view_temuan',compact('menu','side','data','id'));
+        return view('Qc.view_temuan',compact('menu','side','data','id','kesimpulan'));
         
     }
     public function index_revisi(request $request){
@@ -338,6 +339,7 @@ class QcController extends Controller
     public function send_to_head(request $request){
         $data=Audit::where('id',$request->id)->update([
             'sts_lha'=>4,
+            'tgl_sts11'=>date('Y-m-d'),
         ]);
 
         echo'ok';

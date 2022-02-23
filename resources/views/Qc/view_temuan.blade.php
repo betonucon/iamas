@@ -37,61 +37,63 @@
 							<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
 						</div>
 					</div>
-					
-					<div class="col-md-12">
-						@foreach(temuan_get($id) as $no=>$kes)
-						<?php
-						  if(($no+1)%2==0){
-							$warna='lime';
-						  }else{
-							$warna='info';
-						  }
+					@foreach($kesimpulan as $o)
+						<div class="col-md-12">
+							@foreach(temuan_get($o->id) as $no=>$kes)
+							<?php
+							if(($no+1)%2==0){
+								$warna='lime';
+							}else{
+								$warna='info';
+							}
 
-						?>
-						<div class="alert alert-{{$warna}} fade show m-b-10">
-							<b style="font-size:14px"><u>Nomor :  {{$kes->nomor}}.{{$kes->urutan}}</u></b></br>
-							<table style="margin-left:2%" width="100%">
-								<tr>
-									<td class="text-toop"><b>Kesimpulan</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop"><b>{{$kes->kesimpulan['name']}}</b></td>
-								</tr>
-								<tr>
-									<td class="text-toop" width="15%"><b>PIC</b></td>
-									<td class="text-toop" width="2%"><b>:</b></td>
-									<td class="text-toop">{{$kes->unitkerja['pimpinan']}} {{$kes->unitkerja['name']}}</td>
-								</tr>
-								
-								<tr>
-									<td class="text-toop"><b>Kodifikasi</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
-								</tr>
-								<tr>
-									<td class="text-toop"><b>Isi Rekomendasi</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{!! $kes->isi !!}</td>
-								</tr>
-								<tr>
-									<td class="text-toop"><b>Risiko</b></td>
-									<td class="text-toop"><b>:</b></td>
-									<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
-								</tr>
-								<tr>
-									<td class="text-toop" colspan="3"><br>
-									<b><u>Tanggapan Auditee </u></b><br>
-									@if($kes->catatan==null)
-						  				<font color="grey">Ketik........</font>
-									@else
-						  				{!! $kes->catatan !!}
-									@endif
-								</td>
-								</tr>
-							</table>
+							?>
+							<div class="alert alert-{{$warna}} fade show m-b-10">
+								<b style="font-size:14px">{{$o->nomorkode}}</b></br>
+								<b style="font-size:14px;margin-left:2%"><u>Nomor :  {{$kes->nomor}}.{{$kes->urutan}}</u></b></br>
+								<table style="margin-left:2%" width="100%">
+									<tr>
+										<td class="text-toop"><b>Kesimpulan</b></td>
+										<td class="text-toop"><b>:</b></td>
+										<td class="text-toop"><b>{{$kes->kesimpulan['name']}}</b></td>
+									</tr>
+									<tr>
+										<td class="text-toop" width="15%"><b>PIC</b></td>
+										<td class="text-toop" width="2%"><b>:</b></td>
+										<td class="text-toop">{{$kes->unitkerja['pimpinan']}} {{$kes->unitkerja['name']}}</td>
+									</tr>
+									
+									<tr>
+										<td class="text-toop"><b>Kodifikasi</b></td>
+										<td class="text-toop"><b>:</b></td>
+										<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
+									</tr>
+									<tr>
+										<td class="text-toop"><b>Isi Rekomendasi</b></td>
+										<td class="text-toop"><b>:</b></td>
+										<td class="text-toop">{!! $kes->isi !!}</td>
+									</tr>
+									<tr>
+										<td class="text-toop"><b>Risiko</b></td>
+										<td class="text-toop"><b>:</b></td>
+										<td class="text-toop">{{$kes->risiko}} ({{$kes->ket_risiko}})</td>
+									</tr>
+									<tr>
+										<td class="text-toop" colspan="3"><br>
+										<b><u>Tanggapan Auditee </u></b><br>
+										@if($kes->catatan==null)
+											<font color="grey">Ketik........</font>
+										@else
+											{!! $kes->catatan !!}
+										@endif
+									</td>
+									</tr>
+								</table>
+							</div>
+							@endforeach
 						</div>
-						@endforeach
+					@endforeach
 					</div>
-				</div>
 				<!-- end panel-body -->
 			</div>
 			<!-- end panel -->

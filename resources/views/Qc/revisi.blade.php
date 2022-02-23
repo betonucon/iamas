@@ -9,6 +9,9 @@
 		#modal-baca{
 			max-width:90%;
 		}
+		.tttop{
+			padding: 3px 5px 3px 5px !important;
+		}
 	</style>
 @endpush
 @section('contex')
@@ -61,21 +64,33 @@
 													<th>Revisi</th>
 												</tr>
 												@foreach(get_detail_text_revisi($data->audit_id) as $nom=>$o)
-													<tr>
-														<td>{{$nom+1}}</td>
-														<td>
-															@if($o->sts==1)
-																<span class="btn btn-success btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})"> Proses</span>
-															@endif
-															@if($o->sts==4)
-																<span class="btn btn-blue btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})">Kirim</span>
-															@endif
+													@if($o->sts==2)	
+														<tr>
+															<td style="text-align:center" class="tttop">{{$nom+1}}</td>
+															<td style="text-align:center" class="tttop">
+																<i class="fa fa-check"></i>
+															</td>
+															<td style="text-align:center" class="tttop"><span class="btn btn-aqua btn-xs" onclick="proses_perbaikan(`{{coder($o->audit_id)}}`,`{{$o->kategori}}`)"> Lihat</span></td>
+															<td class="tttop">{{$o->kategori}}</td>
+															<td class="tttop">Approve By QC {{$o->sampai}} &nbsp;&nbsp;({{selisih_hari($o->mulai,$o->sampai)}} Hari)</td>
+														</tr>
+													@else
+														<tr>
+															<td class="tttop" style="text-align:center">{{$nom+1}}</td>
+															<td class="tttop" style="text-align:center">
+																@if($o->sts==1)
+																	<span class="btn btn-success btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})"> Proses</span>
+																@endif
+																@if($o->sts==4)
+																	<span class="btn btn-blue btn-xs" onclick="proses_revisi({{$o->id}},{{$o->sts}})">Kirim</span>
+																@endif
 
-														</td>
-														<td><span class="btn btn-aqua btn-xs" onclick="proses_perbaikan(`{{coder($o->audit_id)}}`,`{{$o->kategori}}`)"> Lihat</span></td>
-														<td>{{$o->kategori}}</td>
-														<td><b>14 Hari Kerja ({{$o->mulai}} s/d {{$o->sampai}})</b><br>{{$o->keterangan}}</td>
-													</tr>
+															</td>
+															<td class="tttop" style="text-align:center"><span class="btn btn-aqua btn-xs" onclick="proses_perbaikan(`{{coder($o->audit_id)}}`,`{{$o->kategori}}`)"> Lihat</span></td>
+															<td class="tttop">{{$o->kategori}}</td>
+															<td class="tttop">14 Hari Kerja ({{$o->mulai}} s/d {{$o->sampai}})<br>{{$o->keterangan}}</td>
+														</tr>
+													@endif
 												@endforeach
 											</table>
 										</td>

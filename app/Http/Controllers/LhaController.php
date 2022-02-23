@@ -272,6 +272,7 @@ class LhaController extends Controller
             }
             $data=Audit::where('id',$id)->update([
                 'sts_lha'=>3,
+                'tgl_sts10'=>date('Y-m-d'),
                 'sts'=>11,
             ]);
             echo'ok';

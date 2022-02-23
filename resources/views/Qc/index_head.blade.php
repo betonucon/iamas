@@ -60,10 +60,10 @@
 										<td></td>
 										<td>
 											
-												@if(cek_total_setujui($data->id)==8)
-													<span class="btn btn-blue btn-sm" onclick="proses_kirim({{$data->id}})"><i class="fas fa-arrow-alt-circle-right"></i> Penerbitan LHA</span>
-												@endif
-												<div id="hasil"></div>
+											@if(cek_total_setujui($data->id)==8)
+												<span class="btn btn-blue btn-sm" onclick="proses_kirim({{$data->id}})"><i class="fas fa-arrow-alt-circle-right"></i> Penerbitan LHA</span>
+											@endif
+											<div id="hasil"></div>
 											
 											<table width="100%">
 												<tr>

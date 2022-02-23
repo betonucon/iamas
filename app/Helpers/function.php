@@ -30,7 +30,10 @@ function bulan($bulan)
       }
    return $bulan;
 }
-
+function tgl_simple($tgl){
+   $data=date('d/m/y',strtotime($tgl));
+   return $data;
+}
 function coder($id){
    return base64_encode(base64_encode($id));
 }
@@ -68,6 +71,53 @@ function selisih_hari($mulai,$sampai){
        $i++;
    }  
    return ($x+1);
+}
+function selisihnya($mulai,$sampai){
+   
+   if($mulai>$sampai){
+      $begin = new DateTime($sampai);
+      $end = new DateTime($mulai);
+      
+      $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
+      $i=0;
+      $x     =    0;
+      $end     =    1;
+      
+      foreach($daterange as $date){
+         $daterange     = $date->format("Y-m-d");
+         $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
+         $day         = $datetime->format('D');
+         if($day!="Sun" && $day!="Sat") {
+            $x    +=    $end-$i;
+            
+         }
+         $end++;
+         $i++;
+      }  
+      return '-'.($x+1);
+   }else{
+      $begin = new DateTime($mulai);
+      $end = new DateTime($sampai);
+      
+      $daterange     = new DatePeriod($begin, new DateInterval('P1D'), $end);
+      $i=0;
+      $x     =    0;
+      $end     =    1;
+      
+      foreach($daterange as $date){
+         $daterange     = $date->format("Y-m-d");
+         $datetime     = DateTime::createFromFormat('Y-m-d', $daterange);
+         $day         = $datetime->format('D');
+         if($day!="Sun" && $day!="Sat") {
+            $x    +=    $end-$i;
+            
+         }
+         $end++;
+         $i++;
+      }  
+      return ($x+1);
+   }
+   
 }
 
 function rekapan_aktivitas_get_dashboard($id,$tahun){
@@ -196,6 +246,183 @@ function kodesumber($risiko,$kode){
 
    return $data;
 }
+function cek_hasil($id,$ket){
+   if($ket=='desk_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_deskaudit']>1){
+         $data=selisihnya($cek['tgl_sts4'],$cek['tgl_deskaudit_program_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='desk_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_deskaudit']>3){
+         $data=selisihnya($cek['tgl_sts5'],$cek['tgl_deskaudit_hasil_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='com_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_compliance']>1){
+         $data=selisihnya($cek['tgl_sts6'],$cek['tgl_compliance_program_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='com_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_compliance']>3){
+         $data=selisihnya($cek['tgl_sts7'],$cek['tgl_compliance_hasil_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='subs_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_substantive']>1){
+         $data=selisihnya($cek['tgl_sts8'],$cek['tgl_substantive_program_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='subs_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_substantive']>3){
+         $data=selisihnya($cek['tgl_sts9'],$cek['tgl_substantive_hasil_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='draf'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>2){
+         $data=selisihnya($cek['tgl_sts10'],$cek['tgl_lha_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='qc'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>3){
+         $data=selisihnya($cek['tgl_sts11'],$cek['tgl_lha_draf_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='pen'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>4){
+         $data=selisihnya($cek['tgl_sts12'],$cek['tgl_lha_finis_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($data=='0'){
+      $color="#fff";
+   }else{
+      if($data>0){
+         $color="green";
+      }else{
+         $color="red";
+      }
+   }
+   return $color;
+}
+function cek_hasil_nilai($id,$ket){
+   if($ket=='desk_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_deskaudit']>1){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='desk_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_deskaudit']>3){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='com_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_compliance']>1){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='com_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_compliance']>3){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='subs_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_substantive']>1){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='subs_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_substantive']>3){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='draf'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>2){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='qc'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>3){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='pen'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>4){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
+   return $data;
+}
 function cek_total_setujui($id){
    $cek=App\Revisi::where('audit_id',$id)->where('sts',2)->count();
    return $cek;
@@ -227,14 +454,14 @@ function text_revisi($id,$kategori){
    
 }
 function get_text_revisi(){
-   $get=App\Revisi::select('audit_id')->whereIn('tiket_id',array_tiket_anggota())->whereIn('sts',array('1','4'))->groupBy('audit_id')->get();
+   $get=App\Revisi::select('audit_id')->whereIn('tiket_id',array_tiket_anggota())->groupBy('audit_id')->get();
   
    return $get;
       
    
 }
 function get_detail_text_revisi($id){
-   $get=App\Revisi::where('audit_id',$id)->whereIn('sts',array('1','4'))->get();
+   $get=App\Revisi::where('audit_id',$id)->get();
   
    return $get;
       
@@ -681,6 +908,10 @@ function pertama_aktivitas_get(){
     $data=App\Aktivitas::whereIn('kode',array('01','02','03'))->orderBy('kode','Asc')->get();
     return $data;
 }
+function kedua_aktivitas_get(){
+    $data=App\Aktivitas::whereIn('kode',array('04','05','06'))->orderBy('kode','Asc')->get();
+    return $data;
+}
 
 function aktivitas_get_dashboard($kode,$tahun){
     $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->orderBy('kode_aktivitas','Asc')->get();
@@ -995,7 +1226,7 @@ function rekomendasi_get($kesimpulan){
    return $data;
 }
 function temuan_get($kesimpulan){
-   $data=App\Rekomendasi::where('audit_id',$kesimpulan)->orderBy('urutan','Asc')->get();
+   $data=App\Rekomendasi::where('kesimpulan_id',$kesimpulan)->orderBy('urutan','Asc')->get();
    return $data;
 }
 function kesimpulan_count($id){
