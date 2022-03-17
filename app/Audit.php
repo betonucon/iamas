@@ -50,6 +50,7 @@ class Audit extends Model
         'sts_substantive',
         'sts_lha',
         'tgl_sts1',
+        'tgl_plan',
 
     ];
     function unitkerja(){

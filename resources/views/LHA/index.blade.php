@@ -45,7 +45,7 @@
 									<th width="8%">Kesimpulan</th>
 									
 									<th width="8%">Rekomendasi</th>
-									<th width="4%">Send</th>
+									<th width="4%">Act</th>
 									<th width="8%">File</th>
 								</tr>
 							</thead>
@@ -63,7 +63,11 @@
 											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> Proses</span></td>
 											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  Proses</span></td>
 											<td>
-												<span onclick="sand_lha({{$data->id}})" title="Kirim" class="btn btn-blue btn-xs"><i class="fa fa-share"></i></span>
+												@if($data->sts_file_lha>0)
+													<a href="{{url('_file_lampiran/'.$data->file_lha)}}"><span title="Download" class="btn btn-aqua btn-xs"><i class="fa fa-file-word"></i></span></a>
+												@else
+													<span onclick="upload_lha({{$data->id}})" title="Upload File LHA" class="btn btn-green btn-xs"><i class="fa fa-upload"></i></span>
+												@endif
 												@if($data->alasan_lha==null)
 
 												@else
@@ -73,7 +77,14 @@
 										@else
 											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> View</span></td>
 											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  View</span></td>
-											<td><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
+											<td>
+												@if($data->sts_file_lha>0)
+													<a href="{{url('_file_lampiran/'.$data->file_lha)}}"><span title="Download" class="btn btn-aqua btn-xs"><i class="fa fa-file-word"></i></span></a>
+												@else
+													<span onclick="upload_lha({{$data->id}})" title="Upload File LHA" class="btn btn-green btn-xs"><i class="fa fa-upload"></i></span>
+												@endif
+                                                
+                                            </td>
 										@endif
 										<td><span onclick="cek_file_lha({{$data->id}})" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
 										
@@ -119,6 +130,31 @@
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Kirim</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalupload" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">&nbsp;</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<form id="upload-data" method="post" action="{{url('/Lha/upload_data')}}" enctype="multipart/form-data">
+        					@csrf
+							<input type="hidden" name="audit_id" id="audit_ide">
+							<div class="form-grup">
+								<label>Upload File LHA</label>
+								<input type="file" name="file" class="form-control">
+							</div>
+							
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" onclick="upload_data()" >Upload</a>
 					</div>
 				</div>
 			</div>
@@ -206,6 +242,10 @@
 			$('#audit_id').val(id);
 			$('#modalsend').modal('show');
 		}
+		function upload_lha(id){
+			$('#audit_ide').val(id);
+			$('#modalupload').modal('show');
+		}
 		function alasan_revisi(id){
 			$('#alasan_revisi').html(id);
 			$('#modalalasan').modal('show');
@@ -290,6 +330,33 @@
                 $.ajax({
                     type: 'POST',
                     url: "{{url('/Lha/send_data')}}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+						document.getElementById("loadnya").style.width = "100%";
+					},
+                    success: function(msg){
+                        if(msg=='ok'){
+                            location.reload();
+                               
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+							alert(msg);
+                        }
+                        
+                        
+                    }
+                });
+
+        } 
+		function upload_data(){
+            var form=document.getElementById('upload-data');
+            
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('/Lha/upload_data')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

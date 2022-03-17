@@ -195,22 +195,42 @@ function aksi_proses($id,$kategori){
 }
 function tombol_proses($id,$kategori){
    $cek=App\Revisi::where('audit_id',$id)->where('kategori',$kategori)->count();
-   if($cek>0){
-      $get=App\Revisi::where('audit_id',$id)->where('kategori',$kategori)->orderBy('id','Desc')->firstOrfail();
-      if($get['sts']=='0'){
-         echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
-      }
-      if($get['sts']==1){
-         echo'<i class="fa fa-clock text-aqua"></i>';
-      }
-      if($get['sts']==3 || $get['sts']==2){
-         echo'<i class="fa fa-check-square"></i>';
-      }
-      if($get['sts']==4){
-         echo'<i class="fa fa-clock text-aqua"></i>';
+   if($kategori=='file_lha'){
+      if($cek>0){
+         $get=App\Revisi::where('audit_id',$id)->where('kategori',$kategori)->orderBy('id','Desc')->firstOrfail();
+         if($get['sts']=='0'){
+            echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi_file('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
+         }
+         if($get['sts']==1){
+            echo'<i class="fa fa-clock text-aqua"></i>';
+         }
+         if($get['sts']==3 || $get['sts']==2){
+            echo'<i class="fa fa-check-square"></i>';
+         }
+         if($get['sts']==4){
+            echo'<i class="fa fa-clock text-aqua"></i>';
+         }
+      }else{
+         echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi_file('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
       }
    }else{
-      echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
+      if($cek>0){
+         $get=App\Revisi::where('audit_id',$id)->where('kategori',$kategori)->orderBy('id','Desc')->firstOrfail();
+         if($get['sts']=='0'){
+            echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
+         }
+         if($get['sts']==1){
+            echo'<i class="fa fa-clock text-aqua"></i>';
+         }
+         if($get['sts']==3 || $get['sts']==2){
+            echo'<i class="fa fa-check-square"></i>';
+         }
+         if($get['sts']==4){
+            echo'<i class="fa fa-clock text-aqua"></i>';
+         }
+      }else{
+         echo'<span class="btn btn-primary btn-xs" onclick="proses_revisi('.$id.',`'.$kategori.'`,`Pemeriksaan '.$kategori.'`)"><i class="fa fa-cog"></i></span>';
+      }
    }
    
 }
@@ -247,6 +267,15 @@ function kodesumber($risiko,$kode){
    return $data;
 }
 function cek_hasil($id,$ket){
+   if($ket=='plan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts']>2){
+         $data=selisihnya($cek['tgl_sts3'],$cek['tgl_plan']);
+      }else{
+         $data='0';
+      }
+      
+   }
    if($ket=='desk_prog'){
       $cek=App\Audit::where('id',$id)->first();
       if($cek['sts_deskaudit']>1){
@@ -340,6 +369,15 @@ function cek_hasil($id,$ket){
    return $color;
 }
 function cek_hasil_nilai($id,$ket){
+   if($ket=='plan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts']>2){
+         $data=1;
+      }else{
+         $data='0';
+      }
+      
+   }
    if($ket=='desk_prog'){
       $cek=App\Audit::where('id',$id)->first();
       if($cek['sts_deskaudit']>1){
@@ -432,7 +470,13 @@ function text_revisi($id,$kategori){
    if($cek>0){
       $get=App\Revisi::where('audit_id',$id)->where('kategori',$kategori)->orderBy('id','Desc')->firstOrfail();
       if($get['sts']==1){
-         $text='<b>14 Hari Kerja ('.$get['mulai'].' s/d '.$get['sampai'].')</b><br>'.$get['keterangan'];
+         if($kategori=='file_lha'){
+            $text='<b>14 Hari Kerja ('.$get['mulai'].' s/d '.$get['sampai'].')</b><br>'.$get['keterangan'].'<br>
+                 <a href="'.url('_file_lampiran/'.$get['file']).'"><i class="fa fa-file-word"></i> Download</a>';
+         }else{
+            $text='<b>14 Hari Kerja ('.$get['mulai'].' s/d '.$get['sampai'].')</b><br>'.$get['keterangan'];
+         }
+         
          return $text;
       }else{
          if($get['sts']==4){
@@ -1078,6 +1122,50 @@ function array_audit_pengawas(){
        return $data;
    
 }
+function array_temuan_auditee(){
+   $data  = array_column(
+      App\Unitkerja::where('nik',Auth::user()['nik'])
+      ->get()
+      ->toArray(),'kode'
+   );
+   return $data;
+   
+}
+function sts_temuan($id){
+   $data=App\Ststemuan::where('id',$id)->first();
+   return $data['name'];
+}
+function temuan_auditee_get(){
+   $data=App\Rekomendasi::whereIn('kode_unit',array_temuan_auditee())->where('sts',1)->get();
+   return $data;
+}
+function temuan_anggota_get(){
+   $det  = array_column(
+      App\Audit::whereIn('tiket_id',array_tiket_anggota())
+      ->get()
+      ->toArray(),'id'
+   );
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   return $data;
+}
+function temuan_ketua_get(){
+   $det  = array_column(
+      App\Audit::whereIn('tiket_id',array_tiket_ketua())
+      ->get()
+      ->toArray(),'id'
+   );
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   return $data;
+}
+function temuan_pengawas_get(){
+   $det  = array_column(
+      App\Audit::whereIn('tiket_id',array_tiket_pengawas())
+      ->get()
+      ->toArray(),'id'
+   );
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   return $data;
+}
 function tiket_get_anggota(){
    $data=App\Surattugas::whereIn('sts',array('2','3','4','5'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_anggota())->orderBy('id','Desc')->get();
    return $data;
@@ -1124,6 +1212,10 @@ function akses_tiket_head(){
 
 function akses_tiket_ketua(){
    $data=App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',1)->count();
+   return $data;
+}
+function akses_temuan_auditee(){
+   $data=App\Unitkerja::where('nik',Auth::user()['nik'])->count();
    return $data;
 }
 
@@ -1205,7 +1297,7 @@ function lha_qc_get(){
 }
 function lha_qchead_get(){
    
-   $data=App\Audit::where('sts_lha','>','2')->orderBy('id','Desc')->get();
+   $data=App\Audit::where('sts_lha','>','3')->orderBy('id','Desc')->get();
     
    return $data;
 }

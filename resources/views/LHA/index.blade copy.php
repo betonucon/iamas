@@ -45,13 +45,12 @@
 									<th width="8%">Kesimpulan</th>
 									
 									<th width="8%">Rekomendasi</th>
-									<th width="4%">LHA</th>
-									<th width="4%">Approve</th>
+									<th width="4%">Send</th>
 									<th width="8%">File</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(lha_pengawas_get() as $no=>$data)
+								@foreach(lha_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
 										<td class="boldtd">{{$data->nomorsurat}}</td>
@@ -60,16 +59,23 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
-										<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-search"></i> View</span></td>
-										<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-search"></i>  View</span></td>
-										<td><a href="{{url('_file_lampiran/'.$data->file_lha)}}"><span title="Download" class="btn btn-aqua btn-xs"><i class="fa fa-file-word"></i></span></a></td>
-										@if($data->sts_lha=='1')
-											<td class="text-center"><span onclick="sand_lha(`{{coder($data->id)}}`)" title="Approve" class="btn btn-blue btn-xs">Approve</span></td>
+										@if($data->sts_lha=='0' || $data->sts_lha=='')
+											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> Proses</span></td>
+											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  Proses</span></td>
+											<td>
+												<span onclick="sand_lha({{$data->id}})" title="Kirim" class="btn btn-blue btn-xs"><i class="fa fa-share"></i></span>
+												@if($data->alasan_lha==null)
+
+												@else
+													<span onclick="alasan_revisi(`{{$data->alasan_lha}}`)" title="Alasan Revisi" class="btn btn-yellow btn-xs" style="margin-top:1%"><i class="fa fa-comment"></i></span>
+												@endif
+											</td>
 										@else
-											
-											<td class="text-center"><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
+											<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-pencil-alt"></i> View</span></td>
+											<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-pencil-alt"></i>  View</span></td>
+											<td><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
 										@endif
-										<td><span onclick="cek_file_lha(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
+										<td><span onclick="cek_file_lha({{$data->id}})" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
 										
 									</tr>
 								@endforeach
@@ -96,7 +102,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-						<form id="kirim-data" action="{{url('/Lha/approve_pengawas')}}" method="post" enctype="multipart/form-data">
+						<form id="kirim-data" method="post" enctype="multipart/form-data">
         					@csrf
 							<input type="hidden" name="audit_id" id="audit_id">
 							<div class="note note-warning note-with-right-icon m-b-15">
@@ -108,23 +114,35 @@
 								</div>
 								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
 							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Status</label>
-								<select class="form-control" name="sts"  onchange="cek_status(this.value)">
-									<option value="2">Setujui</option>
-									<option value="0">Kembalikan</option>
-								</select>
-							</div>
-							<div class="form-group" id="kolom-alasan">
-								<label for="exampleInputEmail1">Alasan</label>
-								<textarea class="form-control" placeholder="Ketik alasan......" name="alasan" ></textarea>
-							</div>
-							
 						</form>
 						
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Approve</a>
+						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Kirim</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalalasan" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">&nbsp;</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						
+							<div class="note note-warning note-with-right-icon m-b-15">
+								<div class="note-content">
+									<h4><b>Alasan</b></h4>
+									<p id="alasan_revisi"></p>
+								</div>
+								
+							</div>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" data-dismiss="modal" >Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -180,21 +198,17 @@
 			lengthChange: false,
 		} );
 
-		$('#kolom-alasan').hide();
-
-		function cek_status(id){
-			if(id=='0'){
-				$('#kolom-alasan').show();
-			}else{
-				$('#kolom-alasan').hide();
-			}
-		}
+		
 		function proses_kesimpulan(id){
 			location.assign("{{url('/Lha/Create')}}?id="+id);
 		}
 		function sand_lha(id){
 			$('#audit_id').val(id);
 			$('#modalsend').modal('show');
+		}
+		function alasan_revisi(id){
+			$('#alasan_revisi').html(id);
+			$('#modalalasan').modal('show');
 		}
 		function proses_rekomendasi(id,nilai){
 			if(nilai==0){
@@ -275,7 +289,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Lha/approve_pengawas')}}",
+                    url: "{{url('/Lha/send_data')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

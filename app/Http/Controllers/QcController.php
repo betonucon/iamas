@@ -83,6 +83,11 @@ class QcController extends Controller
     public function proses_pengerjaan(request $request){
         $data=Revisi::where('id',$request->id)->first();
         if($request->sts==1){
+                if($data['kategori']=='file_lha'){
+                    $save=Audit::where('id',$data->audit_id)->update([
+                        'sts_file_lha'=>0,
+                    ]);
+                }
                 if($data['kategori']=='deskaudit_langkah'){
                     $save=Audit::where('id',$data->audit_id)->update([
                         'sts_revisi_deskaudit_langkah'=>2,
@@ -132,6 +137,11 @@ class QcController extends Controller
                     echo'ok';
                 }
         }else{
+                if($data['kategori']=='file_lha'){
+                    $save=Audit::where('id',$data->audit_id)->update([
+                        'sts_file_lha'=>2,
+                    ]);
+                }
                 if($data['kategori']=='deskaudit_langkah'){
                     $save=Audit::where('id',$data->audit_id)->update([
                         'sts_revisi_deskaudit_langkah'=>1,
@@ -216,6 +226,86 @@ class QcController extends Controller
                                 'sts'=>6
                             ]);
                             if($updaterevisi){
+                                if($request->kategori=='file_lha'){
+                                    if($request->file==''){
+                                        echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />- Upload file yang direkomendasikan</p>';
+                                    }else{
+                                        $image = $request->file('file');
+                                        $size = $image->getSize();
+                                        $imageFileName ='REKOMLHA'.$tiket->surattugas['nomortiket'].'.'. $image->getClientOriginalExtension();
+                                        $filePath =$imageFileName;
+                                        $file = \Storage::disk('public_uploads');
+                                        if($image->getClientOriginalExtension()=='doc' || $image->getClientOriginalExtension()=='docx'){
+                                            if($file->put($filePath, file_get_contents($image))){
+                                                $revisi=Revisi::create([
+                                                    'audit_id'=>$request->audit_id,
+                                                    'tiket_id'=>$tiket['tiket_id'],
+                                                    'kategori'=>$request->kategori,
+                                                    'keterangan'=>$request->keterangan,
+                                                    'mulai'=>date('Y-m-d'),
+                                                    'sampai'=>tgl_kedepan(date('Y-m-d'),14),
+                                                    'sts'=>1,
+                                                    'file'=>$filePath,
+                                                    'role_id'=>Auth::user()['role_id'],
+                                                ]);
+                
+                                                echo'ok';
+                                            }else{
+                                                echo'gagal';
+                                            }
+                                        }else{
+                                            echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />- Upload file Dokumen .doc|docx</p>'; 
+                                        }
+                                    }
+                                }else{
+                                    $revisi=Revisi::create([
+                                        'audit_id'=>$request->audit_id,
+                                        'tiket_id'=>$tiket['tiket_id'],
+                                        'kategori'=>$request->kategori,
+                                        'keterangan'=>$request->keterangan,
+                                        'mulai'=>date('Y-m-d'),
+                                        'sampai'=>tgl_kedepan(date('Y-m-d'),14),
+                                        'sts'=>1,
+                                        'role_id'=>Auth::user()['role_id'],
+                                    ]);
+        
+                                    echo'ok';
+                                }
+                                        
+                            }
+                        }else{
+                            if($request->kategori=='file_lha'){
+                                if($request->file==''){
+                                    echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />- Upload file yang direkomendasikan</p>';
+                                }else{
+                                    $image = $request->file('file');
+                                    $size = $image->getSize();
+                                    $imageFileName ='REKOMLHA'.$tiket->surattugas['nomortiket'].'.'. $image->getClientOriginalExtension();
+                                    $filePath =$imageFileName;
+                                    $file = \Storage::disk('public_uploads');
+                                    if($image->getClientOriginalExtension()=='doc' || $image->getClientOriginalExtension()=='docx'){
+                                        if($file->put($filePath, file_get_contents($image))){
+                                            $revisi=Revisi::create([
+                                                'audit_id'=>$request->audit_id,
+                                                'tiket_id'=>$tiket['tiket_id'],
+                                                'kategori'=>$request->kategori,
+                                                'keterangan'=>$request->keterangan,
+                                                'mulai'=>date('Y-m-d'),
+                                                'sampai'=>tgl_kedepan(date('Y-m-d'),14),
+                                                'sts'=>1,
+                                                'file'=>$filePath,
+                                                'role_id'=>Auth::user()['role_id'],
+                                            ]);
+            
+                                            echo'ok';
+                                        }else{
+                                            echo'gagal';
+                                        }
+                                    }else{
+                                        echo '<p style="padding:5px;color:#000;background:#d5d3d2;font-weight:bold;font-size:12px"><b>Error</b>: <br />- Upload file Dokumen .doc|docx</p>'; 
+                                    }
+                                }
+                            }else{
                                 $revisi=Revisi::create([
                                     'audit_id'=>$request->audit_id,
                                     'tiket_id'=>$tiket['tiket_id'],
@@ -229,19 +319,6 @@ class QcController extends Controller
     
                                 echo'ok';
                             }
-                        }else{
-                            $revisi=Revisi::create([
-                                'audit_id'=>$request->audit_id,
-                                'tiket_id'=>$tiket['tiket_id'],
-                                'kategori'=>$request->kategori,
-                                'keterangan'=>$request->keterangan,
-                                'mulai'=>date('Y-m-d'),
-                                'sampai'=>tgl_kedepan(date('Y-m-d'),14),
-                                'sts'=>1,
-                                'role_id'=>Auth::user()['role_id'],
-                            ]);
-
-                            echo'ok';
                         }
                             
                             
@@ -345,24 +422,76 @@ class QcController extends Controller
         echo'ok';
     }
     public function penerbitan_lha(request $request){
-        $data=Audit::where('id',$request->id)->update([
-            'sts_lha'=>5,
-            'sts'=>12,
-        ]);
-        $get=Kesimpulan::where('audit_id',$request->id)->orderBy('id','Asc')->get();
-        foreach($get as $x=>$o){
-            $bulan=date('m');
-            $kodesumber=$o['kode_sumber'];
-            $tahun=date('Y');
-            $tahunkode=date('y');
-            $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).sprintf("%02s", $o['kdr']);
-            $data=Kesimpulan::where('id',$o['id'])->update([
-                'nomorkode'=>$nomorkode,
+        if($request->sts==''){
+            echo'PILIH STATUS';
+        }else{
+            $master=Audit::where('id',$request->id)->first();
+            if($request->sts==2){
+                $data=Audit::where('id',$request->id)->update([
+                    'sts_lha'=>3,
+                    'alasan_penerbitan'=>$request->keterangan,
+                ]);
+
+                $trc=Revisi::where('audit_id',$request->id)->delete();
+                echo'ok';
+            }else{
+        // $cek=Audit::whereIn('kode_aktivitas',array('04','05','06'))->where('bulan',date('m'))->where('tahun',date('Y'))->count();
+                $cek=Audit::where('urutan_penerbitan','>',0)->where('bulan',$master['bulan'])->where('tahun',$master['tahun'])->count();
                 
-                
-            ]);
+                if($cek>0){
+                    $nom=Audit::where('bulan',$master['bulan'])->where('tahun',$master['tahun'])->orderBy('urutan_penerbitan','Desc')->firstOrfail();
+                    $urutan_penerbitan=($nom['urutan_penerbitan']+1);
+                    $kd=sprintf("%02s", ($nom['urutan_penerbitan']+1));
+                }else{
+                    $urutan_penerbitan=1;
+                    $kd=sprintf("%02s",1);
+                }
+                $data=Audit::where('id',$request->id)->update([
+                    'sts_lha'=>5,
+                    'sts'=>12,
+                    'urutan_penerbitan'=>$urutan_penerbitan,
+                ]);
+                    $get=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHP')->orderBy('id','Asc')->get();
+                    foreach($get as $x=>$o){
+                        $bulan=date('m');
+                        $kodesumber=$o['kode_sumber'];
+                        $tahun=date('Y');
+                        $tahunkode=date('y');
+                        $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
+                        $data=Kesimpulan::where('id',$o['id'])->update([
+                            'nomorkode'=>$nomorkode,
+                            'nomor_penerbitan'=>'6.'.($x+1),
+                            
+                            
+                        ]);
+                        $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
+                            'terbit'=>date('Y-m-d H:i:s'),
+                            'sts'=>1,
+                            'nomor'=>'6.'.($x+1),
+                        ]);
+                    }
+                    $getlha=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHA')->orderBy('id','Asc')->get();
+                    foreach($getlha as $x=>$o){
+                        $bulan=date('m');
+                        $kodesumber=$o['kode_sumber'];
+                        $tahun=date('Y');
+                        $tahunkode=date('y');
+                        $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
+                        $data=Kesimpulan::where('id',$o['id'])->update([
+                            'nomorkode'=>$nomorkode,
+                            'nomor_penerbitan'=>'6.'.($x+1),
+                            
+                            
+                        ]);
+                        $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
+                            'terbit'=>date('Y-m-d H:i:s'),
+                            'sts'=>1,
+                            'nomor'=>'6.'.($x+1),
+                        ]);
+                    }
+                    echo'ok';
+            }
         }
-        echo'ok';
     }
 
     public function update_rekomendasi(request $request){

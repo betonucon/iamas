@@ -95,6 +95,7 @@ class AuditplanController extends Controller
         if (trim($request->sasaran) == '') {$error[] = '- Isi Sasaran';}
         if (trim($request->risiko) == '') {$error[] = '- Isi Risiko';}
         if (trim($request->tgl_penerbitan) == '') {$error[] = '- Isi Tanggal Penerbitan';}
+        if (trim($request->tgl_plan) == '') {$error[] = '- Isi Tanggal Persetujuan Auditplan';}
         if (trim($request->tgl_deskaudit_program_start) == '') {$error[] = '- Isi Tanggal Mulai Program Deskaudit';}
         if (trim($request->tgl_deskaudit_program_end) == '') {$error[] = '- Isi Tanggal Sampai Program Deskaudit';}
         if (trim($request->tgl_deskaudit_hasil_start) == '') {$error[] = '- Isi Tanggal Mulai hasil Deskaudit';}
@@ -138,6 +139,7 @@ class AuditplanController extends Controller
                     'sasaran'=>$request->sasaran,
                     'risiko'=>$request->risiko,
                     'tgl_penerbitan'=>$request->tgl_penerbitan,
+                    'tgl_plan'=>$request->tgl_plan,
                     'tgl_deskaudit_program_start'=>$request->tgl_deskaudit_program_start,
                     'tgl_deskaudit_program_end'=>$request->tgl_deskaudit_program_end,
                     'tgl_deskaudit_hasil_start'=>$request->tgl_deskaudit_hasil_start,
@@ -166,6 +168,7 @@ class AuditplanController extends Controller
     public function update(request $request){
         if (trim($request->name) == '') {$error[] = '- Isi Nama Obyek';}
         if (trim($request->tgl_penerbitan) == '') {$error[] = '- Isi Tanggal Penerbitan';}
+        if (trim($request->tgl_plan) == '') {$error[] = '- Isi Tanggal Persetujuan Auditplan';}
         if (trim($request->tgl_deskaudit_program_start) == '') {$error[] = '- Isi Tanggal Mulai Program Deskaudit';}
         if (trim($request->tgl_deskaudit_program_end) == '') {$error[] = '- Isi Tanggal Sampai Program Deskaudit';}
         if (trim($request->tgl_deskaudit_hasil_start) == '') {$error[] = '- Isi Tanggal Mulai hasil Deskaudit';}
@@ -189,6 +192,7 @@ class AuditplanController extends Controller
                 'sasaran'=>$request->sasaran,
                 'risiko'=>$request->risiko,
                 'tgl_penerbitan'=>$request->tgl_penerbitan,
+                'tgl_plan'=>$request->tgl_plan,
                 'tgl_deskaudit_program_start'=>$request->tgl_deskaudit_program_start,
                 'tgl_deskaudit_program_end'=>$request->tgl_deskaudit_program_end,
                 'tgl_deskaudit_hasil_start'=>$request->tgl_deskaudit_hasil_start,

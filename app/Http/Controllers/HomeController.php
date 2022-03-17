@@ -33,7 +33,9 @@ class HomeController extends Controller
     }
 
     public function index_audit(request $request)
-    {   $menu='Dashboard STIA[4,5,6]';
+    {   
+        error_reporting(0);
+        $menu='Dashboard STIA[4,5,6]';
         $side="home";
         
         if($request->tahun==''){

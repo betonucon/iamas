@@ -38,38 +38,26 @@
 							<thead>
 								<tr>
 									<th width="3%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
-									<th class="text-nowrap">Obyek</th>
-									<th width="7%" class="text-nowrap">Status</th>
-									<th width="8%">Kesimpulan</th>
-									
-									<th width="8%">Rekomendasi</th>
-									<th width="4%">LHA</th>
-									<th width="4%">Approve</th>
-									<th width="8%">File</th>
+									<th width="10%" class="text-nowrap">Kode Temuan</th>
+									<th width="6%" class="text-nowrap">Nomor</th>
+									<th width="10%" class="text-nowrap">Risiko</th>
+									<th class="text-nowrap">Judul</th>
+									<th width="10%" class="text-nowrap">Status</th>
+									<th width="5%" class="text-nowrap">Act</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(lha_pengawas_get() as $no=>$data)
+								@foreach(temuan_anggota_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
-										<td>{{$data->name}}</td>
-										<td style="text-align:center">
-											{{$data->stsaudit['name']}}	
-										</td>
-										<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-search"></i> View</span></td>
-										<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-search"></i>  View</span></td>
-										<td><a href="{{url('_file_lampiran/'.$data->file_lha)}}"><span title="Download" class="btn btn-aqua btn-xs"><i class="fa fa-file-word"></i></span></a></td>
-										@if($data->sts_lha=='1')
-											<td class="text-center"><span onclick="sand_lha(`{{coder($data->id)}}`)" title="Approve" class="btn btn-blue btn-xs">Approve</span></td>
-										@else
-											
-											<td class="text-center"><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
-										@endif
-										<td><span onclick="cek_file_lha(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
+										<td class="boldtd">{{$data->kesimpulan['nomorkode']}}</td>
+										<td>{{$data->nomor}}.{{$data->urutan}}</td>
+										<td>{{$data->ket_risiko}}</td>
+										<td>{{$data->kesimpulan['name']}}</td>
+										<td>{!! sts_temuan($data->sts) !!}</td>
+										<td></td>
 										
 									</tr>
 								@endforeach
@@ -96,7 +84,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-						<form id="kirim-data" action="{{url('/Lha/approve_pengawas')}}" method="post" enctype="multipart/form-data">
+						<form id="kirim-data" method="post" enctype="multipart/form-data">
         					@csrf
 							<input type="hidden" name="audit_id" id="audit_id">
 							<div class="note note-warning note-with-right-icon m-b-15">
@@ -108,23 +96,60 @@
 								</div>
 								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
 							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Status</label>
-								<select class="form-control" name="sts"  onchange="cek_status(this.value)">
-									<option value="2">Setujui</option>
-									<option value="0">Kembalikan</option>
-								</select>
-							</div>
-							<div class="form-group" id="kolom-alasan">
-								<label for="exampleInputEmail1">Alasan</label>
-								<textarea class="form-control" placeholder="Ketik alasan......" name="alasan" ></textarea>
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Kirim</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalupload" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">&nbsp;</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<form id="upload-data" method="post" action="{{url('/Lha/upload_data')}}" enctype="multipart/form-data">
+        					@csrf
+							<input type="hidden" name="audit_id" id="audit_ide">
+							<div class="form-grup">
+								<label>Upload File LHA</label>
+								<input type="file" name="file" class="form-control">
 							</div>
 							
 						</form>
 						
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Approve</a>
+						<a href="javascript:;" class="btn btn-blue" onclick="upload_data()" >Upload</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalalasan" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">&nbsp;</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						
+							<div class="note note-warning note-with-right-icon m-b-15">
+								<div class="note-content">
+									<h4><b>Alasan</b></h4>
+									<p id="alasan_revisi"></p>
+								</div>
+								
+							</div>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" data-dismiss="modal" >Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -180,21 +205,21 @@
 			lengthChange: false,
 		} );
 
-		$('#kolom-alasan').hide();
-
-		function cek_status(id){
-			if(id=='0'){
-				$('#kolom-alasan').show();
-			}else{
-				$('#kolom-alasan').hide();
-			}
-		}
+		
 		function proses_kesimpulan(id){
 			location.assign("{{url('/Lha/Create')}}?id="+id);
 		}
 		function sand_lha(id){
 			$('#audit_id').val(id);
 			$('#modalsend').modal('show');
+		}
+		function upload_lha(id){
+			$('#audit_ide').val(id);
+			$('#modalupload').modal('show');
+		}
+		function alasan_revisi(id){
+			$('#alasan_revisi').html(id);
+			$('#modalalasan').modal('show');
 		}
 		function proses_rekomendasi(id,nilai){
 			if(nilai==0){
@@ -275,7 +300,34 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Lha/approve_pengawas')}}",
+                    url: "{{url('/Lha/send_data')}}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+						document.getElementById("loadnya").style.width = "100%";
+					},
+                    success: function(msg){
+                        if(msg=='ok'){
+                            location.reload();
+                               
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+							alert(msg);
+                        }
+                        
+                        
+                    }
+                });
+
+        } 
+		function upload_data(){
+            var form=document.getElementById('upload-data');
+            
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('/Lha/upload_data')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

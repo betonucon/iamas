@@ -60,78 +60,29 @@
 										<td></td>
 										<td>
 											
-											@if(cek_total_setujui($data->id)==8)
-												<span class="btn btn-blue btn-sm" onclick="proses_kirim({{$data->id}})"><i class="fas fa-arrow-alt-circle-right"></i> Penerbitan LHA</span>
+											@if(cek_total_setujui($data->id)==9)
+												<span class="btn btn-blue btn-sm" onclick="proses_revisi({{$data->id}})"><i class="fas fa-arrow-alt-circle-right"></i> Penerbitan LHA</span>
 											@endif
 											<div id="hasil"></div>
 											
 											<table width="100%">
 												<tr>
-													<th width="25%">Keterangan</th>
-													<th width="5%">Proses</th>
-													<th>Hasil Penilaian</th>
-												</tr>
-												<tr>
-													<td style="background:#f2f4f5"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Deskaudit</td>
-													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Deskaudit/Catatanhead?id='.coder($data->id))}}" target="_blank"><span class="btn btn-success btn-xs"><i class="fa fa-search"></i></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Langkah Kerja</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'deskaudit_langkah') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'deskaudit_langkah')!!}</td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Catatan</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'deskaudit_catatan') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'deskaudit_catatan')!!}</td>
-												</tr>
-												<tr>
-													<td style="background:#f2f4f5"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Compliance</td>
-													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Compliance/Catatanhead?id='.coder($data->id))}}" target="_blank"><span class="btn btn-success btn-xs"><i class="fa fa-search"></i></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Langkah Kerja</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'compliance_langkah') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'compliance_langkah')!!}</td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Catatan</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'compliance_catatan') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'compliance_catatan')!!}</td>
-												</tr>
-												<tr>
-													<td style="background:#f2f4f5"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Substantive</td>
-													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Substantive/Catatanhead?id='.coder($data->id))}}" target="_blank"><span class="btn btn-success btn-xs"><i class="fa fa-search"></i></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Langkah Kerja</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'substantive_langkah') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'substantive_langkah')!!}</td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> Catatan</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'substantive_catatan') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'substantive_catatan')!!}</td>
-												</tr>
-												<tr>
-													<td style="background:#f2f4f5"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Draf LHA</td>
-													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Lha/Catatanhead?id='.coder($data->id))}}" target="_blank"><span class="btn btn-success btn-xs"><i class="fa fa-search"></i></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> LHA Kesimpulan</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'draf_lha') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'draf_lha')!!}</td>
-												</tr>
-												<tr>
-													<td style="padding-left:5%;background:#f2f4f5"><i class="fas fa-folder-open text-aqua"></i> LHA Saran</td>
-													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'draf_lha_saran') !!}</td>
-													<td style="background:#fff">{!!text_revisi($data->id,'draf_lha_saran')!!}</td>
+													<th>Keterangan</th>
+													<th width="13%">Deskaudit</th>
+													<th width="13%">Compliance</th>
+													<th width="13%">Substantive</th>
+													<th width="13%">LHA</th>
+													<th width="7%">File LHA</th>
 												</tr>
 												
+												<tr>
+													<td class="text-center">Hasil Review QC</td>
+													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Deskaudit/Catatanhead?id='.coder($data->id))}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Deskaudit</td>
+													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Compliance/Catatanhead?id='.coder($data->id))}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Compliance</td>
+													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Substantive/Catatanhead?id='.coder($data->id))}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Substantive</td>
+													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/Lha/Catatanhead?id='.coder($data->id))}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> LHA</td>
+													<td class="text-center" style="background:#f2f4f5"><a href="{{url('/_file_lampiran/'.$data->file_lha)}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> File</td>
+												</tr>
 												
 											</table>
 										</td>
@@ -162,22 +113,22 @@
 					</div>
 					<div class="modal-body">
 						<div id="notifikasiubah"></div>
-						<form id="ubah-data" enctype="multipart/form-data">
+						<form id="ubah-data" method="post" action="{{url('/Qc/penerbitan_lha')}}" enctype="multipart/form-data">
 							@csrf
-							<input type="hidden"  name="audit_id" id="audit_id">
-							<input type="hidden"  name="kategori" id="kategori">
+							<input type="hidden"  name="id" id="audit_id">
 							<div class="form-grup">
 								<label>Status</label>
 								<select name="sts" onchange="pilih_status(this.value)" class="form-control">
 									<option value="">Pilih Status</option>
 									<option value="2">Revisi</option>
-									<option value="1">Disetujui</option>
+									<option value="12">Disetujui</option>
 								</select>
 							</div>
 							<div class="form-grup" id="keterangan">
 								<label>Keterangan</label>
 								<textarea class="form-control" name="keterangan" id="textareaketerangan"></textarea>
 							</div>
+							<input type="submit">
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -251,10 +202,8 @@
 				$('#keterangan').hide();
 			}
 		}
-		function proses_revisi(id,kategori,label){
+		function proses_revisi(id){
 			$('#audit_id').val(id);
-			$('#kategori').val(kategori);
-			$('#labelrevisi').html(label);
 			$('#modalrevisi').modal('show');
 		}
 		function proses_qc(id){
@@ -286,6 +235,7 @@
 			$('#tampilfile').html("<iframe src='{{url('Lha/view')}}?id="+a+"' width='100%' height='600px'></iframe>");
 		}
 
+		
 		function proses_kirim(a){
 			
 			$.ajax({
@@ -321,7 +271,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Qc/proses_revisi')}}",
+                    url: "{{url('/Qc/penerbitan_lha')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

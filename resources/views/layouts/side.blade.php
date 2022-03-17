@@ -67,7 +67,7 @@
                         <li><a href="{{url('/Compliancehead')}}">Compliance</a></li>
                         <li><a href="{{url('/Substantivehead')}}">Substantive</a></li>
                         <li><a href="{{url('/Lha')}}">{!! notif_lha_head() !!} Lha</a></li>
-                        <li><a href="{{url('/Qchead')}}">{!! notif_qc_head() !!} Qc Head</a></li>
+                        <li><a href="{{url('/Qchead')}}">{!! notif_qc_head() !!} Penerbitan</a></li>
                         
                     </ul>
                 </li>
@@ -177,7 +177,7 @@
                                 LHA
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Lha')}}">Program</a></li>
+                                <li><a href="{{url('/Lhaketua')}}">Program</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -237,12 +237,19 @@
                         <span>Draf Perbaikan</span>
                     </a>
                 </li>
-                <li><a href="{{url('Temuan')}}"><i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
+                <li><a href="{{url('Temuananggota')}}"><i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
             @endif
 
             @if(Auth::user()->role_id==7)
                 <li><a href="{{url('/Qc')}}"><i class="fa fa-clipboard"></i>
                         <span>Draf Pemeriksaan</span>
+                    </a>
+                </li>
+                        
+            @endif
+            @if(Auth::user()->role_id==8)
+                <li><a href="{{url('/Temuan')}}"><i class="fa fa-clipboard"></i>
+                        <span>Draf Temuan</span>
                     </a>
                 </li>
                         

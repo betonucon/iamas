@@ -18,6 +18,7 @@ class Revisi extends Model
         'kategori',
         'sts',
         'role_id',
+        'file',
 
         
 

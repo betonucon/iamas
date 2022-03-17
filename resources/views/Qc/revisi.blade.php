@@ -88,7 +88,9 @@
 															</td>
 															<td class="tttop" style="text-align:center"><span class="btn btn-aqua btn-xs" onclick="proses_perbaikan(`{{coder($o->audit_id)}}`,`{{$o->kategori}}`)"> Lihat</span></td>
 															<td class="tttop">{{$o->kategori}}</td>
-															<td class="tttop">14 Hari Kerja ({{$o->mulai}} s/d {{$o->sampai}})<br>{{$o->keterangan}}</td>
+															<td class="tttop">{!!text_revisi($o->audit_id,$o->kategori)!!}
+														
+															</td>
 														</tr>
 													@endif
 												@endforeach

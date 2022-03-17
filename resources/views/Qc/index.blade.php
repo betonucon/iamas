@@ -57,7 +57,7 @@
 										<td></td>
 										<td>
 											
-												@if(cek_total_setujui($data->id)==8)
+												@if(cek_total_setujui($data->id)==9)
 													<span class="btn btn-blue btn-sm" onclick="proses_kirim({{$data->id}})"><i class="fas fa-arrow-alt-circle-right"></i> Kirim Hasil Review</span>
 												@endif
 											
@@ -67,6 +67,11 @@
 													<th width="25%">Keterangan</th>
 													<th width="5%">Proses</th>
 													<th>Hasil Penilaian</th>
+												</tr>
+												<tr>
+													<td style="background:#f2f4f5"><a href="{{url('/_lampiran/'.$data->file_lha)}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Download File LHA</a></td>
+													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'file_lha') !!}</td>
+													<td>{!!text_revisi($data->id,'file_lha')!!}</td>
 												</tr>
 												<tr>
 													<td style="background:#f2f4f5"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Deskaudit</td>
@@ -150,7 +155,7 @@
 	<div class="row">
 
 		
-	<div class="modal" id="modalrevisi" aria-hidden="true" style="display: none;">
+		<div class="modal" id="modalrevisi" aria-hidden="true" style="display: none;">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -179,6 +184,43 @@
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="ubah_data()">Simpan</a>
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalrevisifile" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="labelreviside"></h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<div id="notifikasiubahfile"></div>
+						<form id="ubahfile-data" enctype="multipart/form-data">
+							@csrf
+							<input type="hidden"  name="audit_id" id="audit_ide">
+							<input type="hidden"  name="kategori" id="kategoride">
+							<div class="form-grup">
+								<label>Status</label>
+								<select name="sts" onchange="pilih_status_file(this.value)" class="form-control">
+									<option value="">Pilih Status</option>
+									<option value="2">Revisi</option>
+									<option value="1">Disetujui</option>
+								</select>
+							</div>
+							<div class="form-grup" id="keterangan_file">
+								<label>Keterangan</label>
+								<textarea class="form-control" name="keterangan" id="textareaketeranganfile"></textarea>
+								<label>File Perbaikan</label>
+								<input type="file" class="form-control" name="file" >
+								
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-blue" onclick="ubahfile_data()">Simpan</a>
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
@@ -235,7 +277,9 @@
 			lengthChange: false,
 		} );
 		$('#keterangan').hide();
+		$('#keterangan_file').hide();
 		$("#textareaketerangan").wysihtml5();
+		$("#textareaketeranganfile").wysihtml5();
 
 		function pilih_status(id){
 			if(id==2){
@@ -248,11 +292,28 @@
 				$('#keterangan').hide();
 			}
 		}
+		function pilih_status_file(id){
+			if(id==2){
+				$('#keterangan_file').show();
+			}
+			else if(id==1){
+				$('#keterangan_file').hide();
+			}
+			else{
+				$('#keterangan_file').hide();
+			}
+		}
 		function proses_revisi(id,kategori,label){
 			$('#audit_id').val(id);
 			$('#kategori').val(kategori);
 			$('#labelrevisi').html(label);
 			$('#modalrevisi').modal('show');
+		}
+		function proses_revisi_file(id,kategori,label){
+			$('#audit_ide').val(id);
+			$('#kategoride').val(kategori);
+			$('#labelreviside').html(label);
+			$('#modalrevisifile').modal('show');
 		}
 		function proses_qc(id){
 			location.assign("{{url('/Qcview')}}?id="+id);
@@ -333,6 +394,34 @@
                             document.getElementById("loadnya").style.width = "0px";
 							document.getElementById("notifikasiubah").style.width = "100%";
 							$('#notifikasiubah').html(msg);
+                        }
+                        
+                        
+                    }
+                });
+
+        }
+		function ubahfile_data(){
+            var form=document.getElementById('ubahfile-data');
+            
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('/Qc/proses_revisi')}}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+						document.getElementById("loadnya").style.width = "100%";
+					},
+                    success: function(msg){
+                        if(msg=='ok'){
+                            location.reload();
+                               
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+							document.getElementById("notifikasiubahfile").style.width = "100%";
+							$('#notifikasiubahfile').html(msg);
                         }
                         
                         

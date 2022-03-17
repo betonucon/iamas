@@ -12,6 +12,7 @@ use App\Http\Controllers\DeskauditController;
 use App\Http\Controllers\QcController;
 use App\Http\Controllers\ComplianceController;
 use App\Http\Controllers\SubstantiveController;
+use App\Http\Controllers\TemuanController;
 use App\Http\Controllers\LhaController;
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +125,7 @@ Route::group(['middleware'    => 'auth'],function(){
 
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Lha',[LhaController::class, 'index']);
+    Route::get('Lhaketua',[LhaController::class, 'index_ketua']);
     Route::get('Lha/ubah',[LhaController::class, 'ubah']);
     Route::get('Lha/view',[LhaController::class, 'view']);
     Route::get('Lha/tampiltambahtemuan',[LhaController::class, 'tampiltambahtemuan']);
@@ -142,6 +144,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('Lha/Edit',[LhaController::class, 'edit']);
     Route::post('Lha/simpan',[LhaController::class, 'save']);
     Route::post('Lha/send_data',[LhaController::class, 'send_data']);
+    Route::post('Lha/upload_data',[LhaController::class, 'upload_data']);
     Route::post('Lha/approve_pengawas',[LhaController::class, 'send_to_pengawas']);
     Route::post('Lha/approve_head',[LhaController::class, 'send_to_head']);
     Route::post('Lha/simpan_rekomendasi',[LhaController::class, 'save_rekomendasi']);
@@ -229,8 +232,15 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('Qc/proses_revisi',[QcController::class, 'proses_revisi']);
     Route::get('Qc/proses_pengerjaan',[QcController::class, 'proses_pengerjaan']);
     Route::get('Qc/send_to_head',[QcController::class, 'send_to_head']);
-    Route::get('Qc/penerbitan_lha',[QcController::class, 'penerbitan_lha']);
+    Route::post('Qc/penerbitan_lha',[QcController::class, 'penerbitan_lha']);
     Route::get('Qcview',[QcController::class, 'view']);
+
+});
+Route::group(['middleware'    => 'auth'],function(){
+    Route::get('Temuan',[TemuanController::class, 'index']);
+    Route::get('Temuan/proses',[TemuanController::class, 'proses']);
+    Route::get('Temuananggota',[TemuanController::class, 'index_anggota']);
+    Route::post('Temuan',[TemuanController::class, 'simpan']);
 
 });
 Route::group(['middleware'    => 'auth'],function(){

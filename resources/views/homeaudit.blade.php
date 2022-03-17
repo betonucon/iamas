@@ -34,13 +34,14 @@
 							<th rowspan="2" width="3%">No</th>
 							<th rowspan="2">Surat Tugas</th>
 							<th rowspan="2" width="7%">Penerbitan</th>
+							<th rowspan="2" width="6%">Plan</th>
 							<th colspan="2">Desk</th>
 							<th colspan="2">Comp</th>
 							<th colspan="2">Subs</th>
 							<th rowspan="2" width="6%">Draf</th>
 							<th rowspan="2" width="6%">Qc</th>
 							<th rowspan="2" width="6%">PEN</th>
-							<th rowspan="2" width="6%">PEN</th>
+							<th rowspan="2" width="6%">%</th>
 						</tr>
 						<tr>
 							<th width="5%">Prg</th>
@@ -51,9 +52,15 @@
 							<th width="5%">Cat</th>
 							
 						</tr>
+						<?php
+							$count=0;
+							$sum=0;
+						?>
 						@foreach($data as $no=>$o)
 							<?php
-								$total=(cek_hasil_nilai($o->id,'desk_prog')+
+								$count+=1;
+								$total=(cek_hasil_nilai($o->id,'plan')+
+										cek_hasil_nilai($o->id,'desk_prog')+
 										cek_hasil_nilai($o->id,'desk_catatan')+
 										cek_hasil_nilai($o->id,'com_prog')+
 										cek_hasil_nilai($o->id,'com_catatan')+
@@ -63,12 +70,13 @@
 										cek_hasil_nilai($o->id,'qc')+
 										cek_hasil_nilai($o->id,'pen')
 										);
-
+								$sum+=round($total*(100/10));
 							?>
 							<tr>
 								<td>{{$no+1}}</td>
 								<td><b>[{{$o->surattugas['nomortiket']}}]</b> {{$o->name}}</td>
 								<td style="background:{{tgl_simple($o->tgl_lha_finis_end)}}"></td>
+								<td style="background:{{cek_hasil($o->id,'plan')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'desk_prog')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'desk_catatan')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'com_prog')}}"></td>
@@ -79,23 +87,24 @@
 								<td style="background:{{cek_hasil($o->id,'draf')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'qc')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'pen')}}"></td>
-								<td style="text-align:center;background:#e0f9b0"><b>{{round($total*(100/9))}}%</b></td>
+								<td style="text-align:center;background:#e0f9b0"><b>{{round($total*(100/10))}}%</b></td>
 							</tr>
 							
 						@endforeach
 							<tr>
 								<td colspan="2" style="text-align:center;background:#e0f9b0">Progres %</td>
 								<td style="text-align:center;background:#e0f9b0"></td>
-								<td style="text-align:center;background:#e0f9b0">5%</td>
 								<td style="text-align:center;background:#e0f9b0">10%</td>
-								<td style="text-align:center;background:#e0f9b0">15%</td>
 								<td style="text-align:center;background:#e0f9b0">20%</td>
-								<td style="text-align:center;background:#e0f9b0">25%</td>
 								<td style="text-align:center;background:#e0f9b0">30%</td>
+								<td style="text-align:center;background:#e0f9b0">40%</td>
+								<td style="text-align:center;background:#e0f9b0">50%</td>
 								<td style="text-align:center;background:#e0f9b0">60%</td>
+								<td style="text-align:center;background:#e0f9b0">70%</td>
 								<td style="text-align:center;background:#e0f9b0">80%</td>
+								<td style="text-align:center;background:#e0f9b0">90%</td>
 								<td style="text-align:center;background:#e0f9b0">100%</td>
-								<td style="text-align:center;background:#e0f9b0"></td>
+								<td style="text-align:center;background:#e0f9b0">{{$sum/$count}}%</td>
 							</tr>
 					</table>
 				</div>

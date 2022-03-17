@@ -156,6 +156,12 @@
 												<input type="text" class="form-control" name="tgl_penerbitan"  id="tangal_penerbitan" placeholder="Enter text ..." >
 											</div>
 										</div>
+										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Persetujuan AuditpLan</label>
+											<div class="col-lg-9 col-xl-4">
+												<input type="text" class="form-control" name="tgl_plan"  id="tangal_plan" placeholder="Enter text ..." >
+											</div>
+										</div>
 									
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">1. DeskAudit (Program)</label>
@@ -290,6 +296,10 @@
                 
             });
             $('#tangal_penerbitan').datepicker({
+                format: 'yyyy-mm-dd',
+                
+            });
+            $('#tangal_plan').datepicker({
                 format: 'yyyy-mm-dd',
                 
             });

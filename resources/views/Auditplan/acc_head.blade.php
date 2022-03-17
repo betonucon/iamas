@@ -266,6 +266,7 @@
 						<h4 class="modal-title">Approve </h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
+					
 					<div class="modal-body">
 						<div class="alert alert-success fade show m-b-0">
 							<span class="close" data-dismiss="alert">×</span>

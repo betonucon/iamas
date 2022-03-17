@@ -34,6 +34,12 @@ class LhaController extends Controller
         }
         
     }
+    public function index_ketua(request $request){
+        $menu='LHA';
+        $side="auditpengawas";
+        return view('LHA.index_ketua',compact('menu','side'));
+        
+    }
 
     public function index_acc(request $request){
         $menu='LHA';
@@ -218,9 +224,34 @@ class LhaController extends Controller
     public function send_to_head(request $request){
         $data=Audit::where('id',$request->audit_id)->update([
             'sts_lha'=>3,
+            
             'tgl_sts10'=>date('Y-m-d'),
         ]);
         echo'ok';
+    }
+    public function upload_data(request $request){
+        $audit=Audit::where('id',$request->audit_id)->first();
+        if($request->file==""){echo'Upload file';}
+        else{
+            $image = $request->file('file');
+            $size = $image->getSize();
+            $imageFileName ='LHA'.$audit->surattugas['nomortiket'].'.'. $image->getClientOriginalExtension();
+            $filePath =$imageFileName;
+            $file = \Storage::disk('public_uploads');
+            if($image->getClientOriginalExtension()=='doc' || $image->getClientOriginalExtension()=='docx'){
+                if($file->put($filePath, file_get_contents($image))){
+                    $data=Audit::where('id',$request->audit_id)->update([
+                        'file_lha'=>$filePath,
+                        'sts_file_lha'=>1,
+                    ]);
+                    echo'ok';
+                }else{
+
+                }
+            }else{
+                echo'Format file harus word .doc|docx';
+            }
+        }
     }
 
     public function send_to_pengawas(request $request){
@@ -229,6 +260,7 @@ class LhaController extends Controller
         if($request->sts=='0'){
             $data=Audit::where('id',$id)->update([
                 'sts_lha'=>$request->sts,
+                
                 'alasan_lha'=>$request->alasan,
             ]);
             echo'ok';
@@ -273,7 +305,7 @@ class LhaController extends Controller
             $data=Audit::where('id',$id)->update([
                 'sts_lha'=>3,
                 'tgl_sts10'=>date('Y-m-d'),
-                'sts'=>11,
+                'sts'=>10,
             ]);
             echo'ok';
             
@@ -414,6 +446,7 @@ class LhaController extends Controller
     public function send_data(request $request){
         $data=Audit::where('id',$request->audit_id)->update([
             'sts_lha'=>1,
+            'sts'=>9,
         ]);
 
         echo'ok';
