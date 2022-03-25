@@ -74,7 +74,7 @@
                 <li><a href="{{url('Temuanhead')}}"><i class="fa fa-clipboard"></i><span>Temuan</span></a></li>
                 @endif
             @endif
-
+            
             <!-----Menu Pengawas Untuk Tiket---->
             @if(Auth::user()->posisi_id==12 || Auth::user()->posisi_id==2 || Auth::user()->posisi_id==7 || Auth::user()->posisi_id==1)
                 @if(akses_tiket_pengawas()>0)
@@ -132,7 +132,9 @@
                     <li><a href="{{url('Temuanpengawas')}}"><i class="fa fa-clipboard"></i><span>Temuan pengawas</span></a></li>
                 @endif
             @endif
-
+            @if(Auth::user()->posisi_id==12)
+                <li><a href="{{url('Temuanrcd')}}"><i class="fa fa-clipboard"></i><span>Temuan Rcd</span></a></li>
+            @endif
             @if(akses_tiket_ketua()>0)
                 <li class="has-sub lilinya">
                     <a href="javascript:;">

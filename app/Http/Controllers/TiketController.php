@@ -17,7 +17,7 @@ class TiketController extends Controller
         if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11){
             $menu='Sumber Informasi ';
             $side='tiket';
-            return view('Tiket.index',compact('menu','tiket','side'));
+            return view('Tiket.index',compact('menu','side'));
 
         }else{
             return view('error');

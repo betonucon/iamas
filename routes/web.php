@@ -223,9 +223,6 @@ Route::group(['middleware'    => 'auth'],function(){
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Qc',[QcController::class, 'index']);
     Route::get('Temuan',[QcController::class, 'index_temuan']);
-    Route::get('Temuanhead',[QcController::class, 'index_temuan_head']);
-    Route::get('Temuanketua',[QcController::class, 'index_temuan_ketua']);
-    Route::get('Temuanpengawas',[QcController::class, 'index_temuan_pengawas']);
     Route::get('Temuan/view',[QcController::class, 'view_temuan']);
     Route::get('Qchead',[QcController::class, 'index_head']);
     Route::get('Qcrevisi',[QcController::class, 'index_revisi']);
@@ -238,8 +235,19 @@ Route::group(['middleware'    => 'auth'],function(){
 });
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Temuan',[TemuanController::class, 'index']);
+    Route::get('Temuan/approve',[TemuanController::class, 'approve']);
+    Route::post('Temuan/send_data',[TemuanController::class, 'send_data']);
+    Route::post('Temuan/send_data_head',[TemuanController::class, 'send_data_head']);
     Route::get('Temuan/proses',[TemuanController::class, 'proses']);
+    Route::get('Temuan/prosesanggota',[TemuanController::class, 'prosesanggota']);
+    Route::get('Temuan/prosesketua',[TemuanController::class, 'prosesketua']);
+    Route::get('Temuan/prosespengawas',[TemuanController::class, 'prosespengawas']);
     Route::get('Temuananggota',[TemuanController::class, 'index_anggota']);
+    Route::get('Temuanrcd',[TemuanController::class, 'index_rcd']);
+    Route::get('Temuanhead',[TemuanController::class, 'index_temuan_head']);
+    Route::get('Temuanketua',[TemuanController::class, 'index_temuan_ketua']);
+    Route::get('Temuanpengawas',[TemuanController::class, 'index_temuan_pengawas']);
+    
     Route::post('Temuan',[TemuanController::class, 'simpan']);
 
 });

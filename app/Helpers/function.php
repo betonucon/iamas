@@ -504,6 +504,18 @@ function get_text_revisi(){
       
    
 }
+function alasan_temuan($nomortl){
+   $cek=App\Disposisi::where('nomortl',$nomortl)->count();
+   if($cek>0){
+      $get=App\Disposisi::where('nomortl',$nomortl)->first();
+   
+      return $get['alasan'];
+   }else{
+      return "";
+   }
+      
+   
+}
 function get_detail_text_revisi($id){
    $get=App\Revisi::where('audit_id',$id)->get();
   
@@ -575,6 +587,15 @@ function tgl_kedepan($tanggal,$lama)
    $hari=$lama;
    
    $kedepan = date('Y-m-27', strtotime("$hari Weekday", strtotime($tgl[0])));
+   return  $kedepan;
+}
+
+function tgl_berikutnya($tanggal,$lama)
+{
+   $tgl=$tanggal;
+   $hari=$lama;
+   
+   $kedepan = date('Y-m-d', strtotime("$hari day", strtotime($tgl)));
    return  $kedepan;
 }
 
@@ -1135,8 +1156,34 @@ function sts_temuan($id){
    $data=App\Ststemuan::where('id',$id)->first();
    return $data['name'];
 }
+function track_temuan($id){
+   if($id==1){
+      $data='Pengisian Tindak Lanjut';
+   }
+   if($id==2){
+      $data='Review RCD';
+   }
+   if($id==3){
+      $data='Review Anggota';
+   }
+   if($id==4){
+      $data='Review Pengawas';
+   }
+   if($id==5){
+      $data='Review HOIA';
+   }
+   if($id==6){
+      $data='Selesai';
+   }
+
+   return $data;
+}
 function temuan_auditee_get(){
-   $data=App\Rekomendasi::whereIn('kode_unit',array_temuan_auditee())->where('sts',1)->get();
+   $data=App\Rekomendasi::whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->get();
+   return $data;
+}
+function temuan_rcd_get(){
+   $data=App\Rekomendasi::where('sts','>',1)->get();
    return $data;
 }
 function temuan_anggota_get(){
@@ -1145,7 +1192,7 @@ function temuan_anggota_get(){
       ->get()
       ->toArray(),'id'
    );
-   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts','>',2)->get();
    return $data;
 }
 function temuan_ketua_get(){
@@ -1154,7 +1201,7 @@ function temuan_ketua_get(){
       ->get()
       ->toArray(),'id'
    );
-   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts','>',2)->get();
    return $data;
 }
 function temuan_pengawas_get(){
@@ -1163,7 +1210,16 @@ function temuan_pengawas_get(){
       ->get()
       ->toArray(),'id'
    );
-   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts',1)->get();
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts','>',3)->get();
+   return $data;
+}
+function temuan_head_get(){
+   $det  = array_column(
+      App\Audit::whereIn('tiket_id',array_tiket_head())
+      ->get()
+      ->toArray(),'id'
+   );
+   $data=App\Rekomendasi::whereIn('audit_id',$det)->where('sts','>',4)->get();
    return $data;
 }
 function tiket_get_anggota(){

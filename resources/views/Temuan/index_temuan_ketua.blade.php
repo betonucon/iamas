@@ -48,7 +48,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(temuan_anggota_get() as $no=>$data)
+								@foreach(temuan_ketua_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
@@ -133,7 +133,7 @@
 
 		
 		function proses(id){
-			location.assign("{{url('/Temuan/prosesanggota')}}?id="+id);
+			location.assign("{{url('/Temuan/prosesketua')}}?id="+id);
 		}
 		
 	</script>

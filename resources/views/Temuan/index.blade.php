@@ -43,7 +43,7 @@
 									<th width="6%" class="text-nowrap">Nomor</th>
 									<th width="10%" class="text-nowrap">Risiko</th>
 									<th class="text-nowrap">Judul</th>
-									<th width="8%" class="text-nowrap">Status</th>
+									<th width="17%" class="text-nowrap">Traking Status</th>
 									<th width="5%" class="text-nowrap">Act</th>
 								</tr>
 							</thead>
@@ -56,16 +56,16 @@
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
 										<td>{{$data->ket_risiko}}</td>
 										<td>{{$data->kesimpulan['name']}}</td>
-										<td>{!! sts_temuan($data->sts) !!}</td>
+										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan($data->sts)}}</td>
 										<td>
 											@if($data->sts==1)
 												<span class="btn btn-blue btn-xs" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-pencil-alt"></i></span>
-											@endif	
-											@if($data->sts==2)
-
-											@endif
-											@if($data->sts==3)
-
+											@else
+												@if($data->sts==6)
+													<span class="btn btn-success btn-xs" title="Selesai" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
+												@else
+													<span class="btn btn-white btn-xs"  title="Proses Pemeriksaan" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-clipboard"></i></span>
+												@endif
 											@endif
 										</td>
 										

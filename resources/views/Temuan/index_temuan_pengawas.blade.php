@@ -48,7 +48,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(temuan_anggota_get() as $no=>$data)
+								@foreach(temuan_pengawas_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
@@ -58,7 +58,7 @@
 										<td>{{$data->kesimpulan['name']}}</td>
 										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan($data->sts)}}</td>
 										<td>
-											@if($data->sts==3)
+											@if($data->sts==4)
 												<span class="btn btn-blue btn-xs" title="Approve" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
 											@else
 												@if($data->sts==6)
@@ -133,7 +133,7 @@
 
 		
 		function proses(id){
-			location.assign("{{url('/Temuan/prosesanggota')}}?id="+id);
+			location.assign("{{url('/Temuan/prosespengawas')}}?id="+id);
 		}
 		
 	</script>

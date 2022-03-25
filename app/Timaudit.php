@@ -21,4 +21,7 @@ class Timaudit extends Model
     function role(){
         return $this->belongsTo('App\Role','role_id','id');
     }
+
+    
+    
 }
