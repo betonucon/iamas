@@ -61,6 +61,11 @@
 											<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>No Tindak Lanjut</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{$data->nomortl}}</td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>

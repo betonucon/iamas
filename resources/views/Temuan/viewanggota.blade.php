@@ -38,8 +38,8 @@
 					<div class="btn-group btn-group-justified" style="margin-bottom:2%">
 					
 					@if(akses_tiket_anggota()>0)
-						@if($data->sts==3)
-							<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Anggota`)"><i class="fas fa-paper-plane"></i> Kirim ke Tim</span>
+						@if($data->sts==3 )
+							<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Anggota`)"><i class="fas fa-paper-plane"></i> Kirim ke Pengawas</span>
 						@endif
 							<span class="btn btn-green btn-sm" onclick="kembali(`anggota`)"><i class="fas fa-reply"></i> Kembali</span>
 						
@@ -61,6 +61,11 @@
 											<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>No Tindak Lanjut</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{$data->nomortl}}</td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>
@@ -80,6 +85,13 @@
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop"><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></td>
 										</tr>
+										@if($data->revisi==3)
+										<tr>
+											<td class="text-toop"><b>Review Pengawas</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{!! review_pengawas($data->id,$data->sts_tl) !!}</td>
+										</tr>
+										@endif
 										<tr>
 											<td class="text-toop"><b>Hasil Tindak Lanjut</b></td>
 											<td class="text-toop"><b>:</b></td>
@@ -141,11 +153,25 @@
 							</div> -->
 							<div class="form-grup">
 								<label>Tentukan Status</label>
-								<select class="form-control" name="status">
+								<select class="form-control" name="status" onchange="pilih_status(this.value)">
 									<option value="">--Pilih Status</option>
 									<option value="1">- Selesai</option>
 									<option value="2">- Perbaiki Ulang</option>
 								</select>
+							</div>
+							<div class="form-grup">
+								<label>Catatan</label>
+								<textarea class="form-control" name="catatan"></textarea>
+								
+							</div>
+							<div class="form-grup" id="tampilalasan">
+								<label>Tentukan Penilaian</label>
+								<select class="form-control" name="nilai" >
+									<option value="">--Pilih Penilaian</option>
+									<option value="A">- Baik</option>
+									<option value="B">- Buruk</option>
+								</select>
+								
 							</div>
 						</form>
 						
@@ -229,8 +255,17 @@
 			lengthChange: false,
 		} );
 
+		$('#tampilalasan').hide();
+		
 		function kembali(name){
 			location.assign("{{url('Temuan')}}"+name)
+		}
+		function pilih_status(sts){
+			if(sts==2){
+				$('#tampilalasan').show();
+			}else{
+				$('#tampilalasan').hide();
+			}
 		}
 		function approve_acc(id,name){
 			// alert(name)

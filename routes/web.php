@@ -236,8 +236,10 @@ Route::group(['middleware'    => 'auth'],function(){
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('Temuan',[TemuanController::class, 'index']);
     Route::get('Temuan/approve',[TemuanController::class, 'approve']);
+    Route::get('Temuan/cetak',[TemuanController::class, 'cetak']);
     Route::post('Temuan/send_data',[TemuanController::class, 'send_data']);
     Route::post('Temuan/send_data_head',[TemuanController::class, 'send_data_head']);
+    Route::get('Temuan/send_data_akhir',[TemuanController::class, 'send_data_akhir']);
     Route::get('Temuan/proses',[TemuanController::class, 'proses']);
     Route::get('Temuan/prosesanggota',[TemuanController::class, 'prosesanggota']);
     Route::get('Temuan/prosesketua',[TemuanController::class, 'prosesketua']);

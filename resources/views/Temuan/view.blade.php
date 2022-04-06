@@ -46,7 +46,7 @@
 						
 						@if(akses_tiket_head()>0)
 							@if($data->sts==5)
-								<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Head`)"><i class="fas fa-paper-plane"></i> Kirim ke Tim</span>
+								<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Head`)"><i class="fas fa-paper-plane"></i> Approve</span>
 							@endif
 								<span class="btn btn-green btn-sm" onclick="kembali(`head`)"><i class="fas fa-reply"></i> Kembali</span>
 							
@@ -68,6 +68,11 @@
 											<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>No Tindak Lanjut</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{$data->nomortl}}</td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>
@@ -86,6 +91,11 @@
 											<td class="text-toop"><b>File Tindak Lanjut</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop"><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Review Team</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{!! review_team($data->id,$data->sts_tl) !!}</td>
 										</tr>
 										<tr>
 											<td class="text-toop"><b>Hasil Tindak Lanjut</b></td>
@@ -174,17 +184,8 @@
 						<div id="notifikasi-errorapprovehead"></div>
 						<form id="kirim-datahead" method="post" enctype="multipart/form-data">
         					@csrf
-							<input type="hidden" name="id" id="headtemuan_id">
-							<input type="hidden" name="name" id="headname">
-							<!-- <div class="note note-warning note-with-right-icon m-b-15">
-								<div class="note-content text-right">
-									<h4><b>Notifikasi</b></h4>
-									<p>
-									  Jika melakukan proses kirim kepengawas, ketua dan anggota tidak dapat merubah atau menambahkan kesimpulan dan rekomendasi
-									</p>
-								</div>
-								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
-							</div> -->
+							<input type="text" name="id" id="headtemuan_id">
+							<input type="text" name="name" id="headname">
 							<div class="form-grup">
 								<label>Tentukan Status</label>
 								<select class="form-control" onchange="pilih_status(this.value)" name="status">
@@ -252,7 +253,6 @@
 			}
 		}
 		function approve_acc(id,name){
-			// alert(name)
 			if(name=='RCD'){
 				$.ajax({
 					type: 'GET',
@@ -266,10 +266,12 @@
 					}
 				}); 
 			}
-			if(name=='Pengawas'){
+			
+
+			if(name=='Head'){
 				$.ajax({
 					type: 'GET',
-					url: "{{url('Temuan/approve')}}",
+					url: "{{url('Temuan/send_data_akhir')}}",
 					data: "id="+id+"&name="+name,
 					beforeSend: function() {
 						document.getElementById("loadnya").style.width = "100%";
@@ -278,22 +280,6 @@
 						location.reload();
 					}
 				}); 
-			}
-
-			if(name=='Anggota'){
-				$('#modal-anggota').modal('show');
-				$('#name').val(name);
-				$('#temuan_id').val(id);
-			}
-			if(name=='Ketua'){
-				$('#modal-anggota').modal('show');
-				$('#name').val(name);
-				$('#temuan_id').val(id);
-			}
-			if(name=='Head'){
-				$('#modal-head').modal('show');
-				$('#headname').val(name);
-				$('#headtemuan_id').val(id);
 			}
 		}
 
@@ -333,7 +319,7 @@
             
                 $.ajax({
                     type: 'POST',
-                    url: "{{url('/Temuan/send_data_head')}}",
+                    url: "{{url('/Temuan/send_data_akhir')}}",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

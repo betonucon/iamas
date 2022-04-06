@@ -15,6 +15,7 @@ class Disposisi extends Model
         'rekomendasi_id',
         'sts_tl',
         'alasan',
+        'catatan',
     ];
     function rekomendasi(){
         return $this->belongsTo('App\Rekomendasi','rekomendasi_id','id');

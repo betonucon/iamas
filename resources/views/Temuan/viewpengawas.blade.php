@@ -62,6 +62,11 @@
 											<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>No Tindak Lanjut</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{$data->nomortl}}</td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>
@@ -80,6 +85,11 @@
 											<td class="text-toop"><b>File Tindak Lanjut</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop"><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Catatan</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{!! review_team($data->id,$data->sts_tl) !!}</td>
 										</tr>
 										<tr>
 											<td class="text-toop"><b>Hasil Tindak Lanjut</b></td>
@@ -127,27 +137,24 @@
 					</div>
 					<div class="modal-body">
 						<div id="notifikasi-errorapprove"></div>
-						<form id="head" method="post" enctype="multipart/form-data">
+						<form id="kirim_data" method="post" enctype="multipart/form-data">
         					@csrf
 							<input type="hidden" name="id" id="temuan_id">
 							<input type="hidden" name="name" id="name">
-							<!-- <div class="note note-warning note-with-right-icon m-b-15">
-								<div class="note-content text-right">
-									<h4><b>Notifikasi</b></h4>
-									<p>
-									  Jika melakukan proses kirim kepengawas, ketua dan anggota tidak dapat merubah atau menambahkan kesimpulan dan rekomendasi
-									</p>
-								</div>
-								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
-							</div> -->
 							<div class="form-grup">
 								<label>Tentukan Status</label>
-								<select class="form-control" name="status">
+								<select class="form-control" name="status" onchange="pilih_status(this.value)">
 									<option value="">--Pilih Status</option>
 									<option value="1">- Selesai</option>
-									<option value="2">- Perbaiki Ulang</option>
+									<option value="3">- Kembalikan</option>
 								</select>
 							</div>
+							<div class="form-grup" id="tampilalasan">
+								<label>Catatan</label>
+								<textarea class="form-control" name="catatan"></textarea>
+								
+							</div>
+							
 						</form>
 						
 					</div>
@@ -157,63 +164,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal" id="modal-head" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">&nbsp;</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-						<div id="notifikasi-errorapprovehead"></div>
-						<form id="kirim-datahead" method="post" enctype="multipart/form-data">
-        					@csrf
-							<input type="hidden" name="id" id="headtemuan_id">
-							<input type="hidden" name="name" id="headname">
-							<!-- <div class="note note-warning note-with-right-icon m-b-15">
-								<div class="note-content text-right">
-									<h4><b>Notifikasi</b></h4>
-									<p>
-									  Jika melakukan proses kirim kepengawas, ketua dan anggota tidak dapat merubah atau menambahkan kesimpulan dan rekomendasi
-									</p>
-								</div>
-								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
-							</div> -->
-							<div class="form-grup">
-								<label>Tentukan Status</label>
-								<select class="form-control" name="status">
-									<option value="">--Pilih Status</option>
-									<option value="1">- Selesai</option>
-									<option value="2">- Perbaiki Ulang</option>
-								</select>
-							</div>
-						</form>
-						
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="send_data_head()" >Proses</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="modalerror" aria-hidden="true" style="display: none;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Notifikasi</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body" >
-						
-							<div id="notiferror"></div>
-						
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		
+		
 		
 	</div>
 @endsection
@@ -230,88 +182,33 @@
 			lengthChange: false,
 		} );
 
+		$('#tampilalasan').hide();
+
 		function kembali(name){
 			location.assign("{{url('Temuan')}}"+name)
 		}
+		function pilih_status(sts){
+			if(sts==3){
+				$('#tampilalasan').show();
+			}else{
+				$('#tampilalasan').hide();
+			}
+		}
 		function approve_acc(id,name){
-			// alert(name)
-			if(name=='RCD'){
-				$.ajax({
-					type: 'GET',
-					url: "{{url('Temuan/approve')}}",
-					data: "id="+id+"&name="+name,
-					beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-					success: function(msg){
-						location.reload();
-					}
-				}); 
-			}
-			if(name=='Pengawas'){
-				$.ajax({
-					type: 'GET',
-					url: "{{url('Temuan/approve')}}",
-					data: "id="+id+"&name="+name,
-					beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-					success: function(msg){
-						location.reload();
-					}
-				}); 
-			}
-
-			if(name=='Anggota'){
+			
 				$('#modal-anggota').modal('show');
 				$('#name').val(name);
 				$('#temuan_id').val(id);
-			}
-			if(name=='Ketua'){
-				$('#modal-anggota').modal('show');
-				$('#name').val(name);
-				$('#temuan_id').val(id);
-			}
-			if(name=='Head'){
-				$('#modal-head').modal('show');
-				$('#headname').val(name);
-				$('#headtemuan_id').val(id);
-			}
+			
 		}
 
 		
 
 		
+		
 		function send_data(){
-            var form=document.getElementById('head');
-            
-                $.ajax({
-                    type: 'POST',
-                    url: "{{url('/Temuan/send_data')}}",
-                    data: new FormData(form),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-                    success: function(msg){
-                        if(msg=='ok'){
-                            location.reload();
-                               
-                        }else{
-                            document.getElementById("loadnya").style.width = "0px";
-							$('#notifikasi-errorapprove').html(msg);
-                        }
-                        
-                        
-                    }
-                });
-
-        } 
-		function send_data_head(){
 			
-            var form=document.getElementById('kirim-datahead');
+            var form=document.getElementById('kirim_data');
             
                 $.ajax({
                     type: 'POST',
@@ -329,7 +226,7 @@
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
-							$('#notifikasi-errorapprovehead').html(msg);
+							$('#notifikasi-errorapprove').html(msg);
                         }
                         
                         

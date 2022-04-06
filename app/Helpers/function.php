@@ -1178,6 +1178,26 @@ function track_temuan($id){
 
    return $data;
 }
+function review_pengawas($id,$sts_tl){
+   $cek=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->count();
+   if($cek>0){
+      $data=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->first();
+      return $data['catatan_pengawas'];
+   }else{
+      return "";
+   }
+   
+}
+function review_team($id,$sts_tl){
+   $cek=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->count();
+   if($cek>0){
+      $data=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->first();
+      return $data['catatan'];
+   }else{
+      return "";
+   }
+   
+}
 function temuan_auditee_get(){
    $data=App\Rekomendasi::whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->get();
    return $data;

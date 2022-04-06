@@ -35,7 +35,7 @@
 				<div class="panel-body">
 
 					<div class="btn-group btn-group-justified"></div>
-					<form id="data-all" enctype="multipart/form-data">
+					<form id="data-all" method="post" action="{{url('/Temuan')}}?act=0" enctype="multipart/form-data">
 						@csrf
 						<input type="hidden" name="id" value="{{$data->id}}">
 						<div class="row">
@@ -70,6 +70,23 @@
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->risiko}} ({{$data->ket_risiko}})</td>
 										</tr>
+										<tr>
+											<td class="text-toop"><b>No Tindak Lanjut</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{ $data->nomortl }}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Status</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">{{ $data->sts_tl }}</td>
+										</tr>
+										@if($data->sts==1 && $data->sts_tl!='B')
+										<tr>
+											<td class="text-toop"><b>Hasil Review Auditor</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop">[{{ $data->nomormtl }}]<br>{!! review_team($data->id,$data->sts_tl) !!}</td>
+										</tr>
+										@endif
 									</table>
 								</div>
 							</div>
@@ -85,13 +102,14 @@
 									<span class="btn btn-green" onclick="simpan(1)" >Simpan & Kirim</span>
 								@else
 									<div class="alert alert-success fade show m-b-0">
-										<span class="close" data-dismiss="alert">×</span>
+										<span class="btn btn-blue btn-xs close" onclick="cetak({{$data->id}})">Cetak</span>
 										<strong>Notifikasi !</strong>
 										Dalam proses pemeriksaan tim audit ,<a href="{{url('Temuan')}}" class="alert-link">Klik disini untuk kembali</a>.
 									</div>
 								@endif
 							</div>
 						</div>
+						
 					</form>
 
 				</div>
@@ -130,6 +148,24 @@
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Kirim</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal" id="modalcetak" aria-hidden="true" style="display: none;background:#77779394">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Cetak</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body" >
+						
+							<div id="tampil-cetak" ></div>
+						
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 					</div>
 				</div>
 			</div>
@@ -212,6 +248,10 @@
 					location.reload();
 				}
 			}); 
+		}
+		function cetak(a){
+			$('#modalcetak').modal('show');
+			$('#tampil-cetak').html("<iframe src='{{url('Temuan/cetak')}}?id="+a+"' width='100%' height='600px'></iframe>");
 		}
 
 		

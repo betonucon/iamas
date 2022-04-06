@@ -155,7 +155,8 @@ class TemuanController extends Controller
     public function approve(request $request){
         if($request->name=='RCD'){
             $data=Rekomendasi::where('id',$request->id)->update([
-                'sts'=>3
+                'sts'=>3,
+                'revisi'=>1,
             ]);
         }
         if($request->name=='Anggota'){
@@ -171,23 +172,69 @@ class TemuanController extends Controller
 
     public function send_data(request $request){
         if (trim($request->status) == '') {$error[] = '-Pilih Status';}
+        if (trim($request->catatan) == '') {$error[] = '-Isi Catatan ';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $data=Rekomendasi::where('id',$request->id)->first();
+            $rekom=Rekomendasi::where('id',$request->id)->first();
             
             if($request->name=='Anggota'){
                 if($request->status==2){
-                    $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>4,
-                    ]);
-                    echo'ok';
+                    if (trim($request->nilai) == '') {$error[] = '-Tentukan Penilaian Tindak Lanjut ';}
+                    if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                    else{
+                        if($rekom['revisi']==1){
+                            $tl='P'.(substr($rekom['sts_tl'],1)+1);
+                        }else{
+                            $tl=$rekom['sts_tl'];
+                        }
+                        
+                        $data=Rekomendasi::where('id',$request->id)->update([
+                            'sts'=>4,
+                            'revisi'=>2,
+                            'sts_tl'=>$tl,
+                            'nilai'=>$request->nilai,
+                        ]);
+                        if($rekom['revisi']==1){
+                            $dis=Disposisi::create([
+                                'catatan'=>$request->catatan,
+                                'tanggal'=>date('Y-m-d'),
+                                'nomortl'=>$rekom['nomortl'],
+                                'rekomendasi_id'=>$rekom['id'],
+                                'sts_tl'=>$tl,
+                            ]);
+                            echo 'ok';
+                        }else{
+                            $dis=Disposisi::where('sts_tl',$tl)->where('rekomendasi_id',$rekom['id'])->update([
+                                'catatan'=>$request->catatan,
+                                'tanggal'=>date('Y-m-d'),
+                            ]);
+                            echo 'ok';
+                        }
+                    }
                 }else{
                     $data=Rekomendasi::where('id',$request->id)->update([
                         'sts'=>4,
                         'sts_tl'=>'S',
+                        'revisi'=>2,
+                        'nilai'=>'A',
                     ]);
 
-                    echo'ok';
+                    if($rekom['revisi']==1){
+                        $dis=Disposisi::create([
+                            'catatan'=>$request->catatan,
+                            'tanggal'=>date('Y-m-d'),
+                            'nomortl'=>$rekom['nomortl'],
+                            'rekomendasi_id'=>$rekom['id'],
+                            'sts_tl'=>$tl,
+                        ]);
+                        echo 'ok';
+                    }else{
+                        $dis=Disposisi::where('sts_tl','S')->where('rekomendasi_id',$rekom['id'])->update([
+                            'catatan'=>$request->catatan,
+                            'tanggal'=>date('Y-m-d'),
+                        ]);
+                        echo 'ok';
+                    }
                 }
             }
         }
@@ -197,63 +244,53 @@ class TemuanController extends Controller
         if (trim($request->status) == '') {$error[] = '-Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $datarek=Rekomendasi::where('id',$request->id)->first();
-            $disposisi=Disposisi::where('rekomendasi_id',$request->id)->where('sts_tl','!=','S')->orderBy('id','Desc')->firstOrfail();
-            $st=substr($disposisi['sts_tl'],1);
-            $sts='P'.($st+1);
-            if($datarek['sts_tl']=='S'){
-                if($request->status==2){
-                    if (trim($request->alasan) == '') {$error[] = '-Isi Kolom Catatan';}
-                    if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-                    else{
-                        $data=Rekomendasi::where('id',$request->id)->update([
-                            'sts'=>1,
-                            'sts_tl'=>$sts,
-                        ]);
-
-                        $dis=Disposisi::create([
-                            'nomortl'=>$datarek['nomortl'],
-                            'rekomendasi_id'=>$request->id,
-                            'tanggal'=>date('Y-m-d'),
-                            'sts_tl'=>$sts,
-                            'alasan'=>$request->alasan,
-                        ]);
-                        
-                        echo'ok';
-                    }
-                }else{
-                    $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>6,
-                        'sts_tl'=>'S',
-                        'tgl_finis'=>date('Y-m-d'),
-                    ]);
-
-                    echo'ok';
-                }
+            $rekom=Rekomendasi::where('id',$request->id)->first();
+            if($request->status==1){
+                $data=Rekomendasi::where('id',$request->id)->update([
+                    'sts'=>5,
+                ]);
+                echo 'ok';
             }else{
-                if($request->status==2){
-                    if (trim($request->alasan) == '') {$error[] = '-Isi Kolom Catatan';}
-                    if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-                    else{
-                        $data=Rekomendasi::where('id',$request->id)->update([
-                            'sts'=>1,
-                        ]);
-                        $dis=Disposisi::where('nomortl',$datarek['nomortl'])->update([
-                            'tanggal'=>date('Y-m-d'),
-                            'alasan'=>$request->alasan,
-                        ]);
-                        echo'ok';
-                    }
-                }else{
+                if (trim($request->catatan) == '') {$error[] = '-Isi catatan/alasan pengembalian';}
+                if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                else{
                     $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>6,
-                        'sts_tl'=>'S',
-                        'tgl_finis'=>date('Y-m-d'),
+                        'sts'=>3,
+                        'revisi'=>3,
                     ]);
 
-                    echo'ok';
+                    $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                        'catatan_pengawas'=>$request->catatan,
+                        'tanggal'=>date('Y-m-d'),
+                    ]);
+                    echo 'ok';
                 }
             }
+        }
+    }
+
+    public function send_data_akhir(request $request){
+        $rekom=Rekomendasi::where('id',$request->id)->first();
+        if($rekom['sts_tl']=='S'){
+            $data=Rekomendasi::where('id',$request->id)->update([
+                'sts'=>6,
+                'nomormtl'=>'M'.$rekom['nomortl'],
+            ]);
+
+            $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                'nomormtl'=>'M'.$rekom['nomortl'],
+            ]);
+            echo 'ok';
+        }else{
+            $data=Rekomendasi::where('id',$request->id)->update([
+                'sts'=>1,
+                'nomormtl'=>'M'.$rekom['nomortl'],
+            ]);
+
+            $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                'nomormtl'=>'M'.$rekom['nomortl'],
+            ]);
+            echo 'ok';
         }
     }
 
@@ -268,10 +305,16 @@ class TemuanController extends Controller
                 $cek=Rekomendasi::where('bulan',date('m'))->where('tahun',date('Y'))->orderBy('nomortiket','Desc')->firstOrfail();
                 $urutan = (int) substr($cek['nomortiket'], 9, 2);
                 $urutan++;
-                $nomortiket='STIA'.$aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
+                $notiket='STIA'.$aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
             }else{
-                $nomortiket='STIA'.$aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", 1);
+                $notiket='STIA'.$aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", 1);
                 
+            }
+
+            if($cekcreate['nomortiket']!=null){
+                $nomortiket=$cekcreate['nomortiket'];
+            }else{
+                $nomortiket=$notiket;
             }
 
             $counttl=Rekomendasi::where('bulan',date('m'))->where('tahun',date('Y'))->where('kode_tl',$kodetl)->count();
@@ -286,70 +329,145 @@ class TemuanController extends Controller
                 
             }
 
-            if($request->act==1){
-                $status=2;
-                $ttl=$nomortl;
-            }else{
-                $status=$cekcreate['sts'];
-                $ttl=$cekcreate['nomortl'];
-            }
-            if($cekcreate['sts_create']==""){
-                    if (trim($request->file) == '') {$error[] = '-Upload File Pendukung';}
-                    if (trim($request->content) == '') {$error[] = '-Isi Catatan';}
-                    if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-                    else{
-                        
-                            
+            
+            if($cekcreate['sts_tl']=="B"){
+                
+                if($request->act==1){
+                    $status=2;
+                    $ttl=$nomortl;
+                    if($request->file==""){
+                        if($cekcreate['file']!=""){
+                            $save=Rekomendasi::where('id',$request->id)->update([
+                                'catatan'=>$request->content,
+                                'kode_aktivitas'=>$aktivitas,
+                                'bulan'=>date('m'),
+                                'tahun'=>date('Y'),
+                                'sts_create'=>1,
+                                'nomortiket'=>$nomortiket,
+                                'tgl_mulai'=>date('Y-m-d'),
+                                'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
+                                'nomortl'=>$nomortl,
+                                'kode_tl'=>$kodetl,
+                                'sts_tl'=>'P0',
+                                'sts'=>$status,
+                            ]);
 
-                            $image = $request->file('file');
-                            $size = $image->getSize();
-                            $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
-                            $filePath =$imageFileName;
-                            $file = \Storage::disk('public_uploads');
-                            if($image->getClientOriginalExtension()=='pdf'){
-                                if($file->put($filePath, file_get_contents($image))){
-                                        if($status==2){
-                                            $dis=Disposisi::create([
-                                                'nomortl'=>$nomortl,
-                                                'rekomendasi_id'=>$request->id,
-                                                'tanggal'=>date('Y-m-d'),
-                                                'sts_tl'=>'P0',
-                                            ]);
-                                        }
-                                        $save=Rekomendasi::where('id',$request->id)->update([
-                                            'catatan'=>$request->content,
-                                            'file'=>$filePath,
-                                            'kode_aktivitas'=>$aktivitas,
-                                            'bulan'=>date('m'),
-                                            'tahun'=>date('Y'),
-                                            'tgl_mulai'=>date('Y-m-d'),
-                                            'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
-                                            'sts_tl'=>'P0',
-                                            'sts_create'=>1,
-                                            'nomortiket'=>$nomortiket,
-                                            'nomortl'=>$nomortl,
-                                            'kode_tl'=>$kodetl,
-                                            'sts'=>$status,
-                                        ]);
-                                        echo'ok';
-                                    
-                                }
-
-                            }else{
-                                echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Format file harus pdf</p>';
+                            if($status==2){
+                                $dis=Disposisi::create([
+                                    'nomortl'=>$nomortl,
+                                    'rekomendasi_id'=>$request->id,
+                                    'tanggal'=>date('Y-m-d'),
+                                    'sts_tl'=>'P0',
+                                ]);
                             }
-                        
-                        
+                            echo'ok';
+                        }else{
+                            echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Lengkapi Lampiran</p>';
+                        }
+                    }else{
+                        $image = $request->file('file');
+                        $size = $image->getSize();
+                        $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
+                        $filePath =$imageFileName;
+                        $file = \Storage::disk('public_uploads');
+                        if($image->getClientOriginalExtension()=='pdf'){
+                            if($file->put($filePath, file_get_contents($image))){
+
+                                
+                                    $save=Rekomendasi::where('id',$request->id)->update([
+                                        'catatan'=>$request->content,
+                                        'file'=>$filePath,
+                                        'kode_aktivitas'=>$aktivitas,
+                                        'bulan'=>date('m'),
+                                        'tahun'=>date('Y'),
+                                        'sts_create'=>1,
+                                        'sts_tl'=>'P0',
+                                        'nomortiket'=>$nomortiket,
+                                        'tgl_mulai'=>date('Y-m-d'),
+                                        'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
+                                        'nomortl'=>$nomortl,
+                                        'kode_tl'=>$kodetl,
+                                        'sts'=>$status,
+                                    ]);
+
+                                    if($status==2){
+                                        $dis=Disposisi::create([
+                                            'nomortl'=>$nomortl,
+                                            'rekomendasi_id'=>$request->id,
+                                            'tanggal'=>date('Y-m-d'),
+                                            'sts_tl'=>'P0',
+                                        ]);
+                                    }
+                                    echo'ok';
+                                
+                            }
+
+                        }else{
+                            echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Format file harus pdf</p>';
+                        }
                     }
+                }else{
+                    
+                        if (trim($request->content) == '') {$error[] = '-Isi Catatan';}
+                        if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                        else{
+                            
+                            if($request->file==""){
+                                $save=Rekomendasi::where('id',$request->id)->update([
+                                    'catatan'=>$request->content,
+                                    'kode_aktivitas'=>$aktivitas,
+                                    'bulan'=>date('m'),
+                                    'tahun'=>date('Y'),
+                                    'sts_create'=>1,
+                                    'nomortiket'=>$nomortiket,
+                                    
+                                ]);
+                                echo'ok';
+                                
+                            }else{
+                                // echo $kodetl.'-'.$nomortl.'-'.$nomortiket;
+                                $image = $request->file('file');
+                                $size = $image->getSize();
+                                $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
+                                $filePath =$imageFileName;
+                                $file = \Storage::disk('public_uploads');
+                                if($image->getClientOriginalExtension()=='pdf'){
+                                    if($file->put($filePath, file_get_contents($image))){
+                                            $save=Rekomendasi::where('id',$request->id)->update([
+                                                'catatan'=>$request->content,
+                                                'file'=>$filePath,
+                                                'kode_aktivitas'=>$aktivitas,
+                                                'bulan'=>date('m'),
+                                                'tahun'=>date('Y'),
+                                                'sts_create'=>1,
+                                                'nomortiket'=>$nomortiket,
+                                                
+                                            ]);
+                                            echo'ok';
+                                        
+                                    }
+
+                                }else{
+                                    echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Format file harus pdf</p>';
+                                }
+                            }
+                            
+                        }
+                }
+                
             }else{
+                if($request->act==1){
+                    $status=2;
+                    $ttl=$nomortl;
                     if (trim($request->content) == '') {$error[] = '-Isi Catatan';}
                     if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
                     else{
-                        $disposisi=Disposisi::where('rekomendasi_id',$request->id)->where('sts_tl','!=','S')->count();
-                        $disposisiakhir=Disposisi::where('rekomendasi_id',$request->id)->where('sts_tl','!=','S')->orderBy('id','Desc')->firstOrfail();
-                        $st=substr($disposisiakhir['sts_tl'],1);
-                        $sts='P'.($st+1);
-                        if($disposisi>0){
+                            $disposisi=Disposisi::where('rekomendasi_id',$request->id)->where('sts_tl','!=','S')->count();
+                        
+                            $disposisiakhir=Disposisi::where('rekomendasi_id',$request->id)->where('sts_tl','!=','S')->orderBy('id','Desc')->firstOrfail();
+                            $st=substr($disposisiakhir['sts_tl'],1);
+                            $sts='P'.($st+1);
+                            
                             if($request->file==""){
                                 $save=Rekomendasi::where('id',$request->id)->update([
                                     'catatan'=>$request->content,
@@ -383,8 +501,10 @@ class TemuanController extends Controller
                                                 'catatan'=>$request->content,
                                                 'file'=>$filePath,
                                                 'tgl_mulai'=>date('Y-m-d'),
+                                                'nomortl'=>$nomortl,
                                                 'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
                                                 'sts'=>$status,
+                                                'sts_tl'=>$sts,
                                             ]);
 
                                             if($status==2){
@@ -403,25 +523,18 @@ class TemuanController extends Controller
                                     echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Format file harus pdf</p>';
                                 }
                             }
-                        }else{
-
-                         
+                        
+                    }
+                }else{
+                    if (trim($request->content) == '') {$error[] = '-Isi Catatan';}
+                    if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                    else{
                             if($request->file==""){
                                 $save=Rekomendasi::where('id',$request->id)->update([
                                     'catatan'=>$request->content,
-                                    'tgl_mulai'=>date('Y-m-d'),
-                                    'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
-                                    'sts'=>$status,
                                 ]);
 
-                                if($status==2){
-                                    $dis=Disposisi::create([
-                                        'nomortl'=>$nomortl,
-                                        'rekomendasi_id'=>$request->id,
-                                        'tanggal'=>date('Y-m-d'),
-                                        'sts_tl'=>'P0',
-                                    ]);
-                                }
+                                
                                 echo'ok';
                             }else{
                                 $image = $request->file('file');
@@ -436,19 +549,9 @@ class TemuanController extends Controller
                                             $save=Rekomendasi::where('id',$request->id)->update([
                                                 'catatan'=>$request->content,
                                                 'file'=>$filePath,
-                                                'tgl_mulai'=>date('Y-m-d'),
-                                                'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
-                                                'sts'=>$status,
                                             ]);
 
-                                            if($status==2){
-                                                $dis=Disposisi::create([
-                                                    'nomortl'=>$nomortl,
-                                                    'rekomendasi_id'=>$request->id,
-                                                    'tanggal'=>date('Y-m-d'),
-                                                    'sts_tl'=>'P0',
-                                                ]);
-                                            }
+                                            
                                             echo'ok';
                                         
                                     }
@@ -457,14 +560,21 @@ class TemuanController extends Controller
                                     echo'<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br /> Format file harus pdf</p>';
                                 }
                             }
-                        }
                         
                     }
+                }
 
             }
         }else{
             echo'Tidak dapat merubah, Silahkan refresh halaman';
         }
+    }
+
+    public function cetak(request $request){
+        $data=Rekomendasi::where('id',$request->id)->first();
+        $pdf = PDF::loadView('temuan.cetak', compact('data'));
+        $pdf->setPaper('A4', 'Potrait');
+        return $pdf->stream();
     }
     
 }
