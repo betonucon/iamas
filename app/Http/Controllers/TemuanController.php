@@ -270,27 +270,35 @@ class TemuanController extends Controller
     }
 
     public function send_data_akhir(request $request){
-        $rekom=Rekomendasi::where('id',$request->id)->first();
-        if($rekom['sts_tl']=='S'){
-            $data=Rekomendasi::where('id',$request->id)->update([
-                'sts'=>6,
-                'nomormtl'=>'M'.$rekom['nomortl'],
-            ]);
+        if (trim($request->status) == '') {$error[] = '-Pilih Status';}
+        if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+        else{
+            $rekom=Rekomendasi::where('id',$request->id)->first();
+            if($rekom['sts_tl']=='S'){
+                $data=Rekomendasi::where('id',$request->id)->update([
+                    'sts'=>6,
+                    'nomormtl'=>'M'.$rekom['nomortl'],
+                ]);
 
-            $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
-                'nomormtl'=>'M'.$rekom['nomortl'],
-            ]);
-            echo 'ok';
-        }else{
-            $data=Rekomendasi::where('id',$request->id)->update([
-                'sts'=>1,
-                'nomormtl'=>'M'.$rekom['nomortl'],
-            ]);
+                $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                    'nomormtl'=>'M'.$rekom['nomortl'],
+                ]);
+                echo 'ok';
+            }else{
+                if (trim($request->catatan) == '') {$error[] = '-Isi catatan/alasan pengembalian';}
+                if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                else{
+                    $data=Rekomendasi::where('id',$request->id)->update([
+                        'sts'=>3,
+                        'revisi'=>3,
+                    ]);
 
-            $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
-                'nomormtl'=>'M'.$rekom['nomortl'],
-            ]);
-            echo 'ok';
+                    $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                        'catatan_pengawas'=>$request->catatan,
+                    ]);
+                    echo 'ok';
+                }
+            }
         }
     }
 

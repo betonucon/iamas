@@ -145,30 +145,26 @@
 						<div id="notifikasi-errorapprove"></div>
 						<form id="head" method="post" enctype="multipart/form-data">
         					@csrf
-							<input type="hidden" name="id" id="temuan_id">
-							<input type="hidden" name="name" id="name">
-							<!-- <div class="note note-warning note-with-right-icon m-b-15">
-								<div class="note-content text-right">
-									<h4><b>Notifikasi</b></h4>
-									<p>
-									  Jika melakukan proses kirim kepengawas, ketua dan anggota tidak dapat merubah atau menambahkan kesimpulan dan rekomendasi
-									</p>
-								</div>
-								<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
-							</div> -->
+							<input type="text" name="id" id="temuan_id">
+							<input type="text" name="name" id="name">
 							<div class="form-grup">
 								<label>Tentukan Status</label>
-								<select class="form-control" name="status">
+								<select class="form-control" name="status" onchange="pilih_status(this.value)">
 									<option value="">--Pilih Status</option>
 									<option value="1">- Selesai</option>
-									<option value="2">- Perbaiki Ulang</option>
+									<option value="3">- Kembalikan</option>
 								</select>
+							</div>
+							<div class="form-grup" id="tampilalasan">
+								<label>Catatan</label>
+								<textarea class="form-control" name="catatan"></textarea>
+								
 							</div>
 						</form>
 						
 					</div>
 					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-blue" onclick="send_data()" >Proses</a>
+						<a href="javascript:;" class="btn btn-blue" onclick="send_data_head()" >Proses</a>
 					</div>
 				</div>
 			</div>
@@ -188,7 +184,7 @@
 							<input type="text" name="name" id="headname">
 							<div class="form-grup">
 								<label>Tentukan Status</label>
-								<select class="form-control" onchange="pilih_status(this.value)" name="status">
+								<select class="form-control"  name="status">
 									<option value="">--Pilih Status</option>
 									<option value="1">- Selesai</option>
 									<option value="2">- Perbaiki Ulang</option>
@@ -245,11 +241,13 @@
 		function kembali(name){
 			location.assign("{{url('Temuan')}}"+name)
 		}
-		function pilih_status(id){
-			if(id==2){
-				$('#alasan').show();
+		$('#tampilalasan').hide();
+
+		function pilih_status(sts){
+			if(sts==3){
+				$('#tampilalasan').show();
 			}else{
-				$('#alasan').hide();
+				$('#tampilalasan').hide();
 			}
 		}
 		function approve_acc(id,name){
@@ -269,17 +267,9 @@
 			
 
 			if(name=='Head'){
-				$.ajax({
-					type: 'GET',
-					url: "{{url('Temuan/send_data_akhir')}}",
-					data: "id="+id+"&name="+name,
-					beforeSend: function() {
-						document.getElementById("loadnya").style.width = "100%";
-					},
-					success: function(msg){
-						location.reload();
-					}
-				}); 
+				$('#modal-anggota').modal('show');
+				$('#name').val(name);
+				$('#temuan_id').val(id);
 			}
 		}
 
@@ -315,7 +305,7 @@
         } 
 		function send_data_head(){
 			
-            var form=document.getElementById('kirim-datahead');
+            var form=document.getElementById('head');
             
                 $.ajax({
                     type: 'POST',
@@ -333,7 +323,7 @@
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";
-							$('#notifikasi-errorapprovehead').html(msg);
+							$('#notifikasi-errorapprove').html(msg);
                         }
                         
                         

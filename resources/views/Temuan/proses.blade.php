@@ -41,10 +41,10 @@
 						<div class="row">
 							
 							<div class="col-md-12">
-								@if(alasan_temuan($data['nomortl'])!='')
+								@if(alasan_temuan($data['id'],$data['sts_tl'])!='')
 								<div class="alert alert-blue fade show m-b-10" style="background-color: #ffeac3;">
 									<b>PESAN PERBAIKAN</b>
-									<p style="margin:1%">{!!alasan_temuan($data['nomortl'])!!}</p>
+									<p style="margin:1%">{!!alasan_temuan($data['id'],$data['sts_tl'])!!}</p>
 								</div>
 								@endif
 								<div class="alert alert-blue fade show m-b-10" style="background-color: #ebf1f7;">

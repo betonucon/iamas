@@ -56,7 +56,7 @@
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
 										<td>{{$data->ket_risiko}}</td>
 										<td>{{$data->kesimpulan['name']}}</td>
-										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan($data->sts)}}</td>
+										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}</td>
 										<td>
 											@if($data->sts==1)
 												<span class="btn btn-blue btn-xs" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-pencil-alt"></i></span>

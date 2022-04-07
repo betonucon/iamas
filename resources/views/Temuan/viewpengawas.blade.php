@@ -40,7 +40,7 @@
 						
 						@if(akses_tiket_pengawas()>0)
 							@if($data->sts==4)
-								<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Pengawas`)"><i class="fas fa-paper-plane"></i> Kirim ke Tim</span>
+								<span class="btn btn-blue btn-sm" onclick="approve_acc({{$data->id}},`Pengawas`)"><i class="fas fa-paper-plane"></i> Approve</span>
 							@endif
 								<span class="btn btn-green btn-sm" onclick="kembali(`pengawas`)"><i class="fas fa-reply"></i> Kembali</span>
 							
@@ -187,6 +187,8 @@
 		function kembali(name){
 			location.assign("{{url('Temuan')}}"+name)
 		}
+
+		
 		function pilih_status(sts){
 			if(sts==3){
 				$('#tampilalasan').show();

@@ -504,12 +504,12 @@ function get_text_revisi(){
       
    
 }
-function alasan_temuan($nomortl){
-   $cek=App\Disposisi::where('nomortl',$nomortl)->count();
+function alasan_temuan($id,$ststl){
+   $cek=App\Disposisi::where('sts_tl',$ststl)->where('rekomendasi_id',$id)->count();
    if($cek>0){
-      $get=App\Disposisi::where('nomortl',$nomortl)->first();
+      $get=App\Disposisi::where('sts_tl',$ststl)->where('rekomendasi_id',$id)->first();
    
-      return $get['alasan'];
+      return $get['catatan'];
    }else{
       return "";
    }
@@ -1171,6 +1171,28 @@ function track_temuan($id){
    }
    if($id==5){
       $data='Review HOIA';
+   }
+   if($id==6){
+      $data='Selesai';
+   }
+
+   return $data;
+}
+function track_temuan_auditee($id){
+   if($id==1){
+      $data='Pengisian Tindak Lanjut';
+   }
+   if($id==2){
+      $data='Review IA';
+   }
+   if($id==3){
+      $data='Review IA';
+   }
+   if($id==4){
+      $data='Review IA';
+   }
+   if($id==5){
+      $data='Review IA';
    }
    if($id==6){
       $data='Selesai';

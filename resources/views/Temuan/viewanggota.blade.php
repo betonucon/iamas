@@ -87,7 +87,7 @@
 										</tr>
 										@if($data->revisi==3)
 										<tr>
-											<td class="text-toop"><b>Review Pengawas</b></td>
+											<td class="text-toop"><b>Review Perbaikan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{!! review_pengawas($data->id,$data->sts_tl) !!}</td>
 										</tr>
