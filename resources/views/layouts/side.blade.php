@@ -1,6 +1,9 @@
 <ul class="nav">
         <li class="nav-header">Navigation</li>
-        
+            @if(Auth::user()->role_id==8)
+            <li><a href="{{url('home')}}"><i class="fa fa-th-large"></i><span>Dashboard</span></a></li>
+            
+            @else
             <li class="has-sub ">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -14,6 +17,7 @@
                     <li><a href="{{url('home')}}">Dashboard v3</a></li>
                 </ul>
             </li>
+            @endif
             @if(Auth::user()->role_id==4)
                 <li class="has-sub">
                     <a href="javascript:;">

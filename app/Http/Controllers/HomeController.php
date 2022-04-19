@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Audit;
 class HomeController extends Controller
@@ -22,14 +22,27 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(request $request)
-    {   $menu='Dashboard STIA[1,2,3]';
-        $side="home";
-        if($request->tahun==''){
-            $tahun=date('Y');
+    {   
+        if(Auth::user()['role_id']==8){
+            $menu='Dashboard Temuan';
+            $side="temuan";
+            if($request->tahun==''){
+                $tahun=date('Y');
+            }else{
+                $tahun=$request->tahun;
+            }
+            return view('home_temuan',compact('menu','tahun','side'));
         }else{
-            $tahun=$request->tahun;
+            $menu='Dashboard STIA[1,2,3]';
+            $side="home";
+            if($request->tahun==''){
+                $tahun=date('Y');
+            }else{
+                $tahun=$request->tahun;
+            }
+            return view('home',compact('menu','tahun','side'));
         }
-        return view('home',compact('menu','tahun','side'));
+            
     }
 
     public function index_audit(request $request)
