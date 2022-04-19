@@ -248,7 +248,9 @@
 									</div>
 								</div>
 								<div class="modal-footer">
+									@if($data->sts_audit>1)
 									<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Simpan</a>
+									@endif
 									<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
 								</div>
 								

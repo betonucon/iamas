@@ -164,7 +164,8 @@
 								<textarea class="form-control" name="catatan"></textarea>
 								
 							</div>
-							<div class="form-grup" id="tampilalasan">
+							@if($data->sts_tl=='P0')
+							<div class="form-grup" >
 								<label>Tentukan Penilaian</label>
 								<select class="form-control" name="nilai" >
 									<option value="">--Pilih Penilaian</option>
@@ -173,6 +174,7 @@
 								</select>
 								
 							</div>
+							@endif
 						</form>
 						
 					</div>

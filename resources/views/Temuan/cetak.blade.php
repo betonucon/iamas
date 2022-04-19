@@ -7,67 +7,71 @@
                 text-align:left;
             }
             td{
-                font-size:12px;
+                font-size:15px;
                 vertical-align:top;
+                text-align:justify;
             }
         </style>
     </head>
     <body>
         <table width="100%" border="0">
             <tr>
-                <th colspan="4"><b><u>NOMOR TEMUAN {{$data->kesimpulan['nomorkode']}} {{$data->nomor}}{{$data->urutan}}</u></b><br><br></th>
+                <th colspan="4"></th>
             </tr>
             <tr>
                 <td width="3%"></td>
-                <td width="17%"><b>PIC</b></td>
-                <td width="3%"><b>:</b></td>
+                <td width="17%">Dari</td>
+                <td width="3%">:</td>
                 <td>{{$data->unitkerja['pimpinan']}} {{$data->unitkerja['name']}}</td>
             </tr>
             <tr>
                 <td></td>
-                <td><b>Kodifikasi</b></td>
-                <td><b>:</b></td>
-                <td><b>{{$data->kodifikasi}}</b> {{$data->getkodifikasi['kategori']}}</td>
+                <td>No Tindak Lanjut</td>
+                <td>:</td>
+                <td>{{$data->nomortl}}</td>
             </tr>
             <tr>
                 <td></td>
-                <td><b>Isi Rekomendasi</b></td>
-                <td><b>:</b></td>
-                <td>{!! $data->isi !!}</td>
+                <td>Status</td>
+                <td>:</td>
+                <td>"{{$data->sts_tl}}"</td>
             </tr>
+            @if($data->sts_tl!='P0')
             <tr>
                 <td></td>
-                <td><b>Risiko</b></td>
-                <td><b>:</b></td>
-                <td>{{$data->risiko}} ({{$data->ket_risiko}})</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><b>No Tindak Lanjut</b></td>
-                <td><b>:</b></td>
-                <td>{{ $data->nomortl }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><b>Status</b></td>
-                <td><b>:</b></td>
-                <td>{{ $data->sts_tl }}</td>
-            </tr>
-            @if($data->sts==1)
-            <tr>
-                <td></td>
-                <td><b>Hasil Review Auditor</b></td>
-                <td><b>:</b></td>
-                <td>[{{ $data->nomormtl }}]<br>{!! review_team($data->id,$data->sts_tl) !!}</td>
+                <td>No Review</td>
+                <td>:</td>
+                <td>{{$data->nomormtl}}</td>
             </tr>
             @endif
             <tr>
                 <td></td>
-                <td colspan="3"><b><u>Hasil Tindak Lanjut</u></b></td>
+                <td>Tanggal TLP</td>
+                <td>:</td>
+                <td>{{tanggal_tl($data->nomortl)}}</td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="3">{!! $data->catatan !!}</td>
+                <td>Tanggal Cetak</td>
+                <td>:</td>
+                <td>{{date('d F Y')}}</td>
+            </tr>
+            <tr>
+                <td width="3%"></td>
+                
+                <td colspan="3"><br><br>
+                    <b>DENGAN HORMAT,</b><br>
+                    Menindaklanjuti Temuan atas LHA No. {{$data->kesimpulan['nomorkode']}}  Temuan No. {{$data->nomor}}{{$data->urutan}} berikut tindak lanjut yang 
+                    disampaikan:<br>
+                </td>
+            </tr>
+            
+            <!-- <tr>
+                <td colspan="4" style="text-align:center"><br><u>Catatan Tindak Lanjut</u></td>
+            </tr> -->
+            <tr>
+                <td width="3%"></td>
+                <td colspan="3" ><br>{!! $data->catatan !!}</td>
             </tr>
         </table>
     </body>

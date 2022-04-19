@@ -253,9 +253,19 @@ function ket_risiko($nilai){
    }
    return $data;
 }
-function kodesumber($risiko,$kode){
+function kodesumber($risiko,$kode,$kd){
    if($kode=='06'){
-      $data='LHK';
+      if($risiko=='RENDAH'){
+         $data='LHA';
+      }else{
+         if($kd=='07.X.02'){
+            $data='LHK';
+         }else{
+            $data='LHA';
+         }
+         
+      }
+      
    }else{
       if($risiko=='RENDAH'){
          $data='LHA';
@@ -510,6 +520,18 @@ function alasan_temuan($id,$ststl){
       $get=App\Disposisi::where('sts_tl',$ststl)->where('rekomendasi_id',$id)->first();
    
       return $get['catatan'];
+   }else{
+      return "";
+   }
+      
+   
+}
+function tanggal_tl($nomortl){
+   $cek=App\Disposisi::where('nomortl',$nomortl)->count();
+   if($cek>0){
+      $get=App\Disposisi::where('nomortl',$nomortl)->orderBy('id','Asc')->firstOrfail();
+   
+      return $get['tanggal'];
    }else{
       return "";
    }

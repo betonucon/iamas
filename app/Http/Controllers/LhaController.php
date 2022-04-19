@@ -332,7 +332,7 @@ class LhaController extends Controller
                     'kode'=>$audit['kode_aktivitas'],
                     'isi'=>$request->content,
                     'sts'=>1,
-                    'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$audit['kode_aktivitas']),
+                    'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$audit['kode_aktivitas'],$request->kodifikasi),
                     'tanggal'=>date('Y-m-d'),
                     'bulan'=>date('m'),
                     'tahun'=>date('Y'),
@@ -369,7 +369,7 @@ class LhaController extends Controller
                     'name'=>$request->name,
                     'risiko'=>$request->risiko,
                     'ket_risiko'=>ket_risiko($request->risiko),
-                    'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$kesim['kode']),
+                    'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$kesim['kode'],$request->kodifikasi),
                     'kodifikasi'=>$request->kodifikasi,
                     'isi'=>$request->content,
                 ]);

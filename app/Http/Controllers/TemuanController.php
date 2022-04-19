@@ -179,7 +179,7 @@ class TemuanController extends Controller
             
             if($request->name=='Anggota'){
                 if($request->status==2){
-                    if (trim($request->nilai) == '') {$error[] = '-Tentukan Penilaian Tindak Lanjut ';}
+                    if (trim($request->nilai) == '' && $rekom['sts_tl']=='P0') {$error[] = '-Tentukan Penilaian Tindak Lanjut ';}
                     if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
                     else{
                         if($rekom['revisi']==1){
@@ -187,13 +187,19 @@ class TemuanController extends Controller
                         }else{
                             $tl=$rekom['sts_tl'];
                         }
+                        if($rekom['sts_tl']=='P0'){
+                            $nilai=$request->nilai;
+                        }else{
+                            $nilai=$rekom['nilai'];
+                        }
                         
                         $data=Rekomendasi::where('id',$request->id)->update([
                             'sts'=>4,
                             'revisi'=>2,
                             'sts_tl'=>$tl,
-                            'nilai'=>$request->nilai,
+                            'nilai'=>$nilai,
                         ]);
+                        
                         if($rekom['revisi']==1){
                             $dis=Disposisi::create([
                                 'catatan'=>$request->catatan,

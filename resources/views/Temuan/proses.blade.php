@@ -92,7 +92,12 @@
 							</div>
 							<div class="col-md-12">
 								<label>File</label>
-								<input type="file" name="file" class="form-control"><br>
+								<input type="file" name="file" class="form-control">
+								@if($data->file!='')
+								<i>Jika ingin merubah file lampiran, silahkan upload file terbaru</i><br>
+								
+								<p><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></p>
+								@endif
 								<label>Catatan</label>
 								<textarea class="ckeditor" id="editor1" name="catatan" rows="20">{!! $data->catatan !!}</textarea>
 							</div>
