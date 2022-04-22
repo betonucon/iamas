@@ -62,7 +62,7 @@
 												<span class="btn btn-blue btn-xs" title="Approve" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
 											@else
 												@if($data->sts==6)
-													<span class="btn btn-success btn-xs" title="Selesai" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
+												<i onclick="proses(`{{coder($data->id)}}`)" class="fa fa-check"></i>
 												@else
 													<span class="btn btn-white btn-xs"  title="Proses Pemeriksaan" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
 												@endif

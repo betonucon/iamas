@@ -56,7 +56,12 @@
 											<td class="text-toop">{{$data->unitkerja['pimpinan']}} {{$data->unitkerja['name']}}</td>
 										</tr>
 										<tr>
-											<td class="text-toop"><b>Kodifikasi</b></td>
+											<td class="text-toop"><b>Kodifikasi Temuan</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"><b>{{$data->kesimpulan['kodifikasi']}}</b> {{$data->kesimpulan['getkodifikasi']['kategori']}}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Kodifikasi Rekom</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop"><b>{{$data->kodifikasi}}</b> {{$data->getkodifikasi['kategori']}}</td>
 										</tr>
@@ -78,7 +83,18 @@
 										<tr>
 											<td class="text-toop"><b>Status</b></td>
 											<td class="text-toop"><b>:</b></td>
-											<td class="text-toop">{{ $data->sts_tl }}</td>
+											<td class="text-toop">
+												@if($data->sts==1)
+													{{ $data->sts_tl }}
+													
+												@else
+													@if(cek_disposisi($data->id)>1)
+														{{sts_tl_auditee($data->sts_tl)}}
+													@else
+														PO
+													@endif
+												@endif
+											</td>
 										</tr>
 										@if($data->sts==1 && $data->sts_tl!='B')
 										<tr>
@@ -96,7 +112,7 @@
 								@if($data->file!='')
 								<i>Jika ingin merubah file lampiran, silahkan upload file terbaru</i><br>
 								
-								<p><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></p>
+								<p><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> Lihat File</span></a></p>
 								@endif
 								<label>Catatan</label>
 								<textarea class="ckeditor" id="editor1" name="catatan" rows="20">{!! $data->catatan !!}</textarea>

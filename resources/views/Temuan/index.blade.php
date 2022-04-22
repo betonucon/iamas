@@ -56,13 +56,32 @@
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
 										<td>{{$data->ket_risiko}}</td>
 										<td>{{$data->kesimpulan['name']}}</td>
-										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}</td>
+										<td style="text-align:center">
+											@if($data->sts==1)
+												@if($data->sts_tl=='B')
+													<b>(B)</b> Pengisian Tindak Lanjut
+												@else
+													<b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}
+												@endif
+											@else
+												@if($data->sts_tl=='S')
+													<b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}
+												@else
+													@if($data->sts_tl=='B')
+														<b>(B)</b> Pengisian Tindak Lanjut
+													@else
+														{{track_temuan_auditee($data->sts)}}
+													@endif
+													
+												@endif
+											@endif
+										</td>
 										<td>
 											@if($data->sts==1)
 												<span class="btn btn-blue btn-xs" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-pencil-alt"></i></span>
 											@else
 												@if($data->sts==6)
-													<span class="btn btn-success btn-xs" title="Selesai" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
+													<i onclick="proses(`{{coder($data->id)}}`)" class="fa fa-check"></i>
 												@else
 													<span class="btn btn-white btn-xs"  title="Proses Pemeriksaan" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-clipboard"></i></span>
 												@endif

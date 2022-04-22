@@ -293,12 +293,14 @@ class TemuanController extends Controller
             }else{
                
                     $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>3,
+                        'sts'=>1,
                         'revisi'=>3,
+                        'nomormtl'=>'M'.$rekom['nomortl'],
                     ]);
 
                     $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
                         'catatan_pengawas'=>$request->catatan,
+                        'nomormtl'=>'M'.$rekom['nomortl'],
                     ]);
                     echo 'ok';
                 
@@ -487,7 +489,7 @@ class TemuanController extends Controller
                                     'nomortl'=>$nomortl,
                                     'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
                                     'sts'=>$status,
-                                    'sts_tl'=>$sts,
+                                    // 'sts_tl'=>$sts,
                                 ]);
 
                                 if($status==2){
@@ -495,7 +497,7 @@ class TemuanController extends Controller
                                         'nomortl'=>$nomortl,
                                         'rekomendasi_id'=>$request->id,
                                         'tanggal'=>date('Y-m-d'),
-                                        'sts_tl'=>$sts,
+                                        'sts_tl'=>$cekcreate['sts_tl'],
                                     ]);
                                 }
                                 echo'ok';
@@ -516,7 +518,6 @@ class TemuanController extends Controller
                                                 'nomortl'=>$nomortl,
                                                 'tgl_sampai'=>tgl_berikutnya(date('Y-m-d'),14),
                                                 'sts'=>$status,
-                                                'sts_tl'=>$sts,
                                             ]);
 
                                             if($status==2){
@@ -524,7 +525,7 @@ class TemuanController extends Controller
                                                     'nomortl'=>$nomortl,
                                                     'rekomendasi_id'=>$request->id,
                                                     'tanggal'=>date('Y-m-d'),
-                                                    'sts_tl'=>$sts,
+                                                    'sts_tl'=>$cekcreate['sts_tl'],
                                                 ]);
                                             }
                                             echo'ok';

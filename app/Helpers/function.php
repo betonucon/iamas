@@ -261,7 +261,7 @@ function kodesumber($risiko,$kode,$kd){
          if($kd=='07.X.02'){
             $data='LHK';
          }else{
-            $data='LHA';
+            $data='LHP';
          }
          
       }
@@ -517,9 +517,14 @@ function get_text_revisi(){
 function alasan_temuan($id,$ststl){
    $cek=App\Disposisi::where('sts_tl',$ststl)->where('rekomendasi_id',$id)->count();
    if($cek>0){
+      
       $get=App\Disposisi::where('sts_tl',$ststl)->where('rekomendasi_id',$id)->first();
-   
-      return $get['catatan'];
+      if($get->sts==1){
+         return $get['catatan'];
+      }else{
+         return "";
+      }
+         
    }else{
       return "";
    }
@@ -536,6 +541,15 @@ function tanggal_tl($nomortl){
       return "";
    }
       
+   
+}
+function sts_tl_auditee($sts){
+   $exp=substr($sts,1);
+   return 'P'.($exp-1);
+}
+function cek_disposisi($id){
+   $cek=App\Disposisi::where('rekomendasi_id',$id)->count();
+   return $cek;
    
 }
 function get_detail_text_revisi($id){
@@ -1211,7 +1225,7 @@ function track_temuan($id){
 }
 function track_temuan_auditee($id){
    if($id==1){
-      $data='Pengisian Tindak Lanjut';
+      $data='Review Tindak Lanjut';
    }
    if($id==2){
       $data='Review IA';

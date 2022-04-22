@@ -145,13 +145,13 @@
 						<div id="notifikasi-errorapprove"></div>
 						<form id="head" method="post" enctype="multipart/form-data">
         					@csrf
-							<input type="text" name="id" id="temuan_id">
-							<input type="text" name="name" id="name">
+							<input type="hidden" name="id" id="temuan_id">
+							<input type="hidden" name="name" id="name">
 							<div class="form-grup">
-								<label>Tentukan Status</label>
+								<label>Tentukan Proses</label>
 								<select class="form-control" name="status" onchange="pilih_status(this.value)">
-									<option value="">--Pilih Status</option>
-									<option value="1">- Selesai</option>
+									<option value="">--Pilih Proses</option>
+									<option value="1">- Release</option>
 									<option value="3">- Kembalikan</option>
 								</select>
 							</div>
