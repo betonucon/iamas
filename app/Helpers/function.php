@@ -1036,6 +1036,15 @@ function unit_as($kode){
     $data=App\Unitkerja::where('kode',$kode)->first();
     return $data['as'];
 }
+function nama_unit($kode){
+    $cek=App\Unitkerja::where('kode',$kode)->count();
+    if($cek>0){
+      $data=App\Unitkerja::where('kode',$kode)->first();
+      return $data['name'];
+    }else{
+       return "Tidak ada";
+    }
+}
 function unit_get(){
     $data=App\Unitkerja::where('as','!=',8)->orderBy('as','Asc')->get();
     return $data;

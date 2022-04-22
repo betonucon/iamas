@@ -145,7 +145,7 @@
 								<label>Tentukan Status</label>
 								<select class="form-control" name="status" onchange="pilih_status(this.value)">
 									<option value="">--Pilih Status</option>
-									<option value="1">- Selesai</option>
+									<option value="1">- Lanjutkan TL</option>
 									<option value="3">- Kembalikan</option>
 								</select>
 							</div>

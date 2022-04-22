@@ -291,9 +291,7 @@ class TemuanController extends Controller
                 ]);
                 echo 'ok';
             }else{
-                if (trim($request->catatan) == '') {$error[] = '-Isi catatan/alasan pengembalian';}
-                if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-                else{
+               
                     $data=Rekomendasi::where('id',$request->id)->update([
                         'sts'=>3,
                         'revisi'=>3,
@@ -303,7 +301,7 @@ class TemuanController extends Controller
                         'catatan_pengawas'=>$request->catatan,
                     ]);
                     echo 'ok';
-                }
+                
             }
         }
     }

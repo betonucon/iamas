@@ -180,13 +180,13 @@
 						<div id="notifikasi-errorapprovehead"></div>
 						<form id="kirim-datahead" method="post" enctype="multipart/form-data">
         					@csrf
-							<input type="text" name="id" id="headtemuan_id">
-							<input type="text" name="name" id="headname">
+							<input type="hidden" name="id" id="headtemuan_id">
+							<input type="hidden" name="name" id="headname">
 							<div class="form-grup">
 								<label>Tentukan Status</label>
 								<select class="form-control"  name="status">
 									<option value="">--Pilih Status</option>
-									<option value="1">- Selesai</option>
+									<option value="1">- Lanjutkan TL</option>
 									<option value="2">- Perbaiki Ulang</option>
 								</select>
 							</div>
