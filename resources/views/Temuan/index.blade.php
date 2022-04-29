@@ -31,7 +31,51 @@
 				<!-- begin panel-body -->
 				<div class="panel-body">
 
-					<div class="btn-group btn-group-justified"></div>
+				<div class="row">
+					<!-- begin col-3 -->
+					<div class="col-xl-3 col-md-6">
+						<div class="widget widget-stats bg-teal">
+							<div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
+							<div class="stats-content">
+								<div class="stats-title">TEMUAN LHA</div>
+								<div class="stats-number">{{total_temuan(1,$tahun,'LHA')}}</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Belum TL ({{total_temuan_nol(1,$tahun,"LHA")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Progres ({{total_temuan_progres(1,$tahun,"LHA")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Selesai ({{total_temuan_selesai(1,$tahun,"LHA")}})</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+					<!-- begin col-3 -->
+					<div class="col-xl-3 col-md-6">
+						<div class="widget widget-stats bg-blue">
+							<div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
+							<div class="stats-content">
+								<div class="stats-title">TEMUAN LHP</div>
+								<div class="stats-number">{{total_temuan(1,$tahun,'LHP')}}</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Belum TL ({{total_temuan_nol(1,$tahun,"LHP")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Progres ({{total_temuan_progres(1,$tahun,"LHP")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Selesai ({{total_temuan_selesai(1,$tahun,"LHP")}})</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+					
+					<!-- begin col-3 -->
+					<div class="col-xl-3 col-md-6">
+						<div class="widget widget-stats bg-dark">
+							<div class="stats-icon stats-icon-lg"><i class="fa fa-comment-alt fa-fw"></i></div>
+							<div class="stats-content">
+								<div class="stats-title">TEMUAN LHK</div>
+								<div class="stats-number">{{total_temuan(1,$tahun,'LHK')}}</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Belum TL ({{total_temuan_nol(1,$tahun,"LHK")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Progres ({{total_temuan_progres(1,$tahun,"LHK")}})</div>
+								<div class="stats-desc" style="margin-top:1%;border-bottom:solid 1px #fff">Selesai ({{total_temuan_selesai(1,$tahun,"LHK")}})</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+				</div>
 					<form id="data-all" enctype="multipart/form-data">
 						@csrf
 						<table id="myTable" class="table table-striped table-bordered table-td-valign-top">

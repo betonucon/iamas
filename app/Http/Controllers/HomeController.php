@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index(request $request)
     {   
+        error_reporting(0);
         if(Auth::user()['role_id']==8){
             $menu='Dashboard Temuan';
             $side="temuan";
@@ -58,6 +59,19 @@ class HomeController extends Controller
         }
         $data=Audit::where('tahun',$tahun)->orderBy('kode_aktivitas')->get();
         return view('homeaudit',compact('menu','tahun','side','data'));
+    }
+
+    public function index_temuan(request $request)
+    {   
+        error_reporting(0);
+        $menu='Dashboard Temuan';
+        $side="temuan";
+        if($request->tahun==''){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
+        return view('home_temuan_auditor',compact('menu','tahun','side'));
     }
 
     public function index_kodifikasi(request $request)

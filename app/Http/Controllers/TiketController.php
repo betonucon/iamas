@@ -760,6 +760,7 @@ class TiketController extends Controller
                         'kodifikasi_laporan'=>$request->kodifikasi,
                         
                     ]);
+                    $datasurat=Surattugas::where('tiket_id',$request->id)->first();
                     $surattugas=Surattugas::where('tiket_id',$request->id)->update([
                         'nomorlaporan'=>$nomorlaporan,
                         'kode_laporan'=>$request->kode_laporan,
@@ -772,6 +773,7 @@ class TiketController extends Controller
                     $data=Tiket::create([
                         'nik'=>Auth::user()['nik'],
                         'kode_sumber'=>$request->kode_laporan,
+                        'kode_unit'=>$datasurat['kode_unit'],
                         'aktivitas_id'=>cek_aktivitas($request->kode_laporan),
                         'nomorinformasi'=>$nomorlaporan,
                         'judul'=>$tiket['judul_laporan'],

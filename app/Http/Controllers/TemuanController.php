@@ -19,8 +19,13 @@ class TemuanController extends Controller
     public function index(request $request){
         $menu='Temuan';
         $side="temuan";
+        if($request->tahun==""){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
         if(Auth::user()['role_id']==8){
-            return view('Temuan.index',compact('menu','side'));
+            return view('Temuan.index',compact('menu','side','tahun'));
         }else{
            return view('error'); 
         }
@@ -369,6 +374,7 @@ class TemuanController extends Controller
                             if($status==2){
                                 $dis=Disposisi::create([
                                     'nomortl'=>$nomortl,
+                                    'catatan_tl'=>$request->content,
                                     'rekomendasi_id'=>$request->id,
                                     'tanggal'=>date('Y-m-d'),
                                     'sts_tl'=>'P0',
@@ -407,6 +413,7 @@ class TemuanController extends Controller
                                     if($status==2){
                                         $dis=Disposisi::create([
                                             'nomortl'=>$nomortl,
+                                            'catatan_tl'=>$request->content,
                                             'rekomendasi_id'=>$request->id,
                                             'tanggal'=>date('Y-m-d'),
                                             'sts_tl'=>'P0',
@@ -496,6 +503,7 @@ class TemuanController extends Controller
                                     $dis=Disposisi::create([
                                         'nomortl'=>$nomortl,
                                         'rekomendasi_id'=>$request->id,
+                                        'catatan_tl'=>$request->content,
                                         'tanggal'=>date('Y-m-d'),
                                         'sts_tl'=>$cekcreate['sts_tl'],
                                     ]);
@@ -523,6 +531,7 @@ class TemuanController extends Controller
                                             if($status==2){
                                                 $dis=Disposisi::create([
                                                     'nomortl'=>$nomortl,
+                                                    'catatan_tl'=>$request->content,
                                                     'rekomendasi_id'=>$request->id,
                                                     'tanggal'=>date('Y-m-d'),
                                                     'sts_tl'=>$cekcreate['sts_tl'],

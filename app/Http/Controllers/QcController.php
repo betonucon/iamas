@@ -451,47 +451,76 @@ class QcController extends Controller
                     'sts'=>12,
                     'urutan_penerbitan'=>$urutan_penerbitan,
                 ]);
-                    $get=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHP')->orderBy('id','Asc')->get();
-                    foreach($get as $x=>$o){
-                        $bulan=date('m');
-                        $kodesumber=$o['kode_sumber'];
-                        $tahun=date('Y');
-                        $tahunkode=date('y');
-                        $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
-                        $data=Kesimpulan::where('id',$o['id'])->update([
-                            'nomorkode'=>$nomorkode,
-                            'nomor_penerbitan'=>'6.'.($x+1),
-                            
-                            
-                        ]);
-                        $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
-                            'terbit'=>date('Y-m-d H:i:s'),
-                            'sts'=>1,
-                            'sts_tl'=>'B',
-                            'nomor'=>'6.'.($x+1),
-                        ]);
-                    }
-                    $getlha=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHA')->orderBy('id','Asc')->get();
-                    foreach($getlha as $x=>$o){
-                        $bulan=date('m');
-                        $kodesumber=$o['kode_sumber'];
-                        $tahun=date('Y');
-                        $tahunkode=date('y');
-                        $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
-                        $data=Kesimpulan::where('id',$o['id'])->update([
-                            'nomorkode'=>$nomorkode,
-                            'nomor_penerbitan'=>'6.'.($x+1),
-                            
-                            
-                        ]);
-                        $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
-                            'terbit'=>date('Y-m-d H:i:s'),
-                            'sts'=>1,
-                            'sts_tl'=>'B',
-                            'nomor'=>'6.'.($x+1),
-                        ]);
-                    }
-                    echo'ok';
+
+                $get=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHP')->orderBy('id','Asc')->get();
+                foreach($get as $x=>$o){
+                    $bulan=date('m');
+                    $kodesumber=$o['kode_sumber'];
+                    $tahun=date('Y');
+                    $tahunkode=date('y');
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
+                    $data=Kesimpulan::where('id',$o['id'])->update([
+                        'nomorkode'=>$nomorkode,
+                        'nomor_penerbitan'=>'6.'.($x+1),
+                        
+                        
+                    ]);
+                    $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
+                        'terbit'=>date('Y-m-d H:i:s'),
+                        'sts'=>1,
+                        'sts_tl'=>'B',
+                        'nomor'=>'6.'.($x+1),
+                        'nomorkode'=>$nomorkode,
+                        'kode_sumber'=>$kodesumber,
+                    ]);
+                }
+
+                $getlha=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHA')->orderBy('id','Asc')->get();
+                foreach($getlha as $x=>$o){
+                    $bulan=date('m');
+                    $kodesumber=$o['kode_sumber'];
+                    $tahun=date('Y');
+                    $tahunkode=date('y');
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
+                    $data=Kesimpulan::where('id',$o['id'])->update([
+                        'nomorkode'=>$nomorkode,
+                        'nomor_penerbitan'=>'6.'.($x+1),
+                        
+                        
+                    ]);
+                    $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
+                        'terbit'=>date('Y-m-d H:i:s'),
+                        'sts'=>1,
+                        'sts_tl'=>'B',
+                        'nomor'=>'6.'.($x+1),
+                        'nomorkode'=>$nomorkode,
+                        'kode_sumber'=>$kodesumber,
+                    ]);
+                }
+
+                $getlhp=Kesimpulan::where('audit_id',$request->id)->where('kode_sumber','LHK')->orderBy('id','Asc')->get();
+                foreach($getlhp as $x=>$o){
+                    $bulan=date('m');
+                    $kodesumber=$o['kode_sumber'];
+                    $tahun=date('Y');
+                    $tahunkode=date('y');
+                    $nomorkode=$kodesumber.$tahunkode.kode_bulan($bulan).$kd;
+                    $data=Kesimpulan::where('id',$o['id'])->update([
+                        'nomorkode'=>$nomorkode,
+                        'nomor_penerbitan'=>'6.'.($x+1),
+                        
+                        
+                    ]);
+                    $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
+                        'terbit'=>date('Y-m-d H:i:s'),
+                        'sts'=>1,
+                        'sts_tl'=>'B',
+                        'nomor'=>'6.'.($x+1),
+                        'nomorkode'=>$nomorkode,
+                        'kode_sumber'=>$kodesumber,
+                    ]);
+                }
+                echo'ok';
             }
         }
     }

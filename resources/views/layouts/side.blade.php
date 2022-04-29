@@ -14,7 +14,7 @@
                     <li><a href="{{url('DashboardStia')}}">Dashboard STIA [1,2,3]</a></li>
                     <li><a href="{{url('Dashboardaudit')}}">Dashboard STIA [4,5,6]</a></li>
                     <li><a href="{{url('DashboardKodifikasi')}}">Dashboard Kodifikasi</a></li>
-                    <li><a href="{{url('home')}}">Dashboard v3</a></li>
+                    <li><a href="{{url('Dashboardtemuan')}}">Dashboard Temuan</a></li>
                 </ul>
             </li>
             @endif
