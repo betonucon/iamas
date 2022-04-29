@@ -1072,6 +1072,11 @@ function unit_as($kode){
     $data=App\Unitkerja::where('kode',$kode)->first();
     return $data['as'];
 }
+function unit_pimpinan($kode){
+    $data=App\Unitkerja::where('kode',$kode)->first();
+    $view=$data['pimpinan'];
+    return $view;
+}
 function nama_unit($kode){
     $cek=App\Unitkerja::where('kode',$kode)->count();
     if($cek>0){
@@ -1082,7 +1087,7 @@ function nama_unit($kode){
     }
 }
 function unit_get(){
-    $data=App\Unitkerja::where('as','!=',8)->orderBy('as','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3'))->orderBy('as','Asc')->get();
     return $data;
 }
 
@@ -1481,6 +1486,12 @@ function audit_lha_get(){
 function lha_get(){
    
    $data=App\Audit::whereIn('tiket_id',array_tiket_anggota())->where('sts','>',8)->orderBy('id','Desc')->get();
+    
+   return $data;
+}
+function lha_ketua_get(){
+   
+   $data=App\Audit::whereIn('tiket_id',array_tiket_ketua())->where('sts','>',8)->orderBy('id','Desc')->get();
     
    return $data;
 }

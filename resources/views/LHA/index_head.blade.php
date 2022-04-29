@@ -58,8 +58,8 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
-										<td><span onclick="proses_kesimpulan({{$data->id}})" class="btn btn-green btn-xs"><i class="fas fa-search"></i> View</span></td>
-										<td><span onclick="proses_rekomendasi({{$data->id}},{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-search"></i>  View</span></td>
+										<td><span onclick="proses_kesimpulan(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fas fa-search"></i> View</span></td>
+										<td><span onclick="proses_rekomendasi(`{{coder($data->id)}}`,{{kesimpulan_count($data->id)}})" class="btn btn-aqua btn-xs"><i class="fas fa-search"></i>  View</span></td>
 										<td><span onclick="cek_file_lha({{$data->id}})" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
 										
 									</tr>

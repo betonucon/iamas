@@ -17,7 +17,7 @@ class SubstantiveController extends Controller
         if(akses_tiket_ketua()>0){
             $menu='Substantive';
             $side="auditketua";
-            return view('Substantive.index',compact('menu','ketua','side'));
+            return view('Substantive.index',compact('menu','side'));
         }else{
             return view('error');
         }

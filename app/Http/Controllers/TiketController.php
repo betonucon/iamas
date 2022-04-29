@@ -1283,7 +1283,7 @@ class TiketController extends Controller
     public function approve_tiket(request $request){
         if(Auth::user()['posisi_id']==1){
                 $surat=Surattugas::where('tiket_id',$request->tiket_id)->first();
-                if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='05' ){
+                if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='06' ){
                     $sts1=5;
                 }else{
                     $sts1=2;

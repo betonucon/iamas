@@ -236,7 +236,7 @@ class TemuanController extends Controller
                             'tanggal'=>date('Y-m-d'),
                             'nomortl'=>$rekom['nomortl'],
                             'rekomendasi_id'=>$rekom['id'],
-                            'sts_tl'=>$tl,
+                            'sts_tl'=>'S',
                         ]);
                         echo 'ok';
                     }else{

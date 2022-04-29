@@ -64,7 +64,12 @@
 									</tr>
 									
 									<tr>
-										<td class="text-toop"><b>Kodifikasi</b></td>
+										<td class="text-toop"><b>Kodifikasi Temuan</b></td>
+										<td class="text-toop"><b>:</b></td>
+										<td class="text-toop"><b>{{$kes->kesimpulan['kodifikasi']}}</b> {{$kes->kesimpulan['getkodifikasi']['kategori']}}</td>
+									</tr>
+									<tr>
+										<td class="text-toop"><b>Kodifikasi Rekom</b></td>
 										<td class="text-toop"><b>:</b></td>
 										<td class="text-toop"><b>{{$kes->kodifikasi}}</b> {{$kes->getkodifikasi['kategori']}}</td>
 									</tr>

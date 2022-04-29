@@ -17,7 +17,7 @@ class ComplianceController extends Controller
         if(akses_tiket_ketua()>0){
             $menu='Compliance';
             $side="auditketua";
-            return view('Compliance.index',compact('menu','ketua','side'));
+            return view('Compliance.index',compact('menu','side'));
         }else{
             return view('error');
         }

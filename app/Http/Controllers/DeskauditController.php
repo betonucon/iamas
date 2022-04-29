@@ -17,7 +17,7 @@ class DeskauditController extends Controller
         if(akses_tiket_ketua()>0){
             $menu='Deskaudit';
             $side="auditketua";
-            return view('Deskaudit.index',compact('menu','ketua','side'));
+            return view('Deskaudit.index',compact('menu','side'));
         }else{
             return view('error');
         }

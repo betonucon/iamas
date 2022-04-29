@@ -138,7 +138,7 @@
 					</div>
 					<div class="modal-body">
 						<div id="notifikasi-errorapprove"></div>
-						<form id="head" method="post" enctype="multipart/form-data">
+						<form id="head" action="{{url('/Temuan/send_data')}}" method="post" enctype="multipart/form-data">
         					@csrf
 							<input type="hidden" name="id" id="temuan_id">
 							<input type="hidden" name="name" id="name">
@@ -175,6 +175,7 @@
 								
 							</div>
 							@endif
+							<input type="submit">
 						</form>
 						
 					</div>

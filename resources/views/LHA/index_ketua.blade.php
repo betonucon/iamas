@@ -50,7 +50,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(lha_get() as $no=>$data)
+								@foreach(lha_ketua_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
 										<td class="boldtd">{{$data->nomorsurat}}</td>
@@ -150,7 +150,7 @@
 								<label>Upload File LHA</label>
 								<input type="file" name="file" class="form-control">
 							</div>
-							<input type="submit">
+							<!-- <input type="submit"> -->
 						</form>
 						
 					</div>

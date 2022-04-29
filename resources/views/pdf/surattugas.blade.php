@@ -133,7 +133,7 @@
                 <td class="ttd" colspan="2">1. Yth. {{pengawas($data->id)->user->posisi['name']}}</td>
             </tr>
             <tr>
-                <td class="ttd" colspan="2">2. Yth. {{$data->surattugas->unitkerja['pimpinan']}} {{$data->surattugas->unitkerja['name']}}</td>
+                <td class="ttd" colspan="2">2. Yth. {{unit_pimpinan($data->kode_unit)}} {{$data->unitkerja['name']}}</td>
             </tr>
         </table>
     </body>
