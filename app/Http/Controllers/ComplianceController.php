@@ -252,6 +252,10 @@ class ComplianceController extends Controller
         $data=Complangkahkerja::where('id',$request->id)->first();
         echo'
             <div class="form-group">
+                <label>Lampiran</label>
+                <input type="file" placeholder="yyyy-mm-dd" class="form-control" name="file" style="width:40%"  />
+            </div>
+            <div class="form-group">
                 <label>Catatan</label>
                 <textarea class="form-control" rows="8"  placeholder="Ketik disini...." id="isinya">'.$data['catatan'].'</textarea>
             </div>
@@ -326,14 +330,24 @@ class ComplianceController extends Controller
     }
 
     public function proses_catatan(request $request){
+        if (trim($request->file) =='') {$error[] = '- Upload file lampiran';}
         if (trim($request->content) =='') {$error[] = '- Isi Catatan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $data=Complangkahkerja::where('id',$request->id)->update([
-                'catatan'=>$request->content,
-                'tanggal_aktual'=>date('Y-m-d'),
-            ]);
-            echo 'ok';
+            $image = $request->file('file');
+            $size = $image->getSize();
+            $imageFileName ='catatanlangkahcom'.$request->id.'.'. $image->getClientOriginalExtension();
+            $filePath =$imageFileName;
+            $file = \Storage::disk('public_uploads');
+           
+            if($file->put($filePath, file_get_contents($image))){
+                $data=Complangkahkerja::where('id',$request->id)->update([
+                    'catatan'=>$request->content,
+                    'tanggal_aktual'=>date('Y-m-d'),
+                    'file'=>$filePath,
+                ]);
+                echo 'ok';
+            }
         }
     }
 
