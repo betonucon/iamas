@@ -38,6 +38,7 @@
 									<th width="7%" class="text-nowrap">Penerbitan</th>
 									<th width="5%" class="text-nowrap">File</th>
 									<th width="13%" class="text-nowrap">Status</th>
+									<th width="5%" class="text-nowrap">Print</th>
 									<th width="5%" class="text-nowrap"></th>
 									<th width="8%" class="text-nowrap">Action</th>
 								</tr>
@@ -54,6 +55,8 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
+										<td><span onclick="cetak({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-print"></i></span></td>
+										
 										<td>
 											@if($data->sts==3)
 												@if($data->sts_deskaudit==null)
@@ -204,6 +207,9 @@
 					
 				}
 			}); 
+		}
+		function cetak(id){
+			window.open("{{url('Deskaudit/Cetak')}}?id="+id, '_blank');
 		}
 		function tutup_notif(){
 			$('#modalnotif').modal('toggle');

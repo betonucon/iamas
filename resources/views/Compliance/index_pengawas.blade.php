@@ -37,6 +37,7 @@
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Penerbitan</th>
 									<th width="13%" class="text-nowrap">Status</th>
+									<th width="5%" class="text-nowrap">Print</th>
 									<th width="5%" class="text-nowrap">File</th>
 									
 									<th width="8%" class="text-nowrap">Action</th>
@@ -53,6 +54,8 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
+										<td><span onclick="cetak({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-print"></i></span></td>
+										
 										<td><span onclick="cek_file_audit({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td>
 											
@@ -179,7 +182,9 @@
 				$('#alasan').hide();
 			}
 		}
-
+		function cetak(id){
+			window.open("{{url('Compliance/Cetak')}}?id="+id, '_blank');
+		}
 
 		function approve(a){
 			location.assign("{{url('/Compliance/Approvepengawas')}}?id="+a);

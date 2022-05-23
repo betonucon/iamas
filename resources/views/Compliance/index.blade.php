@@ -38,6 +38,7 @@
 									<th width="7%" class="text-nowrap">Penerbitan</th>
 									<th width="5%" class="text-nowrap">File</th>
 									<th width="13%" class="text-nowrap">Status</th>
+									<th width="5%" class="text-nowrap">Print</th>
 									<th width="5%" class="text-nowrap"></th>
 									<th width="8%" class="text-nowrap">Action</th>
 								</tr>
@@ -54,6 +55,8 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
+										<td><span onclick="cetak({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-print"></i></span></td>
+										
 										<td>
 											@if($data->sts==5)
 												@if($data->sts_compliance==null)
@@ -180,7 +183,9 @@
 		} );
 
 		$('#alasan').hide();
-
+		function cetak(id){
+			window.open("{{url('Compliance/Cetak')}}?id="+id, '_blank');
+		}
 		function send_to(a){
 			
 			$.ajax({

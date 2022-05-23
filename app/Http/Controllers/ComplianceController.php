@@ -488,5 +488,18 @@ class ComplianceController extends Controller
         
     }
 
+    public function cetak(request $request){
+        $data=Audit::where('id',$request->id)->first();
+        $pdf = PDF::loadView('Compliance.cetak', compact('data'));
+        $pdf->setPaper('A4', 'Potrait');
+        return $pdf->stream();
+    }
+    public function cetakcatatan(request $request){
+        $data=Audit::where('id',$request->id)->first();
+        $pdf = PDF::loadView('Compliance.cetak_catatan', compact('data'));
+        $pdf->setPaper('A4', 'Potrait');
+        return $pdf->stream();
+    }
+
     
 }

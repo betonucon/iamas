@@ -54,30 +54,30 @@
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-red" data-animation="width" data-value="{{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
+													<div class="progress-bar  bg-red" data-animation="width" data-value="{{round(total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 
 										<div class="m-b-2 text-truncate">Dalam Progres</div>
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-yellow" data-animation="width" data-value="{{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
+													<div class="progress-bar  bg-yellow" data-animation="width" data-value="{{round(total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 
 										<div class="m-b-2 text-truncate">Selesai</div>
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-green" data-animation="width" data-value="{{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%;"></div>
+													<div class="progress-bar  bg-green" data-animation="width" data-value="{{round(total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%;"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}">{{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 										<a href="#" class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2" data-toggle="collapse" data-target="#collapse{{$det->kode_sumber}}" aria-expanded="false">View Detail</a>
 									
@@ -182,10 +182,17 @@
 																	@endif
 																</td>
 																<td>
-																	@if($get->sts==1)
-																		{{selisih_all($get->terbit,date('Y-m-d H:i:s'))}} Hari
+																	@if($get->sts_tl=='B')
+																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																	@elseif($get->sts_tl=='S')
+																		<font style="font-weight:bold" color="#000">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
 																	@else
-
+																		@if($get->sts==1)
+																			<font style="font-weight:bold" color="red">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																		@else
+																			<font style="font-weight:bold" color="green">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
+																		@endif
+																			
 																	@endif
 																</td>
 															</tr>

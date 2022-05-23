@@ -49,6 +49,17 @@ function uang($id){
    $data=number_format($id,2);
    return $data;
 }
+function triwulan($id){
+   if($id>8){
+      return 'III';
+   }
+   if($id>4){
+      return 'II';
+   }
+   if($id>=1){
+      return 'I';
+   }
+}
 
 function selisih_all($mulai,$sampai){
    $begin = new DateTime($mulai);
@@ -753,6 +764,43 @@ function new_(){
     $data=App\Tiket::whereIn('sts',array('2','3','4'))->orderBy('id','Desc')->get();
     return $data;
 }
+function deskaudit_program($id){
+    $data=App\Deskaudit::where('audit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function view_deskaudit_catatan($id){
+    $data=App\Viewcatatandeskaudit::where('audit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+
+function deskaudit_catatan($id){
+    $data=App\Desklangkahkerja::where('deskaudit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function compliance_program($id){
+    $data=App\Compliance::where('audit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function view_compliance_catatan($id){
+   $data=App\Viewcatatancompliance::where('audit_id',$id)->orderBy('id','Asc')->get();
+   return $data;
+}
+function compliance_catatan($id){
+    $data=App\Complangkahkerja::where('compliance_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function substantive_program($id){
+    $data=App\Substantive::where('audit_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function view_substantive_catatan($id){
+   $data=App\Viewcatatansubstantive::where('audit_id',$id)->orderBy('id','Asc')->get();
+   return $data;
+}
+function substantive_catatan($id){
+    $data=App\Subslangkahkerja::where('substantive_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
 
 function judul_get($tiket){
     $data=App\Judul::where('tiket_id',$tiket)->orderBy('id','Asc')->get();
@@ -1139,6 +1187,10 @@ function anggota_get(){
     $data=App\User::whereIn('posisi_id',array('10','11','3','4','5','6'))->orderBy('name','Asc')->get();
     return $data;
 }
+function tim_audit($id){
+    $data=App\Timaudit::where('tiket_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
 function nomorsurat($kode,$unit,$aktifitas){
       if($kode=='NA'){
          $nomor='NA'.$aktifitas.'/'.$unit.'/'.date('m').'/'.date('Y');
@@ -1337,9 +1389,9 @@ function detail_temuan_get($kode,$tahun,$kode_sumber){
 }
 function total_temuan_selesai($kode,$tahun,$kode_sumber){
    if($kode==1){
-      $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->whereIn('kode_unit',array_temuan_auditee())->where('sts',6)->count();
+      $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->whereIn('kode_unit',array_temuan_auditee())->where('sts_tl','S')->count();
    }else{
-      $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->where('sts',6)->count();
+      $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->where('sts_tl','S')->count();
    }
    
    return $data;

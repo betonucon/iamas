@@ -167,6 +167,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('Deskaudit/hapus_pokok',[DeskauditController::class, 'hapus_pokok']);
     Route::get('Deskaudit/Create',[DeskauditController::class, 'create']);
     Route::get('Deskaudit/Catatan',[DeskauditController::class, 'catatan']);
+    Route::get('Deskaudit/Cetak',[DeskauditController::class, 'cetak']);
+    Route::get('Deskaudit/Cetakcatatan',[DeskauditController::class, 'cetakcatatan']);
     
     Route::get('Deskaudit/Isicatatan',[DeskauditController::class, 'isi_catatan']);
     Route::get('Deskaudit/Approvepengawas',[DeskauditController::class, 'approve_pengawas']);
@@ -219,6 +221,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('Compliance/acc_head',[ComplianceController::class, 'acc_head']);
     Route::post('Compliance/Update',[ComplianceController::class, 'update']);
     Route::post('Compliance/Delete',[ComplianceController::class, 'delete']);
+    Route::get('Compliance/Cetak',[ComplianceController::class, 'cetak']);
+    Route::get('Compliance/Cetakcatatan',[ComplianceController::class, 'cetakcatatan']);
 });
 
 Route::group(['middleware'    => 'auth'],function(){
@@ -285,6 +289,8 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::post('Substantive/acc_head',[SubstantiveController::class, 'acc_head']);
     Route::post('Substantive/Update',[SubstantiveController::class, 'update']);
     Route::post('Substantive/Delete',[SubstantiveController::class, 'delete']);
+    Route::get('Substantive/Cetak',[SubstantiveController::class, 'cetak']);
+    Route::get('Substantive/Cetakcatatan',[SubstantiveController::class, 'cetakcatatan']);
 });
 
 

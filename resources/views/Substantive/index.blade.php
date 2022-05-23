@@ -36,6 +36,7 @@
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Penerbitan</th>
+									<th width="5%" class="text-nowrap">Print</th>
 									<th width="5%" class="text-nowrap">File</th>
 									<th width="13%" class="text-nowrap">Status</th>
 									<th width="5%" class="text-nowrap"></th>
@@ -50,6 +51,8 @@
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td>{{$data->tgl_penerbitan}}</td>
+										<td><span onclick="cetak({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-print"></i></span></td>
+										
 										<td><span onclick="cek_file_audit({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
@@ -180,7 +183,9 @@
 		} );
 
 		$('#alasan').hide();
-
+		function cetak(id){
+			window.open("{{url('Substantive/Cetak')}}?id="+id, '_blank');
+		}
 		function send_to(a){
 			
 			$.ajax({

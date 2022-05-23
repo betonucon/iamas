@@ -202,6 +202,7 @@ class TemuanController extends Controller
                             'sts'=>4,
                             'revisi'=>2,
                             'sts_tl'=>$tl,
+                            'tgl_progres'=>date('Y-m-d'),
                             'nilai'=>$nilai,
                         ]);
                         
@@ -226,6 +227,7 @@ class TemuanController extends Controller
                     $data=Rekomendasi::where('id',$request->id)->update([
                         'sts'=>4,
                         'sts_tl'=>'S',
+                        'tgl_progres'=>date('Y-m-d'),
                         'revisi'=>2,
                         'nilai'=>'A',
                     ]);
@@ -288,17 +290,15 @@ class TemuanController extends Controller
             if($rekom['sts_tl']=='S'){
                 $data=Rekomendasi::where('id',$request->id)->update([
                     'sts'=>6,
-                    'nomormtl'=>'M'.$rekom['nomortl'],
                 ]);
 
-                $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
-                    'nomormtl'=>'M'.$rekom['nomortl'],
-                ]);
+                
                 echo 'ok';
             }else{
                
                     $data=Rekomendasi::where('id',$request->id)->update([
                         'sts'=>1,
+                        'terbit_p'=>date('Y-m-d H:i:s'),
                         'revisi'=>3,
                         'nomormtl'=>'M'.$rekom['nomortl'],
                     ]);

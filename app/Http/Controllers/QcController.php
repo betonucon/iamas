@@ -467,6 +467,7 @@ class QcController extends Controller
                     ]);
                     $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
                         'terbit'=>date('Y-m-d H:i:s'),
+                        'terbit_p'=>date('Y-m-d H:i:s'),
                         'sts'=>1,
                         'sts_tl'=>'B',
                         'nomor'=>'6.'.($x+1),
@@ -490,6 +491,7 @@ class QcController extends Controller
                     ]);
                     $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
                         'terbit'=>date('Y-m-d H:i:s'),
+                        'terbit_p'=>date('Y-m-d H:i:s'),
                         'sts'=>1,
                         'sts_tl'=>'B',
                         'nomor'=>'6.'.($x+1),
@@ -513,6 +515,7 @@ class QcController extends Controller
                     ]);
                     $rekom=Rekomendasi::where('kesimpulan_id',$o['id'])->update([
                         'terbit'=>date('Y-m-d H:i:s'),
+                        'terbit_p'=>date('Y-m-d H:i:s'),
                         'sts'=>1,
                         'sts_tl'=>'B',
                         'nomor'=>'6.'.($x+1),
