@@ -109,7 +109,7 @@
                         @endforeach
                     </td>
                     <td class="ttd">{{$data->tgl_substantive_program_start}}</td>
-                    <td class="ttd">{{$data->tgl_sts4}}</td>
+                    <td class="ttd">{{$data->tgl_sts8}}</td>
                 </tr>
             @endforeach
         </table>
