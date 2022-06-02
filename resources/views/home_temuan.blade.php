@@ -124,7 +124,7 @@
 															@if(total_temuan(1,$tahun,$det->kode_sumber)==total_temuan_selesai(1,$tahun,$det->kode_sumber))
 																<span class="btn btn-sm btn-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 															@else
-																<span class="btn btn-sm btn-grey" style="background:#6a7881">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+																<span class="btn btn-sm btn-yellow" style="background:#6a7881">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 															@endif
 													</tr>
 													

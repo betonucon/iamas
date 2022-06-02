@@ -38,4 +38,7 @@ class Rekomendasi extends Model
    function kesimpulan(){
          return $this->belongsTo('App\Kesimpulan','kesimpulan_id','id');
    }
+   function audit(){
+         return $this->belongsTo('App\Audit','audit_id','id');
+   }
 }

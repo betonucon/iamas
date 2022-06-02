@@ -60,6 +60,12 @@ class HomeController extends Controller
         $data=Audit::where('tahun',$tahun)->orderBy('kode_aktivitas')->get();
         return view('homeaudit',compact('menu','tahun','side','data'));
     }
+    public function modal_audit(request $request)
+    {   
+        error_reporting(0);
+        $data=Audit::where('id',$request->id)->first();
+        return view('modalaudit',compact('data'));
+    }
 
     public function index_temuan(request $request)
     {   

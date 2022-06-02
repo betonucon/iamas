@@ -52,11 +52,11 @@
 						<div class="row">
 							
 							
-							<div class="col-md-12">
+							<div class="col-md-8"  style="background-color: #f2f8fd;">
 								<div class="alert alert-blue fade show m-b-10" style="background-color: #f2f8fd;">
 									<table style="margin-left:0%" width="100%">
 										<tr>
-											<td class="text-toop" width="15%"><b>Nomor</b></td>
+											<td class="text-toop" width="20%"><b>Nomor</b></td>
 											<td class="text-toop" width="2%"><b>:</b></td>
 											<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
 										</tr>
@@ -85,11 +85,45 @@
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop"><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></td>
 										</tr>
+										
+									</table>
+								</div>
+							</div>
+							<div class="col-md-4" style="background-color: #f2f8fd;">
+								<div class="alert alert-blue fade show m-b-10" style="background: #f3ffb3 !important;">
+									<u><b>TIM AUDIT</b></u>
+									<table style="margin-left:0%" width="100%">
 										<tr>
-											<td class="text-toop"><b>Hasil Tindak Lanjut</b></td>
-											<td class="text-toop"><b>:</b></td>
-											<td class="text-toop"></td>
+											<td class="text-toop" width="20%"><b>Pengawas</b></td>
+											<td class="text-toop" width="2%"><b>:</b></td>
+											<td class="text-toop"> - [{{pengawas($data->audit['tiket_id'])['nik']}}] {{nama_audit(pengawas($data->audit['tiket_id'])['nik'])}}</td>
 										</tr>
+										<tr>
+											<td class="text-toop"><b>Ketua</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"> - [{{ketua($data->audit['tiket_id'])['nik']}}] {{nama_audit(ketua($data->audit['tiket_id'])['nik'])}}</td>
+										</tr>
+										<tr>
+											<td class="text-toop"><b>Anggota</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"> 
+												@foreach(tim_anggota($data->audit['tiket_id']) as $agt)
+													- [{{$agt->nik}}] {{nama_audit($agt->nik)}}<br>
+												@endforeach
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-12" style="background-color: #f2f8fd;">
+								<div class="alert alert-blue fade show m-b-10" style="background-color: #f2f8fd;border-top: double 5px #edd6d6;">
+									<table style="margin-left:0%" width="100%">
+										
+											<tr>
+												<td class="text-toop" width="15%"><b>Hasil Tindak Lanjut</b></td>
+												<td class="text-toop" width="2%"><b>:</b></td>
+												<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
+											</tr>
 									</table>
 									<div style="padding:2% 2%">{!! $data->catatan !!}</div>
 								</div>

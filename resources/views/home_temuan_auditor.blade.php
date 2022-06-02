@@ -64,7 +64,7 @@
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-green" data-animation="width" data-value="{{round(total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%"></div>
+													<div class="progress-bar  bg-yellow" data-animation="width" data-value="{{round(total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%"></div>
 												</div>
 											</div>
 											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}">{{total_temuan_progres(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}</span>%</div>
@@ -74,7 +74,7 @@
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-indigo" data-animation="width" data-value="{{round(total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%;"></div>
+													<div class="progress-bar  bg-green" data-animation="width" data-value="{{round(total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}%;"></div>
 												</div>
 											</div>
 											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}">{{total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}</span>%</div>
@@ -121,10 +121,10 @@
 														<td class="ttdd">Indikator</td>
 														<td class="ttdd">:</td>
 														<td class="ttdd">
-															@if(total_temuan(1,$tahun,$det->kode_sumber)==total_temuan_selesai(1,$tahun,$det->kode_sumber))
+															@if(total_temuan(0,$tahun,$det->kode_sumber)==total_temuan_selesai(0,$tahun,$det->kode_sumber))
 																<span class="btn btn-sm btn-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 															@else
-																<span class="btn btn-sm btn-grey" style="background:#6a7881">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+																<span class="btn btn-sm btn-grey" style="background:grey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 															@endif
 													</tr>
 													
@@ -149,8 +149,10 @@
 															<th>Nomor</th>
 															<th>Risiko</th>
 															<th>Status</th>
+															<th>U.Temuan</th>
+															<th>U.Progres</th>
 															<th>Aging</th>
-															<th>Nil Rv</th>
+															<!-- <th>Nil Rv</th> -->
 														</tr>
 													</thead>
 													<tbody>
@@ -183,23 +185,51 @@
 																</td>
 																<td>
 																	@if($get->sts_tl=='B')
-																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit,date('Y-m-d H:i:s'))}} Hari</font>
 																	@elseif($get->sts_tl=='S')
-																		<font style="font-weight:bold" color="#000">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
+																		<font style="font-weight:bold" color="green">{{selisih_all($get->terbit,$get->tgl_mulai)}} Hari</font>
 																	@else
 																		@if($get->sts==1)
-																			<font style="font-weight:bold" color="red">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																			<font style="font-weight:bold" color="#f9aa1b">{{selisih_all($get->terbit,date('Y-m-d H:i:s'))}} Hari</font>
 																		@else
-																			<font style="font-weight:bold" color="green">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
+																			<font style="font-weight:bold" color="#f9aa1b">{{selisih_all($get->terbit,$get->tgl_mulai)}} Hari</font>
 																		@endif
 																			
 																	@endif
 																</td>
 																<td>
 																	@if($get->sts_tl=='B')
+																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit,date('Y-m-d H:i:s'))}} Hari</font>
+																	@elseif($get->sts_tl=='S')
+																		<font style="font-weight:bold" color="green">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
+																	@else
+																		@if($get->sts==1)
+																			<font style="font-weight:bold" color="#f9aa1b">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																		@else
+																			<font style="font-weight:bold" color="#f9aa1b">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
+																		@endif
+																			
+																	@endif
+																</td>
+																<td>
+																	@if($get->sts_tl=='B')
+																		<font style="font-weight:bold" color="red">{{(selisih_all($get->terbit,date('Y-m-d H:i:s'))-45)}} Hari</font>
+																	@elseif($get->sts_tl=='S')
+																		<font style="font-weight:bold" color="green">{{(selisih_all($get->terbit,$get->tgl_mulai)-45)}} Hari</font>
+																	@else
+																		@if($get->sts==1)
+																			<font style="font-weight:bold" color="#f9aa1b">{{(selisih_all($get->terbit_p,date('Y-m-d H:i:s'))-45)}} Hari</font>
+																		@else
+																			<font style="font-weight:bold" color="#f9aa1b">{{(selisih_all($get->terbit_p,$get->tgl_mulai)-45)}} Hari</font>
+																		@endif
+																			
+																	@endif
+																</td>
+																<!-- <td>
+																	@if($get->sts_tl=='B')
 																		
 																	@elseif($get->sts_tl=='S')
-																		<font style="font-weight:bold" color="#000">{{selisih_all($get->mulai,$get->tgl_progres)}} Hari</font>
+																		<font style="font-weight:bold" color="green">{{selisih_all($get->mulai,$get->tgl_progres)}} Hari</font>
 																	@else
 																		@if($get->sts==1)
 																			
@@ -208,7 +238,8 @@
 																		@endif
 																			
 																	@endif
-																</td>
+																</td> -->
+																
 															</tr>
 														@endforeach
 													</tbody>

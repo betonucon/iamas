@@ -79,5 +79,31 @@
                 </tr>
             @endforeach
         </table>
+        <br>
+        <table width="100%">
+            <tr>
+                <td   class="bold" width="68%">Approve By</td>
+                
+                <td  class="bold" colspan="2">CreateBy<br>
+                      
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    
+                        @foreach(tim_audit_ketua($desk->tiket_id) as $tim)
+                            &nbsp;&nbsp;{{$tim->user['name']}}<br>
+                        @endforeach
+                        &nbsp;&nbsp;({{$data->tgl_sts4}})
+                </td>
+                <td width="2%"></td>
+                <td >
+                        @foreach(tim_audit_cetak($desk->tiket_id) as $tim)
+                            -{{$tim->user['name']}}<br>
+                        @endforeach
+                        
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

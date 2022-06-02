@@ -72,10 +72,10 @@
 										);
 								$sum+=round($total*(100/10));
 							?>
-							<tr>
+							<tr style="cursor: pointer;" onclick="tampil_kan({{$o->id}})">
 								<td>{{$no+1}}</td>
 								<td><b>[{{$o->surattugas['nomortiket']}}]</b> {{$o->name}}</td>
-								<td style="background:{{tgl_simple($o->tgl_lha_finis_end)}}"></td>
+								<td style="background:{{tgl_simple($o->tgl_lha_finis_end)}}">{{tgl_simple($o->tgl_lha_finis_end)}}</td>
 								<td style="background:{{cek_hasil($o->id,'plan')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'desk_prog')}}"></td>
 								<td style="background:{{cek_hasil($o->id,'desk_catatan')}}"></td>
@@ -109,6 +109,25 @@
 					</table>
 				</div>
 			</div>
+			<div class="row">
+				<div class="modal" id="modalview" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog" style="max-width:80%">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">view Data</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							</div>
+							<div class="modal-body">
+								<div id="tampilkangrafik"></div>
+								
+							</div>
+							<div class="modal-footer">
+								<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			
 @endsection
 @push('ajax')
@@ -116,6 +135,20 @@
 <script src="{{url('assets/assets/plugins/nvd3/build/nv.d3.min.js')}}"></script>
 
 <script>
+	function tampil_kan(id){
+		
+			$.ajax({
+				type: 'GET',
+				url: "{{url('Dashboardaudit/modal')}}",
+				data: "id="+id,
+				success: function(msg){
+					$('#modalview').modal('show');
+					$('#tampilkangrafik').html(msg);
+				}
+			}); 
+		
+		
+	}
 	function pilih_tahun(tahun){
 		location.assign("{{url('Dashboardaudit')}}?tahun="+tahun);
 	}

@@ -61,6 +61,7 @@ function triwulan($id){
    }
 }
 
+
 function selisih_all($mulai,$sampai){
    $begin = new DateTime($mulai);
    $end = new DateTime($sampai);
@@ -411,6 +412,152 @@ function cek_hasil($id,$ket){
    }
    return $color;
 }
+
+function tgl_smp($tgl){
+   return date('d/m',strtotime($tgl));
+}
+function cek_kurva($id,$ket,$act){
+   if($ket=='plan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts']>2){
+         $data=selisihnya($cek['tgl_sts3'],$cek['tgl_plan']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='desk_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_plan'],$cek['tgl_deskaudit_program_start']);
+         
+      }else{
+         if($cek['sts_deskaudit']>1){
+            $data=selisihnya($cek['tgl_sts3'],$cek['tgl_sts4']);
+         }else{
+            $data='0';
+         }
+      }
+         
+      
+   }
+   if($ket=='desk_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_deskaudit_program_start'],$cek['tgl_deskaudit_hasil_start']);
+         
+      }else{
+         if($cek['sts_deskaudit']>3){
+            $data=selisihnya($cek['tgl_sts4'],$cek['tgl_sts6']);
+         }else{
+            $data='0';
+         }
+      }
+      
+   }
+   if($ket=='com_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_deskaudit_hasil_start'],$cek['tgl_compliance_program_start']);
+         
+      }else{
+         if($cek['sts_compliance']>1){
+            $data=selisihnya($cek['tgl_sts6'],$cek['tgl_sts10']);
+         }else{
+            $data='0';
+         }
+      }
+      
+      
+   }
+   if($ket=='com_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_compliance_program_start'],$cek['tgl_compliance_hasil_start']);
+         
+      }else{
+         if($cek['sts_compliance']>3){
+            $data=selisihnya($cek['tgl_sts10'],$cek['tgl_sts12']);
+         }else{
+            $data='0';
+         }
+      }
+      
+      
+   }
+   if($ket=='subs_prog'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_compliance_hasil_start'],$cek['tgl_substantive_program_start']);
+         
+      }else{
+         if($cek['sts_substantive']>1){
+            $data=selisihnya($cek['tgl_sts12'],$cek['tgl_sts14']);
+         }else{
+            $data='0';
+         }
+      }
+      
+      
+   }
+   if($ket=='subs_catatan'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_substantive_program_start'],$cek['tgl_substantive_hasil_start']);
+         
+      }else{
+         if($cek['sts_substantive']>3){
+            $data=selisihnya($cek['tgl_sts14'],$cek['tgl_sts16']);
+         }else{
+            $data='0';
+         }
+      }
+      
+      
+   }
+   if($ket=='draf'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($act==1){
+        
+            $data=selisihnya($cek['tgl_substantive_hasil_start'],$cek['tgl_lha_start']);
+         
+      }else{
+         if($cek['sts_lha']>2){
+            $data=selisihnya($cek['tgl_sts16'],$cek['tgl_sts18']);
+         }else{
+            $data='0';
+         }
+      }
+      
+      
+   }
+   if($ket=='qc'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>3){
+         $data=selisihnya($cek['tgl_sts11'],$cek['tgl_lha_draf_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   if($ket=='pen'){
+      $cek=App\Audit::where('id',$id)->first();
+      if($cek['sts_lha']>4){
+         $data=selisihnya($cek['tgl_sts12'],$cek['tgl_lha_finis_end']);
+      }else{
+         $data='0';
+      }
+      
+   }
+   
+   return $data;
+}
 function cek_hasil_nilai($id,$ket){
    if($ket=='plan'){
       $cek=App\Audit::where('id',$id)->first();
@@ -668,6 +815,17 @@ function tgl_berikutnya($tanggal,$lama)
    return  $kedepan;
 }
 
+function nama_audit($nik){
+   $cek=App\User::where('nik',$nik)->count();
+   if($cek>0){
+      $data=App\User::where('nik',$nik)->first();
+      return $data['name'];
+   }else{
+      return 'No Name';
+   }
+   
+   
+}
 function head_of(){
    $data=App\User::where('posisi_id',1)->first();
    return $data;
@@ -716,6 +874,10 @@ function ketua($id){
 }
 function anggota($id,$nik){
     $data=App\Timaudit::where('role_id',3)->where('nik',$nik)->where('tiket_id',$id)->count();
+    return $data;
+}
+function tim_anggota($id){
+    $data=App\Timaudit::where('role_id',3)->where('tiket_id',$id)->get();
     return $data;
 }
 
@@ -1189,6 +1351,14 @@ function anggota_get(){
 }
 function tim_audit($id){
     $data=App\Timaudit::where('tiket_id',$id)->orderBy('id','Asc')->get();
+    return $data;
+}
+function tim_audit_cetak($id){
+    $data=App\Timaudit::where('tiket_id',$id)->where('role_id','!=',6)->orderBy('id','Asc')->get();
+    return $data;
+}
+function tim_audit_ketua($id){
+    $data=App\Timaudit::where('tiket_id',$id)->where('role_id',6)->orderBy('id','Asc')->get();
     return $data;
 }
 function nomorsurat($kode,$unit,$aktifitas){
