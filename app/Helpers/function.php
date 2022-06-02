@@ -1349,6 +1349,13 @@ function anggota_get(){
     $data=App\User::whereIn('posisi_id',array('10','11','3','4','5','6'))->orderBy('name','Asc')->get();
     return $data;
 }
+function hitung_progres($nilai1,$nilai2){
+    if($nilai2==0 || $nilai2==null){
+       return '0';
+    }else{
+       return round(($nilai1/$nilai2)*100);
+    }
+}
 function tim_audit($id){
     $data=App\Timaudit::where('tiket_id',$id)->orderBy('id','Asc')->get();
     return $data;
