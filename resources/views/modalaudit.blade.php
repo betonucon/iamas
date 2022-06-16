@@ -145,42 +145,42 @@
                                 <td>{{$data->tgl_sts5}}</td>
                                 <td>{{cek_kurva($data->id,'desk_catatan',2)}}</td>
                                 <td>{{$akmdeskcatatan2}}</td>
-                                <td>{{hitung_progres($akmdeskcatatan2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmdeskcatatan2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Comp Prog</td>
                                 <td>{{$data->tgl_sts6}}</td>
                                 <td>{{cek_kurva($data->id,'com_prog',2)}}</td>
                                 <td>{{$akmcomp2}}</td>
-                                <td>{{hitung_progres($akmcomp2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmcomp2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Comp Catatan</td>
                                 <td>{{$data->tgl_sts7}}</td>
                                 <td>{{cek_kurva($data->id,'com_catatan',2)}}</td>
                                 <td>{{$akmcompcatatan2}}</td>
-                                <td>{{hitung_progres($akmcompcatatan2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmcompcatatan2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Subs Prog</td>
                                 <td>{{$data->tgl_sts8}}</td>
                                 <td>{{cek_kurva($data->id,'subs_prog',2)}}</td>
                                 <td>{{$akmsubs2}}</td>
-                                <td>{{hitung_progres($akmsubs2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmsubs2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Subs Catatan</td>
                                 <td>{{$data->tgl_sts9}}</td>
                                 <td>{{cek_kurva($data->id,'subs_catatan',2)}}</td>
                                 <td>{{$akmsubscatatan2}}</td>
-                                <td>{{hitung_progres($akmsubscatatan2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmsubscatatan2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Draf LHA</td>
                                 <td>{{$data->tgl_sts10}}</td>
                                 <td>{{cek_kurva($data->id,'draf',2)}}</td>
                                 <td>{{$akmlha2}}</td>
-                                <td>{{hitung_progres($akmlha2,$total2)}}%</td>
+                                <td>{{hitung_progres($akmlha2,$total)}}%</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
@@ -268,13 +268,13 @@
                 backgroundColor: COLOR_DARK_TRANSPARENT_3,
                 data: [
                     0,
-                    {{hitung_progres($akmdesk2,$total2)}},
-                    {{hitung_progres($akmdeskcatatan2,$total2)}},
-                    {{hitung_progres($akmcomp2,$total2)}},
-                    {{hitung_progres($akmcompcatatan2,$total2)}},
-                    {{hitung_progres($akmsubs2,$total2)}},
-                    {{hitung_progres($akmsubscatatan2,$total2)}},
-                    {{hitung_progres($akmlha2,$total2)}},
+                    {{hitung_progres($akmdesk2,$total)}},
+                    {{hitung_progres($akmdeskcatatan2,$total)}},
+                    {{hitung_progres($akmcomp2,$total)}},
+                    {{hitung_progres($akmcompcatatan2,$total)}},
+                    {{hitung_progres($akmsubs2,$total)}},
+                    {{hitung_progres($akmsubscatatan2,$total)}},
+                    {{hitung_progres($akmlha2,$total)}},
                 ]
             }]
         };

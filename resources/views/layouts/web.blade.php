@@ -45,6 +45,11 @@
 		.boldtd{
 			font-weight:bold;
 		}
+		
+		#modalapprove{
+			overflow-x: hidden;
+    		overflow-y: auto;
+		}
 		.loadnya {
 			height: 100%;
 			width: 0;
@@ -56,11 +61,6 @@
 			overflow-x: hidden;
 			transition: transform .9s;
 		}
-		#modalapprove{
-			overflow-x: hidden;
-    		overflow-y: auto;
-		}
-
 		.loadnya-content {
 			position: relative;
 			top: 25%;

@@ -1297,7 +1297,7 @@ function nama_unit($kode){
     }
 }
 function unit_get(){
-    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3'))->orderBy('as','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3'))->orderBy('name','Asc')->get();
     return $data;
 }
 
