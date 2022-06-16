@@ -2,7 +2,8 @@
         <li class="nav-header">Navigation</li>
             @if(Auth::user()->role_id==8)
             <li><a href="{{url('home')}}"><i class="fa fa-th-large"></i><span>Dashboard</span></a></li>
-            
+            <li><a href="{{url('DashboardStia02')}}"><i class="fa fa-th-large"></i><span>Dashboard Temuan</span></a></li>
+            <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
             @else
             <li class="has-sub ">
                 <a href="javascript:;">

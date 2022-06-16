@@ -20,6 +20,9 @@
 						<option value="{{$x}}" @if($tahun==$x) selected @endif>Tahun {{$x}}</option>
 					@endfor
 				</select>
+				<select onchange="pilih_tahun(this.value)" style="width:25%;display:inline" class="form-control">
+					{!! array_audite() !!}
+				</select>
 				<!-- <select onchange="pilih_kode(this.value)" style="width:30%;display:inline" class="form-control">
 					@foreach(get_unit_audite() as $getunit)
 						<option value="{{$getunit->kode}}" @if($getunit->kode=="") selected @endif> {{$getunit->name}}</option>
@@ -222,6 +225,6 @@
 </script>
 <script>
 
-   
+
 </script>
 @endpush

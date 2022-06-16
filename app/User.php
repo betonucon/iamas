@@ -25,6 +25,8 @@ class User extends Authenticatable
         'jabatan',
         'posisi_id',
         'id',
+        'kode',
+
     ];
 
     function posisi(){

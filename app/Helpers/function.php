@@ -1241,6 +1241,10 @@ function pertama_aktivitas_get(){
     $data=App\Aktivitas::whereIn('kode',array('01','02','03'))->orderBy('kode','Asc')->get();
     return $data;
 }
+function pertama_aktivitas_02get(){
+    $data=App\Aktivitas::whereIn('kode',array('02'))->orderBy('kode','Asc')->get();
+    return $data;
+}
 function kedua_aktivitas_get(){
     $data=App\Aktivitas::whereIn('kode',array('04','05','06'))->orderBy('kode','Asc')->get();
     return $data;
@@ -1384,6 +1388,50 @@ function array_tiket_anggota(){
       ->get()
       ->toArray(),'tiket_id'
    );
+    return $data;
+}
+function cek_unit(){
+   $data=App\Unitkerja::where('nik_atasan',Auth::user()['nik'])->count();
+   return $data;
+}
+function get_unit_switch(){
+   $data=App\Unitkerja::where('nik_atasan',Auth::user()['nik'])->get();
+   return $data;
+}
+function array_audite(){
+   if(Auth::user()['jabatan']==1){
+      $data="";
+      $dir=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
+      $subdit=App\Unitkerja::where('unit_atasan',$dir['kode'])->get();
+      $data.='<option value="'.$dir['kode'].'">'.$dir['name'].'</option>';
+      foreach($subdit as $sub){
+         $data.='<option value="'.$sub['kode'].'">&nbsp;&nbsp;-'.$sub['name'].'</option>';
+         $divisi=App\Unitkerja::where('unit_atasan',$sub['kode'])->get();
+         foreach($divisi as $div){
+            $data.='<option value="'.$div['kode'].'">&nbsp;&nbsp;&nbsp;&nbsp;-'.$div['name'].'</option>';
+         }
+      }
+
+      
+   }
+   if(Auth::user()['jabatan']==2){
+      $data="";
+      $subdit=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
+      $data.='<option value="'.$subdit['kode'].'">'.$subdit['name'].'</option>';
+      $divisi=App\Unitkerja::where('unit_atasan',$subdit['kode'])->get();
+      foreach($divisi as $div){
+         $data.='<option value="'.$div['kode'].'">&nbsp;&nbsp;-'.$div['name'].'</option>';
+      }
+     
+
+   }
+   if(Auth::user()['jabatan']==3){
+      $subdit=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
+      $data.='<option value="'.$subdit['kode'].'">'.$subdit['name'].'</option>';
+
+
+   }
+   
     return $data;
 }
 
@@ -1685,8 +1733,12 @@ function akses_temuan_auditee(){
 }
 
 function sumber_get(){
+   if(Auth::user()['role_id']==8){
+      $data=App\Sumber::where('id',12)->orderBy('urut','Asc')->get();
+   }else{
+      $data=App\Sumber::whereBetween('id',[1,15])->orderBy('urut','Asc')->get();
+   }
    
-   $data=App\Sumber::whereBetween('id',[1,15])->orderBy('urut','Asc')->get();
     
    return $data;
 }

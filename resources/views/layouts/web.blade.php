@@ -138,6 +138,15 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
 						<a href="javascript:;" class="dropdown-item">Edit Profile</a>
+						@if(Auth::user()->role_id==8)
+							@if(cek_unit()>1)
+								@foreach(get_unit_switch() as $switch)
+									<a href="javascript:;" class="dropdown-item" @if($switch->kode==Auth::user()->kode_unit) style="background:#cfcfd9" @endif onclick="switch_akun(`{{$switch->kode}}`)">- {{$switch->name}}</a>
+								@endforeach
+							@else
+
+							@endif
+						@endif
 						<div class="dropdown-divider"></div>
 						<a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Log Out</a>
 						
@@ -399,6 +408,22 @@
 	<script>
 		function sebelumnya(){
 			window.history.back();
+		}
+		function switch_akun(kode){
+			$.ajax({
+				type: 'GET',
+				url: "{{url('switch_akun')}}",
+				data: "kode="+kode,
+				beforeSend: function() {
+					document.getElementById("loadnya").style.width = "100%";
+				},
+				success: function(msg){
+					
+						location.reload();
+							
+					
+				}
+			}); 
 		}
 
 		function hanyaAngka(evt) {

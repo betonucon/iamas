@@ -14,13 +14,20 @@ class TiketController extends Controller
 {
     public function index(request $request){
         
-        if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11){
+        if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 ){
             $menu='Sumber Informasi ';
             $side='tiket';
             return view('Tiket.index',compact('menu','side'));
 
         }else{
-            return view('error');
+            if(Auth::user()->role_id==8){
+                $menu='Sumber Informasi ';
+                $side='tiket';
+                return view('Tiket.index',compact('menu','side'));
+            }else{
+                return view('error');
+            }
+            
         }
     }
     public function index_gl(request $request){

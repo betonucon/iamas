@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Unitkerja;
 use App\User;
@@ -12,6 +12,31 @@ class UnitController extends Controller
         $menu='Unit Kerja';
         $side="master";
         return view('unitkerja.index',compact('menu','side'));
+    }
+    public function switch_akun(request $request){
+        $data=User::where('id',Auth::user()['id'])->update([
+            'kode_unit'=>$request->kode
+        ]);
+    }
+    public function get_unit(request $request){
+        foreach(unitkerja_get('0') as $get){
+            $cek=User::where('nik',$get['nik'])->count();
+            if($cek>0){
+
+            }else{
+                $data=User::create([
+                    'name'=>$get['nama_atasan'],
+                    'password'=>Hash::make($get['nik_atasan']),
+                    'nik'=>$get['nik_atasan'],
+                    'kode_unit'=>$get['kode'],
+                    'role_id'=>8,
+                    'jabatan'=>$get['unit_id'],
+                    'posisi_id'=>$get['unit_id'],
+                    'kode'=>$get['kode'],
+                ]);
+            }
+            
+        }
     }
 
     public function ubah(request $request){

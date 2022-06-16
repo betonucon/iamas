@@ -34,7 +34,9 @@ Route::get('/config-cache', function() {
     return '<h1>Cache facade value cleared</h1>';
 });
 Route::group(['middleware'    => 'auth'],function(){
+    Route::get('switch_akun',[UnitController::class, 'switch_akun']);
     Route::get('Unitkerja',[UnitController::class, 'index']);
+    Route::get('Unitkerja/get_unit',[UnitController::class, 'get_unit']);
     Route::get('get_organisasi',[UnitController::class, 'get_organisasi']);
     Route::get('get_nik',[UnitController::class, 'get_nik']);
     Route::get('Unitkerja/ubah',[UnitController::class, 'ubah']);
@@ -104,6 +106,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('/home','HomeController@index')->name('home');
     Route::get('/Dashboardtemuan','HomeController@index_temuan');
     Route::get('/DashboardStia','HomeController@index');
+    Route::get('/DashboardStia02','HomeController@index_stia2');
     Route::get('/Dashboardaudit','HomeController@index_audit');
     Route::get('/Dashboardaudit/modal','HomeController@modal_audit');
     Route::get('/DashboardKodifikasi','HomeController@index_kodifikasi');

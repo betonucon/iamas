@@ -25,14 +25,15 @@ class HomeController extends Controller
     {   
         error_reporting(0);
         if(Auth::user()['role_id']==8){
-            $menu='Dashboard Temuan';
-            $side="temuan";
+            
+            $menu='Dashboard STIA';
+            $side="home";
             if($request->tahun==''){
                 $tahun=date('Y');
             }else{
                 $tahun=$request->tahun;
             }
-            return view('home_temuan',compact('menu','tahun','side'));
+            return view('home02',compact('menu','tahun','side'));
         }else{
             $menu='Dashboard STIA[1,2,3]';
             $side="home";
@@ -42,6 +43,25 @@ class HomeController extends Controller
                 $tahun=$request->tahun;
             }
             return view('home',compact('menu','tahun','side'));
+        }
+            
+    }
+
+    public function index_stia2(request $request)
+    {   
+        error_reporting(0);
+        if(Auth::user()['role_id']==8){
+            $menu='Dashboard Temuan';
+            $side="temuan";
+            if($request->tahun==''){
+                $tahun=date('Y');
+            }else{
+                $tahun=$request->tahun;
+            }
+            return view('home_temuan',compact('menu','tahun','side'));
+
+        }else{
+            
         }
             
     }
