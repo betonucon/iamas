@@ -1338,7 +1338,7 @@ function aproval_get(){
     return $data;
 }
 function unitkerja_get(){
-    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3'))->orderBy('name','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array(1,2,3))->orderBy('name','Asc')->get();
     return $data;
 }
 function katua_get(){
