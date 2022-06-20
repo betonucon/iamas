@@ -41,8 +41,8 @@
                 <div class="widget-chart-info">
                     <h4 class="widget-chart-info-title">Detail Progres</h4>
                     <p class="widget-chart-info-desc">Detail progres audit nomor surat {{$data->surattugas['nomortiket']}}.</p>
-                    <span class="btn btn-xs btn-success" onclick="tampil_plan()">Tampil Plan</span>
-                    <span class="btn btn-xs btn-primary" onclick="tampil_real()">Tampil Real</span>
+                    <span class="btn btn-xs btn-green" onclick="tampil_plan()">Tampil Plan</span>
+                    <span class="btn btn-xs btn-blue" onclick="tampil_real()">Tampil Real</span>
                     <div id="plannya">   
                         <table width="100%" class="table table-bordered ">
                             <tr>
@@ -248,7 +248,7 @@
                 pointBackgroundColor: COLOR_BLUE,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: COLOR_BLUE_TRANSPARENT_3,
+                backgroundColor: "green",
                 data: [
                     0,
                     {{round(($akmdesk/$total)*100)}},
@@ -265,7 +265,7 @@
                 pointBackgroundColor: COLOR_DARK,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: COLOR_DARK_TRANSPARENT_3,
+                backgroundColor: "blue",
                 data: [
                     0,
                     {{hitung_progres($akmdesk2,$total)}},

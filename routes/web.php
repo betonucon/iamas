@@ -107,6 +107,7 @@ Route::group(['middleware'    => 'auth'],function(){
     Route::get('/Dashboardtemuan','HomeController@index_temuan');
     Route::get('/DashboardStia','HomeController@index');
     Route::get('/DashboardStia02','HomeController@index_stia2');
+    Route::get('/Dashboardall','HomeController@index_temuan_all');
     Route::get('/Dashboardaudit','HomeController@index_audit');
     Route::get('/Dashboardaudit/modal','HomeController@modal_audit');
     Route::get('/DashboardKodifikasi','HomeController@index_kodifikasi');

@@ -15,12 +15,13 @@
 @endpush
 @section('contex')
 			<div class="d-sm-flex align-items-center mb-3" style="padding: 1%;background: #8195a9;">
-				<select onchange="pilih_tahun(this.value)" style="width:15%;display:inline" class="form-control">
+				<select onchange="pilih_tahun(this.value)" id="tahun" style="width:15%;display:inline" class="form-control">
 					@for($x=2020;$x<=date('Y');$x++)
 						<option value="{{$x}}" @if($tahun==$x) selected @endif>Tahun {{$x}}</option>
 					@endfor
 				</select>
-				<select onchange="pilih_tahun(this.value)" style="width:25%;display:inline" class="form-control">
+				<select onchange="pilih_kode(this.value)" id="kode" style="width:25%;display:inline" class="form-control">
+					<option value="{{$kode}}">{{nama_unit($kode)}}</option>
 					{!! array_audite() !!}
 				</select>
 				<!-- <select onchange="pilih_kode(this.value)" style="width:30%;display:inline" class="form-control">
@@ -31,7 +32,7 @@
 			</div>
 			
 			<div class="row">
-				@foreach(headtemuan_auditee_get(1,$tahun) as $det)
+				@foreach(headtemuan_auditee_get($kode,$tahun) as $det)
 					<div class="col-xl-12 col-lg-12">
 						<div class="card border-0 mb-3 bg-dark-darker text-white">
 							<div class="card-body" style="background: no-repeat bottom right; background-image: url(../assets/img/svg/img-4.svg); background-size: auto 60%;">
@@ -44,7 +45,7 @@
 											<b>TEMUAN {{$det->kode_sumber}}</b>
 											<span class="text-grey ml-2"><i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Sales by social source" data-placement="top" data-content="Total online store sales that came from a social referrer source." data-original-title="" title=""></i></span>
 														
-											<h3 class="m-b-10"><span data-animation="number" data-value="{{total_temuan(1,$tahun,$det->kode_sumber)}}">{{total_temuan(1,$tahun,$det->kode_sumber)}}</span></h3>
+											<h3 class="m-b-10"><span data-animation="number" data-value="{{total_temuan($kode,$tahun,$det->kode_sumber)}}">{{total_temuan($kode,$tahun,$det->kode_sumber)}}</span></h3>
 											<img src="{{url('assets/assets/img/svg/img-1.svg')}}" width="70%" class="d-none d-lg-block" />
 											
 										</div>
@@ -57,30 +58,30 @@
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-red" data-animation="width" data-value="{{round(total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
+													<div class="progress-bar  bg-red" data-animation="width" data-value="{{round(total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}%"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_nol(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}">{{total_temuan_nol($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 
 										<div class="m-b-2 text-truncate">Dalam Progres</div>
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-yellow" data-animation="width" data-value="{{round(total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%"></div>
+													<div class="progress-bar  bg-yellow" data-animation="width" data-value="{{round(total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}%" style="width: {{total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}%"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}">{{total_temuan_progres(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}" style="width: {{total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}">{{total_temuan_progres($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 
 										<div class="m-b-2 text-truncate">Selesai</div>
 										<div class="d-flex align-items-center m-b-2">
 											<div class="flex-grow-1">
 												<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-													<div class="progress-bar  bg-green" data-animation="width" data-value="{{round(total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}%;"></div>
+													<div class="progress-bar  bg-green" data-animation="width" data-value="{{round(total_temuan_selesai($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}%" style="width: {{total_temuan_selesai($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}%;"></div>
 												</div>
 											</div>
-											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber)))}}">{{total_temuan_selesai(1,$tahun,$det->kode_sumber)*(100/total_temuan(1,$tahun,$det->kode_sumber))}}</span>%</div>
+											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_selesai($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber)))}}">{{total_temuan_selesai($kode,$tahun,$det->kode_sumber)*(100/total_temuan($kode,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
 										<a href="#" class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2" data-toggle="collapse" data-target="#collapse{{$det->kode_sumber}}" aria-expanded="false">View Detail</a>
 									
@@ -103,28 +104,28 @@
 													<tr>
 														<td class="ttdd" width="40%">Total Temuan</td>
 														<td class="ttdd" width="5%">:</td>
-														<td class="ttdd">{{total_temuan(1,$tahun,$det->kode_sumber)}}</td>
+														<td class="ttdd">{{total_temuan($kode,$tahun,$det->kode_sumber)}}</td>
 													</tr>
 													<tr>
 														<td class="ttdd">Belum TL</td>
 														<td class="ttdd">:</td>
-														<td class="ttdd">{{total_temuan_nol(1,$tahun,$det->kode_sumber)}}</td>
+														<td class="ttdd">{{total_temuan_nol($kode,$tahun,$det->kode_sumber)}}</td>
 													</tr>
 													<tr>
 														<td class="ttdd">Progres</td>
 														<td class="ttdd">:</td>
-														<td class="ttdd">{{total_temuan_progres(1,$tahun,$det->kode_sumber)}}</td>
+														<td class="ttdd">{{total_temuan_progres($kode,$tahun,$det->kode_sumber)}}</td>
 													</tr>
 													<tr>
 														<td class="ttdd">Selesai</td>
 														<td class="ttdd">:</td>
-														<td class="ttdd">{{total_temuan_selesai(1,$tahun,$det->kode_sumber)}}</td>
+														<td class="ttdd">{{total_temuan_selesai($kode,$tahun,$det->kode_sumber)}}</td>
 													</tr>
 													<tr>
 														<td class="ttdd">Indikator</td>
 														<td class="ttdd">:</td>
 														<td class="ttdd">
-															@if(total_temuan(1,$tahun,$det->kode_sumber)==total_temuan_selesai(1,$tahun,$det->kode_sumber))
+															@if(total_temuan($kode,$tahun,$det->kode_sumber)==total_temuan_selesai($kode,$tahun,$det->kode_sumber))
 																<span class="btn btn-sm btn-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
 															@else
 																<span class="btn btn-sm btn-yellow" style="background:#6a7881">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
@@ -157,7 +158,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														@foreach(detail_temuan_get(1,$tahun,$det->kode_sumber) as $no=>$get)
+														@foreach(detail_temuan_get($kode,$tahun,$det->kode_sumber) as $no=>$get)
 															<tr>
 																<td>{{$no+1}}</td>
 																<td>{{$get->unitkerja['name']}}</td>
@@ -220,7 +221,12 @@
 
 <script>
 	function pilih_tahun(tahun){
-		location.assign("{{url('home')}}?tahun="+tahun);
+		var kode=$('#kode').val();
+		location.assign("{{url('DashboardStia02')}}?tahun="+tahun+"&kode="+kode);
+	}
+	function pilih_kode(kode){
+		var tahun=$('#tahun').val();
+		location.assign("{{url('DashboardStia02')}}?tahun="+tahun+"&kode="+kode);
 	}
 </script>
 <script>

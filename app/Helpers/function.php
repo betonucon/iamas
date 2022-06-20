@@ -1291,6 +1291,17 @@ function unit_pimpinan($kode){
     $view=$data['pimpinan'];
     return $view;
 }
+function name_jabatan($kode){
+   if($kode==1){
+     return 'Direktur'; 
+   }
+   if($kode==2){
+     return 'General Manager'; 
+   }
+   if($kode==3){
+     return 'Manager'; 
+   }
+}
 function nama_unit($kode){
     $cek=App\Unitkerja::where('kode',$kode)->count();
     if($cek>0){
@@ -1335,6 +1346,40 @@ function progres_surattugas_perunit($tahun,$id){
 
 function src_get(){
     $data=App\User::whereIn('posisi_id',array('1','2','12','7'))->orderBy('name','Asc')->get();
+    return $data;
+}
+function get_tiket_auditee($tahun){
+    $data=App\Tiket::where('nik',Auth::user()['nik'])->where('tahun',$tahun)->orderBy('id','Asc')->get();
+    return $data;
+}
+function get_subdit($kode){
+    $data=App\Unitkerja::where('unit_atasan',$kode)->where('unit_id','!=',5)->orderBy('id','Asc')->get();
+    return $data;
+}
+function get_divisi($kode){
+    $data=App\Unitkerja::where('unit_atasan',$kode)->where('unit_id','!=',5)->orderBy('id','Asc')->get();
+    return $data;
+}
+function total_infromasi($tahun,$id){
+   if($id==1){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',1)->where('tahun',$tahun)->count();
+   }
+   if($id==2){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',2)->where('tahun',$tahun)->where('sts','>',1)->count();
+   }
+   if($id==3){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',4)->where('tahun',$tahun)->count();
+   }
+   if($id==4){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',5)->where('tahun',$tahun)->count();
+   }
+   if($id==5){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',6)->where('tahun',$tahun)->count();
+   }
+   if($id==6){
+      $data=App\Tiket::where('nik',Auth::user()['nik'])->where('tahun',$tahun)->count();
+   }
+    
     return $data;
 }
 function aproval_get(){
@@ -1394,13 +1439,15 @@ function cek_unit(){
    $data=App\Unitkerja::where('nik_atasan',Auth::user()['nik'])->count();
    return $data;
 }
+
 function get_unit_switch(){
    $data=App\Unitkerja::where('nik_atasan',Auth::user()['nik'])->get();
    return $data;
 }
 function array_audite(){
+   $data="";
    if(Auth::user()['jabatan']==1){
-      $data="";
+      
       $dir=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
       $subdit=App\Unitkerja::where('unit_atasan',$dir['kode'])->get();
       $data.='<option value="'.$dir['kode'].'">'.$dir['name'].'</option>';
@@ -1415,7 +1462,7 @@ function array_audite(){
       
    }
    if(Auth::user()['jabatan']==2){
-      $data="";
+      
       $subdit=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
       $data.='<option value="'.$subdit['kode'].'">'.$subdit['name'].'</option>';
       $divisi=App\Unitkerja::where('unit_atasan',$subdit['kode'])->get();
@@ -1426,8 +1473,14 @@ function array_audite(){
 
    }
    if(Auth::user()['jabatan']==3){
-      $subdit=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
-      $data.='<option value="'.$subdit['kode'].'">'.$subdit['name'].'</option>';
+      $cek=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->count();
+      if($cek>0){
+         $subdit=App\Unitkerja::where('kode',Auth::user()['kode_unit'])->first();
+         $data.='<option value="'.$subdit['kode'].'">'.$subdit['name'].'</option>';
+      }else{
+         $data.='';
+      }
+      
 
 
    }
@@ -1585,6 +1638,64 @@ function temuan_auditee_get(){
    $data=App\Rekomendasi::whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->get();
    return $data;
 }
+function total_lhk($kode,$tahun,$act){
+   if($act==1){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->count();
+   }
+   if($act==2){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->wherenotIn('sts_tl',array('B','S'))->count();
+   }
+   if($act==3){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->where('sts_tl','S')->count();
+   }
+   if($act==4){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->where('sts_tl','B')->count();
+   }
+   
+   return $data;
+}
+function total_lhp($kode,$tahun,$act){
+   if($act==1){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->count();
+   }
+   if($act==2){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->wherenotIn('sts_tl',array('B','S'))->count();
+   }
+   if($act==3){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->where('sts_tl','S')->count();
+   }
+   if($act==4){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->where('sts_tl','B')->count();
+   }
+   return $data;
+}
+function total_lha($kode,$tahun,$act){
+   if($act==1){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->count();
+   }
+   if($act==2){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->wherenotIn('sts_tl',array('B','S'))->count();
+   }
+   if($act==3){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->where('sts_tl','S')->count();
+   }
+   if($act==4){
+      $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->where('sts_tl','B')->count();
+   }
+   return $data;
+}
+
+function detail_unit($id){
+   if($id==1){
+      return 'Direktorat';
+   }
+   if($id==2){
+      return 'Division';
+   }
+   if($id==3){
+      return 'Department';
+   }
+}
 function total_temuan($kode,$tahun,$kode_sumber){
    if($kode==1){
       $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->count();
@@ -1634,7 +1745,8 @@ function headtemuan_auditee_get($kode,$tahun){
    if($kode=='0'){
       $data=App\Rekomendasi::select('kode_sumber')->where('sts','>',0)->groupBy('kode_sumber')->get();
    }else{
-      $data=App\Rekomendasi::select('kode_sumber')->whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->groupBy('kode_sumber')->get();
+      // $data=App\Rekomendasi::select('kode_sumber')->whereIn('kode_unit',array_temuan_auditee())->where('sts','>',0)->groupBy('kode_sumber')->get();
+      $data=App\Rekomendasi::select('kode_sumber')->where('kode_unit',$kode)->where('sts','>',0)->groupBy('kode_sumber')->get();
    }
    
    return $data;

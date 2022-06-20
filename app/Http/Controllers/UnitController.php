@@ -14,8 +14,10 @@ class UnitController extends Controller
         return view('unitkerja.index',compact('menu','side'));
     }
     public function switch_akun(request $request){
+        $unit=Unitkerja::where('kode',$request->kode)->first();
         $data=User::where('id',Auth::user()['id'])->update([
-            'kode_unit'=>$request->kode
+            'kode_unit'=>$request->kode,
+            'jabatan'=>$unit['unit_id'],
         ]);
     }
     public function get_unit(request $request){

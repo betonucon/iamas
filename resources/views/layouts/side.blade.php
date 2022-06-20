@@ -1,9 +1,28 @@
 <ul class="nav">
         <li class="nav-header">Navigation</li>
             @if(Auth::user()->role_id==8)
-            <li><a href="{{url('home')}}"><i class="fa fa-th-large"></i><span>Dashboard</span></a></li>
-            <li><a href="{{url('DashboardStia02')}}"><i class="fa fa-th-large"></i><span>Dashboard Temuan</span></a></li>
-            <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                <li class="has-sub ">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        <i class="fa fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <ul class="sub-menu" style="display: @if($side=='home') block @endif;">
+                        <li><a href="{{url('home')}}"><span>Informasi </span></a></li>
+                        <li><a href="{{url('DashboardStia02')}}"><span>Temuan</span></a></li>
+                        @if(Auth::user()->jabatan==1)
+                            <li><a href="{{url('Dashboardall')}}"><span>Temuan Direktorat</span></a></li>
+                        
+                        @endif
+                        @if(Auth::user()->jabatan==2)
+                            <li><a href="{{url('Dashboardall')}}"><span>Temuan Corporate</span></a></li>
+                        
+                        @endif
+                    </ul>
+                </li>
+                
+                <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+               
             @else
             <li class="has-sub ">
                 <a href="javascript:;">

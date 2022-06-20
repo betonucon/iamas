@@ -55,7 +55,7 @@
 											@if($data->sts==1)
 												<font color="#000">On Proses</font>
 											@else
-												<font color="blue">Selesai</font>
+												<font color="blue">Tercatat</font>
 											@endif
 											
 										</td>

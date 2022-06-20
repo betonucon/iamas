@@ -174,8 +174,14 @@
 							</div>
 							<div class="info" style="font-size:11px">
 								{{Auth::user()->name}}
+								@if(Auth::user()->role_id==8)
+								<small>{{nama_unit(Auth::user()->kode_unit)}}</small>
+								<small>Akun {{name_jabatan(Auth::user()->jabatan)}}</small>
+								@else
 								<small>{{Auth::user()->posisi['name']}}</small>
 								<small>{{Auth::user()->role['name']}}</small>
+								@endif
+								
 							</div>
 						</a>
 					</li>

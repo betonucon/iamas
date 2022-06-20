@@ -763,7 +763,7 @@ class TiketController extends Controller
                     $upddata=Tiket::where('id',$request->id)->update([
                         'nomorlaporan'=>$nomorlaporan,
                         'kode_laporan'=>$request->kode_laporan,
-                        'sts'=>4,
+                        'sts'=>6,
                         'kodifikasi_laporan'=>$request->kodifikasi,
                         
                     ]);
@@ -799,7 +799,10 @@ class TiketController extends Controller
     }
     public function approve_head(request $request){
         
-            
+            $upddata=Tiket::where('id',$request->id)->update([
+                'sts'=>7,
+                
+            ]);
             $surattugas=Surattugas::where('tiket_id',$request->id)->update([
                 'tanggal_tiket_approve_head'=>date('Y-m-d'),
                 'sts'=>5,

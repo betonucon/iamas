@@ -60,7 +60,7 @@
 											<span onclick="cek_revisi(`{{$data->alasan}}`)" class="btn btn-purple btn-sm">Revisi</span> 
 											
 											@else
-												<font color="blue">Selesai</font>
+												<font color="blue">Tercatat</font>
 											@endif
 											
 										</td>

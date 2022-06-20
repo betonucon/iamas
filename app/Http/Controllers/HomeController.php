@@ -58,7 +58,37 @@ class HomeController extends Controller
             }else{
                 $tahun=$request->tahun;
             }
-            return view('home_temuan',compact('menu','tahun','side'));
+            if($request->kode==''){
+                $kode=Auth::user()['kode_unit'];
+            }else{
+                $kode=$request->kode;
+            }
+            // dd(headtemuan_auditee_get($kode,$tahun));
+            return view('home_temuan',compact('menu','tahun','side','kode'));
+
+        }else{
+            
+        }
+            
+    }
+    public function index_temuan_all(request $request)
+    {   
+        error_reporting(0);
+        if(Auth::user()['role_id']==8){
+            $menu='Dashboard Temuan';
+            $side="temuan";
+            if($request->tahun==''){
+                $tahun=date('Y');
+            }else{
+                $tahun=$request->tahun;
+            }
+            if($request->kode==''){
+                $kode=Auth::user()['kode_unit'];
+            }else{
+                $kode=$request->kode;
+            }
+            // dd(headtemuan_auditee_get($kode,$tahun));
+            return view('homeall',compact('menu','tahun','side','kode'));
 
         }else{
             
