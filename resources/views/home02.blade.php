@@ -121,6 +121,7 @@
 										<th width="10%">PROGRES 3</th>
 										<th width="10%">PROGRES 4</th>
 										<th width="10%">PROGRES 5</th>
+										<th width="3%">FILE</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -159,6 +160,13 @@
 											<td>
 												@if($get->sts>6)
 													<button type="button" class="btn btn-blue btn-xs">Selesai</button>
+												@else
+													
+												@endif
+											</td>
+											<td>
+												@if($get->sts>6)
+													<button type="button" class="btn btn-grey btn-xs" title="Lampiran {{$get->lampiran_tiket}}" onclick="location.assign(`{{url('_file_lampiran/'.$get->lampiran_tiket)}}`)"><i class="fas fa-clone"></i></button>
 												@else
 													
 												@endif

@@ -82,7 +82,12 @@ function selisih_all($mulai,$sampai){
        $end++;
        $i++;
    }  
-   return ($x+1);
+   if($x==0){
+      return ($x+1);
+   }else{
+      return $x;
+   }
+   
 }
 function selisih_hari($mulai,$sampai){
    $begin = new DateTime($mulai);
@@ -724,8 +729,13 @@ function tanggal_tl($nomortl){
    
 }
 function sts_tl_auditee($sts){
-   $exp=substr($sts,1);
-   return 'P'.($exp-1);
+   $tot=strlen($sts);
+   if($tot>1){
+      $exp=substr($sts,1);
+      return 'P'.($exp-1);
+   }else{
+      return $sts;
+   }
 }
 function cek_disposisi($id){
    $cek=App\Disposisi::where('rekomendasi_id',$id)->count();
@@ -1705,12 +1715,25 @@ function total_temuan($kode,$tahun,$kode_sumber){
    
    return $data;
 }
+function total_temuan_kode($kode,$tahun,$kode_sumber){
+  
+   $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('sts','>',0)->count();
+   
+   return $data;
+}
 function total_temuan_progres($kode,$tahun,$kode_sumber){
    if($kode==1){
       $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->whereIn('kode_unit',array_temuan_auditee())->whereNotIn('sts_tl',array('B','S'))->count();
    }else{
       $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->whereNotIn('sts_tl',array('B','S'))->count();
    }
+   
+   return $data;
+}
+function total_temuan_progres_kode($kode,$tahun,$kode_sumber){
+  
+   $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->where('kode_unit',$kode)->whereNotIn('sts_tl',array('B','S'))->count();
+   
    
    return $data;
 }
@@ -1721,6 +1744,10 @@ function detail_temuan_get($kode,$tahun,$kode_sumber){
       $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)->where('sts','>',0)->get();
    }
    
+   return $data;
+}
+function detail_temuan_get_kode($kode,$tahun,$kode_sumber){
+   $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('sts','>',0)->get();
    return $data;
 }
 function total_temuan_selesai($kode,$tahun,$kode_sumber){
@@ -1741,6 +1768,15 @@ function total_temuan_nol($kode,$tahun,$kode_sumber){
    
    return $data;
 }
+function total_temuan_selesai_kode($kode,$tahun,$kode_sumber){
+   $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('sts_tl','S')->count();
+   
+   return $data;
+}
+function total_temuan_nol_kode($kode,$tahun,$kode_sumber){
+   $data=App\Rekomendasi::where('kode_sumber',$kode_sumber)->where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('sts_tl','B')->count();
+   return $data;
+}
 function headtemuan_auditee_get($kode,$tahun){
    if($kode=='0'){
       $data=App\Rekomendasi::select('kode_sumber')->where('sts','>',0)->groupBy('kode_sumber')->get();
@@ -1749,6 +1785,10 @@ function headtemuan_auditee_get($kode,$tahun){
       $data=App\Rekomendasi::select('kode_sumber')->where('kode_unit',$kode)->where('sts','>',0)->groupBy('kode_sumber')->get();
    }
    
+   return $data;
+}
+function headtemuan_auditee_get_kode($kode,$tahun){
+   $data=App\Rekomendasi::select('kode_sumber')->where('kode_unit',$kode)->where('sts','>',0)->groupBy('kode_sumber')->get();
    return $data;
 }
 function temuan_rcd_get(){

@@ -64,7 +64,7 @@ class HomeController extends Controller
                 $kode=$request->kode;
             }
             // dd(headtemuan_auditee_get($kode,$tahun));
-            return view('home_temuan',compact('menu','tahun','side','kode'));
+            return view('home_temuanall',compact('menu','tahun','side','kode'));
 
         }else{
             
