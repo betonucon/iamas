@@ -234,11 +234,11 @@ class TiketController extends Controller
         foreach(sumbertiket_get($request->kode_aktivitas) as $x=>$sumbertiket_get){
             if($x%2==0){$color="alert-lime";}else{$color="alert-pink";}
             echo'
-            <div class="col-md-12" style="padding-top:1%;cursor: pointer;" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`)">
+            <div class="col-md-12" style="padding-top:1%;cursor: pointer;" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`,`'.$sumbertiket_get->kode_sumber.'`)">
                 <div class="alert  '.$color.' fade show m-b-10">
-                    <span class="close" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`)"><i class="fas fa-check-square"></i></span>
+                    <span class="close" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`,`'.$sumbertiket_get->kode_sumber.'`)"><i class="fas fa-check-square"></i></span>
                     <h5> Kode Informasi : '.$sumbertiket_get->nomorinformasi.' </h5>
-                    <a href="#" style="font-weight: 100;" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`)" class="alert-link">
+                    <a href="#" style="font-weight: 100;" onclick="cek_pilih_sumber(`['.$sumbertiket_get->nomorinformasi.'] '.$sumbertiket_get->judul.' `,`'.$sumbertiket_get->id.'`,`'.$sumbertiket_get->kode_unit.'`,`'.nama_unit($sumbertiket_get->kode_unit).'`,`'.$sumbertiket_get->judul.'`,`'.$sumbertiket_get->kode_sumber.'`)" class="alert-link">
                         <b>'.$sumbertiket_get->judul.'</b><br>
                         '.$sumbertiket_get->keterangan.'
                     </a>.
@@ -1349,6 +1349,7 @@ class TiketController extends Controller
     }
 
     public function surattugas (request $request){
+        error_reporting(0);
         $data=Tiket::where('id',$request->id)->first();
         $tim=Timaudit::where('tiket_id',$request->id)->orderBy('id','Asc')->get();
         $pdf = PDF::loadView('pdf.surattugas', compact('data','tim'));

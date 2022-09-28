@@ -504,14 +504,26 @@
 			$('#modalsumber').modal('toggle');
 		}
 
-		function cek_pilih_sumber(a,id,kode_unit,nama_unit,judul){
+		function cek_pilih_sumber(a,id,kode_unit,nama_unit,judul,kode_sumber){
 			var kode_aktivitas=$('#kode_aktivitas').val();
+			alert(kode_aktivitas)
 			$('#sumbernya').val(a);
 			$('#tiket_id').val(id);
 			if(kode_aktivitas=='04' || kode_aktivitas=='05' || kode_aktivitas=='06'){
-				$('#kode_unit').html('<option value="'+kode_unit+'">'+nama_unit+'</option>');
-				$('#judul_1').val(judul);
-				$('#judul_2').val(judul);
+				if(kode_aktivitas=='05'){
+					if(kode_sumber=='I1'){
+
+					}else{
+						$('#kode_unit').html('<option value="'+kode_unit+'">'+nama_unit+'</option>');
+						$('#judul_1').val(judul);
+						$('#judul_2').val(judul);
+					}
+				}else{
+					$('#kode_unit').html('<option value="'+kode_unit+'">'+nama_unit+'</option>');
+					$('#judul_1').val(judul);
+					$('#judul_2').val(judul);
+				}
+				
 				
 			}
 			
