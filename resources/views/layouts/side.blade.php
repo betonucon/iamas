@@ -8,7 +8,7 @@
                         <span>Dashboard</span>
                     </a>
                     <ul class="sub-menu" style="display: @if($side=='home') block @endif;">
-                        <li><a href="{{url('home')}}"><span>Informasi </span></a></li>
+                        <li><a href="{{url('home')}}"><span>Progress Konsultasi </span></a></li>
                         <li><a href="{{url('DashboardStia02')}}"><span>Temuan</span></a></li>
                         @if(Auth::user()->jabatan==1)
                             <li><a href="{{url('Dashboardall')}}"><span>Temuan Direktorat</span></a></li>
@@ -21,7 +21,7 @@
                     </ul>
                 </li>
                 
-                <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Input Konsultasi</span></a></li>
                
             @else
             <li class="has-sub ">
@@ -203,7 +203,7 @@
                                 LHA
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Lhaketua')}}">Program</a></li>
+                                <li><a href="{{url('/Lhaketua')}}">Draft</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -252,7 +252,7 @@
                                 LHA
                             </a>
                             <ul class="sub-menu" style="display: block;">
-                                <li><a href="{{url('/Lha')}}">Program</a></li>
+                                <li><a href="{{url('/Lha')}}">Draft</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -275,7 +275,7 @@
             @endif
             @if(Auth::user()->role_id==8)
                 <li><a href="{{url('/Temuan')}}"><i class="fa fa-clipboard"></i>
-                        <span>Draf Temuan</span>
+                        <span>Monitoring Temuan</span>
                     </a>
                 </li>
                         
