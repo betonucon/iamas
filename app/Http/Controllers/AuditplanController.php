@@ -13,24 +13,28 @@ use Illuminate\Support\Facades\Hash;
 class AuditplanController extends Controller
 {
     public function index(request $request){
+        error_reporting(0);
         $menu='AuditPlan';
         $side="auditpengawas";
         return view('Auditplan.index',compact('menu','side'));
     }
 
     public function index_acc(request $request){
+        error_reporting(0);
         $menu='AuditPlan';
         $side="audithead";
         return view('Auditplan.index_acc',compact('menu','side'));
     }
 
     public function create(request $request){
+        error_reporting(0);
         $menu='Buat AuditPlan';
         $side="auditpengawas";
         return view('Auditplan.create',compact('menu','side'));
     }
 
     public function edit(request $request){
+        error_reporting(0);
         $side="auditpengawas";
         $data=Audit::where('tiket_id',$request->id)->first();
         
@@ -45,6 +49,7 @@ class AuditplanController extends Controller
     }
 
     public function acc(request $request){
+        error_reporting(0);
         
         $data=Audit::where('tiket_id',$request->id)->first();
         $side="audithead";
@@ -61,6 +66,7 @@ class AuditplanController extends Controller
 
     public function pilih_surat_tugas(request $request){
         error_reporting(0);
+        
         $data=Surattugas::where('tiket_id',$request->id)->first();
         $pengawas=Timaudit::where('tiket_id',$data['tiket_id'])->where('role_id',2)->first();
         $ketua=Timaudit::where('tiket_id',$data['tiket_id'])->where('role_id',1)->first();
@@ -83,12 +89,14 @@ class AuditplanController extends Controller
 
     
     public function send_to_head(request $request){
+        error_reporting(0);
         $data=Audit::where('id',$request->id)->update([
             'sts'=>2,
             'tgl_sts2'=>date('Y-m-d'),
         ]);
     }
     public function save(request $request){
+        error_reporting(0);
 
         if (trim($request->tiket_id) == '') {$error[] = '- Pilih Surat Tugas';}
         if (trim($request->tujuan) == '') {$error[] = '- Isi Tujuan';}
@@ -166,6 +174,7 @@ class AuditplanController extends Controller
     }
 
     public function update(request $request){
+        error_reporting(0);
         if (trim($request->name) == '') {$error[] = '- Isi Nama Obyek';}
         if (trim($request->tgl_penerbitan) == '') {$error[] = '- Isi Tanggal Penerbitan';}
         if (trim($request->tgl_plan) == '') {$error[] = '- Isi Tanggal Persetujuan Auditplan';}
@@ -218,6 +227,7 @@ class AuditplanController extends Controller
     }
 
     public function acc_head(request $request){
+        error_reporting(0);
         if (trim($request->sts) == '') {$error[] = '- Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -240,6 +250,7 @@ class AuditplanController extends Controller
 
     public function hapus(request $request){
         error_reporting(0);
+        
         $count=count($request->id);
         if (trim($count) == 0) {$error[] = '- Pilih Unit Kerja';}
         if (isset($error)) {echo implode('<br />', $error);} 
@@ -249,6 +260,7 @@ class AuditplanController extends Controller
     }
 
     public function file(request $request){
+        error_reporting(0);
         $data=Audit::where('id',$request->id)->first();
         $tim=Timaudit::where('tiket_id',$data['tiket_id'])->where('role_id','!=',6)->orderBy('id','Asc')->get();
         $pdf = PDF::loadView('pdf.auditplan', compact('data','tim'));

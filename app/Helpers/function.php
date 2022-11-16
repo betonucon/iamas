@@ -1400,6 +1400,10 @@ function unitkerja_get(){
     $data=App\Unitkerja::whereIn('unit_id',array(1,2,3))->orderBy('name','Asc')->get();
     return $data;
 }
+function unitkerja_all_get(){
+    $data=App\Unitkerja::whereIn('unit_id',array(1,2,3,6))->orderBy('name','Asc')->get();
+    return $data;
+}
 function katua_get(){
     $data=App\User::whereIn('posisi_id',array('2','7','12','3','4','5','6'))->orderBy('name','Asc')->get();
     return $data;
@@ -1522,7 +1526,7 @@ function array_tiket_head(){
       ->get()
       ->toArray(),'tiket_id'
    );
-    return $data;
+   return $data;
 }
 
 function array_audit_anggota(){

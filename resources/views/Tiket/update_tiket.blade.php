@@ -118,10 +118,10 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja</label>
 											<div class="col-lg-9 col-xl-6">
-												<select class="default-select2 form-control" disabled placeholder="Pilih Unit Kerja">
+												<select class="default-select2 form-control" name="kode_unit" placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Unit Kerja</option>
-													@foreach(unitkerja_get() as $no=>$unitkerja_get)
-														<option value="{{$unitkerja_get->kode}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode_unit) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
+													@foreach(unitkerja_all_get() as $no=>$unitkerja_get)
+														<option value="{{$unitkerja_get->kode}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
 													@endforeach
 													
 												</select>
@@ -130,7 +130,7 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Katagori Audit</label>
 											<div class="col-lg-9 col-xl-9">
-												<select class="default-select2 form-control" disabled  placeholder="Pilih Unit Kerja">
+												<select class="default-select2 form-control" name="kode"  placeholder="Pilih Kategori">
 													<option value="">--Pilih Katagori Audit</option>
 													@foreach(kodesurat_get() as $no=>$kodesurat_get)
 														<option value="{{$kodesurat_get->kode}}" @if($data->surattugas['kode']==$kodesurat_get->kode) selected @endif>[{{$kodesurat_get->kode}}] {{ucwords($kodesurat_get->keterangan)}}</option>
@@ -148,13 +148,13 @@
 												<input type="text" class="form-control"  name="sampai"  value="{{$data->surattugas['sampai']}}" id="tanggalpicker2" placeholder="Ketik...">
 											</div>
 										</div>
-										<div class="form-group row m-b-10" >
+										<!-- <div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Catatan Penting</label>
 											<div class="col-lg-9 col-xl-9">
 												<textarea class="textarea form-control" name="catatan" id="textareacatatan" placeholder="Enter text ..." rows="8">{!!$data->surattugas['catatan']!!}</textarea>
 											</div>
 											
-										</div>
+										</div> -->
 									</div>
 								</div>
 								<div class="tab-pane fade" id="default-tab-3">
@@ -508,7 +508,7 @@
 					},
                     success: function(msg){
                         if(msg=='ok'){
-                            location.reload();
+                            location.assign("{{url('TiketNew')}}");
                                
                         }else{
                             document.getElementById("loadnya").style.width = "0px";

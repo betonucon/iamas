@@ -46,7 +46,7 @@
 								@foreach(tiket_get('0') as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
-										<td width="1%" class="with-img"><input value="{{$data->nik}}" type="checkbox" name="id[]"></td>
+										<td width="1%" class="with-img"><input value="{{$data->id}}" @if($data->sts==0) @else disabled @endif type="checkbox" name="id[]"></td>
 										<td>{{$data->nomorinformasi}}</td>
 										<td>{{$data->judul}}</td>
 										<td>[{{$data->kode_sumber}}] {{$data->sumber['name']}}</td>

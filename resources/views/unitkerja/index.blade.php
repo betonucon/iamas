@@ -38,7 +38,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(unitkerja_get('0') as $no=>$data)
+								@foreach(unitkerja_all_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->kode}}" type="checkbox" name="id[]"></td>
@@ -82,6 +82,16 @@
 							<div class="form-group">
 								<label for="exampleInputEmail1">Nama Unit Kerja</label>
 								<input type="text" class="form-control" name="name"  placeholder="Enter..">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Tingkat Unit</label>
+								<select class="form-control" name="unit_id"  placeholder="Enter..">
+									<option value="">Pilih----</option>
+									<option value="1">Direktorat</option>
+									<option value="2">Subdit</option>
+									<option value="3">Divisi</option>
+									<option value="6">Anak Perusahaan</option>
+								</select>
 							</div>
 							<div class="form-group">
             					<label for="exampleInputEmail1">Pimpinan</label>

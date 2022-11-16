@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 class TemuanController extends Controller
 {
     public function index(request $request){
+        error_reporting(0);
         $menu='Temuan';
         $side="temuan";
         if($request->tahun==""){
@@ -34,6 +35,7 @@ class TemuanController extends Controller
     }
 
     public function proses(request $request){
+        error_reporting(0);
         
         if(Auth::user()['role_id']==8){
             $data=Rekomendasi::where('id',encoder($request->id))->first();
@@ -57,6 +59,7 @@ class TemuanController extends Controller
     }
 
     public function prosesanggota(request $request){
+        error_reporting(0);
         
         if(akses_tiket_anggota()>0){
             $data=Rekomendasi::where('id',encoder($request->id))->first();
@@ -71,6 +74,7 @@ class TemuanController extends Controller
     }
 
     public function prosesketua(request $request){
+        error_reporting(0);
         
         if(akses_tiket_ketua()>0){
             $data=Rekomendasi::where('id',encoder($request->id))->first();
@@ -85,6 +89,7 @@ class TemuanController extends Controller
     }
 
     public function prosespengawas(request $request){
+        error_reporting(0);
         
         if(akses_tiket_pengawas()>0){
             $data=Rekomendasi::where('id',encoder($request->id))->first();
@@ -99,6 +104,7 @@ class TemuanController extends Controller
     }
 
     public function index_anggota(request $request){
+        error_reporting(0);
         $menu='Temuan';
         $side="temuan";
         if(akses_tiket_anggota()>0){
@@ -111,6 +117,7 @@ class TemuanController extends Controller
         
     }
     public function index_rcd(request $request){
+        error_reporting(0);
         $menu='Temuan';
         $side="temuan";
         // if(akses_tiket_anggota()>0){
@@ -123,6 +130,7 @@ class TemuanController extends Controller
         
     }
     public function index_temuan_head(request $request){
+        error_reporting(0);
         $menu='Temuan';
         $side="temuan";
         // if(akses_tiket_anggota()>0){
@@ -136,6 +144,7 @@ class TemuanController extends Controller
     }
 
     public function index_temuan_ketua(request $request){
+        error_reporting(0);
         $menu='Temuan ';
         $side="temuan";
         if(akses_tiket_ketua()>0){
@@ -147,6 +156,7 @@ class TemuanController extends Controller
     }
     
     public function index_temuan_pengawas(request $request){
+        error_reporting(0);
         $menu='Temuan ';
         $side="temuan";
         if(akses_tiket_pengawas()>0){
@@ -158,6 +168,7 @@ class TemuanController extends Controller
     }
 
     public function approve(request $request){
+        error_reporting(0);
         if($request->name=='RCD'){
             $data=Rekomendasi::where('id',$request->id)->update([
                 'sts'=>3,
@@ -176,6 +187,7 @@ class TemuanController extends Controller
     }
 
     public function send_data(request $request){
+        error_reporting(0);
         if (trim($request->status) == '') {$error[] = '-Pilih Status';}
         if (trim($request->catatan) == '') {$error[] = '-Isi Catatan ';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
@@ -254,6 +266,7 @@ class TemuanController extends Controller
     }
 
     public function send_data_head(request $request){
+        error_reporting(0);
         if (trim($request->status) == '') {$error[] = '-Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -283,6 +296,7 @@ class TemuanController extends Controller
     }
 
     public function send_data_akhir(request $request){
+        error_reporting(0);
         if (trim($request->status) == '') {$error[] = '-Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -314,6 +328,7 @@ class TemuanController extends Controller
     }
 
     public function simpan(request $request){
+        error_reporting(0);
         $cekcreate=Rekomendasi::where('id',$request->id)->first();
         if($cekcreate['sts']==1){
             $aktivitas='08';
@@ -593,6 +608,7 @@ class TemuanController extends Controller
     }
 
     public function cetak(request $request){
+        error_reporting(0);
         $data=Rekomendasi::where('id',$request->id)->first();
         $pdf = PDF::loadView('temuan.cetak', compact('data'));
         $pdf->setPaper('A4', 'Potrait');

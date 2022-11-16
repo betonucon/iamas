@@ -20,6 +20,6 @@ class Judul extends Model
     ];
 
     function unitkerja(){
-        return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');
+        return $this->belongsTo('App\Unitkerja','kode_unit','kode');
     }
 }

@@ -137,6 +137,7 @@ class UnitController extends Controller
 
         if (trim($request->kode) == '') {$error[] = '- Isi Kode Unit Kerja';}
         if (trim($request->name) == '') {$error[] = '- Isi Nama Unit Kerja';}
+        if (trim($request->unit_id) == '') {$error[] = '- Isi Tingkatan Unit Kerja';}
         if (trim($request->nik) == '') {$error[] = '- Isi NIK Pimpinan';}
         if (trim($request->nama_atasan) == '') {$error[] = '- Isi Nama Pimpinan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
@@ -149,6 +150,7 @@ class UnitController extends Controller
                     'kode'=>$request->kode,
                     'name'=>$request->name,
                     'nik'=>$request->nik,
+                    'unit_id'=>$request->unit_id,
                     'nama_atasan'=>$request->nama_atasan,
                     'position_name'=>$request->position_name,
                 ]);

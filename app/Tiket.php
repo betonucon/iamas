@@ -8,40 +8,7 @@ class Tiket extends Model
 {
     protected $table = 'tiket';
     public $timestamps = false;
-    protected $fillable = [
-        'id',
-        'kode_sumber',
-        'bulan',
-        'tahun',
-        'tanggal',
-        'nomorinformasi',
-        'aktivitas_id',
-        'judul',
-        'keterangan',
-        'lampiran',
-        'nik',
-        'sts',
-        'alasan',
-        'judul_tiket',
-        'keterangan_tiket',
-        'lampiran_tiket',
-        'bulan_tiket',
-        'tahun_tiket',
-        'nomortiket',
-        'kodifikasi',
-        'rekomendasi',
-        'tanggal_create_sumber',
-        'tanggal_create_approve',
-        'kode_aktivitas',
-        'kodifikasi_rekomendasi',
-        'kode_laporan',
-        'tanggal_tiket_approve_head',
-        'catatan_tiket',
-        'lokasi_id',
-        'kode_unit',
-        
-
-    ];
+    protected $guarded = ['id'];
 
     function sumber(){
 		  return $this->belongsTo('App\Sumber','kode_sumber','kode');

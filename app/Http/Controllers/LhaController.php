@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 class LhaController extends Controller
 {
     public function index(request $request){
+        error_reporting(0);
         $menu='LHA';
         if(akses_tiket_ketua()>0 || akses_tiket_anggota()>0){
             $side="auditpengawas";
@@ -35,6 +36,7 @@ class LhaController extends Controller
         
     }
     public function index_ketua(request $request){
+        error_reporting(0);
         $menu='LHA';
         $side="auditpengawas";
         return view('LHA.index_ketua',compact('menu','side'));
@@ -42,12 +44,14 @@ class LhaController extends Controller
     }
 
     public function index_acc(request $request){
+        error_reporting(0);
         $menu='LHA';
         $side="audithead";
         return view('LHA.index_acc',compact('menu','side'));
     }
 
     public function create(request $request){
+        error_reporting(0);
         $id=encoder($request->id);
         $act=$request->act;
         $data=Audit::where('id',$id)->first();
@@ -76,6 +80,7 @@ class LhaController extends Controller
             
     }
     public function view_head(request $request){
+        error_reporting(0);
         $id=encoder($request->id);
         $data=Audit::where('id',$id)->first();
         if($request->aksi==''){
@@ -104,11 +109,13 @@ class LhaController extends Controller
             
     }
     public function view(request $request){
+        error_reporting(0);
         $id=$request->id;
         return view('LHA.view',compact('id'));
     }
     public function tampiltambahtemuan(request $request){
         error_reporting(0);
+        
         $id=$request->id;
         
         if($request->kesimpulan_id==''){
@@ -123,6 +130,7 @@ class LhaController extends Controller
     }
     public function tampiltambahrekomendasi(request $request){
         error_reporting(0);
+        
         $kesimpulan_id=$request->kesimpulan_id;
         $nomor=$request->nomor;
         
@@ -137,10 +145,12 @@ class LhaController extends Controller
         return view('LHA.modalrekomendasi',compact('kesimpulan_id','nomor','rekomendasi_id','data','act'));
     }
     public function word(request $request){
+        error_reporting(0);
         $id=$request->id;
         return view('LHA.word',compact('id'));
     }
     public function createrekomendasi(request $request){
+        error_reporting(0);
         $id=encoder($request->id);
         $act=$request->act;
         $data=Audit::where('id',$id)->first();
@@ -182,6 +192,7 @@ class LhaController extends Controller
     }
 
     public function edit(request $request){
+        error_reporting(0);
         $side="auditpengawas";
         $data=Audit::where('tiket_id',$request->id)->first();
         $lha=Lha::where('tiket_id',$request->id)->first();
@@ -196,6 +207,7 @@ class LhaController extends Controller
     }
 
     public function acc(request $request){
+        error_reporting(0);
         
         $data=Lha::where('tiket_id',$request->id)->first();
         $side="audithead";
@@ -214,14 +226,17 @@ class LhaController extends Controller
    
     
     public function delete(request $request){
+        error_reporting(0);
         $data=Kesimpulan::where('id',$request->id)->delete();
         $rekomen=Rekomendasi::where('kesimpulan_id',$request->id)->delete();
     }
     public function delete_rekomendasi(request $request){
+        error_reporting(0);
         $rekomen=Rekomendasi::where('id',$request->id)->delete();
     }
 
     public function send_to_head(request $request){
+        error_reporting(0);
         $data=Audit::where('id',$request->audit_id)->update([
             'sts_lha'=>3,
             
@@ -230,6 +245,7 @@ class LhaController extends Controller
         echo'ok';
     }
     public function upload_data(request $request){
+        error_reporting(0);
         $audit=Audit::where('id',$request->audit_id)->first();
         if($request->file==""){echo'Upload file';}
         else{
@@ -256,6 +272,7 @@ class LhaController extends Controller
 
     public function send_to_pengawas(request $request){
         error_reporting(0);
+        
         $id=encoder($request->audit_id);
         if($request->sts=='0'){
             $data=Audit::where('id',$id)->update([
@@ -314,6 +331,7 @@ class LhaController extends Controller
     }
 
     public function save(request $request){
+        error_reporting(0);
         if($request->act=='New'){
             if (trim($request->audit_id) == '') {$error[] = '- Pilih Obyek Audit';}
             if (trim($request->name) == '') {$error[] = '- Lengkapi judul ';}
@@ -382,6 +400,7 @@ class LhaController extends Controller
         }
     }
     public function save_rekomendasi(request $request){
+        error_reporting(0);
         if($request->act=='New'){
             if (trim($request->kesimpulan_id) == '') {$error[] = '- Pilih Obyek Audit';}
             if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
@@ -444,6 +463,7 @@ class LhaController extends Controller
         }
     }
     public function send_data(request $request){
+        error_reporting(0);
         $data=Audit::where('id',$request->audit_id)->update([
             'sts_lha'=>1,
             'sts'=>9,
@@ -453,6 +473,7 @@ class LhaController extends Controller
     }
 
     public function update_rekomendasi(request $request){
+        error_reporting(0);
         
         if (trim($request->kode_unit) == '') {$error[] = '- Pilih unit kerja ';}
         if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
@@ -480,6 +501,7 @@ class LhaController extends Controller
     
 
     public function acc_head(request $request){
+        error_reporting(0);
         if (trim($request->sts) == '') {$error[] = '- Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -502,6 +524,7 @@ class LhaController extends Controller
 
     public function hapus(request $request){
         error_reporting(0);
+        
         $count=count($request->id);
         if (trim($count) == 0) {$error[] = '- Pilih Unit Kerja';}
         if (isset($error)) {echo implode('<br />', $error);} 
@@ -511,6 +534,7 @@ class LhaController extends Controller
     }
 
     public function file(request $request){
+        error_reporting(0);
         $data=Lha::where('id',$request->id)->first();
         $tim=TimLha::where('tiket_id',$data['tiket_id'])->where('role_id','!=',6)->orderBy('id','Asc')->get();
         $pdf = PDF::loadView('pdf.LHA', compact('data','tim'));

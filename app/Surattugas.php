@@ -8,38 +8,7 @@ class Surattugas extends Model
 {
     protected $table = 'surat_tugas';
     public $timestamps = false;
-    protected $fillable = [
-        'id',
-        'name',
-        'nomorinformasi',
-        'tiket_id',
-        'nomortiket',
-        'kode_sumber',
-        'aktivitas_id',
-        'kodifikasi',
-        'kode_aktivitas',
-        'kode_laporan',
-        'nomorlaporan',
-        'mulai',
-        'sampai',
-        'kodifikasi_laporan',
-        'kode_audit',
-        'catatan',
-        'kode',
-        'nomorsurat',
-        'bulan',
-        'tahun',
-        'tanggal',
-        'kode_unit',
-        'lokasi_id',
-        'sts',
-        'kodifikasi_rekomendasi',
-        'rekomendasi',
-        
-
-        
-
-    ];
+    protected $guarded = ['id'];
 
     function unitkerja(){
         return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');

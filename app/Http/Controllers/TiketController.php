@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class TiketController extends Controller
 {
     public function index(request $request){
-        
+        error_reporting(0);    
         if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 ){
             $menu='Sumber Informasi ';
             $side='tiket';
@@ -31,7 +31,7 @@ class TiketController extends Controller
         }
     }
     public function index_gl(request $request){
-        if(Auth::user()->posisi_id==12){
+        error_reporting(0);    if(Auth::user()->posisi_id==12){
             $menu='Sumber Informasi ';
             $side='tiket';
             return view('Tiket.index_gl',compact('menu','side'));
@@ -41,7 +41,7 @@ class TiketController extends Controller
         
     }
     public function index_hd(request $request){
-        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
+        error_reporting(0);    if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Sumber Informasi ';
             $side='tiket';
             return view('Tiket.index_hd',compact('menu','side'));
@@ -51,7 +51,7 @@ class TiketController extends Controller
         
     }
     public function index_head(request $request){
-        if(Auth::user()->posisi_id==1){
+        error_reporting(0);    if(Auth::user()->posisi_id==1){
             $menu='Sumber Informasi ';
             $side='tiket';
             return view('Tiket.index_head',compact('menu','side'));
@@ -61,7 +61,7 @@ class TiketController extends Controller
         
     }
     public function index_tiket(request $request){
-        if(Auth::user()->posisi_id==12){
+        error_reporting(0);    if(Auth::user()->posisi_id==12){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket',compact('menu','side'));
@@ -72,7 +72,7 @@ class TiketController extends Controller
     }
     
     public function create_tiket(request $request){
-        if(Auth::user()->posisi_id==12){
+        error_reporting(0);    if(Auth::user()->posisi_id==12){
             $menu='Buat Tiket ';
             $side='tiket';
             return view('Tiket.create_tiket',compact('menu','side'));
@@ -83,7 +83,7 @@ class TiketController extends Controller
     }
 
     public function view_tiket_pengawas(request $request){
-        
+        error_reporting(0);    
         $data=Tiket::find($request->id);
         $side='tiket';
         if($data->surattugas['sts']==3){
@@ -95,7 +95,7 @@ class TiketController extends Controller
         }
     }
     public function update_tiket(request $request){
-        if(Auth::user()->posisi_id==12){
+        error_reporting(0);    if(Auth::user()->posisi_id==12){
             $menu='View Tiket ';
             $side='tiket';
             $data=Tiket::find($request->id);
@@ -122,7 +122,7 @@ class TiketController extends Controller
     }
 
     public function index_anggota(request $request){
-        if(akses_tiket_anggota()>0){
+        error_reporting(0);    if(akses_tiket_anggota()>0){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_anggota',compact('menu','side'));
@@ -132,7 +132,7 @@ class TiketController extends Controller
         
     }
     public function index_ketua(request $request){
-        if(akses_tiket_ketua()>0){
+        error_reporting(0);    if(akses_tiket_ketua()>0){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_ketua',compact('menu','side'));
@@ -142,7 +142,7 @@ class TiketController extends Controller
         
     }
     public function index_pengawas(request $request){
-        if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==12){
+        error_reporting(0);    if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==12){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_pengawas',compact('menu','side'));
@@ -152,7 +152,7 @@ class TiketController extends Controller
         
     }
     public function index_acc_pengawas(request $request){
-        if(akses_tiket_pengawas()>0){
+        error_reporting(0);    if(akses_tiket_pengawas()>0){
             $menu='Approve Penyelesaian Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_accpengawas',compact('menu','side'));
@@ -162,7 +162,7 @@ class TiketController extends Controller
         
     }
     public function index_acc_head(request $request){
-        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
+        error_reporting(0);    if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='Approve Penyelesaian Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_acchead',compact('menu','side'));
@@ -172,7 +172,7 @@ class TiketController extends Controller
         
     }
     public function index_tiket_head(request $request){
-        if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
+        error_reporting(0);    if(Auth::user()->posisi_id==1 || Auth::user()->posisi_id==13){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_head',compact('menu','side'));
@@ -183,7 +183,7 @@ class TiketController extends Controller
     }
 
     public function cek_tim(request $request){
-        $data=Timaudit::where('tiket_id',$request->id)->where('role_id',2)->first();
+        error_reporting(0);    $data=Timaudit::where('tiket_id',$request->id)->where('role_id',2)->first();
         $anggota=Timaudit::where('tiket_id',$request->id)->where('role_id',3)->get();
         echo'
             <style>
@@ -229,7 +229,7 @@ class TiketController extends Controller
     }
 
     public function tampil_pilihan_sumber(request $request){
-        
+        error_reporting(0);    
         
         foreach(sumbertiket_get($request->kode_aktivitas) as $x=>$sumbertiket_get){
             if($x%2==0){$color="alert-lime";}else{$color="alert-pink";}
@@ -248,11 +248,11 @@ class TiketController extends Controller
     }
 
     public function tampil_tim(request $request){
-        
+        error_reporting(0);    
     }
 
     public function tampil_tim_lama(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $cekpengawas=Timaudit::where('tiket_id',$request->id)->where('role_id',2)->count();
         
         if($request->act==2){
@@ -316,26 +316,26 @@ class TiketController extends Controller
     }
 
     public function hapus_tim(request $request){
-        $data=Timaudit::where('id',$request->id)->delete();
+        error_reporting(0);    $data=Timaudit::where('id',$request->id)->delete();
         echo $request->tiket;
     }
 
     public function cek_sumber(request $request){
-       echo'<option value="">Pilih Sumber</option>';
+        error_reporting(0);   echo'<option value="">Pilih Sumber</option>';
        foreach(sumber_get($request->id) as $data){
            echo'<option value="'.$data['kode'].'">['.$data['kode'].'] '.$data['name'].'</option>';
        }
     }
 
     public function cek_nomor_tiket(request $request){
-        
+        error_reporting(0);    
         $bulan=date('m');
         $tahun=date('Y');
         $tahunkode=date('y');
-        $cekcount=Tiket::where('bulan',$bulan)->where('tahun',$tahun)->where('aktivitas_id','!=',3)->count();
+        $cekcount=Tiket::where('bulan',$bulan)->where('tahun',$tahun)->count();
         
         if($cekcount>0){
-            $cek=Tiket::where('bulan',$bulan)->where('tahun',$tahun)->where('aktivitas_id','!=',3)->orderBy('id','Desc')->firstOrfail();
+            $cek=Tiket::where('bulan',$bulan)->where('tahun',$tahun)->orderBy('id','Desc')->firstOrfail();
             $urutan = (int) substr($cek['nomorinformasi'], 5, 2);
             $urutan++;
             $nomor=$request->id.$tahunkode.kode_bulan($bulan).sprintf("%02s", $urutan);
@@ -348,7 +348,7 @@ class TiketController extends Controller
     }
 
     public function ubah(request $request){
-       $data=Tiket::find($request->id);
+        error_reporting(0);   $data=Tiket::find($request->id);
        echo'
        <input type="hidden" name="id" value="'.$data['id'].'">
        <div class="col-xl-10 offset-xl-1">
@@ -407,7 +407,7 @@ class TiketController extends Controller
     }
 
     public function view(request $request){
-       $data=Tiket::find($request->id);
+        error_reporting(0);   $data=Tiket::find($request->id);
        echo'
        <input type="hidden" name="id" value="'.$data['id'].'">
        <div class="col-xl-10 offset-xl-1">
@@ -466,7 +466,7 @@ class TiketController extends Controller
     }
     
     public function ubah_tiket(request $request){
-       $data=Tiket::find($request->id);
+        error_reporting(0);   $data=Tiket::find($request->id);
        echo'
        <input type="hidden" name="id" value="'.$data['id'].'">
         <div class="form-group">
@@ -492,7 +492,7 @@ class TiketController extends Controller
     }
 
     public function simpan_tim(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $jum=count($request->nik);
         
         
@@ -514,6 +514,7 @@ class TiketController extends Controller
     }
 
     public function tampil_judul(request $request){
+        error_reporting(0);    
         $data=Judul::where('tiket_id',$request->tiket_id)->get();
         echo'
             <style>
@@ -553,11 +554,11 @@ class TiketController extends Controller
     }
 
     public function hapus_judul(request $request){
-        $data=Judul::where('id',$request->id)->delete();
+        error_reporting(0);    $data=Judul::where('id',$request->id)->delete();
     }
 
     public function save_judul(request $request){
-        if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
+        error_reporting(0);    if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
         if (trim($request->kode_unit) == '') {$error[] = '- Pilih Unit Kerja';}
         if (trim($request->risiko) == '') {$error[] = '- Isi Risiko';}
         if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
@@ -581,7 +582,7 @@ class TiketController extends Controller
     }
 
     public function simpan(request $request){
-
+    error_reporting(0);
         if (trim($request->kode_sumber) == '') {$error[] = '-Pilih Sumber';}
         if (trim($request->kodifikasi) == '') {$error[] = '-Pilih kodifikasi';}
         if (trim($request->nomorinformasi) == '') {$error[] = '- Isi Kode Informasi';}
@@ -592,7 +593,7 @@ class TiketController extends Controller
         else{
             $cek=Tiket::where('nomorinformasi',$request->nomorinformasi)->count();
             if($cek>0){
-                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Kode Unit Kerja Terdaftar</p>';
+                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />Kode Informasi Terdaftar</p>';
             }else{
                 $image = $request->file('lampiran');
                 $size = $image->getSize();
@@ -630,10 +631,10 @@ class TiketController extends Controller
 
     
     public function approve_pengawas(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $tiket=Tiket::find($request->id);
-        if($tiket['kode_aktivitas']=='03'){
-            if($tiket['kode_aktivitas']=='AR'){
+        if($tiket->surattugas['kode_aktivitas']=='03'){
+            if($tiket->surattugas['kode_aktivitas']=='AR'){
                 
                 if (trim($request->kode_laporan) == '') {$error[] = '-Pilih laporan';}
                 if (trim($request->kodifikasi) == '') {$error[] = '- Pilih kodifikasi';}
@@ -798,7 +799,7 @@ class TiketController extends Controller
         }
     }
     public function approve_head(request $request){
-        
+        error_reporting(0);    
             $upddata=Tiket::where('id',$request->id)->update([
                 'sts'=>7,
                 
@@ -814,8 +815,9 @@ class TiketController extends Controller
         
     }
     public function simpan_hasil(request $request){
+        error_reporting(0);    
         $tiket=Tiket::where('id',$request->id)->first();
-        if($tiket['kode_aktivitas']=='03'){
+        if($tiket->surattugas['kode_aktivitas']=='03'){
             if($tiket['kode_sumber']=='AR'){
                 if (trim($request->kodifikasi) == '') {$error[] = '- Pilih Kodifikasi';}
                 if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
@@ -977,7 +979,7 @@ class TiketController extends Controller
     }
 
     public function simpan_tiket_lama(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $count=count($request->nik);
         for($x=0;$x<$count;$x++){
             if($request->role[$x]==''){$role=3;}else{$role=$request->role[$x];}
@@ -986,7 +988,7 @@ class TiketController extends Controller
     }
 
     public function simpan_tiket(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         if (trim($request->tiket_id) == '') {$error[] = '-Pilih Sumber';}
         if (trim($request->lokasi_id) == '') {$error[] = '-Pilih Lokasi';}
         if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
@@ -1013,7 +1015,7 @@ class TiketController extends Controller
             }
             $cektiket=Surattugas::where('nomortiket',$nomortiket)->count();
             if($cektiket>0){
-                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan</p>';
+                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan '.$count.'-'.$nomortiket.'</p>';
             }else{
                 $counttim=count($request->nik);
                 if($counttim>3){
@@ -1095,13 +1097,14 @@ class TiketController extends Controller
     }
 
     public function edit_tiket(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (trim($request->name) == '') {$error[] = '- Isi Obyek Audit';}
         if (trim($request->mulai) == '') {$error[] = '- Isi Tanggal mulai audit';}
         if (trim($request->sampai) == '') {$error[] = '- Isi Tanggal Selesai audit';}
-        if (trim($request->catatan) == '') {$error[] = '- Isi Catatan Penting';}
+        if (trim($request->kode_unit) == '') {$error[] = '- Isi Kode Unit';}
+        // if (trim($request->catatan) == '') {$error[] = '- Isi Catatan Penting';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             
@@ -1111,11 +1114,13 @@ class TiketController extends Controller
                     $data=Tiket::where('id',$request->tiket_id)->update([
                         'judul_tiket'=>$request->judul,
                         'keterangan_tiket'=>$request->keterangan,
+                        'kode_aktivitas'=>$request->kode_aktivitas,
                         'lampiran_tiket'=>$filePath,
                     ]);
                     $surat=Surattugas::where('tiket_id',$request->tiket_id)->update([
                         'name'=>$request->name,
                         'mulai'=>$request->mulai,
+                        'kode_unit'=>$request->kode_unit,
                         'sampai'=>$request->sampai,
                         'catatan'=>$request->catatan,
                         
@@ -1123,7 +1128,7 @@ class TiketController extends Controller
                     
                     if($surat=='0'){
                         $datasurat=Surattugas::where('tiket_id',$request->tiket_id)->first();
-                        $hapus=Timaudit::where('tiket_id',$request->tiket_id)->delete();
+                        $hapus=Timaudit::where('tiket_id',$request->tiket_id)->where('role_id','!=',6)->delete();
                         if($hapus){
                             for($x=0;$x<$counttim;$x++){
                                 if($request->role[$x]==''){$role=3;}else{$role=$request->role[$x];}
@@ -1148,7 +1153,7 @@ class TiketController extends Controller
     }
 
     public function simpan_ubah(request $request){
-        if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
+        error_reporting(0);    if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -1166,7 +1171,7 @@ class TiketController extends Controller
     }
 
     public function edit_lampiran_tiket(request $request){
-        if (trim($request->lampiran) == '') {$error[] = '- Upload file lampiran ".pdf"';}
+        error_reporting(0);    if (trim($request->lampiran) == '') {$error[] = '- Upload file lampiran ".pdf"';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             $image = $request->file('lampiran');
@@ -1193,7 +1198,7 @@ class TiketController extends Controller
     }
 
     public function simpan_ubah_tiket(request $request){
-        if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
+        error_reporting(0);    if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
@@ -1234,7 +1239,7 @@ class TiketController extends Controller
     }
 
     public function setujui(request $request){
-        if (trim($request->sts) == '') {$error[] = '- Pilih Status';}
+        error_reporting(0);    if (trim($request->sts) == '') {$error[] = '- Pilih Status';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             if($request->sts==1){
@@ -1266,7 +1271,7 @@ class TiketController extends Controller
     }
 
     public function setujui_head(request $request){
-        
+        error_reporting(0);    
             $data=Tiket::where('id',$request->id)->update([
                 'sts'=>2,
                 'tanggal_create_approve_head'=>date('Y-m-d'),
@@ -1279,7 +1284,7 @@ class TiketController extends Controller
     }
 
     public function approve_tiket_pengawas(request $request){
-        $data=Tiket::where('id',$request->tiket_id)->update([
+        error_reporting(0);    $data=Tiket::where('id',$request->tiket_id)->update([
             'sts'=>4,
             'catatan_tiket'=>$request->catatan_tiket,
             'tanggal_tiket_approve_head'=>date('Y-m-d'),
@@ -1291,7 +1296,7 @@ class TiketController extends Controller
     }
 
     public function approve_tiket(request $request){
-        if(Auth::user()['posisi_id']==1){
+        error_reporting(0);    if(Auth::user()['posisi_id']==1){
                 $surat=Surattugas::where('tiket_id',$request->tiket_id)->first();
                 if($surat['kode_aktivitas']=='04' || $surat['kode_aktivitas']=='05' || $surat['kode_aktivitas']=='06' ){
                     $sts1=5;
@@ -1321,20 +1326,20 @@ class TiketController extends Controller
     }
 
     public function hapus(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $count=count($request->id);
         if (trim($count) == 0) {$error[] = '- Pilih Tiket';}
         if (isset($error)) {echo implode('<br />', $error);} 
         else{
             for($x=0;$x<$count;$x++){
-                $data=Tiket::where('nik',$request->id)->delete();
+                $data=Tiket::where('id',$request->id)->delete();
             }
             echo'ok';
         }
     }
 
     public function hapus_tiket(request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $count=count($request->id);
         if (trim($count) == 0) {$error[] = '- Pilih Tiket';}
         if (isset($error)) {echo implode('<br />', $error);} 
@@ -1349,7 +1354,7 @@ class TiketController extends Controller
     }
 
     public function surattugas (request $request){
-        error_reporting(0);
+        error_reporting(0); 
         $data=Tiket::where('id',$request->id)->first();
         $tim=Timaudit::where('tiket_id',$request->id)->orderBy('id','Asc')->get();
         $pdf = PDF::loadView('pdf.surattugas', compact('data','tim'));

@@ -219,13 +219,13 @@
 			<div class="modal-dialog" id="modal-sedeng">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Proses Tiket</h4>
+						<h4 class="modal-title">Proses Tiket {{$data->surattugas['kode_aktivitas']}} {{$data->surattugas['kode_sumber']}}</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
 					
-						@if($data->kode_aktivitas=='03')
-							@if($data->kode_sumber=='AR')
+						@if($data->surattugas['kode_aktivitas']=='03')
+							@if($data->surattugas['kode_sumber']=='AR')
 								<form id="tambah-judul"  method="post" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="id" value="{{$data->id}}">
@@ -319,8 +319,9 @@
 									</div>
 								</form>
 							@else
-								<form id="tambah-judul"  method="post" enctype="multipart/form-data">
+								<form id="tambah-judul" action="{{url('/TiketNew/save_judul')}}"  method="post" enctype="multipart/form-data">
 									@csrf
+									
 									<input type="hidden" name="id" value="{{$data->id}}">
 									<input type="hidden" name="tiket_id" value="{{$data->id}}">
 										<div class="col-xl-10 offset-xl-1">
@@ -687,6 +688,35 @@
                 $.ajax({
                     type: 'POST',
                     url: "{{url('/TiketNew/Proses')}}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+						document.getElementById("loadnya").style.width = "100%";
+					},
+                    success: function(msg){
+                        if(msg=='ok'){
+                            location.assign("{{url('TiketAnggota')}}");
+                               
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+							$('#modalnotif').modal('show');
+							document.getElementById("notifikasi").style.width = "100%";
+							$('#notifikasi').html(msg);
+                        }
+                        
+                        
+                    }
+                });
+
+        } 
+		function tambah_data_approve(){
+            var form=document.getElementById('tambah-judul');
+            
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('/TiketNew/Proses')}}?act=ap",
                     data: new FormData(form),
                     contentType: false,
                     cache: false,

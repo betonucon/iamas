@@ -62,8 +62,8 @@
 							<div class="tab-content" style="margin-bottom:0px;padding:1%">
 						
 								<div class="tab-pane fade active show" id="default-tab-0">
-								@if($data->kode_aktivitas=='03')
-									@if($data->kode_sumber=='AR')	
+								@if($data->surattugas['kode_aktivitas']=='03')
+									@if($data->surattugas['kode_sumber']=='AR')	
 										<div class="col-xl-10 offset-xl-1">
 											<div class="form-group row m-b-10" >
 												<label class="col-lg-3 text-lg-right col-form-label">Kode Laporan & Lampiran</label>
