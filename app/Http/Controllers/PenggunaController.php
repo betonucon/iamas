@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 class PenggunaController extends Controller
 {
     public function index(request $request){
+        error_reporting(0);
         $menu='Pengguna Aplikasi';
         $side="master";
         return view('pengguna.index',compact('menu','side'));

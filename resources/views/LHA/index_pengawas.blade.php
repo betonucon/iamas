@@ -54,7 +54,7 @@
 								@foreach(lha_pengawas_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
+										<td class="boldtd">{{$data->surattugas['nomortiket']}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td style="text-align:center">
@@ -69,7 +69,7 @@
 											
 											<td class="text-center"><span  title="Terkirim" class="btn btn-default btn-xs"><i class="fa fa-check"></i></span></td>
 										@endif
-										<td><span onclick="cek_file_lha(`{{coder($data->id)}}`)" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
+										<td><span onclick="cek_file_lha(`{{$data->id}}`)" class="btn btn-green btn-xs"><i class="fa fa-clone"></i> View</span></td>
 										
 									</tr>
 								@endforeach

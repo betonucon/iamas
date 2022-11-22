@@ -35,6 +35,7 @@
 									<th width="10%" class="text-nowrap">Kode Informasi</th>
 									<th class="text-nowrap">Judul</th>
 									<th class="text-nowrap">Sumber</th>
+									<th class="text-nowrap">Pelapor</th>
 									<th width="3%" class="text-nowrap">file</th>
 									<th width="9%" class="text-nowrap">Status</th>
 									
@@ -48,6 +49,7 @@
 										<td>{{$data->nomorinformasi}}</td>
 										<td>{{$data->judul}}</td>
 										<td>[{{$data->kode_sumber}}] {{$data->sumber['name']}}</td>
+										<td>{{$data->users['name']}}</td>
 										<td><span onclick="cek_file(`{{$data->lampiran}}`)" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td>
 											@if($data->sts==2)

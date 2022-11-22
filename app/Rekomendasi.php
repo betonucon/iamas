@@ -16,6 +16,7 @@ class Rekomendasi extends Model
         'kode_unit',
         'isi',
         'keterangan',
+        'estimasi',
         'nomor',
         'risiko',
         'ket_risiko',

@@ -53,7 +53,7 @@
 								@foreach(lha_ketua_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
+										<td class="boldtd">{{$data->surattugas['nomortiket']}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td style="text-align:center">

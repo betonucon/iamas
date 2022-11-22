@@ -124,14 +124,14 @@
             <tr>
                 <td valign="top">
                     
-                        @foreach(tim_audit_ketua($desk->tiket_id) as $tim)
+                        @foreach(tim_audit_pengawas($desk->tiket_id) as $tim)
                             &nbsp;&nbsp;{{$tim->user['name']}}<br>
                         @endforeach
                         &nbsp;&nbsp;({{$data->tgl_sts4}})
                 </td>
                 <td width="2%"></td>
                 <td >
-                        @foreach(tim_audit_cetak($desk->tiket_id) as $tim)
+                        @foreach(tim_audit_ketua($desk->tiket_id) as $tim)
                             -{{$tim->user['name']}}<br>
                         @endforeach
                         

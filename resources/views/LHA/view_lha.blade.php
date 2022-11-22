@@ -48,9 +48,9 @@
 					<div class="tab-content" style="margin-bottom:0px;padding:1%">
 						<div class="tab-pane fade active show" id="default-tab-1">
 							<div class="col-md-12" style="margin-bottom:2%">
-								<div class="btn-group">
+								<!-- <div class="btn-group">
 									<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
-								</div>
+								</div> -->
 							</div>
 							<div class="col-md-12">
 								@foreach(kesimpulan_get($id) as $no=>$kes)

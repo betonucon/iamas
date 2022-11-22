@@ -72,6 +72,11 @@
 											<td class="text-toop">{{$data->nomortl}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>Surat Auditee</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"><a href="{{url('Temuan/cetak')}}?id={{$data->id}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> Surat tindak lanjut</span></a></td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>
@@ -127,10 +132,11 @@
 									<table style="margin-left:0%" width="100%">
 										@if($data->revisi==3)
 											<tr>
-												<td class="text-toop"><b>Review Perbaikan</b></td>
+												<td class="text-toop"><b>Review Perbaikan Pengawas</b></td>
 												<td class="text-toop"><b>:</b></td>
 												<td class="text-toop">{!! review_pengawas($data->id,$data->sts_tl) !!}</td>
 											</tr>
+											
 										@endif
 											<tr>
 												<td class="text-toop" width="15%"><b>Hasil Tindak Lanjut</b></td>

@@ -66,6 +66,11 @@
 											<td class="text-toop">{{$data->nomortl}}</td>
 										</tr>
 										<tr>
+											<td class="text-toop"><b>Surat Auditee</b></td>
+											<td class="text-toop"><b>:</b></td>
+											<td class="text-toop"><a href="{{url('Temuan/cetak')}}?id={{$data->id}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> Surat tindak lanjut</span></a></td>
+										</tr>
+										<tr>
 											<td class="text-toop"><b>Waktu Pengerjaan</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->tgl_mulai}} s/d {{$data->tgl_sampai}}</td>

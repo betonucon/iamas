@@ -27,6 +27,10 @@
             <label for="exampleInputEmail1">Risiko</label>
             <input type="text" name="risiko" value="{{$data->risiko}}" onkeypress="return hanyaAngka(event)" style="width:30%" placeholder="Ketik disini....." class="form-control">
         </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Estimasi Temuan</label>
+            <input type="text" name="estimasi" value="{{$data->estimasi}}"  style="width:80%" placeholder="Ketik disini....." class="form-control">
+        </div>
         
 </form>
 

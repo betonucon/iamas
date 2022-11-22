@@ -11,7 +11,7 @@ class Surattugas extends Model
     protected $guarded = ['id'];
 
     function unitkerja(){
-        return $this->belongsTo('App\Unitkerja','kode_unit','kode_unit');
+        return $this->belongsTo('App\Unitkerja','kode_unit','kode');
     }
     function tiket(){
         return $this->belongsTo('App\Tiket','tiket_id','id');

@@ -17,6 +17,7 @@ class Kesimpulan extends Model
         'nomor',
         'keterangan',
         'risiko',
+        'estimasi',
         'ket_risiko',
         'nomorkode',
         'kode',

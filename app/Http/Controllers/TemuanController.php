@@ -301,29 +301,49 @@ class TemuanController extends Controller
         if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
             $rekom=Rekomendasi::where('id',$request->id)->first();
-            if($rekom['sts_tl']=='S'){
-                $data=Rekomendasi::where('id',$request->id)->update([
-                    'sts'=>6,
-                ]);
-
-                
-                echo 'ok';
-            }else{
-               
+            if($request->status==1){
+                if($rekom['sts_tl']=='S'){
                     $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>1,
-                        'terbit_p'=>date('Y-m-d H:i:s'),
+                        'sts'=>6,
+                    ]);
+    
+                    
+                    echo 'ok';
+                }else{
+                   
+                        $data=Rekomendasi::where('id',$request->id)->update([
+                            'sts'=>1,
+                            'terbit_p'=>date('Y-m-d H:i:s'),
+                            'revisi'=>3,
+                            'nomormtl'=>'M'.$rekom['nomortl'],
+                        ]);
+    
+                        $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                            'catatan_pengawas'=>$request->catatan,
+                            'nomormtl'=>'M'.$rekom['nomortl'],
+                        ]);
+                        echo 'ok';
+                    
+                }
+                
+            }else{
+                if (trim($request->catatan) == '') {$error[] = '-Isi catatan/alasan pengembalian';}
+                if (isset($error)) {echo '<p style="padding:5px;color:#000;background:orange;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
+                else{
+                    $data=Rekomendasi::where('id',$request->id)->update([
+                        'sts'=>3,
                         'revisi'=>3,
-                        'nomormtl'=>'M'.$rekom['nomortl'],
                     ]);
 
                     $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
-                        'catatan_pengawas'=>$request->catatan,
-                        'nomormtl'=>'M'.$rekom['nomortl'],
+                        'catatan_head'=>$request->catatan,
+                        'tanggal'=>date('Y-m-d'),
                     ]);
                     echo 'ok';
-                
+                }
             }
+
+            
         }
     }
 

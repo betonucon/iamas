@@ -50,7 +50,7 @@
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
 										<td ">
-											<b><u>No Surat :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['nomorsurat']}}</p>
+											<b><u>No Surat :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit->surattugas['nomortiket']}}</p>
 											<b><u>Unit Kerja :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['unitkerja']['name']}}</p>
 											<b><u>Obyek :</u></b><p style="margin-left:5%;margin-bottom:0px">{{$data->audit['name']}}</p>
 										</td>

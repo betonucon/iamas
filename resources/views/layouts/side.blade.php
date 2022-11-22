@@ -147,7 +147,7 @@
                                     LHA
                                 </a>
                                 <ul class="sub-menu" style="display: block;">
-                                    <li><a href="{{url('/Lha')}}">{!! notif_lha_pengawas() !!} Program</a></li>
+                                    <li><a href="{{url('/Lha')}}">{!! notif_lha_pengawas() !!} Draft</a></li>
                                 </ul>
                             </li>
                             

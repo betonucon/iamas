@@ -46,9 +46,9 @@
 									<tr class="odd gradeX">
 										<td  width="4%">{{$no+1}}</td>
 										<td >
-											<b>No Laporan :</b> {{$data->nomorsurat}}<br>
+											<b>No Surat Tugas :</b> {{$data->surattugas['nomortiket']}}<br>
 											<b>Unit Kerja : </b> {{$data->unitkerja['name']}}<br>
-											<b>Obyek : </b> {{$data->stsaudit['name']}}	<br>
+											<b>Obyek : </b> {{$data->surattugas['name']}}	<br>
 										</td>
 										
 									</tr>
@@ -69,7 +69,7 @@
 													<th>Hasil Penilaian</th>
 												</tr>
 												<tr>
-													<td style="background:#f2f4f5"><a href="{{url('/_lampiran/'.$data->file_lha)}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Download File LHA</a></td>
+													<td style="background:#f2f4f5"><a href="{{url('/_file_lampiran/'.$data->file_lha)}}" target="_blank"><img src="{{url('img/file.png')}}" alt="" style="width:18px" class="rounded"> Download File LHA</a></td>
 													<td class="text-center" style="background:#f2f4f5">{!! tombol_proses($data->id,'file_lha') !!}</td>
 													<td>{!!text_revisi($data->id,'file_lha')!!}</td>
 												</tr>

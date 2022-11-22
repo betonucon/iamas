@@ -58,9 +58,9 @@
 								</div>
 							</div>
 							<div class="col-md-12" style="margin-bottom:2%">
-								<div class="btn-group">
+								<!-- <div class="btn-group">
 									<button class="btn btn-red btn-sm" onclick="kembali()"><i class="fas fa-chevron-left"></i> Kembali</button>
-								</div>
+								</div> -->
 							</div>
 							<div class="col-md-12" style="margin-bottom: 2%;padding: 1%;background: #ecf1dc;">
 								<b>KESIMPULAN</b><hr>

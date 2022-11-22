@@ -1322,7 +1322,7 @@ function nama_unit($kode){
     }
 }
 function unit_get(){
-    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3'))->orderBy('name','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array('5','1','3','6'))->orderBy('name','Asc')->get();
     return $data;
 }
 
@@ -1397,7 +1397,7 @@ function aproval_get(){
     return $data;
 }
 function unitkerja_get(){
-    $data=App\Unitkerja::whereIn('unit_id',array(1,2,3))->orderBy('name','Asc')->get();
+    $data=App\Unitkerja::whereIn('unit_id',array(1,2,3,6))->orderBy('name','Asc')->get();
     return $data;
 }
 function unitkerja_all_get(){
@@ -1424,10 +1424,18 @@ function tim_audit($id){
     return $data;
 }
 function tim_audit_cetak($id){
-    $data=App\Timaudit::where('tiket_id',$id)->where('role_id','!=',6)->orderBy('id','Asc')->get();
+    $data=App\Timaudit::where('tiket_id',$id)->whereIn('role_id',array(1,3))->orderBy('id','Asc')->get();
     return $data;
 }
 function tim_audit_ketua($id){
+    $data=App\Timaudit::where('tiket_id',$id)->where('role_id',1)->orderBy('id','Asc')->get();
+    return $data;
+}
+function tim_audit_pengawas($id){
+    $data=App\Timaudit::where('tiket_id',$id)->where('role_id',2)->orderBy('id','Asc')->get();
+    return $data;
+}
+function tim_audit_approval($id){
     $data=App\Timaudit::where('tiket_id',$id)->where('role_id',6)->orderBy('id','Asc')->get();
     return $data;
 }
@@ -1633,6 +1641,16 @@ function review_pengawas($id,$sts_tl){
    if($cek>0){
       $data=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->first();
       return $data['catatan_pengawas'];
+   }else{
+      return "";
+   }
+   
+}
+function review_head($id,$sts_tl){
+   $cek=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->count();
+   if($cek>0){
+      $data=App\Disposisi::where('rekomendasi_id',$id)->where('sts_tl',$sts_tl)->first();
+      return $data['catatan_head'];
    }else{
       return "";
    }

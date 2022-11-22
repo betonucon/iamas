@@ -28,4 +28,7 @@ class Tiket extends Model
     function unitkerja(){
       return $this->belongsTo('App\Unitkerja','kode_unit','kode');
     }
+    function users(){
+      return $this->belongsTo('App\User','nik','nik');
+    }
 }

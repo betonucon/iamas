@@ -36,6 +36,7 @@
 									<th width="10%" class="text-nowrap">Kode Informasi</th>
 									<th class="text-nowrap">Judul</th>
 									<th class="text-nowrap">Sumber</th>
+									<th class="text-nowrap">Pelapor</th>
 									<th width="3%" class="text-nowrap">file</th>
 									<th width="4%" class="text-nowrap">Detail</th>
 									<th width="9%" class="text-nowrap">Status</th>
@@ -50,6 +51,8 @@
 										<td>{{$data->nomorinformasi}}</td>
 										<td>{{$data->judul}}</td>
 										<td>[{{$data->kode_sumber}}] {{$data->sumber['name']}}</td>
+										<td>{{$data->users['name']}}</td>
+										
 										<td><span onclick="cek_file(`{{$data->lampiran}}`)" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="view_data(`{{$data->id}}`)" class="btn btn-blue btn-sm"><i class="fa fa-search"></i></span></td>
 										<td>

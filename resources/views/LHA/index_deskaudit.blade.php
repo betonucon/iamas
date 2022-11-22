@@ -45,7 +45,7 @@
 								@foreach(audit_head_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
+										<td class="boldtd">{{$data->surattugas['nomortiket']}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td>{{$data->tgl_penerbitan}}</td>

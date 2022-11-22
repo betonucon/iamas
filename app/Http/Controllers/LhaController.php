@@ -345,6 +345,7 @@ class LhaController extends Controller
                     'audit_id'=>$request->audit_id,
                     'name'=>$request->name,
                     'risiko'=>$request->risiko,
+                    'estimasi'=>$request->estimasi,
                     'ket_risiko'=>ket_risiko($request->risiko),
                     'kodifikasi'=>$request->kodifikasi,
                     'kode'=>$audit['kode_aktivitas'],
@@ -385,6 +386,7 @@ class LhaController extends Controller
                 
                 $data=Kesimpulan::where('id',$request->kesimpulan_id)->update([
                     'name'=>$request->name,
+                    'estimasi'=>$request->estimasi,
                     'risiko'=>$request->risiko,
                     'ket_risiko'=>ket_risiko($request->risiko),
                     'kode_sumber'=>kodesumber(ket_risiko($request->risiko),$kesim['kode'],$request->kodifikasi),
@@ -413,6 +415,7 @@ class LhaController extends Controller
                 $data=Rekomendasi::create([
                     'kesimpulan_id'=>$request->kesimpulan_id,
                     'nomor'=>$request->nomor,
+                    'estimasi'=>$request->estimasi,
                     'kode_unit'=>$request->kode_unit,
                     'isi'=>$request->content,
                     'kodifikasi'=>$request->kodifikasi,
@@ -449,6 +452,7 @@ class LhaController extends Controller
                 $data=Rekomendasi::where('id',$request->rekomendasi_id)->update([
                     'kode_unit'=>$request->kode_unit,
                     'isi'=>$request->content,
+                    'estimasi'=>$request->estimasi,
                     'kodifikasi'=>$request->kodifikasi,
                     'risiko'=>$request->risiko,
                     'ket_risiko'=>ket_risiko($request->risiko),

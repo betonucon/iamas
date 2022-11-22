@@ -32,6 +32,14 @@
 						<form id="tambah-data" action="{{url('/Auditplan/Update')}}" method="post" enctype="multipart/form-data">
 							@csrf
 							<input type="hidden" name="tiket_id" value="{{$data->tiket_id}}">
+							@if($data->sts_audit>=1)
+							<div class="alert alert-success fade show">
+  								<span class="close" data-dismiss="alert">×</span>
+  									<strong>RIWAYAT REVIEW</strong><br><br>
+								
+								 <b>Head Of Internal Audit:</b> {{$data->alasan_head}}
+							</div>
+							@endif
 							<ul class="nav nav-tabs">
 								<li class="nav-item">
 									<a href="#default-tab-1" data-toggle="tab" class="nav-link active">
@@ -248,10 +256,10 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									@if($data->sts_audit>1)
+									@if($data->sts_audit>=1)
 									<a href="javascript:;" class="btn btn-blue" onclick="tambah_data()">Simpan</a>
 									@endif
-									<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+									<a href="{{url('Auditplan')}}" class="btn btn-white" >Tutup</a>
 								</div>
 								
 							</div>

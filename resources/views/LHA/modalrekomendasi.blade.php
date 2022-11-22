@@ -36,6 +36,10 @@
         <label for="exampleInputEmail1">Risiko</label>
         <input type="text" name="risiko" style="width:40%" value="{{$data->risiko}}"  onkeypress="return hanyaAngkaTitik(event)" placeholder="Ketik disini....." class="form-control">
     </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Estimasi Temuan</label>
+        <input type="text" name="estimasi" value="{{$data->estimasi}}"  style="width:80%" placeholder="Ketik disini....." class="form-control">
+    </div>
 </form>    
 <link href="{{url('assets/assets/plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
 <link href="{{url('assets/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet" />

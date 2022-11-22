@@ -251,7 +251,28 @@
                         </tr>
                         
                     </table>
-
+                    <table width="100%">
+                        <tr>
+                            <td   class="bold" width="68%"></td>
+                            
+                            <td  class="bold" colspan="2">
+                                Approve By
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                
+                                   
+                            </td>
+                            <td width="2%"></td>
+                            <td >
+                                    @foreach(tim_audit_approval($data->tiket_id) as $tim)
+                                        -{{$tim->user['name']}}<br>
+                                    @endforeach
+                                    
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
             
