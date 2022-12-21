@@ -30,7 +30,7 @@ class QcController extends Controller
     }
     public function index_head(request $request){
         $menu='LHA Hasil QC Audit';
-        if(Auth::user()['role_id']==1){
+        if(Auth::user()['role_id']==6){
             $side="audithead";
             return view('Qc.index_head',compact('menu','side'));
         }
