@@ -1198,7 +1198,8 @@ class TiketController extends Controller
     }
 
     public function simpan_ubah_tiket(request $request){
-        error_reporting(0);    if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
+        error_reporting(0);    
+        if (trim($request->judul) == '') {$error[] = '- Isi Judul';}
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{

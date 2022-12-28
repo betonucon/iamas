@@ -18,7 +18,7 @@ class QcController extends Controller
 {
     public function index(request $request){
         $menu='QC Audit';
-        if(Auth::user()['role_id']==5){
+        if(Auth::user()['role_id']==5 || Auth::user()['role_id']==7){
             $side="auditpengawas";
             return view('Qc.index',compact('menu','side'));
         }

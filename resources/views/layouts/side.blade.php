@@ -266,7 +266,7 @@
                 <li><a href="{{url('Temuananggota')}}"><i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
             @endif
 
-            @if(Auth::user()->role_id==5)
+            @if(Auth::user()->role_id==5 || Auth::user()->role_id==7)
                 <li><a href="{{url('/Qc')}}"><i class="fa fa-clipboard"></i>
                         <span>Draf Pemeriksaan</span>
                     </a>

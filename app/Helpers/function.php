@@ -1221,7 +1221,7 @@ function sumbertiket_get($id){
       $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('RAN','QA2','I1'))->orderBy('id','Desc')->get();  
    }
    if($id=='06'){
-      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('RAN','QA2'))->orderBy('id','Desc')->get();  
+      $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('RAN','QA2','I1'))->orderBy('id','Desc')->get();  
    }
    if($id=='07'){
       $data=App\Tiket::whereIn('sts',array('2'))->whereIn('kode_sumber',array('PA2'))->orderBy('id','Desc')->get();  
