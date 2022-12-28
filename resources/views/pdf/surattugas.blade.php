@@ -32,6 +32,9 @@
     <body>
         <table width="100%" style="margin-bottom:2%">
             <tr>
+                <td width="100%" class="ttdhead-h1" ><img src="{{public_path('img/logoks.png')}}" width="30%" ></td>
+            </tr>
+            <tr>
                 <td width="100%" class="ttdhead-h1" >SURAT TUGAS INTERNAL AUDIT (STIA)</td>
             </tr>
             <tr>
