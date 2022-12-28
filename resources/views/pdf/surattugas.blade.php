@@ -19,6 +19,11 @@
                 border:solid 1px #000;
                 text-align:center;
             }
+            .thb{
+                font-size:15px;
+                /* border:solid 1px #fff; */
+                text-align:center;
+            }
             .td{
                 font-size:15px;
                 border:solid 1px #000;
@@ -116,7 +121,7 @@
                         <tr>
                             <td class="ttd" width="50%"></td>
                         
-                            <td class="th" >
+                            <td class="thb" >
                                 Cilegon, {{bulan_indo()}}<br>
                                 INTERNAL AUDIT<br><br><br><br><br>
                                 <u style="display:block">{{head_of()['name']}}</u>
