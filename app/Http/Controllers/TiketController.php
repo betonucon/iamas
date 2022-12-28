@@ -1002,98 +1002,99 @@ class TiketController extends Controller
         if (trim($request->sampai) == '') {$error[] = '- Isi Tanggal Selesai audit';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
         else{
-            $count=Surattugas::where('kode_aktivitas',$request->kode_aktivitas)->count();
-            
-            if($count>0){
-                $cek=Surattugas::orderBy('nomortiket','Desc')->where('kode_aktivitas',$request->kode_aktivitas)->firstOrfail();
-                $urutan = (int) substr($cek['nomortiket'], 9, 2);
-                $urutan++;
-                $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
-            }else{
-                $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", 1);
+            // $request->kode_aktivitas==4
+                $count=Surattugas::where('kode_aktivitas',$request->kode_aktivitas)->count();
                 
-            }
-            $cektiket=Surattugas::where('nomortiket',$nomortiket)->count();
-            if($cektiket>0){
-                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan '.$count.'-'.$nomortiket.'</p>';
-            }else{
-                $counttim=count($request->nik);
-                if($counttim>3){
-                        $image = $request->file('lampiran');
-                        $size = $image->getSize();
-                        $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
-                        $filePath =$imageFileName;
-                        $file = \Storage::disk('public_uploads');
-                        if($image->getClientOriginalExtension()=='pdf'){
-                            if($file->put($filePath, file_get_contents($image))){
-                                if($request->kode_aktivitas=='04' || $request->kode_aktivitas=='05' || $request->kode_aktivitas=='05' ){
-                                    $sts1=3;
-                                    $sts2=1;
-                                }else{
-                                    $sts1=3;
-                                    $sts2=1;
-                                }
-                                    $tiket=Tiket::where('id',$request->tiket_id)->first();
-                                    $nomorsurat=nomorsurat($request->kode,$request->kode_unit,$request->kode_aktivitas);
-                                    $surat=Surattugas::create([
-                                        'name'=>$request->name,
-                                        'nomorinformasi'=>$tiket['nomorinformasi'],
-                                        'tiket_id'=>$tiket['id'],
-                                        'nomortiket'=>$nomortiket,
-                                        'kode_sumber'=>$tiket['kode_sumber'],
-                                        'lokasi_id'=>$request->lokasi_id,
-                                        'kode_aktivitas'=>$request->kode_aktivitas,
-                                        'kode_unit'=>$request->kode_unit,
-                                        'mulai'=>$request->mulai,
-                                        'sampai'=>$request->sampai,
-                                        'kode'=>$request->kode,
-                                        'nomorsurat'=>$nomorsurat,
-                                        'bulan'=>date('m'),
-                                        'tahun'=>date('Y'),
-                                        'tanggal'=>date('Y-m-d'),
-                                        'sts'=>$sts2,
-                                    ]);
-                                    if($surat){
-                                        $data=Tiket::where('id',$request->tiket_id)->update([
-                                            'nomortiket'=>$nomortiket,
-                                            'judul_tiket'=>$request->judul,
-                                            'kode_aktivitas'=>$request->kode_aktivitas,
-                                            'bulan_tiket'=>date('m'),
-                                            'tahun_tiket'=>date('Y'),
-                                            'lokasi_id'=>$request->lokasi_id,
-                                            'keterangan_tiket'=>$request->keterangan,
-                                            'lampiran_tiket'=>$filePath,
-                                            'sts'=>$sts1,
-                                        ]);
-                                        
-                                        if($data){
-                                            
-                                            for($x=0;$x<$counttim;$x++){
-                                                if($request->role[$x]==''){$role=3;}else{$role=$request->role[$x];}
-                                                $tim=Timaudit::create([
-                                                    'tiket_id'=>$tiket['id'],
-                                                    'nik'=>$request->nik[$x],
-                                                    'role_id'=>$role,
-                                                    'nomortiket'=>$surat['nomortiket']
-                                                ]);
-                                            }
-                                            echo'ok';
-                                        }else{
-                                            echo'ok';
-                                        }
-                                    }
-                            }else{
-                                echo'gagal upload';
-                            }
-                        }else{
-                            echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Format File Harus PDF</p>';
-                        }
+                if($count>0){
+                    $cek=Surattugas::orderBy('nomortiket','Desc')->where('kode_aktivitas',$request->kode_aktivitas)->firstOrfail();
+                    $urutan = (int) substr($cek['nomortiket'], 9, 2);
+                    $urutan++;
+                    $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", $urutan);
                 }else{
-                    echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Struktur Tim Terdiri dari 1 (Pengawas dan Ketua Tim) dan minimal 1 Anggota</p>';
+                    $nomortiket='STIA'.$request->kode_aktivitas.date('y').kode_bulan(date('m')).sprintf("%02s", 1);
+                    
                 }
+                $cektiket=Surattugas::where('nomortiket',$nomortiket)->count();
+                if($cektiket>0){
+                    echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Terjadi Proses pembuatan tiket bersamaan '.$count.'-'.$nomortiket.'</p>';
+                }else{
+                    $counttim=count($request->nik);
+                    if($counttim>3){
+                            $image = $request->file('lampiran');
+                            $size = $image->getSize();
+                            $imageFileName =$nomortiket.'.'. $image->getClientOriginalExtension();
+                            $filePath =$imageFileName;
+                            $file = \Storage::disk('public_uploads');
+                            if($image->getClientOriginalExtension()=='pdf'){
+                                if($file->put($filePath, file_get_contents($image))){
+                                    if($request->kode_aktivitas=='04' || $request->kode_aktivitas=='05' || $request->kode_aktivitas=='05' ){
+                                        $sts1=3;
+                                        $sts2=1;
+                                    }else{
+                                        $sts1=3;
+                                        $sts2=1;
+                                    }
+                                        $tiket=Tiket::where('id',$request->tiket_id)->first();
+                                        $nomorsurat=nomorsurat($request->kode,$request->kode_unit,$request->kode_aktivitas);
+                                        $surat=Surattugas::create([
+                                            'name'=>$request->name,
+                                            'nomorinformasi'=>$tiket['nomorinformasi'],
+                                            'tiket_id'=>$tiket['id'],
+                                            'nomortiket'=>$nomortiket,
+                                            'kode_sumber'=>$tiket['kode_sumber'],
+                                            'lokasi_id'=>$request->lokasi_id,
+                                            'kode_aktivitas'=>$request->kode_aktivitas,
+                                            'kode_unit'=>$request->kode_unit,
+                                            'mulai'=>$request->mulai,
+                                            'sampai'=>$request->sampai,
+                                            'kode'=>$request->kode,
+                                            'nomorsurat'=>$nomorsurat,
+                                            'bulan'=>date('m'),
+                                            'tahun'=>date('Y'),
+                                            'tanggal'=>date('Y-m-d'),
+                                            'sts'=>$sts2,
+                                        ]);
+                                        if($surat){
+                                            $data=Tiket::where('id',$request->tiket_id)->update([
+                                                'nomortiket'=>$nomortiket,
+                                                'judul_tiket'=>$request->judul,
+                                                'kode_aktivitas'=>$request->kode_aktivitas,
+                                                'bulan_tiket'=>date('m'),
+                                                'tahun_tiket'=>date('Y'),
+                                                'lokasi_id'=>$request->lokasi_id,
+                                                'keterangan_tiket'=>$request->keterangan,
+                                                'lampiran_tiket'=>$filePath,
+                                                'sts'=>$sts1,
+                                            ]);
+                                            
+                                            if($data){
+                                                
+                                                for($x=0;$x<$counttim;$x++){
+                                                    if($request->role[$x]==''){$role=3;}else{$role=$request->role[$x];}
+                                                    $tim=Timaudit::create([
+                                                        'tiket_id'=>$tiket['id'],
+                                                        'nik'=>$request->nik[$x],
+                                                        'role_id'=>$role,
+                                                        'nomortiket'=>$surat['nomortiket']
+                                                    ]);
+                                                }
+                                                echo'ok';
+                                            }else{
+                                                echo'ok';
+                                            }
+                                        }
+                                }else{
+                                    echo'gagal upload';
+                                }
+                            }else{
+                                echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Format File Harus PDF</p>';
+                            }
+                    }else{
+                        echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br /> Struktur Tim Terdiri dari 1 (Pengawas dan Ketua Tim) dan minimal 1 Anggota</p>';
+                    }
+                }
+                    
             }
-                
-        }
     }
 
     public function edit_tiket(request $request){
