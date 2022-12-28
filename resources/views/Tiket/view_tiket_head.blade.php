@@ -115,13 +115,14 @@
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Unit Kerja</label>
 											<div class="col-lg-9 col-xl-6">
-												<select class="default-select2 form-control" disabled placeholder="Pilih Unit Kerja">
+											<input type="text" class="form-control" disabled value="{{$data->surattugas->unitkerja['name']}}"  placeholder="Ketik...">
+												<!-- <select class="default-select2 form-control" disabled placeholder="Pilih Unit Kerja">
 													<option value="">--Pilih Unit Kerja</option>
 													@foreach(unitkerja_get() as $no=>$unitkerja_get)
 														<option value="{{$unitkerja_get->kode_unit}}" @if($data->surattugas['kode_unit']==$unitkerja_get->kode_unit) selected @endif>{{ucwords($unitkerja_get->name)}}</option>
 													@endforeach
 													
-												</select>
+												</select> -->
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
