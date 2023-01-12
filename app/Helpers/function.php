@@ -693,7 +693,7 @@ function text_revisi($id,$kategori){
    
 }
 function get_text_revisi(){
-   $get=App\Revisi::select('audit_id','tiket_id')->whereIn('tiket_id',array_tiket_anggota())->groupBy('audit_id','tiket_id')->get();
+   $get=App\Revisi::select('audit_id','tiket_id')->whereIn('tiket_id',array_tiket_anggota_ketua())->groupBy('audit_id','tiket_id')->get();
   
    return $get;
       
@@ -1452,6 +1452,14 @@ function nomorsurat($kode,$unit,$aktifitas){
 function array_tiket_anggota(){
    $data  = array_column(
       App\Timaudit::where('nik',Auth::user()['nik'])->where('role_id',3)
+      ->get()
+      ->toArray(),'tiket_id'
+   );
+    return $data;
+}
+function array_tiket_anggota_ketua(){
+   $data  = array_column(
+      App\Timaudit::where('nik',Auth::user()['nik'])->whereIn('role_id',array(3,1))
       ->get()
       ->toArray(),'tiket_id'
    );
