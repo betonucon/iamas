@@ -43,10 +43,12 @@
 							</thead>
 							<tbody>
 								@foreach(lha_qchead_get() as $no=>$data)
+									
+									@if($data->sts_lha==4)
 									<tr class="odd gradeX">
 										<td  width="4%">{{$no+1}}</td>
 										<td >
-											<b>No Laporan :</b> {{$data->nomorsurat}}<br>
+											<b>No Surat Tugas :</b> {{$data->surattugas['nomortiket']}}<br>
 											<b>Unit Kerja : </b> {{$data->unitkerja['name']}}<br>
 											<b>Obyek : </b> {{$data->stsaudit['name']}}	<br>
 											@if($data->sts_lha>4)
@@ -55,7 +57,6 @@
 										</td>
 										
 									</tr>
-									@if($data->sts_lha==4)
 									<tr class="odd gradeX">
 										<td></td>
 										<td>
@@ -87,6 +88,20 @@
 											</table>
 										</td>
 									</tr>
+									@else
+										<tr class="odd gradeX">
+											<td  width="4%">{{$no+1}}</td>
+											<td >
+											<b>No Surat Tugas :</b> {{$data->surattugas['nomortiket']}}<br>
+												<b>Unit Kerja : </b> {{$data->unitkerja['name']}}<br>
+												<b>Obyek : </b> {{$data->stsaudit['name']}}	<br>
+												@if($data->sts_lha>4)
+												<b>Daftar Temuan : </b> <a href="{{url('Temuan/view?id='.coder($data->id))}}">Lihat Temuan</a>
+												@endif
+											</td>
+											
+										</tr>
+										
 									@endif
 								@endforeach
 							</tbody>
@@ -128,7 +143,11 @@
 								<label>Keterangan</label>
 								<textarea class="form-control" name="keterangan" id="textareaketerangan"></textarea>
 							</div>
-							<input type="submit">
+							<div class="form-grup" id="laporan">
+								<label>File Laporan (.pdf)</label>
+								<input type="file" class="form-control" name="file">
+							</div>
+							<!-- <input type="submit"> -->
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -189,17 +208,21 @@
 			lengthChange: false,
 		} );
 		$('#keterangan').hide();
+		$('#laporan').hide();
 		$("#textareaketerangan").wysihtml5();
 
 		function pilih_status(id){
 			if(id==2){
 				$('#keterangan').show();
+				$('#laporan').hide();
 			}
-			else if(id==1){
+			else if(id==12){
 				$('#keterangan').hide();
+				$('#laporan').show();
 			}
 			else{
 				$('#keterangan').hide();
+				$('#laporan').hide();
 			}
 		}
 		function proses_revisi(id){

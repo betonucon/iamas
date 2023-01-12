@@ -245,7 +245,7 @@
 				location.assign("{{url('/Lha/Create')}}?act=revisi&id="+id);
 			}
 			if(kategori=='draf_lha_saran'){
-				location.assign("{{url('/Lha/Create')}}?act=revisi&id="+id);
+				location.assign("{{url('/Lha/Createrekomendasi')}}?act=revisi&id="+id);
 			}
 			
 		}
