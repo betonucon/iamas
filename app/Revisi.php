@@ -28,4 +28,7 @@ class Revisi extends Model
     function audit(){
         return $this->belongsTo('App\Audit','audit_id','id');
     }
+    function surattugas(){
+            return $this->belongsTo('App\Surattugas','id','tiket_id');
+    }
 }
