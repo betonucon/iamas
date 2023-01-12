@@ -1239,7 +1239,7 @@ function tiket_get_tiket_acc_pengawas(){
     return $data;
 }
 function tiket_get_tiket_acc_head(){
-    $data=App\Surattugas::whereIn('sts',array('4','5'))->orderBy('id','Desc')->get();
+    $data=App\Surattugas::whereIn('kode_aktivitas',array('01','02','03'))->whereIn('sts',array('4','5'))->orderBy('id','Desc')->get();
     return $data;
 }
 
