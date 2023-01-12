@@ -693,7 +693,7 @@ function text_revisi($id,$kategori){
    
 }
 function get_text_revisi(){
-   $get=App\Revisi::select('audit_id')->whereIn('tiket_id',array_tiket_anggota())->groupBy('audit_id')->get();
+   $get=App\Revisi::select('audit_id','tiket_id')->whereIn('tiket_id',array_tiket_anggota())->groupBy('audit_id','tiket_id')->get();
   
    return $get;
       
