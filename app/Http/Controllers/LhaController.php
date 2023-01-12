@@ -232,6 +232,21 @@ class LhaController extends Controller
         error_reporting(0);
         $data=Kesimpulan::where('id',$request->id)->delete();
         $rekomen=Rekomendasi::where('kesimpulan_id',$request->id)->delete();
+        $get=Kesimpulan::where('audit_id',$request->audit_id)->orderBy('id','Asc')->get();
+                
+        foreach($get as $no=>$o){
+            $nomor='6.'.($no+1);
+            $data=Kesimpulan::where('id',$o->id)->update([
+                'nomor'=>$nomor,
+                
+                
+            ]);
+            $update=Rekomendasi::where('kesimpulan_id',$o->id)->update([
+                'nomor'=>$nomor,
+            ]);
+            
+        }
+
     }
     public function delete_rekomendasi(request $request){
         error_reporting(0);

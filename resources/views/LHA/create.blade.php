@@ -232,7 +232,7 @@
 			$.ajax({
 				type: 'GET',
 				url: "{{url('Lha/hapus')}}",
-				data: "id="+id,
+				data: "id="+id+"&audit_id={{$id}}",
 				beforeSend: function() {
 					document.getElementById("loadnya").style.width = "100%";
 				},
