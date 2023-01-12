@@ -53,29 +53,30 @@ class LhaController extends Controller
     public function create(request $request){
         error_reporting(0);
         $id=encoder($request->id);
+        $halaman=$request->halaman;
         $act=$request->act;
         $data=Audit::where('id',$id)->first();
         if(akses_tiket_ketua()>0 || akses_tiket_anggota()>0){
                 if($data->sts_lha=='0' || $data->sts_lha==''){
                     $menu='Buat Kesimpulan';
                     $side="auditpengawas";
-                    return view('LHA.create',compact('menu','side','id','act'));
+                    return view('LHA.create',compact('menu','halaman','side','id','act'));
                 }else{
                     if($data->sts_revisi_lha=='2'){
                         $menu='Revisi Kesimpulan';
                         $side="auditpengawas";
-                        return view('LHA.create',compact('menu','side','id','act'));
+                        return view('LHA.create',compact('menu','halaman','side','id','act'));
                     }else{
                         $menu='View Kesimpulan';
                         $side="auditpengawas";
-                        return view('LHA.view_temuan',compact('menu','side','id'));
+                        return view('LHA.view_temuan',compact('menu','halaman','side','id'));
                     }
                     
                 }
         }else{
                     $menu='View Kesimpulan';
                     $side="auditpengawas";
-                    return view('LHA.view_temuan',compact('menu','side','id'));
+                    return view('LHA.view_temuan',compact('menu','halaman','side','id'));
         }
             
     }
@@ -152,7 +153,9 @@ class LhaController extends Controller
     public function createrekomendasi(request $request){
         error_reporting(0);
         $id=encoder($request->id);
+        $ide=$request->id;
         $act=$request->act;
+        $halaman=$request->halaman;
         $data=Audit::where('id',$id)->first();
         $kesimpulan=Kesimpulan::where('audit_id',$id)->orderBy('id','Asc')->firstOrfail();
         if($request->nomor==''){
@@ -169,23 +172,23 @@ class LhaController extends Controller
                 if($data->sts_lha=='0'  || $data->sts_lha==''){
                     $menu='Buat Rekomendasi';
                     $side="auditpengawas";
-                    return view('LHA.createrekomendasi',compact('menu','side','id','kesimpulan_id','nomor','act','namakesimpulan'));
+                    return view('LHA.createrekomendasi',compact('menu','halaman','side','id','ide','kesimpulan_id','nomor','act','namakesimpulan'));
                 }else{
                     if($data->sts_revisi_lha_saran=='2'){
                         $menu='Revisi Rekomendasi';
                         $side="auditpengawas";
-                        return view('LHA.createrekomendasi',compact('menu','side','id','kesimpulan_id','nomor','act','namakesimpulan'));
+                        return view('LHA.createrekomendasi',compact('menu','halaman','side','id','ide','kesimpulan_id','nomor','act','namakesimpulan'));
                     }else{
                         $menu='View Rekomendasi';
                         $side="auditpengawas";
-                        return view('LHA.view_rekomendasi',compact('menu','side','id','kesimpulan_id','nomor','namakesimpulan'));
+                        return view('LHA.view_rekomendasi',compact('menu','halaman','side','id','ide','kesimpulan_id','nomor','namakesimpulan'));
                     }
                     
                 }
         }else{
             $menu='View Rekomendasi';
             $side="auditpengawas";
-            return view('LHA.view_rekomendasi',compact('menu','side','id','kesimpulan_id','nomor','namakesimpulan'));
+            return view('LHA.view_rekomendasi',compact('menu','halaman','side','id','ide','kesimpulan_id','nomor','namakesimpulan'));
         }
         
         
@@ -232,7 +235,17 @@ class LhaController extends Controller
     }
     public function delete_rekomendasi(request $request){
         error_reporting(0);
-        $rekomen=Rekomendasi::where('id',$request->id)->delete();
+        $delete=Rekomendasi::where('id',$request->id)->delete();
+        $get=Rekomendasi::where('kesimpulan_id',$request->kesimpulan_id)->orderBy('id','Asc')->get();
+                
+        $audit=Kesimpulan::where('id',$request->kesimpulan_id)->first();
+        foreach($get as $no=>$o){
+            
+            $data=Rekomendasi::where('id',$o['id'])->update([
+                'urutan'=>($no+1),
+                'audit_id'=>$audit['audit_id'],
+            ]);
+        }
     }
 
     public function send_to_head(request $request){

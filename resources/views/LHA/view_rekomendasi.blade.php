@@ -216,10 +216,10 @@
 		$("#textareaisiubahrekomendasi").wysihtml5();
 		
 		function pilih_temuan(nomor){
-			location.assign("{{url('/Lha/Createrekomendasi?id='.$id)}}&nomor="+nomor);
+			location.assign("{{url('/Lha/Createrekomendasi')}}?id={{$ide}}&halaman={{$halaman}}&nomor="+nomor);
 		}
 		function kembali(){
-			location.assign("{{url('/Lha/')}}");
+			location.assign("{{url('/'.$halaman)}}");
 		}
 		$('#myTable').DataTable( {
 			responsive: true,

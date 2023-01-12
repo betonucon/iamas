@@ -222,7 +222,7 @@
 		$("#textareaisiubahrekomendasi").wysihtml5();
 		
 		function pilih_temuan(nomor){
-			location.assign("{{url('/Lha/Createrekomendasi?id='.coder($id))}}&nomor="+nomor);
+			location.assign("{{url('/Lha/Createrekomendasi')}}?id={{$ide}}&halaman={{$halaman}}&nomor="+nomor);
 		}
 		function kembali(){
 			location.assign("{{url('/Lha/')}}");
@@ -239,7 +239,7 @@
 			$.ajax({
 				type: 'GET',
 				url: "{{url('Lha/hapus_rekomendasi')}}",
-				data: "id="+id,
+				data: "id="+id+"&kesimpulan_id={{$nomor}}",
 				beforeSend: function() {
 					document.getElementById("loadnya").style.width = "100%";
 				},

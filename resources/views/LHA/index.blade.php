@@ -236,7 +236,7 @@
 
 		
 		function proses_kesimpulan(id){
-			location.assign("{{url('/Lha/Create')}}?id="+id);
+			location.assign("{{url('/Lha/Create')}}?id="+id+"&halaman=Lha");
 		}
 		function sand_lha(id){
 			$('#audit_id').val(id);
@@ -254,7 +254,7 @@
 			if(nilai==0){
 				alert('Buat Kesimpulan terlebih dahulu');
 			}else{
-				location.assign("{{url('/Lha/Createrekomendasi')}}?id="+id);
+				location.assign("{{url('/Lha/Createrekomendasi')}}?id="+id+"&halaman=Lha");
 			}
 		}
 
