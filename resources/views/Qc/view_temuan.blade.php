@@ -85,7 +85,7 @@
 									</tr>
 									<tr>
 										<td class="text-toop" colspan="3"><br>
-										<b><u>Tanggapan Auditee </u></b><br>
+										<b><u>Tindak Lanjut Auditee </u></b><br>
 										@if($kes->catatan==null)
 											<font color="grey">Ketik........</font>
 										@else
