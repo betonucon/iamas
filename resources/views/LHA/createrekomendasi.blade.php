@@ -47,7 +47,7 @@
 							@if($act=='revisi')
 				    			<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
 							@else
-								<a href="{{url('Lha')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+								<a href="{{url('/'.$halaman)}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
 							@endif
 						</div>
 					</div>
@@ -225,7 +225,7 @@
 			location.assign("{{url('/Lha/Createrekomendasi')}}?id={{$ide}}&halaman={{$halaman}}&nomor="+nomor);
 		}
 		function kembali(){
-			location.assign("{{url('/Lha/')}}");
+			location.assign("{{url('/'.$halaman)}}");
 		}
 		$('#myTable').DataTable( {
 			responsive: true,
