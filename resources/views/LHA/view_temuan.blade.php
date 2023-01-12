@@ -212,7 +212,7 @@
 		$("#textareaisi").wysihtml5();
 		
 		function kembali(){
-			location.assign("{{url('/Lha/')}}");
+			location.assign("{{url('/'.$halaman)}}");
 		}
 		$('#myTable').DataTable( {
 			responsive: true,
