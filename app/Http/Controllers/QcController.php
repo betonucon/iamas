@@ -74,6 +74,7 @@ class QcController extends Controller
         
     }
     public function index_revisi(request $request){
+        error_reporting(0);
         $menu='Laporan Perbaikan Audit';
         $side="auditpengawas";
         return view('Qc.revisi',compact('menu','side'));
