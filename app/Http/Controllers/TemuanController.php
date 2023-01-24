@@ -630,7 +630,7 @@ class TemuanController extends Controller
     public function cetak(request $request){
         error_reporting(0);
         $data=Rekomendasi::where('id',$request->id)->first();
-        $pdf = PDF::loadView('temuan.cetak', compact('data'));
+        $pdf = PDF::loadView('Temuan.cetak', compact('data'));
         $pdf->setPaper('A4', 'Potrait');
         return $pdf->stream();
     }
