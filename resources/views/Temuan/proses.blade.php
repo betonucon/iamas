@@ -70,11 +70,11 @@
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{!! $data->isi !!}</td>
 										</tr>
-										<tr>
+										<!-- <tr>
 											<td class="text-toop"><b>Risiko</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{{$data->risiko}} ({{$data->ket_risiko}})</td>
-										</tr>
+										</tr> -->
 										<tr>
 											<td class="text-toop"><b>No Tindak Lanjut</b></td>
 											<td class="text-toop"><b>:</b></td>

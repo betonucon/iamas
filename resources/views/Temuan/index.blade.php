@@ -85,7 +85,7 @@
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th width="10%" class="text-nowrap">Kode Temuan</th>
 									<th width="6%" class="text-nowrap">Nomor</th>
-									<th width="10%" class="text-nowrap">Risiko</th>
+									<!-- <th width="10%" class="text-nowrap">Risiko</th> -->
 									<th class="text-nowrap">Judul</th>
 									<th width="17%" class="text-nowrap">Traking Status</th>
 									<th width="5%" class="text-nowrap">Act</th>
@@ -98,7 +98,7 @@
 										<td>{{$data->unitkerja['name']}}</td>
 										<td class="boldtd">{{$data->kesimpulan['nomorkode']}}</td>
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
-										<td>{{$data->ket_risiko}}</td>
+										<!-- <td>{{$data->ket_risiko}}</td> -->
 										<td>{{$data->kesimpulan['name']}}</td>
 										<td style="text-align:center">
 											@if($data->sts==1)
