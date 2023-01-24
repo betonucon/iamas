@@ -57,8 +57,21 @@
 						@csrf
 						<input type="hidden" name="id" value="{{$data->id}}">
 						<div class="row">
-							
+								
 							<div class="col-md-8" style="background-color: #f2f8fd;">
+								@if(akses_tiket_head()>0)
+								<div class="col-md-12">
+									<div class="note note-warning note-with-right-icon m-b-15">
+										<div class="note-content text-right">
+											<h4><b>Perhatian !</b></h4>
+											<p>
+												wajib mendownload surat auditee setelah divalidasi
+											</p>
+										</div>
+										<div class="note-icon"><i class="fa fa-lightbulb"></i></div>
+									</div>
+								</div>
+								@endif
 								<div class="alert alert-blue fade show m-b-10" style="background-color: #f2f8fd;">
 									<table style="margin-left:0%" width="100%">
 										<tr>

@@ -51,15 +51,17 @@
 								@foreach(temuan_pengawas_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td>{{$data->unitkerja['name']}}</td>
+										<td>{{$data->unit_name}}</td>
 										<td class="boldtd">{{$data->nomortiket}}</td>
-										<td class="boldtd">{{$data->kesimpulan['nomorkode']}}</td>
+										<td class="boldtd">{{$data->kesimpulan_nomorkode}}</td>
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
-										<td>{{$data->kesimpulan['name']}}</td>
+										<td>{{$data->kesimpulan_name}}</td>
 										<td style="text-align:center"><b>({{$data->sts_tl}})</b> {{track_temuan($data->sts)}}</td>
 										<td>
 											@if($data->sts==4)
-												<span class="btn btn-blue btn-xs" title="Approve" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
+												
+													<span class="btn btn-blue btn-xs" title="Approve" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>
+												
 											@else
 												@if($data->sts==6)
 													<span class="btn btn-success btn-xs" title="Selesai" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-check"></i></span>

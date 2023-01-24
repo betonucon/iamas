@@ -95,11 +95,11 @@
 								@foreach(temuan_auditee_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td  width="1%">{{$no+1}}</td>
-										<td>{{$data->unitkerja['name']}}</td>
-										<td class="boldtd">{{$data->kesimpulan['nomorkode']}}</td>
+										<td>{{$data->unit_name}}</td>
+										<td class="boldtd">{{$data->kesimpulan_nomorkode}}</td>
 										<td>{{$data->nomor}}.{{$data->urutan}}</td>
 										<!-- <td>{{$data->ket_risiko}}</td> -->
-										<td>{{$data->kesimpulan['name']}}</td>
+										<td>{{$data->kesimpulan_name}}</td>
 										<td style="text-align:center">
 											@if($data->sts==1)
 												@if($data->sts_tl=='B')
@@ -109,7 +109,12 @@
 												@endif
 											@else
 												@if($data->sts_tl=='S')
-													<b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}
+													@if($data->sts_release>2)
+														<b>({{$data->sts_tl}})</b> {{track_temuan_auditee($data->sts)}}
+													@else
+														<b>({{status_sebelum_selesai($data->id)}})</b> Review IA
+													@endif
+													
 												@else
 													@if($data->sts_tl=='B')
 														<b>(B)</b> Pengisian Tindak Lanjut
@@ -125,7 +130,12 @@
 												<span class="btn btn-blue btn-xs" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-pencil-alt"></i></span>
 											@else
 												@if($data->sts==6)
-													<i onclick="proses(`{{coder($data->id)}}`)" class="fa fa-check"></i>
+													
+													@if($data->sts_release>2)
+														<i class="fa fa-check"></i>
+													@else
+														<i class="fa fa-check"></i>
+													@endif
 												@else
 													<span class="btn btn-white btn-xs"  title="Proses Pemeriksaan" onclick="proses(`{{coder($data->id)}}`)"><i class="fa fa-clipboard"></i></span>
 												@endif

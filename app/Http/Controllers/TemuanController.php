@@ -204,7 +204,7 @@ class TemuanController extends Controller
                         }else{
                             $tl=$rekom['sts_tl'];
                         }
-                        if($rekom['sts_tl']=='P0'){
+                        if($tl=='P0'){
                             $nilai=$request->nilai;
                         }else{
                             $nilai=$rekom['nilai'];
@@ -214,32 +214,45 @@ class TemuanController extends Controller
                             'sts'=>4,
                             'revisi'=>2,
                             'sts_tl'=>$tl,
+                            'sts_release'=>1,
                             'tgl_progres'=>date('Y-m-d'),
                             'nilai'=>$nilai,
                         ]);
                         
-                        if($rekom['revisi']==1){
-                            $dis=Disposisi::create([
-                                'catatan'=>$request->catatan,
-                                'tanggal'=>date('Y-m-d'),
-                                'nomortl'=>$rekom['nomortl'],
-                                'rekomendasi_id'=>$rekom['id'],
-                                'sts_tl'=>$tl,
-                            ]);
-                            echo 'ok';
+                        $cekdata=Disposisi::where('sts_tl',$tl)->where('rekomendasi_id',$rekom['id'])->count();
+                        if($rekom['revisi']==1){    
+                            if($cekdata>0){
+                                $dis=Disposisi::where('sts_tl',$tl)->where('rekomendasi_id',$rekom['id'])->update([
+                                    'catatan'=>$request->catatan,
+                                    'tanggal'=>date('Y-m-d'),
+                                    'sts_release'=>1,
+                                ]);
+                            }else{
+                                $dis=Disposisi::create([
+                                    'catatan'=>$request->catatan,
+                                    'tanggal'=>date('Y-m-d'),
+                                    'nomortl'=>$rekom['nomortl'],
+                                    'rekomendasi_id'=>$rekom['id'],
+                                    'sts_release'=>1,
+                                    'sts_tl'=>$tl,
+                                ]);
+                            }
                         }else{
-                            $dis=Disposisi::where('sts_tl',$tl)->where('rekomendasi_id',$rekom['id'])->update([
+                            $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$rekom['id'])->update([
                                 'catatan'=>$request->catatan,
                                 'tanggal'=>date('Y-m-d'),
+                                'sts_release'=>1,
                             ]);
-                            echo 'ok';
                         }
+                        echo 'ok';
                     }
                 }else{
                     $data=Rekomendasi::where('id',$request->id)->update([
-                        'sts'=>6,
+                        'sts'=>4,
+                        'sts_tl'=>'S',
                         'tgl_progres'=>date('Y-m-d'),
                         'revisi'=>2,
+                        'sts_release'=>1,
                         'nilai'=>'A',
                     ]);
 
@@ -250,6 +263,7 @@ class TemuanController extends Controller
                             'nomortl'=>$rekom['nomortl'],
                             'rekomendasi_id'=>$rekom['id'],
                             'sts_tl'=>'S',
+                            'sts_release'=>1,
                         ]);
                         echo 'ok';
                     }else{
@@ -258,6 +272,7 @@ class TemuanController extends Controller
                             $dis=Disposisi::where('sts_tl','S')->where('rekomendasi_id',$rekom['id'])->update([
                                 'catatan'=>$request->catatan,
                                 'tanggal'=>date('Y-m-d'),
+                                'sts_release'=>1,
                             ]);
                         }else{
                             $dis=Disposisi::create([
@@ -266,6 +281,7 @@ class TemuanController extends Controller
                                 'nomortl'=>$rekom['nomortl'],
                                 'rekomendasi_id'=>$rekom['id'],
                                 'sts_tl'=>'S',
+                                'sts_release'=>1,
                             ]);
                         }
                         
@@ -283,9 +299,23 @@ class TemuanController extends Controller
         else{
             $rekom=Rekomendasi::where('id',$request->id)->first();
             if($request->status==1){
+                if($rekom->sts_tl=='S'){
+                    $sts_release=2;
+                }else{
+                    $sts_release=null;
+                }
                 $data=Rekomendasi::where('id',$request->id)->update([
                     'sts'=>5,
+                    'sts_release'=>$sts_release,
                 ]);
+
+                if($rekom->sts_tl=='S'){
+                    $dis=Disposisi::where('sts_tl','S')->where('rekomendasi_id',$rekom['id'])->update([
+                        'catatan'=>$request->catatan,
+                        'tanggal'=>date('Y-m-d'),
+                        'sts_release'=>2,
+                    ]);
+                }
                 echo 'ok';
             }else{
                 if (trim($request->catatan) == '') {$error[] = '-Isi catatan/alasan pengembalian';}
@@ -294,12 +324,25 @@ class TemuanController extends Controller
                     $data=Rekomendasi::where('id',$request->id)->update([
                         'sts'=>3,
                         'revisi'=>3,
+                        'sts_release'=>null,
                     ]);
-
-                    $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
-                        'catatan_pengawas'=>$request->catatan,
-                        'tanggal'=>date('Y-m-d'),
-                    ]);
+                    $cekdata=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$rekom['id'])->count();
+                    if($cekdata>0){
+                        $dis=Disposisi::where('sts_tl',$rekom['sts_tl'])->where('rekomendasi_id',$request->id)->update([
+                            'catatan_pengawas'=>$request->catatan,
+                            'tanggal'=>date('Y-m-d'),
+                        ]);
+                    }else{
+                        $dis=Disposisi::create([
+                            'catatan_pengawas'=>$request->catatan,
+                            'tanggal'=>date('Y-m-d'),
+                            'nomortl'=>$rekom['nomortl'],
+                            'rekomendasi_id'=>$rekom['id'],
+                            'sts_tl'=>$rekom['sts_tl'],
+                            'sts_release'=>null,
+                        ]);
+                    }
+                   
                     echo 'ok';
                 }
             }
@@ -385,7 +428,7 @@ class TemuanController extends Controller
             $counttl=Rekomendasi::where('bulan',date('m'))->where('tahun',date('Y'))->where('kode_tl',$kodetl)->count();
             
             if($count>0){
-                $cektl=Rekomendasi::where('bulan',date('m'))->where('tahun',date('Y'))->orderBy('nomortl','Desc')->firstOrfail();
+                $cektl=Rekomendasi::where('bulan',date('m'))->where('kode_tl',$kodetl)->where('tahun',date('Y'))->orderBy('nomortl','Desc')->firstOrfail();
                 $urutantl = (int) substr($cektl['nomortl'], 9, 4);
                 $urutantl++;
                 $nomortl=$kodetl.date('y').kode_bulan(date('m')).sprintf("%04s", $urutantl);

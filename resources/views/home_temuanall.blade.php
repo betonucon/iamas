@@ -161,7 +161,7 @@
 														@foreach(detail_temuan_get_kode($kode,$tahun,$det->kode_sumber) as $no=>$get)
 															<tr>
 																<td>{{$no+1}}</td>
-																<td>{{$get->unitkerja['name']}}</td>
+																<td>{{$get->unit_name}}</td>
 																<td>{{$get->nomorkode}}</td>
 																<td>{{$get->nomor}}.{{$get->urutan}}</td>
 																<td>{{$get->ket_risiko}}</td>
@@ -174,7 +174,12 @@
 																		@endif
 																	@else
 																		@if($get->sts_tl=='S')
-																			<b>({{$get->sts_tl}})</b> {{track_temuan_auditee($get->sts)}}
+																			@if($get->sts_release>2)
+																				<b>({{$get->sts_tl}})</b> {{track_temuan_auditee($get->sts)}}
+																			@else
+																				<b>({{$get->sts_tl_sebelumnya}})</b> Review IA
+																			@endif
+																			
 																		@else
 																			@if($get->sts_tl=='B')
 																				<b>(B)</b> Pengisian Tindak Lanjut

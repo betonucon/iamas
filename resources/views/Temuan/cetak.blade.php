@@ -38,8 +38,8 @@
             <tr>
                 <th class="head"  width="20%"><img src="{{public_path('img/logoks.png')}}" width="100%"></th>
                 <th class="head" >
-                    <h2 class="h2-head">PT KRAKATAU STEEL PERSERO Tbk</h2>
-                    <h3 class="h3-head">Jl. Kawasan Industri Krakatau Steel No.285a, Warnasari, Kec. Citangkil, Kota Cilegon, Banten 42443</h3>
+                    <h2 class="h2-head">PT KRAKATAU STEEL (Persero) Tbk</h2>
+                    <h3 class="h3-head">Jl. Industri No. 5 P.O BOX 14 Cilegon Banten 42435</h3>
                     
                 </th>
             </tr>
@@ -71,7 +71,7 @@
                 <td width="3%"></td>
                 <td width="17%">Dari</td>
                 <td width="3%">:</td>
-                <td>{{$data->unitkerja['pimpinan']}} {{$data->unitkerja['name']}}</td>
+                <td>{{$data->unitkerja['name']}}</td>
             </tr>
             <tr>
                 <td></td>
@@ -119,8 +119,8 @@
                 <td width="3%"></td>
                 
                 <td colspan="3"><br><br>
-                    <b>DENGAN HORMAT,</b><br>
-                    Berkenaan dengan adanya temuan atas LHA No. {{$data->kesimpulan['nomorkode']}}  rekomendasi No. {{$data->nomor}}{{$data->urutan}} maka dengan ini disampaikan tindak lanjut sebagai berikut 
+                    <b>Dengan hormat,</b><br>
+                    Berkenaan dengan adanya temuan atas LHA No. {{$data->kesimpulan['nomorkode']}}  rekomendasi No. {{$data->nomor}}.{{$data->urutan}} maka dengan ini disampaikan tindak lanjut sebagai berikut 
                     :<br>
                 </td>
             </tr>
