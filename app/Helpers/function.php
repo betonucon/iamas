@@ -2294,15 +2294,15 @@ function kodefikasi_get(){
     return $data;
 }
 
-function total_kodifikasi($kodifikasi){
+function total_kodifikasi($kodifikasi,$tahun){
     
-    $data=App\Surattugas::where('kodifikasi_laporan',$kodifikasi)->count();
+    $data=App\Surattugas::where('kodifikasi_laporan',$kodifikasi)->whereYear('tanggal',$tahun)->count();
     return $data;
 }
 
-function total_kodifikasi_rekomendasi($kodifikasi){
+function total_kodifikasi_rekomendasi($kodifikasi,$tahun){
     
-    $data=App\Surattugas::where('kodifikasi_rekomendasi',$kodifikasi)->count();
+    $data=App\Surattugas::where('kodifikasi_rekomendasi',$kodifikasi)->whereYear('tanggal',$tahun)->count();
     return $data;
 }
 

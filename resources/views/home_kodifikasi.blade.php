@@ -5,6 +5,14 @@
 @endpush
 @section('contex')
 	<!-- begin row -->
+	<div class="d-sm-flex align-items-center mb-3" style="padding: 1%;background: #8195a9;">
+		<label style="color:#fff">PILIH TAHUN &nbsp;&nbsp;</label>
+		<select onchange="pilih_tahun(this.value)" style="width:30%;display:inline" class="form-control">
+			@for($x=2020;$x<=date('Y');$x++)
+				<option value="{{$x}}" @if($tahun==$x) selected @endif> Dashboard Tahun {{$x}}</option>
+			@endfor
+		</select>
+	</div>
 	<div class="row">
 		
 		<!-- begin col-6 -->
@@ -54,7 +62,9 @@
 <script src="{{url('assets/assets/plugins/nvd3/build/nv.d3.min.js')}}"></script>
 
 <script>
-
+function pilih_tahun(tahun){
+		location.assign("{{url('DashboardKodifikasi')}}?tahun="+tahun);
+	}
 var handleBarChart = function() {
 	"use strict";
 
@@ -62,7 +72,7 @@ var handleBarChart = function() {
 		key: 'Cumulative Return',
 		values: [
 			@foreach(kodefikasi_get() as $kodefikasi_get)
-			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi($kodefikasi_get->kodifikasi)}}, 'color' : COLOR_PURPLE }, 
+			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi($kodefikasi_get->kodifikasi,$tahun)}}, 'color' : COLOR_PURPLE }, 
 			// { 'label' : 'A', 'value' : 29, 'color' : COLOR_RED }, 
 			// { 'label' : 'B', 'value' : 15, 'color' : COLOR_ORANGE }, 
 			// { 'label' : 'C', 'value' : 32, 'color' : COLOR_GREEN }, 
@@ -99,7 +109,7 @@ var handleBarChartrekomendasi = function() {
 		key: 'Cumulative Return',
 		values: [
 			@foreach(kodefikasi_get() as $kodefikasi_get)
-			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi_rekomendasi($kodefikasi_get->kodifikasi)}}, 'color' : COLOR_ORANGE }, 
+			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi_rekomendasi($kodefikasi_get->kodifikasi,$tahun)}}, 'color' : COLOR_ORANGE }, 
 			// { 'label' : 'A', 'value' : 29, 'color' : COLOR_RED }, 
 			// { 'label' : 'B', 'value' : 15, 'color' : COLOR_ORANGE }, 
 			// { 'label' : 'C', 'value' : 32, 'color' : COLOR_GREEN }, 
