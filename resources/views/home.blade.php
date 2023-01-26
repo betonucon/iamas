@@ -26,13 +26,13 @@
 								<div class="row">
 									<div class="col-xl-7 col-lg-8">
 										<div class="mb-3 text-grey">
-											<b>STIA{{$aktv->kode}}</b>
+											<b>Pemanfaatan Hari Penugasan STIA{{$aktv->kode}}</b>
 											<span class="ml-2">
 												<i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Total sales" data-placement="top" data-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i>
 											</span>
 										</div>
 										<div class="d-flex mb-1">
-											<h2 class="mb-0">%<span data-animation="number" data-value="{{dashboard_nilai_persen($aktv->kode,$tahun)}}">0.00</span></h2>
+											<h2 class="mb-0"><span data-animation="number" data-value="{{dashboard_nilai_persen($aktv->kode,$tahun)}}">0.00</span>%</h2>
 											<div class="ml-auto mt-n1 mb-n1"><div id="total-sales-sparkline"></div></div>
 										</div>
 										<div class="mb-3 text-grey">
@@ -50,28 +50,25 @@
 												
 											</div>
 										</div>
+										<a href="#" class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2" data-toggle="collapse" data-target="#collapse{{$aktv->kode}}" aria-expanded="false">View Detail</a>
 									</div>
 									<div class="col-xl-5 col-lg-4 align-items-center d-flex justify-content-center">
-										<img src="{{url('assets/assets/img/svg/img-1.svg')}}" height="50%" class="d-none d-lg-block" />
+										@if(dashboard_nilai_persen($aktv->kode,$tahun)>100)
+										<img src="{{url('img/down.png')}}" height="50%" style="position: absolute;" class="d-none d-lg-block" />
+										@else
+										<img src="{{url('img/up.png')}}" height="50%" style="position: absolute;" class="d-none d-lg-block" />
+										@endif
+										
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				@endforeach
-				<div class="col-xl-12">
-					
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="card border-0 text-truncate mb-3 bg-dark text-white">
-									<div class="card-body">
-										<div class="mb-3 text-grey">
-											<b class="mb-3">DETAIL DASHBOARD</b> 
-											<span class="ml-2"><i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Conversion Rate" data-placement="top" data-content="Percentage of sessions that resulted in orders from total number of sessions." data-original-title="" title=""></i></span>
-										</div>
+						<div class="widget-list widget-list-rounded inverse-mode">
+							<div id="accordion" class="accordion" style="width: 100%;">
+								<div id="collapse{{$aktv->kode}}" class="collapse" data-parent="#accordion" style="">
+									<div class="card border-0 text-truncate mb-3 bg-dark text-white">	
+										<div class="card-body" style="background:#00000021">
 										
-										
-										@foreach(pertama_aktivitas_get() as $aktv)
 											<div class="d-flex mb-2">
 												<div class="d-flex align-items-center">
 													<i class="fa fa-circle text-warning f-s-8 mr-2"></i>
@@ -106,12 +103,16 @@
 													</div>
 												</div>
 											@endforeach
-										@endforeach
+
+
+
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				@endforeach
 			</div>
 	
 @endsection

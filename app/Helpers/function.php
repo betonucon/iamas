@@ -1340,7 +1340,7 @@ function aktivitas_get_dashboard($kode,$tahun){
     return $data;
 }
 function total_aktivitas_get_dashboard($kode,$tahun){
-    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->count();
+    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('sts','>',1)->where('tahun',$tahun)->count();
     return $data;
 }
 
