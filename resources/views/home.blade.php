@@ -88,7 +88,7 @@
 											</div>
 											@foreach(aktivitas_get_dashboard($aktv->kode,$tahun) as $do=>$dok)
 												<div class="col-12">
-													<div class="m-b-2 text-truncate">{{$do+1}}. {{$dok->nomortiket}} ({{rekap_stia($dok->id,$tahun)}}%)</div>
+													<div class="m-b-2 text-truncate">{{$do+1}}. {{$dok->nomortiket}} </div>
 												</div>
 												<div class="col-12" style="padding-left:3%">
 													<div class="m-b-2 text-truncate" style="color:yellow;font-weight:bold">PLAN</div>

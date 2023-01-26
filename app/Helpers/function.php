@@ -205,15 +205,13 @@ function nilai_plan($id,$tahun){
    
 }
 function nilai_real($id,$tahun){
-   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->count();
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',4)->count();
    if($cek>0){
       $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
       $plan=selisih_hari($data['mulai'],$data['sampai']);
-      $real=selisih_hari($data['tgl_head'],$data['sampai']);
-      $tot=$plan-$real;
-      $sel=(100/selisih_hari($data['mulai'],$data['tgl_approval']));
-      $nilai=round($sel*$tot);
-      return $nilai;
+      $real=selisih_hari($data['tgl_head'],$data['tgl_approval']);
+      $nilai=(($real/$plan)*100);
+      return round($nilai);
    }else{
       return 0;
    }
@@ -1261,7 +1259,7 @@ function kedua_aktivitas_get(){
 }
 
 function aktivitas_get_dashboard($kode,$tahun){
-    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->orderBy('kode_aktivitas','Asc')->get();
+    $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->where('sts','>',1)->orderBy('kode_aktivitas','Asc')->get();
     return $data;
 }
 function total_aktivitas_get_dashboard($kode,$tahun){
