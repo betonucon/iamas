@@ -248,7 +248,7 @@
                 pointBackgroundColor: COLOR_BLUE,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: "green",
+                backgroundColor: "#26822673",
                 data: [
                     0,
                     {{round(($akmdesk/$total)*100)}},
@@ -261,11 +261,11 @@
                 ]
             }, {
                 label: 'REAL',
-                borderColor: COLOR_DARK_LIGHTER,
+                borderColor: 'yellow',
                 pointBackgroundColor: COLOR_DARK,
                 pointRadius: 2,
                 borderWidth: 2,
-                backgroundColor: "blue",
+                backgroundColor: "#093a66cf",
                 data: [
                     0,
                     {{hitung_progres($akmdesk2,$total)}},
