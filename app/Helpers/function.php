@@ -165,16 +165,43 @@ function rekapan_aktivitas_get_dashboard($id,$tahun){
 
 }
 
-function dashboard_nilai_real($id,$tahun){
-   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->count();
+function dashboard_nilai_persen($id,$tahun){
+   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',4)->where('tahun',$tahun)->count();
    if($cek>0){
-      $data=App\Surattugas::where('kode_aktivitas',$id)->where('tahun',$tahun)->get();
+      $data=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',4)->where('tahun',$tahun)->get();
       $nilai=0;
       foreach($data as $o){
-         $first=App\Surattugas::where('id',$o['id'])->first();
-         $nilai+=selisih_hari($first['tgl_head'],$first['tgl_approval']);
+         $nilai+=nilai_real($o->id,$tahun);
       }
-      $nil=uang($nilai/$cek);
+      $nil=round($nilai/$cek);
+   }else{
+      $nil=0;
+   }
+   return $nil;
+}
+function dashboard_nilai_real($id,$tahun){
+   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',4)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',4)->where('tahun',$tahun)->get();
+      $nilai=0;
+      foreach($data as $o){
+         $nilai+=nilai_real_hari($o->id,$tahun);
+      }
+      $nil=round($nilai/$cek);
+   }else{
+      $nil=0;
+   }
+   return $nil;
+}
+function dashboard_nilai_plan($id,$tahun){
+   $cek=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',1)->where('tahun',$tahun)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('kode_aktivitas',$id)->where('sts','>',1)->where('tahun',$tahun)->get();
+      $nilai=0;
+      foreach($data as $o){
+         $nilai+=nilai_plan_hari($o->id,$tahun);
+      }
+      $nil=round($nilai/$cek);
    }else{
       $nil=0;
    }
@@ -192,9 +219,9 @@ function rekap_stia($id,$tahun){
    
 }
 function nilai_plan($id,$tahun){
-   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->count();
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',1)->count();
    if($cek>0){
-      $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
+      $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',1)->first();
       $sel=(100/selisih_hari($data['mulai'],$data['sampai']));
       $nilai=($sel*selisih_hari($data['mulai'],$data['sampai']));
       return $nilai;
@@ -217,6 +244,32 @@ function nilai_real($id,$tahun){
          $nil=$nilai;
       }
       return round($nil);
+   }else{
+      return 0;
+   }
+      
+   
+}
+function nilai_real_hari($id,$tahun){
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',4)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('id',$id)->where('sts','>',4)->where('tahun',$tahun)->first();
+      $plan=selisih_hari($data['mulai'],$data['sampai']);
+      $real=selisih_hari($data['tgl_head'],$data['tgl_approval']);
+      $nilai=(($real/$plan)*100);
+      return $real;
+   }else{
+      return 0;
+   }
+      
+   
+}
+function nilai_plan_hari($id,$tahun){
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',1)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('id',$id)->where('sts','>',1)->where('tahun',$tahun)->first();
+      $plan=selisih_hari($data['mulai'],$data['sampai']);
+      return $plan;
    }else{
       return 0;
    }
@@ -1290,22 +1343,7 @@ function total_aktivitas_get_dashboard($kode,$tahun){
     $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->count();
     return $data;
 }
-function dashboard_nilai_plan($kode,$tahun){
-   $count=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->count();
-   if($count>0){
-      $pembagi=$count;
-   }else{
-      $pembagi=1;
-   }
-   $data=App\Surattugas::where('kode_aktivitas',$kode)->where('tahun',$tahun)->get();
-   $nilai=0;
-   foreach($data as $o){
-        $nilai+=rekap_stia($o['id'],$tahun);
-   }
-   $rek=$nilai;
-   
-   return round($rek/$pembagi);
-}
+
 
 function ubah_uang($uang){
    $xpl=explode('.',$uang);

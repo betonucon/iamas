@@ -32,27 +32,22 @@
 											</span>
 										</div>
 										<div class="d-flex mb-1">
-											<h2 class="mb-0">%<span data-animation="number" data-value="{{rekapan_aktivitas_get_dashboard($aktv->kode,$tahun)}}">0.00</span></h2>
+											<h2 class="mb-0">%<span data-animation="number" data-value="{{dashboard_nilai_persen($aktv->kode,$tahun)}}">0.00</span></h2>
 											<div class="ml-auto mt-n1 mb-n1"><div id="total-sales-sparkline"></div></div>
 										</div>
 										<div class="mb-3 text-grey">
-											<i class="fa fa-caret-up"></i> <span data-animation="number" data-value="{{rekapan_aktivitas_get_dashboard($aktv->kode,$tahun)}}">0.00</span>
+											<i class="fa fa-caret-up"></i> <span data-animation="number" data-value="{{dashboard_nilai_persen($aktv->kode,$tahun)}}">0.00</span>
 										</div>
 										<hr class="bg-white-transparent-2" />
 										<div class="row text-truncate">
 											<div class="col-6">
 												<div class="f-s-12 text-grey">PLAN</div>
-												<div class="f-s-18 m-b-5 f-w-600 p-b-1">%<span data-animation="number" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}">0.00</span></div>
-												<div class="progress progress-xs rounded-lg bg-dark-darker m-b-5">
-													<div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}%" style="width: 0%"></div>
-												</div>
+												<div class="f-s-18 m-b-5 f-w-600 p-b-1"><span data-animation="number" data-value="{{dashboard_nilai_plan($aktv->kode,$tahun)}}">0.00</span>Hari</div>
 											</div>
 											<div class="col-6">
 												<div class="f-s-12 text-grey">REAL</div>
-												<div class="f-s-18 m-b-5 f-w-600 p-b-1">%<span data-animation="number" data-value="{{dashboard_nilai_real($aktv->kode,$tahun)}}">0.00</span></div>
-												<div class="progress progress-xs rounded-lg bg-dark-darker m-b-5">
-													<div class="progress-bar progress-bar-striped rounded-right" data-animation="width" data-value="{{dashboard_nilai_real($aktv->kode,$tahun)}}%" style="width: 0%"></div>
-												</div>
+												<div class="f-s-18 m-b-5 f-w-600 p-b-1"><span data-animation="number" data-value="{{dashboard_nilai_real($aktv->kode,$tahun)}}">0.00</span>Hari</div>
+												
 											</div>
 										</div>
 									</div>
