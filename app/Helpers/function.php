@@ -211,7 +211,31 @@ function nilai_real($id,$tahun){
       $plan=selisih_hari($data['mulai'],$data['sampai']);
       $real=selisih_hari($data['tgl_head'],$data['tgl_approval']);
       $nilai=(($real/$plan)*100);
-      return round($nilai);
+      if($nilai>100){
+         $nil=100;
+      }else{
+         $nil=$nilai;
+      }
+      return round($nil);
+   }else{
+      return 0;
+   }
+      
+   
+}
+function color_nilai_real($id,$tahun){
+   $cek=App\Surattugas::where('id',$id)->where('tahun',$tahun)->where('sts','>',4)->count();
+   if($cek>0){
+      $data=App\Surattugas::where('id',$id)->where('tahun',$tahun)->first();
+      $plan=selisih_hari($data['mulai'],$data['sampai']);
+      $real=selisih_hari($data['tgl_head'],$data['tgl_approval']);
+      $nilai=(($real/$plan)*100);
+      if($nilai>100){
+         $nil='red';
+      }else{
+         $nil='aqua';
+      }
+      return $nil;
    }else{
       return 0;
    }

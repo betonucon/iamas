@@ -100,11 +100,11 @@
 														</div>
 														<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{nilai_plan($dok->id,$tahun)}}">{{nilai_plan($dok->id,$tahun)}}</span>%</div>
 													</div>
-													<div class="m-b-2 text-truncate" style="color:#9dc8f5;font-weight:bold">REAL</div>
+													<div class="m-b-2 text-truncate" style="color:{{color_nilai_real($dok->id,$tahun)}};font-weight:bold">REAL</div>
 													<div class="d-flex align-items-center m-b-2">
 														<div class="flex-grow-1">
 															<div class="progress progress-xs rounded-corner bg-white-transparent-1">
-																<div class="progress-bar progress-bar-striped bg-aqua" data-animation="width" data-value="{{nilai_real($dok->id,$tahun)}}%" style="width: {{nilai_real($dok->id,$tahun)}}%;"></div>
+																<div class="progress-bar progress-bar-striped bg-{{color_nilai_real($dok->id,$tahun)}}" data-animation="width" data-value="{{nilai_real($dok->id,$tahun)}}%" style="width: {{nilai_real($dok->id,$tahun)}}%;"></div>
 															</div>
 														</div>
 														<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{nilai_real($dok->id,$tahun)}}">{{nilai_real($dok->id,$tahun)}}</span>%</div>
