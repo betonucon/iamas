@@ -171,10 +171,15 @@
 																			<b>({{$get->sts_tl}})</b> {{track_temuan_auditee($get->sts)}}
 																		@endif
 																	@else
-																		@if($get->sts_release>2)
+																		@if($get->sts_tl=='S')
 																			<b>({{$get->sts_tl}})</b> {{track_temuan_auditee($get->sts)}}
 																		@else
-																			<b>({{$get->sts_tl_sebelumnya}})</b> Review IA
+																			@if($get->sts_tl=='B')
+																				<b>(B)</b> Pengisian Tindak Lanjut
+																			@else
+																				{{track_temuan_auditee($get->sts)}}
+																			@endif
+																			
 																		@endif
 																	@endif
 																</td>

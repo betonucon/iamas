@@ -31,8 +31,8 @@
                     <span>Dashboard</span>
                 </a>
                 <ul class="sub-menu" style="display: @if($side=='home') block @endif;">
-                    <li><a href="{{url('DashboardStia')}}">Dashboard STIA [1,2,3]</a></li>
-                    <li><a href="{{url('Dashboardaudit')}}">Dashboard STIA [4,5,6]</a></li>
+                    <li><a href="{{url('DashboardStia')}}">Dashboard Non Audit</a></li>
+                    <li><a href="{{url('Dashboardaudit')}}">Dashboard Audit</a></li>
                     <li><a href="{{url('DashboardKodifikasi')}}">Dashboard Kodifikasi</a></li>
                     <li><a href="{{url('Dashboardtemuan')}}">Dashboard Temuan</a></li>
                 </ul>
