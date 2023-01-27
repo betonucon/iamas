@@ -61,8 +61,36 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php 
+										$lhkb=0;
+										$lhkp=0;
+										$lhks=0;
+										$lhkt=0;
+										$lhab=0;
+										$lhap=0;
+										$lhas=0;
+										$lhts=0;
+										$lhpb=0;
+										$lhpp=0;
+										$lhps=0;
+										$lhpt=0;
+									?>
 									@if(Auth::user()->jabatan==1)
 										@foreach(get_subdit(Auth::user()->kode_unit) as $no=>$get)
+											<?php 
+												$lhkb+=total_lhk($get->kode,$tahun,4);
+												$lhkp+=total_lhk($get->kode,$tahun,3);
+												$lhks+=total_lhk($get->kode,$tahun,2);
+												$lhkt+=total_lhk($get->kode,$tahun,1);
+												$lhab+=total_lha($get->kode,$tahun,4);
+												$lhap+=total_lha($get->kode,$tahun,3);
+												$lhas+=total_lha($get->kode,$tahun,2);
+												$lhat+=total_lha($get->kode,$tahun,1);
+												$lhpb+=total_lhp($get->kode,$tahun,4);
+												$lhpp+=total_lhp($get->kode,$tahun,3);
+												$lhps+=total_lhp($get->kode,$tahun,2);
+												$lhpt+=total_lhp($get->kode,$tahun,1);
+											?>
 											<tr>
 												<td>{{$no+1}}</td>
 												<td>{{detail_unit($get->unit_id)}} {{$get->name}}</td>
@@ -81,6 +109,20 @@
 												<td>{{total_lhp($get->kode,$tahun,1)}}</td>
 											</tr>
 											@foreach(get_divisi($get->kode) as $no=>$div)
+												<?php 
+													$lhkb+=total_lhk($div->kode,$tahun,4);
+													$lhkp+=total_lhk($div->kode,$tahun,3);
+													$lhks+=total_lhk($div->kode,$tahun,2);
+													$lhkt+=total_lhk($div->kode,$tahun,1);
+													$lhab+=total_lha($div->kode,$tahun,4);
+													$lhap+=total_lha($div->kode,$tahun,3);
+													$lhas+=total_lha($div->kode,$tahun,2);
+													$lhat+=total_lha($div->kode,$tahun,1);
+													$lhpb+=total_lhp($div->kode,$tahun,4);
+													$lhpp+=total_lhp($div->kode,$tahun,3);
+													$lhps+=total_lhp($div->kode,$tahun,2);
+													$lhpt+=total_lhp($div->kode,$tahun,1);
+												?>
 												<tr>
 													<td></td>
 													<td>&nbsp;&nbsp;&nbsp;{{$no+1}}. {{detail_unit($div->unit_id)}} {{$div->name}}</td>
@@ -102,6 +144,20 @@
 										@endforeach
 									@else
 										@foreach(get_divisi(Auth::user()->kode_unit) as $no=>$get)
+											<?php 
+												$lhkb+=total_lhk($get->kode,$tahun,4);
+												$lhkp+=total_lhk($get->kode,$tahun,3);
+												$lhks+=total_lhk($get->kode,$tahun,2);
+												$lhkt+=total_lhk($get->kode,$tahun,1);
+												$lhab+=total_lha($get->kode,$tahun,4);
+												$lhap+=total_lha($get->kode,$tahun,3);
+												$lhas+=total_lha($get->kode,$tahun,2);
+												$lhat+=total_lha($get->kode,$tahun,1);
+												$lhpb+=total_lhp($get->kode,$tahun,4);
+												$lhpp+=total_lhp($get->kode,$tahun,3);
+												$lhps+=total_lhp($get->kode,$tahun,2);
+												$lhpt+=total_lhp($get->kode,$tahun,1);
+											?>
 											<tr>
 												<td>{{$no+1}}</td>
 												<td>{{detail_unit($get->unit_id)}} {{$get->name}}</td>
@@ -122,6 +178,22 @@
 											
 										@endforeach
 									@endif
+									<tr>
+										<th rowspan="2" colspan="2" >TOTAL</th>
+										<th>{{$lhkb}}</th>
+										<th>{{$lhkp}}</th>
+										<th>{{$lhks}}</th>
+										<th>{{$lhkt}}</th>
+										<th>{{$lhab}}</th>
+										<th>{{$lhap}}</th>
+										<th>{{$lhas}}</th>
+										<th>{{$lhat}}</th>
+										<th>{{$lhpb}}</th>
+										<th>{{$lhpp}}</th>
+										<th>{{$lhps}}</th>
+										<th>{{$lhpt}}</th>
+										
+									</tr>
 								</tbody>
 							</table>
 						</div>
