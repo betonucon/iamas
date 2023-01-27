@@ -2302,7 +2302,7 @@ function total_kodifikasi($kodifikasi,$tahun){
 
 function total_kodifikasi_rekomendasi($kodifikasi,$tahun){
     
-    $data=App\Surattugas::where('kodifikasi_rekomendasi',$kodifikasi)->whereYear('tanggal',$tahun)->count();
+    $data=App\Viewtemuan::where('kodifikasi',$kodifikasi)->where('tahun',$tahun)->count();
     return $data;
 }
 

@@ -173,7 +173,7 @@
 																	@else
 																		@if($get->sts_tl=='S')
 																			@if($get->sts_release!=3)
-																				<b>({{$get->sts_tl_sebelumnya}})</b> Review AI
+																				<b>({{$get->sts_tl_sebelumnya}})</b> Review IA
 																			@else
 																				<b>(S)</b> Selesai
 																			@endif
@@ -182,7 +182,7 @@
 																			@if($get->sts_tl=='B')
 																				<b>(B)</b> Pengisian Tindak Lanjut
 																			@else
-																				<b>({{$get->sts_tl}}</b> Review AI
+																				<b>({{$get->sts_tl}}) </b> Review IA
 																			@endif
 																			
 																		@endif
