@@ -152,7 +152,6 @@
 															<th>Unit Kerja</th>
 															<th>Nomor Temuan</th>
 															<th>Nomor</th>
-															<th>Risiko</th>
 															<th>Status</th>
 															<th>Aging</th>
 														</tr>
@@ -164,7 +163,6 @@
 																<td>{{$get->unitkerja['name']}}</td>
 																<td>{{$get->nomorkode}}</td>
 																<td>{{$get->nomor}}.{{$get->urutan}}</td>
-																<td>{{$get->ket_risiko}}</td>
 																<td>
 																	@if($get->sts==1)
 																		@if($get->sts_tl=='B')
@@ -192,7 +190,7 @@
 																</td>
 																<td>
 																	@if($get->sts_tl=='B')
-																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit_p,date('Y-m-d H:i:s'))}} Hari</font>
+																		<font style="font-weight:bold" color="red">{{selisih_all($get->terbit,date('Y-m-d H:i:s'))}} Hari</font>
 																	@elseif($get->sts_tl=='S')
 																		<font style="font-weight:bold" color="#000">{{selisih_all($get->terbit_p,$get->tgl_mulai)}} Hari</font>
 																	@else
