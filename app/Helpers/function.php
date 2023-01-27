@@ -2296,7 +2296,7 @@ function kodefikasi_get(){
 
 function total_kodifikasi($kodifikasi,$tahun){
     
-    $data=App\Surattugas::where('kodifikasi_laporan',$kodifikasi)->whereYear('tanggal',$tahun)->count();
+    $data=App\Kesimpulan::where('kodifikasi',$kodifikasi)->whereYear('tanggal',$tahun)->count();
     return $data;
 }
 
