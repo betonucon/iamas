@@ -122,10 +122,11 @@
 														<td class="ttdd">:</td>
 														<td class="ttdd">
 															@if(total_temuan(0,$tahun,$det->kode_sumber)==total_temuan_selesai(0,$tahun,$det->kode_sumber))
-																<span class="btn btn-sm btn-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+																<span class="btn btn-sm btn-blue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 															@else
-																<span class="btn btn-sm btn-grey" style="background:grey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+																<span class="btn btn-sm btn-grey" style="background:grey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 															@endif
+														</td>
 													</tr>
 													
 												</tbody>
