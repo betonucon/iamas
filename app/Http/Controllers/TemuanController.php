@@ -369,6 +369,7 @@ class TemuanController extends Controller
                             'sts'=>1,
                             'terbit_p'=>date('Y-m-d H:i:s'),
                             'revisi'=>3,
+                            'sts_release'=>3,
                             'nomormtl'=>'M'.$rekom['nomortl'],
                         ]);
     

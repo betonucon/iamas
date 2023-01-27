@@ -1843,8 +1843,8 @@ function total_temuan_progres($kode,$tahun,$kode_sumber){
    }else{
       $data=App\Viewtemuan::where('kode_sumber',$kode_sumber)->whereYear('terbit',$tahun)
             ->whereNotIn('sts_tl',array('B'))
-            ->where(function ($query) {
-               $query->where('sts_release','>',0)->orWhere('sts_release','<',3);
+            ->where(function ($q) {
+               $q->whereNotIn('sts_tl',array('B','S'))->orWhere('sts_release','<',3);
             })
             ->count();
    }

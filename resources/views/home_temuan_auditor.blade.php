@@ -172,17 +172,17 @@
 																		@endif
 																	@else
 																		@if($get->sts_tl=='S')
-																			@if($get->sts_release==2)
+																			@if($get->sts_release!=3)
 																				<b>({{$get->sts_tl_sebelumnya}})</b> Review AI
 																			@else
-																				<b>({{$get->sts_tl}})</b> {{track_temuan_auditee($get->sts)}}
+																				<b>(S)</b> Selesai
 																			@endif
 																			
 																		@else
 																			@if($get->sts_tl=='B')
 																				<b>(B)</b> Pengisian Tindak Lanjut
 																			@else
-																				{{track_temuan_auditee($get->sts)}}
+																				<b>({{$get->sts_tl}}</b> Review AI
 																			@endif
 																			
 																		@endif
