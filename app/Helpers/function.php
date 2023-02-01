@@ -1361,6 +1361,11 @@ function unit_pimpinan($kode){
     $view=$data['pimpinan'];
     return $view;
 }
+function count_switch(){
+    $data=App\Unitkerja::where('nik',Auth::user()->nik)->count();
+   
+    return $data;
+}
 function name_jabatan($kode){
    if($kode==1){
      return 'Direktur'; 
@@ -2286,6 +2291,11 @@ function role_get(){
     
     $data=App\Role::orderBy('name','Asc')->get();
     return $data;
+}
+function name_role(){
+    
+    $data=App\Role::where('id',Auth::user()->role_utama)->first();
+    return $data->name;
 }
 
 function kodefikasi_get(){

@@ -14,7 +14,9 @@ class TiketController extends Controller
 {
     public function index(request $request){
         error_reporting(0);    
-        if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 ){
+        $array=array(3,4,6,7,8,9,10,11);
+        if(in_array(Auth::user()->posisi_id,$array)){
+        
             $menu='Sumber Informasi ';
             $side='tiket';
             return view('Tiket.index',compact('menu','side'));

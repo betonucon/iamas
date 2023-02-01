@@ -14,10 +14,10 @@ class UnitController extends Controller
         return view('unitkerja.index',compact('menu','side'));
     }
     public function switch_akun(request $request){
-        $unit=Unitkerja::where('kode',$request->kode)->first();
+        // $unit=Unitkerja::where('kode',$request->kode)->first();
         $data=User::where('id',Auth::user()['id'])->update([
-            'kode_unit'=>$request->kode,
-            'jabatan'=>$unit['unit_id'],
+            'role_id'=>$request->role,
+            // 'jabatan'=>$unit['unit_id'],
         ]);
     }
     public function get_unit(request $request){
@@ -166,6 +166,7 @@ class UnitController extends Controller
                         'password'=>Hash::make($request->nik),
                         'jabatan'=>$request->position_name,
                         'role_id'=>8,
+                        'role_utama'=>8,
                     ]);
                     echo'ok';
                 }
@@ -200,6 +201,7 @@ class UnitController extends Controller
                         'password'=>Hash::make($request->nik),
                         'jabatan'=>$request->position_name,
                         'role_id'=>8,
+                        'role_utama'=>8,
                     ]);
                 }
                 echo'ok';
