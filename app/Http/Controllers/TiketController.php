@@ -999,7 +999,13 @@ class TiketController extends Controller
         if (trim($request->keterangan) == '') {$error[] = '- Isi Keterangan';}
         if (trim($request->name) == '') {$error[] = '- Isi Obyek Audit';}
         if (trim($request->kode_unit) == '') {$error[] = '- Pilih Unit Kerja';}
-        if (trim($request->kode) == '') {$error[] = '- Pilih Kategori Audit';}
+        $array=array(4,5,6);
+        if(in_array($request->kode_aktivitas,$array)){
+            if (trim($request->kode) == 'NA') {$error[] = '- Pilih Kategori Audit';}
+        }else{
+            if (trim($request->kode) == '') {$error[] = '- Pilih Kategori Audit';}
+        }
+        
         if (trim($request->mulai) == '') {$error[] = '- Isi Tanggal mulai audit';}
         if (trim($request->sampai) == '') {$error[] = '- Isi Tanggal Selesai audit';}
         if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:11px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
