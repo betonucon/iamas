@@ -1125,7 +1125,7 @@ class TiketController extends Controller
                         'judul_tiket'=>$request->judul,
                         'keterangan_tiket'=>$request->keterangan,
                         'kode_aktivitas'=>$request->kode_aktivitas,
-                        'lampiran_tiket'=>$filePath,
+                        
                     ]);
                     $surat=Surattugas::where('tiket_id',$request->tiket_id)->update([
                         'name'=>$request->name,
