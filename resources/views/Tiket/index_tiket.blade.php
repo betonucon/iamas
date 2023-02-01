@@ -32,7 +32,7 @@
 					<div class="btn-group btn-group-justified text-with">
 						@if(Auth::user()->posisi_id==12)
 						<a class="btn btn-blue active" onclick="tambah()"><i class="fas fa-edit fa-sm"></i> Tambah </a>
-						@else
+						@endif
 						
 						<!-- <a class="btn btn-danger active" onclick="hapus()">Hapus</a> -->
 					</div>
