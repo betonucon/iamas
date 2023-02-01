@@ -21,7 +21,7 @@
                     </ul>
                 </li>
                 
-                <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Input Konsultasi</span></a></li>
+                <li><a href="{{url('Tiket')}}">{!!count_kelola_sumber()!!} <i class="fa fa-bullhorn"></i><span>Input Konsultasi</span></a></li>
                
             @else
             <li class="has-sub ">
