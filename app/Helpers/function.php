@@ -1005,6 +1005,15 @@ function count_kelola_sumber(){
     }
     
 }
+function count_penyelesaian(){
+    $data=App\Surattugas::where('tiket_id',array_tiket_pengawas())->where('sts',3)->count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
 
 function tiket_get_gl(){
     $data=App\Tiket::whereIn('sts',array('0','1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();

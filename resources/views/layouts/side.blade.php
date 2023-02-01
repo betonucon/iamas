@@ -105,7 +105,7 @@
                 <!-----Menu Pengawas Untuk Tiket---->
                 @if(Auth::user()->posisi_id==12 || Auth::user()->posisi_id==2 || Auth::user()->posisi_id==7 || Auth::user()->posisi_id==1)
                     @if(akses_tiket_pengawas()>0)
-                        <li><a href="{{url('AccTiketPengawas')}}"><i class="fa fa-gavel"></i><span>Penyelesaian Tiket</span></a></li>
+                        <li><a href="{{url('AccTiketPengawas')}}">{!!count_penyelesaian()!!}<i class="fa fa-gavel"></i><span>Penyelesaian Tiket</span></a></li>
                         <li class="has-sub lilinya">
                             <a href="javascript:;">
                                 <b class="caret"></b>
