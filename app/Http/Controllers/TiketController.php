@@ -63,7 +63,8 @@ class TiketController extends Controller
         
     }
     public function index_tiket(request $request){
-        error_reporting(0);    if(Auth::user()->posisi_id==12){
+        error_reporting(0);    
+        if(Auth::user()->posisi_id==12 || Auth::user()->role_id==4){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket',compact('menu','side'));
