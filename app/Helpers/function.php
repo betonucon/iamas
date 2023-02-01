@@ -996,6 +996,15 @@ function tiket_get(){
     $data=App\Tiket::where('nik',Auth::user()['nik'])->orderBy('id','Desc')->get();
     return $data;
 }
+function count_kelola_sumber(){
+    $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts',10)->count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
 
 function tiket_get_gl(){
     $data=App\Tiket::whereIn('sts',array('0','1','2','3','4'))->where('sts','!=',10)->orderBy('id','Desc')->get();

@@ -64,7 +64,7 @@
                 @endif
                 <!-----Menu Anggota Untuk Tiket---->
                 @if(Auth::user()->posisi_id==3 || Auth::user()->posisi_id==11 || Auth::user()->posisi_id==4 || Auth::user()->posisi_id==5 || Auth::user()->posisi_id==6 || Auth::user()->posisi_id==10)
-                    <li><a href="{{url('Tiket')}}"><i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                    <li><a href="{{url('Tiket')}}">{!!count_kelola_sumber()!!}<i class="fa fa-bullhorn"></i><span> Kelola Sumber Informasi</span></a></li>
                     @if(akses_tiket_anggota()>0)
                     <li><a href="{{url('TiketAnggota')}}"><i class="fa fa-ticket-alt"></i><span>Tiket Anggota</span></a></li>
                     
