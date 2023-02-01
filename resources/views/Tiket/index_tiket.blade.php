@@ -30,7 +30,10 @@
 				<div class="panel-body">
 
 					<div class="btn-group btn-group-justified text-with">
+						@if(Auth::user()->posisi_id==12)
 						<a class="btn btn-blue active" onclick="tambah()"><i class="fas fa-edit fa-sm"></i> Tambah </a>
+						@else
+						
 						<!-- <a class="btn btn-danger active" onclick="hapus()">Hapus</a> -->
 					</div>
 					<form id="data-all" enctype="multipart/form-data">
@@ -46,7 +49,9 @@
 									<th width="3%" class="text-nowrap">file</th>
 									<th width="3%" class="text-nowrap">surat</th>
 									<th width="9%" class="text-nowrap">Status</th>
+									@if(Auth::user()->posisi_id==12)
 									<th width="3%" class="text-nowrap">Action</th>
+									@endif
 								</tr>
 							</thead>
 							<tbody>
@@ -67,9 +72,11 @@
 											@endif
 											
 										</td>
+										@if(Auth::user()->posisi_id==12)
 										<td>
 											<span onclick="ubah({{$data->tiket['id']}})" class="btn btn-green active btn-xs"><i class="fas fa-edit fa-sm"></i> View</span> 
 										</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

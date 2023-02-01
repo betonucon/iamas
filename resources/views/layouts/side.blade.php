@@ -54,8 +54,10 @@
                 @endif
 
                 <!-----Menu GL Untuk Tiket---->
-                @if(Auth::user()->posisi_id==12)
+                @if(Auth::user()->posisi_id==12 || Auth::user()->role_id==4)
+                    @if(Auth::user()->posisi_id==12)
                     <li><a href="{{url('TiketGL')}}">{!! notif_sumber_gl()!!}<i class="fa fa-bullhorn"></i><span>Kelola Sumber Informasi</span></a></li>
+                    @endif
                     <li><a href="{{url('TiketNew')}}">{!! notif_tiket_gl() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
                 @endif
                 @if(akses_tiket_ketua()>0)
