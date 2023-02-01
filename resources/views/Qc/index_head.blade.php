@@ -50,7 +50,7 @@
 										<td >
 											<b>No Surat Tugas :</b> {{$data->surattugas['nomortiket']}}<br>
 											<b>Unit Kerja : </b> {{$data->unitkerja['name']}}<br>
-											<b>Obyek : </b> {{$data->stsaudit['name']}}	<br>
+											<b>Obyek : </b> {{$data->name}}	<br>
 											@if($data->sts_lha>4)
 											<b>Daftar Temuan : </b> <a href="{{url('Temuan/view?id='.coder($data->id))}}">Lihat Temuan</a>
 											@endif
@@ -94,7 +94,7 @@
 											<td >
 											<b>No Surat Tugas :</b> {{$data->surattugas['nomortiket']}}<br>
 												<b>Unit Kerja : </b> {{$data->unitkerja['name']}}<br>
-												<b>Obyek : </b> {{$data->stsaudit['name']}}	<br>
+												<b>Obyek : </b> {{$data->name}}	<br>
 												@if($data->sts_lha>4)
 												<b>Daftar Temuan : </b> <a href="{{url('Temuan/view?id='.coder($data->id))}}">Lihat Temuan</a>
 												@endif
