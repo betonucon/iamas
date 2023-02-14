@@ -30,7 +30,17 @@
 				<div class="panel-body" style="background: #b5b5d330;">
 					@if($act=='revisi')
 				    	<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm">Kembali</a>
-					@endif	
+					@endif
+					@if($data->alasan_pengawas_substantive_program!="" || $data->alasan_pengawas_substantive_program!=null)
+							<div class="note note-warning  m-b-15">
+								<div class="note-content">
+									<h4><b>Note Revisi!</b></h4>
+									<p>
+										{!!$data->alasan_pengawas_substantive_program!!}
+									</p>
+								</div>
+							</div>
+					@endif		
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  onclick="tambah()" class="nav-link active">

@@ -38,7 +38,7 @@
 							<thead>
 								<tr>
 									<th width="3%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
+									<th width="10%" class="text-nowrap">No. Surat</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Status</th>
@@ -148,7 +148,7 @@
 							<input type="hidden" name="audit_id" id="audit_ide">
 							<div class="form-grup">
 								<label>Upload File LHA</label>
-								<input type="file" name="file" class="form-control">
+								<input type="file" name="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="form-control">
 							</div>
 							<!-- <input type="submit"> -->
 						</form>

@@ -55,7 +55,7 @@
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->tiket['id']}}" type="checkbox" name="id[]"></td>
 										<td>{{$data->nomortiket}}</td>
-										<td>{{$data->tiket['judul_tiket']}}</td>
+										<td>{{$data->tiket['judul_tiket']}} </td>
 										<td>[{{$data->nomorinformasi}}] {{$data->tiket->sumber['name']}}</td>
 										<td><span onclick="cek_file(`{{$data->tiket['lampiran_tiket']}}`)" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>
 										<td><span onclick="cek_surat_tugas({{$data->tiket['id']}})" title="surat tugas" class="btn btn-yellow btn-xs"><i class="fa fa-clone"></i></span></td>

@@ -151,13 +151,13 @@
 								<div class="tab-pane fade" id="default-tab-5">
 									<div class="col-xl-10 offset-xl-1">
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Tanggal Surat Tugas</label>
+											<label class="col-lg-3 text-lg-right col-form-label">Tanggal Rencana Terbit</label>
 											<div class="col-lg-9 col-xl-4">
-												<input type="text" class="form-control" name="tgl_penerbitan"  id="tangal_penerbitan" placeholder="Enter text ..." >
+												<input type="text" class="form-control" name="tgl_penerbitan" id="tangal_penerbitan" readonly placeholder="Enter text ..." >
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
-											<label class="col-lg-3 text-lg-right col-form-label">Persetujuan AuditpLan</label>
+											<label class="col-lg-3 text-lg-right col-form-label">Persetujuan Audit Plan</label>
 											<div class="col-lg-9 col-xl-4">
 												<input type="text" class="form-control" name="tgl_plan"  id="tangal_plan" placeholder="Enter text ..." >
 											</div>
@@ -295,10 +295,7 @@
                 format: 'yyyy-mm-dd',
                 
             });
-            $('#tangal_penerbitan').datepicker({
-                format: 'yyyy-mm-dd',
-                
-            });
+            
             $('#tangal_plan').datepicker({
                 format: 'yyyy-mm-dd',
                 

@@ -8,6 +8,7 @@ use App\Audit;
 use App\Timaudit;
 use App\Deskaudit;
 use App\Desklangkahkerja;
+use App\Viewcountdeskauditprogram;
 use Artisan;
 use PDF;
 use Illuminate\Support\Facades\Hash;
@@ -245,6 +246,7 @@ class DeskauditController extends Controller
     }
 
     public function isi_catatan(request $request){
+        error_reporting(0);
         $data=Desklangkahkerja::where('id',$request->id)->first();
         echo'
             <div class="form-group">
@@ -304,11 +306,11 @@ class DeskauditController extends Controller
 
     
     public function send_to_pengawas(request $request){
-        $cekdata=$data=Deskaudit::where('audit_id',$request->id)->count();
+        $cekdata=Viewcountdeskauditprogram::where('audit_id',$request->id)->where('total_langkah',0)->count();
         
-        if (trim($cekdata) =='0') {$error[] = '- Isi Pokok Materi dan Langkah kerja';}
-        if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-        else{
+        if ($cekdata>0) {
+            echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />Lengkapi langkah kerja</p>';
+        }else{
             $data=Audit::where('id',$request->id)->update([
                 'sts_deskaudit'=>1,
             ]);
@@ -357,10 +359,12 @@ class DeskauditController extends Controller
                     'tgl_sts4'=>date('Y-m-d'),
                     'sts'=>4,
                     'sts_revisi_deskaudit_langkah'=>1,
+                    
                 ]);
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_deskaudit'=>0,
+                    'alasan_pengawas_deskaudit_program'=>$request->alasan,
                 ]);
             }
 
@@ -384,6 +388,7 @@ class DeskauditController extends Controller
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_deskaudit'=>2,
+                    'alasan_pengawas_deskaudit_catatan'=>$request->alasan,
                 ]);
             }
 

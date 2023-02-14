@@ -197,6 +197,13 @@
 											</div>
 										</div>
 										<div class="form-group row m-b-10" >
+											<label class="col-lg-3 text-lg-right col-form-label">Lampiran Laporan</label>
+											
+											<div class="col-lg-9 col-xl-5">
+												<span class="btn btn-success btn-xs" onclick="window.open(`{{url('_file_lampiran')}}/{{$data['lampiran_laporan']}}`,`_blank`)">Download</span>
+											</div>
+										</div>
+										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Rekomendasi</label>
 											<div class="col-lg-9 col-xl-9">
 												<textarea class="textarea form-control" name="rekomendasi" disabled id="textarearekomendasi" placeholder="Enter text ..." rows="12">{!!$data->rekomendasi!!}</textarea>
@@ -290,6 +297,7 @@
 												</select>
 											</div>
 										</div>
+										
 										<div class="form-group row m-b-10" >
 											<label class="col-lg-3 text-lg-right col-form-label">Tanggal (Mulai & Sampai)</label>
 											<div class="col-lg-9 col-xl-3">

@@ -32,7 +32,7 @@
 							<thead>
 								<tr>
 									<th width="1%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
+									<th width="10%" class="text-nowrap">No. Surat</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Penerbitan</th>
@@ -47,7 +47,7 @@
 								@foreach(audit_get() as $no=>$data)
 									<tr class="odd gradeX">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
-										<td class="boldtd">{{$data->nomorsurat}}</td>
+										<td class="boldtd">{{$data->surattugas['nomortiket']}}</td>
 										<td>{{$data->unitkerja['name']}}</td>
 										<td>{{$data->name}}</td>
 										<td>{{$data->tgl_penerbitan}}</td>

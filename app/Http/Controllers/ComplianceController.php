@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Audit;
 use App\Timaudit;
 use App\Compliance;
+use App\Viewcountcomplianceprogram;
 use App\Complangkahkerja;
 use Artisan;
 use PDF;
@@ -308,11 +309,11 @@ class ComplianceController extends Controller
 
     
     public function send_to_pengawas(request $request){
-        $cekdata=$data=Compliance::where('audit_id',$request->id)->count();
+        $cekdata=Viewcountcomplianceprogram::where('audit_id',$request->id)->where('total_langkah',0)->count();
         
-        if (trim($cekdata) =='0') {$error[] = '- Isi Pokok Materi dan Langkah kerja';}
-        if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-        else{
+        if ($cekdata>0) {
+            echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />Lengkapi langkah kerja</p>';
+        }else{
             $data=Audit::where('id',$request->id)->update([
                 'sts_compliance'=>1,
             ]);
@@ -365,6 +366,7 @@ class ComplianceController extends Controller
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_compliance'=>0,
+                    'alasan_pengawas_compliance_program'=>$request->alasan,
                 ]);
             }
 
@@ -388,6 +390,7 @@ class ComplianceController extends Controller
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_compliance'=>2,
+                    'alasan_pengawas_compliance_catatan'=>$request->alasan,
                 ]);
             }
 

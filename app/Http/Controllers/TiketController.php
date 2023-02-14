@@ -135,7 +135,8 @@ class TiketController extends Controller
         
     }
     public function index_ketua(request $request){
-        error_reporting(0);    if(akses_tiket_ketua()>0){
+        error_reporting(0);    
+        if(akses_tiket_ketua()>0){
             $menu='List Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_ketua',compact('menu','side'));
@@ -155,7 +156,8 @@ class TiketController extends Controller
         
     }
     public function index_acc_pengawas(request $request){
-        error_reporting(0);    if(akses_tiket_pengawas()>0){
+        error_reporting(0);    
+        if(akses_tiket_pengawas()>0){
             $menu='Approve Penyelesaian Tiket ';
             $side='tiket';
             return view('Tiket.index_tiket_accpengawas',compact('menu','side'));

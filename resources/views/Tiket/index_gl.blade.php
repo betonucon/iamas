@@ -44,7 +44,14 @@
 							</thead>
 							<tbody>
 								@foreach(tiket_get_gl('0') as $no=>$data)
-									<tr class="odd gradeX">
+									<?php
+										if(count_tiket_ready($data->id)>0){
+											$color='aqua';
+										}else{
+											$color='';
+										}
+									?>
+									<tr class="odd gradeX" style="background:{{$color}}">
 										<td width="1%" class="f-s-600 text-inverse">{{$no+1}}</td>
 										<td width="1%" class="with-img"><input value="{{$data->nik}}" type="checkbox" name="id[]"></td>
 										<td>{{$data->nomorinformasi}}</td>

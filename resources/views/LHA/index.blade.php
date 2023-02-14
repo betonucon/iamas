@@ -38,7 +38,7 @@
 							<thead>
 								<tr>
 									<th width="3%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
+									<th width="10%" class="text-nowrap">No. Surat</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Status</th>

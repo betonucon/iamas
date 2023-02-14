@@ -31,7 +31,16 @@
 					@if($act=='revisi')
 				    	<a href="{{url('Qcrevisi')}}" class="btn btn-red btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
 					@endif	
-						
+					@if($data->alasan_pengawas_compliance_program!="" || $data->alasan_pengawas_compliance_program!=null)
+							<div class="note note-warning  m-b-15">
+								<div class="note-content">
+									<h4><b>Note Revisi!</b></h4>
+									<p>
+										{!!$data->alasan_pengawas_compliance_program!!}
+									</p>
+								</div>
+							</div>
+					@endif	
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a href="javascript:;"  onclick="tambah()" class="nav-link active">

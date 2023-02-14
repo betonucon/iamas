@@ -61,7 +61,7 @@
                     <li><a href="{{url('TiketNew')}}">{!! notif_tiket_gl() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
                 @endif
                 @if(akses_tiket_ketua()>0)
-                    <li><a href="{{url('TiketKetua')}}"><i class="fa fa-ticket-alt"></i><span>Tiket Ketua</span></a></li>
+                    <li><a href="{{url('TiketKetua')}}">{!!count_penyelesaian(1,2)!!}<i class="fa fa-ticket-alt"></i><span>Tiket Ketua</span></a></li>
                 
                 @endif
                 <!-----Menu Anggota Untuk Tiket---->
@@ -81,7 +81,7 @@
                     <li><a href="{{url('TiketNewHead')}}">{!! notif_tiket_head() !!}<i class="fa fa-ticket-alt"></i><span>Daftar Tiket</span></a></li>
                     @endif
                     @if(akses_tiket_head()>0)
-                    <li><a href="{{url('AccTiketHead')}}"><i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
+                    <li><a href="{{url('AccTiketHead')}}">{!!count_penyelesaian(6,4)!!}<i class="fa fa-gavel"></i><span>Approve Penyelesaian Tiket</span></a></li>
                     <li class="has-sub lilinya">
                         <a href="javascript:;">
                             <b class="caret"></b>
@@ -105,7 +105,7 @@
                 <!-----Menu Pengawas Untuk Tiket---->
                 @if(Auth::user()->posisi_id==12 || Auth::user()->posisi_id==2 || Auth::user()->posisi_id==7 || Auth::user()->posisi_id==1)
                     @if(akses_tiket_pengawas()>0)
-                        <li><a href="{{url('AccTiketPengawas')}}">{!!count_penyelesaian()!!}<i class="fa fa-gavel"></i><span>Penyelesaian Tiket</span></a></li>
+                        <li><a href="{{url('AccTiketPengawas')}}">{!!count_penyelesaian(2,3)!!}<i class="fa fa-gavel"></i><span>Penyelesaian Tiket</span></a></li>
                         <li class="has-sub lilinya">
                             <a href="javascript:;">
                                 <b class="caret"></b>
@@ -261,7 +261,7 @@
                         </ul>
                     </li>
                     <li class="has-sub lilinya">
-                        <a href="{{url('Qcrevisi')}}">
+                        <a href="{{url('Qcrevisi')}}">{!!count_draf_perbaikan()!!}
                             <i class="fa fa-clipboard"></i>
                             <span>Draf Perbaikan</span>
                         </a>
@@ -270,7 +270,7 @@
                 @endif
 
                 @if(Auth::user()->role_id==5 || Auth::user()->role_id==7)
-                    <li><a href="{{url('/Qc')}}"><i class="fa fa-clipboard"></i>
+                    <li><a href="{{url('/Qc')}}">{!!count_notif_qc()!!}<i class="fa fa-clipboard"></i>
                             <span>Draf Pemeriksaan</span>
                         </a>
                     </li>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Audit;
 use App\Timaudit;
 use App\Substantive;
+use App\Viewcountsubstantiveprogram;
 use App\Subslangkahkerja;
 use Artisan;
 use PDF;
@@ -302,11 +303,11 @@ class SubstantiveController extends Controller
 
     
     public function send_to_pengawas(request $request){
-        $cekdata=$data=Substantive::where('audit_id',$request->id)->count();
+        $cekdata=Viewcountsubstantiveprogram::where('audit_id',$request->id)->where('total_langkah',0)->count();
         
-        if (trim($cekdata) =='0') {$error[] = '- Isi Pokok Materi dan Langkah kerja';}
-        if (isset($error)) {echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />'.implode('<br />', $error).'</p>';} 
-        else{
+        if ($cekdata>0) {
+            echo '<p style="padding:5px;color:#000;font-size:13px"><b>Error</b>: <br />Lengkapi langkah kerja</p>';
+        }else{
             $data=Audit::where('id',$request->id)->update([
                 'sts_substantive'=>1,
             ]);
@@ -359,6 +360,7 @@ class SubstantiveController extends Controller
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_substantive'=>0,
+                    'alasan_pengawas_substantive_program'=>$request->alasan,
                 ]);
             }
 
@@ -382,6 +384,7 @@ class SubstantiveController extends Controller
             }else{
                 $data=Audit::where('id',$request->id)->update([
                     'sts_substantive'=>2,
+                    'alasan_pengawas_substantive_catatan'=>$request->alasan,
                 ]);
             }
 

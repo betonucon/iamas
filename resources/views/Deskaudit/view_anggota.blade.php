@@ -46,7 +46,16 @@
 					<div class="tab-content" style="margin-bottom:0px;padding:1%">
 
 						<div class="tab-pane fade active show" id="default-tab-1">
-							
+								@if($data->alasan_pengawas_deskaudit_catatan!="" || $data->alasan_pengawas_deskaudit_catatan!=null)
+									<div class="note note-warning  m-b-15">
+										<div class="note-content">
+											<h4><b>Note Revisi!</b></h4>
+											<p>
+												{!!$data->alasan_pengawas_deskaudit_catatan!!}
+											</p>
+										</div>
+									</div>
+								@endif	
 								<div class="panel-body" style="overflow: auto;">
 									<table class="table table-bordered">
 										<thead>
@@ -59,7 +68,7 @@
 											@foreach($program as $no=>$prog)
 												<tr>
 													<td>{{$no+1}}</td>
-													<td>{{$prog->name}}</td>
+													<td>{{$prog->name}} </td>
 													<td>
 														<table class="table table-bordered">
 															<thead>

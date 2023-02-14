@@ -1005,8 +1005,19 @@ function count_kelola_sumber(){
     }
     
 }
-function count_penyelesaian(){
-    $data=App\Surattugas::where('tiket_id',array_tiket_pengawas())->where('sts',3)->count();
+function count_penyelesaian($role_id,$sts){
+   
+    $data=App\Viewnotifikasi::where('nik',Auth::user()['nik'])->where('sts',$sts)->where('role_id',$role_id)->count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
+function count_draf_perbaikan(){
+   
+    $data=App\Viewnotifikasiqc::where('nik',Auth::user()['nik'])->where('sts',1)->count();
     if($data>0){
       return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
     }else{
@@ -1989,9 +2000,22 @@ function tiket_get_ketua(){
    $data=App\Surattugas::whereIn('sts',array('2','3','4','5'))->whereIn('kode_aktivitas',array('01','02','03'))->whereIn('tiket_id',array_tiket_ketua())->orderBy('id','Desc')->get();
    return $data;
 }
-
+function barcoderider($id,$w,$h){
+   $d = new Milon\Barcode\DNS2D();
+   $d->setStorPath(__DIR__.'/cache/');
+   return $d->getBarcodeHTML($id, 'QRCODE',$w,$h);
+}
+function barcoderr($id){
+   $d = new Milon\Barcode\DNS2D();
+   $d->setStorPath(__DIR__.'/cache/');
+   return $d->getBarcodePNGPath($id, 'PDF417');
+}
 function tiket_get_head(){
    $data=App\Surattugas::whereIn('tiket_id',array_tiket_head())->orderBy('id','Desc')->get();
+   return $data;
+}
+function count_tiket_ready($tiket_id){
+   $data=App\Surattugas::where('tiket_id',$tiket_id)->count();
    return $data;
 }
 
@@ -2119,6 +2143,15 @@ function lha_qc_get(){
    $data=App\Audit::where('sts_lha','>','2')->orderBy('id','Desc')->get();
     
    return $data;
+}
+function count_notif_qc(){
+   
+   $data=App\Audit::where('sts_lha',3)->count();
+   if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+   }else{
+      return "";
+   }
 }
 function lha_qchead_get(){
    

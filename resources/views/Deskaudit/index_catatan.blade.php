@@ -32,7 +32,7 @@
 							<thead>
 								<tr>
 									<th width="1%"></th>
-									<th width="10%" class="text-nowrap">Kode</th>
+									<th width="10%" class="text-nowrap">No. Surat</th>
 									<th width="18%" class="text-nowrap">Unit Kerja</th>
 									<th class="text-nowrap">Obyek</th>
 									<th width="7%" class="text-nowrap">Penerbitan</th>
@@ -55,8 +55,12 @@
 										<td style="text-align:center">
 											{{$data->stsaudit['name']}}	
 										</td>
+										@if($data->sts_deskaudit>=2)
 										<td><span onclick="cetak({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-print"></i></span></td>
+										@else
+										<td><span  class="btn btn-aqua btn-sm"><i class="fa fa-print"></i></span></td>
 										
+										@endif
 										<td><span onclick="cek_file_audit({{$data->id}})" class="btn btn-yellow btn-sm"><i class="fa fa-clone"></i></span></td>
 										<td>
 											@if($data->sts_deskaudit==2)
