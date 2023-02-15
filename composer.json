@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "laravel/framework": "^7.29",
         "laravel/passport": "^9.4",
+        "milon/barcode": "^9.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "phpoffice/phpword": "^0.18.2"
@@ -28,6 +29,9 @@
     },
     "config": {
         "optimize-autoloader": true,
+        "platform": {
+            "php": "7.4.19"
+         },
         "preferred-install": "dist",
         "sort-packages": true
     },
