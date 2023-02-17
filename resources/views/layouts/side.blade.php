@@ -156,7 +156,7 @@
                                 
                             </ul>
                         </li>
-                        <li><a href="{{url('Temuanpengawas')}}"><i class="fa fa-clipboard"></i><span>Temuan pengawas</span></a></li>
+                        <li><a href="{{url('Temuanpengawas')}}">{!! count_temuan_pengawas()!!}<i class="fa fa-clipboard"></i><span>Temuan pengawas</span></a></li>
                     @endif
                 @endif
                 @if(Auth::user()->posisi_id==12)
