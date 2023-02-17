@@ -130,42 +130,42 @@
 											<td>{{$no+1}}</td>
 											<td>{{$get->nomorinformasi}}</td>
 											<td>
-												@if($get->sts>1 || $get->sts!=10)
-													<button type="button" class="btn btn-red btn-xs">Tercatat {{$get->sts}}</button>
+												@if($get->sts>1 && $get->sts!=10)
+													<button type="button" class="btn btn-red btn-xs">Tercatat</button>
 												@else
 													
 												@endif
 											</td>
 											<td>
-												@if($get->sts>2 || $get->sts!=10)
+												@if($get->sts>2 && $get->sts!=10)
 													<button type="button" class="btn btn-yellow btn-xs">Assignment</button>
 												@else
 													
 												@endif
 											</td>
 											<td>
-												@if($get->sts>4 || $get->sts!=10)
+												@if($get->sts>4 && $get->sts!=10)
 													<button type="button" class="btn btn-orange btn-xs">Analisa</button>
 												@else
 													
 												@endif
 											</td>
 											<td>
-												@if($get->sts>5 || $get->sts!=10)
+												@if($get->sts>5 && $get->sts!=10)
 													<button type="button" class="btn btn-success btn-xs">Draft Hasil</button>
 												@else
 													
 												@endif
 											</td>
 											<td>
-												@if($get->sts>6 || $get->sts!=10)
+												@if($get->sts>6 && $get->sts!=10)
 													<button type="button" class="btn btn-blue btn-xs">Selesai</button>
 												@else
 													
 												@endif
 											</td>
 											<td>
-												@if($get->sts>6  || $get->sts!=10)
+												@if($get->sts>6  && $get->sts!=10)
 													<button type="button" class="btn btn-grey btn-xs" title="Lampiran {{$get->lampiran_tiket}}" onclick="location.assign(`{{url('_file_lampiran/'.$get->lampiran_tiket)}}`)"><i class="fas fa-clone"></i></button>
 												@else
 													
