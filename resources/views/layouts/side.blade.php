@@ -160,7 +160,7 @@
                     @endif
                 @endif
                 @if(Auth::user()->posisi_id==12)
-                    <li><a href="{{url('Temuanrcd')}}"><i class="fa fa-clipboard"></i><span>Temuan Rcd</span></a></li>
+                    <li><a href="{{url('Temuanrcd')}}">{!! count_temuan_rcd()!!}<i class="fa fa-clipboard"></i><span>Temuan Rcd</span></a></li>
                 @endif
                 @if(akses_tiket_ketua()>0)
                     <li class="has-sub lilinya">
@@ -266,7 +266,7 @@
                             <span>Draf Perbaikan</span>
                         </a>
                     </li>
-                    <li><a href="{{url('Temuananggota')}}"><i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
+                    <li><a href="{{url('Temuananggota')}}">{!! count_temuan_anggota()!!}<i class="fa fa-clipboard"></i><span>Temuan Anggota</span></a></li>
                 @endif
 
                 @if(Auth::user()->role_id==5 || Auth::user()->role_id==7)

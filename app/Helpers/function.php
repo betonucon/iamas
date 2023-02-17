@@ -1015,6 +1015,26 @@ function count_penyelesaian($role_id,$sts){
     }
     
 }
+function count_temuan_anggota(){
+   
+    $data=App\Viewnotifikasitemuananggota::where('nik',Auth::user()['nik'])->count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
+function count_temuan_rcd(){
+   
+    $data=App\Viewnotifikasitemuanrcd::count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
 function count_draf_perbaikan(){
    
     $data=App\Viewnotifikasiqc::where('nik',Auth::user()['nik'])->where('sts',1)->count();
