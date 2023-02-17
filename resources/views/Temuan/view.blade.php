@@ -160,7 +160,7 @@
 											<tr>
 												<td class="text-toop" width="15%"><b>Hasil Tindak Lanjut</b></td>
 												<td class="text-toop" width="2%"><b>:</b></td>
-												<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
+												<td class="text-toop"></td>
 											</tr>
 									</table>
 									<div style="padding:2% 2%">{!! $data->catatan !!}</div>
