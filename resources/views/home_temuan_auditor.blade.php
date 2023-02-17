@@ -39,7 +39,7 @@
 									<div class="col-xl-3 col-lg-12">
 										<div class="text-grey">
 											<b>TEMUAN {{$det->kode_sumber}}</b>
-											<span class="text-grey ml-2"><i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Sales by social source" data-placement="top" data-content="Total online store sales that came from a social referrer source." data-original-title="" title=""></i></span>
+											<span class="text-grey ml-2"></span>
 														
 											<h3 class="m-b-10"><span data-animation="number" data-value="{{total_temuan(0,$tahun,$det->kode_sumber)}}">{{total_temuan(0,$tahun,$det->kode_sumber)}}</span></h3>
 											<img src="{{url('assets/assets/img/svg/img-1.svg')}}" width="70%" class="d-none d-lg-block" />
@@ -79,7 +79,7 @@
 											</div>
 											<div class="ml-2 f-s-11 width-30 text-center"><span data-animation="number" data-value="{{round(total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber)))}}">{{total_temuan_selesai(0,$tahun,$det->kode_sumber)*(100/total_temuan(0,$tahun,$det->kode_sumber))}}</span>%</div>
 										</div>
-										<a href="#" class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2" data-toggle="collapse" data-target="#collapse{{$det->kode_sumber}}" aria-expanded="false">View campaign</a>
+										<a href="#" class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2" data-toggle="collapse" data-target="#collapse{{$det->kode_sumber}}" aria-expanded="false">View Detail</a>
 									
 
 

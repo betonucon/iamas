@@ -27,9 +27,7 @@
 									<div class="col-xl-7 col-lg-8">
 										<div class="mb-3 text-grey">
 											<b>Pemanfaatan Hari Penugasan STIA{{$aktv->kode}}</b>
-											<span class="ml-2">
-												<i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Total sales" data-placement="top" data-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i>
-											</span>
+											
 										</div>
 										<div class="d-flex mb-1">
 											<h2 class="mb-0"><span data-animation="number" data-value="{{dashboard_nilai_persen($aktv->kode,$tahun)}}">0.00</span>%</h2>
