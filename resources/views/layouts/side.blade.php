@@ -211,7 +211,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="{{url('Temuanketua')}}"><i class="fa fa-clipboard"></i><span>Temuan ketua</span></a></li>
+                    <li><a href="{{url('Temuanketua')}}">{!! count_temuan_ketua()!!}<i class="fa fa-clipboard"></i><span>Temuan ketua</span></a></li>
                 @endif
                 
                 @if(akses_tiket_anggota()>0)
