@@ -151,6 +151,12 @@
 											</tr>
 											
 										@endif
+										
+											<tr>
+												<td class="text-toop" width="15%"><b>Catatan Tim</b></td>
+												<td class="text-toop" width="2%"><b>:</b></td>
+												<td class="text-toop">{!! review_team($data->id,$data->sts_tl) !!}</td>
+											</tr>
 											<tr>
 												<td class="text-toop" width="15%"><b>Hasil Tindak Lanjut</b></td>
 												<td class="text-toop" width="2%"><b>:</b></td>

@@ -92,7 +92,7 @@
 											<td class="text-toop"><a href="{{url('_file_lampiran')}}/{{$data->file}}" target="_blank"><span class="btn btn-white btn-xs"><i class="fas fa-clone"></i> File Tindak Lanjut</span></a></td>
 										</tr>
 										<tr>
-											<td class="text-toop"><b>Catatan</b></td>
+											<td class="text-toop"><b>Catatan Tim</b></td>
 											<td class="text-toop"><b>:</b></td>
 											<td class="text-toop">{!! review_team($data->id,$data->sts_tl) !!}</td>
 										</tr>
