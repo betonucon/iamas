@@ -131,19 +131,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="col-md-12" style="background-color: #f2f8fd;">
-								<div class="alert alert-blue fade show m-b-10" style="background-color: #f2f8fd;border-top: double 5px #edd6d6;">
-									<table style="margin-left:0%" width="100%">
-										
-											<tr>
-												<td class="text-toop" width="15%"><b>Hasil Tindak Lanjut</b></td>
-												<td class="text-toop" width="2%"><b>:</b></td>
-												<td class="text-toop">{{$data->kesimpulan['nomorkode']}} {{$data->nomor}}.{{$data->urutan}}</td>
-											</tr>
-									</table>
-									<div style="padding:2% 2%">{!! $data->catatan !!}</div>
-								</div>
-							</div>
+							
 							<div class="col-md-12">
 								@if(Auth::user()->role_id==8)
 									@if($data->sts==1)

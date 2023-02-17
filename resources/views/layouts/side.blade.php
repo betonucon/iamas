@@ -98,7 +98,7 @@
                             
                         </ul>
                     </li>
-                    <li><a href="{{url('Temuanhead')}}"><i class="fa fa-clipboard"></i><span>Temuan</span></a></li>
+                    <li><a href="{{url('Temuanhead')}}">{!! count_temuan_head()!!}<i class="fa fa-clipboard"></i><span>Temuan</span></a></li>
                     @endif
                 @endif
                 

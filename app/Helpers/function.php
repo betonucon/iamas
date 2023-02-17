@@ -1045,6 +1045,16 @@ function count_temuan_pengawas(){
     }
     
 }
+function count_temuan_head(){
+   
+    $data=App\Viewnotifikasitemuanhead::where('nik',Auth::user()['nik'])->count();
+    if($data>0){
+      return '<span class="badge pull-right" style="background: white;color: #000;">'.$data.'</span>';
+    }else{
+      return '';
+    }
+    
+}
 function count_temuan_rcd(){
    
     $data=App\Viewnotifikasitemuanrcd::count();
