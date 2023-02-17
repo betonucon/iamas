@@ -43,7 +43,7 @@
 									<div class="col-xl-3 col-lg-12">
 										<div class="text-grey">
 											<b>TEMUAN {{$det->kode_sumber}}</b>
-											<span class="text-grey ml-2"><i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-title="Sales by social source" data-placement="top" data-content="Total online store sales that came from a social referrer source." data-original-title="" title=""></i></span>
+											<span class="text-grey ml-2"></span>
 														
 											<h3 class="m-b-10"><span data-animation="number" data-value="{{total_temuan_kode($kode,$tahun,$det->kode_sumber)}}">{{total_temuan_kode($kode,$tahun,$det->kode_sumber)}}</span></h3>
 											<img src="{{url('assets/assets/img/svg/img-1.svg')}}" width="70%" class="d-none d-lg-block" />
