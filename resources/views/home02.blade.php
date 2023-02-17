@@ -131,7 +131,7 @@
 											<td>{{$get->nomorinformasi}}</td>
 											<td>
 												@if($get->sts>1 || $get->sts!=10)
-													<button type="button" class="btn btn-red btn-xs">Tercatat</button>
+													<button type="button" class="btn btn-red btn-xs">Tercatat {{$get->sts}}</button>
 												@else
 													
 												@endif
