@@ -123,7 +123,9 @@
                         
                             <td class="thb" >
                                 Cilegon, {{bulan_indo()}}<br>
-                                INTERNAL AUDIT<br><br><br><br><br>
+                                INTERNAL AUDIT<br>
+                                <?php $drf=head_of()['name'].'/ Head of Internal Audit ' ?>
+                                <img src="data:image/png;base64,{!!DNS2D::getBarcodePNG($drf, 'QRCODE',4,4)!!}" width="20%" alt="barcode"   />
                                 <u style="display:block">{{head_of()['name']}}</u>
                                 Head of Internal Audit
                             </td>
