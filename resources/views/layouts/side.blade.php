@@ -30,11 +30,11 @@
                     <i class="fa fa-th-large"></i>
                     <span>Dashboard</span>
                 </a>
-                <ul class="sub-menu" style="display: @if($side=='home') block @endif;">
+                <ul class="sub-menu" style="display:block;">
                     <li><a href="{{url('DashboardStia')}}">Dashboard Non Audit</a></li>
                     <li><a href="{{url('Dashboardaudit')}}">Dashboard Audit</a></li>
                     <li><a href="{{url('DashboardKodifikasi')}}">Dashboard Kodifikasi</a></li>
-                    <li><a href="{{url('Dashboardtemuan')}}">Dashboard Temuan</a></li>
+                    <li><a href="{{url('Dashboarddirut')}}">Dashboard Temuan</a></li>
                 </ul>
             </li>
             @endif

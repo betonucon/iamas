@@ -105,6 +105,7 @@ Route::group(['middleware'    => 'auth'],function(){
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('/home','HomeController@index')->name('home');
     Route::get('/Dashboardtemuan','HomeController@index_temuan');
+    Route::get('/Dashboarddirut','HomeController@index_dirut');
     Route::get('/DashboardStia','HomeController@index');
     Route::get('/DashboardStia02','HomeController@index_stia2');
     Route::get('/Dashboardall','HomeController@index_temuan_all');

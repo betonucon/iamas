@@ -1510,6 +1510,10 @@ function get_subdit($kode){
     $data=App\Unitkerja::where('unit_atasan',$kode)->where('unit_id','!=',5)->orderBy('id','Asc')->get();
     return $data;
 }
+function get_direktur(){
+    $data=App\Unitkerja::where('unit_id',1)->orderBy('id','Asc')->get();
+    return $data;
+}
 function get_divisi($kode){
     $data=App\Unitkerja::where('unit_atasan',$kode)->where('unit_id','!=',5)->orderBy('id','Asc')->get();
     return $data;

@@ -129,6 +129,18 @@ class HomeController extends Controller
         }
         return view('home_temuan_auditor',compact('menu','tahun','side'));
     }
+    public function index_dirut(request $request)
+    {   
+        error_reporting(0);
+        $menu='Dashboard Temuan';
+        $side="temuan";
+        if($request->tahun==''){
+            $tahun=date('Y');
+        }else{
+            $tahun=$request->tahun;
+        }
+        return view('home_temuan_dirut',compact('menu','tahun','side'));
+    }
 
     public function index_kodifikasi(request $request)
     {   $menu='Dashboard Kodifikasi';
