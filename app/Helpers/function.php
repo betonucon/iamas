@@ -1518,6 +1518,10 @@ function get_divisi($kode){
     $data=App\Unitkerja::where('unit_atasan',$kode)->where('unit_id','!=',5)->orderBy('id','Asc')->get();
     return $data;
 }
+function get_unit_direktur($kode){
+    $data=App\Viewunitdirektur::where('kode_direktur',$kode)->orderBy('unit_id','Asc')->get();
+    return $data;
+}
 function total_infromasi($tahun,$id){
    if($id==1){
       $data=App\Tiket::where('nik',Auth::user()['nik'])->where('sts','>',1)->where('tahun',$tahun)->count();
@@ -1850,10 +1854,10 @@ function total_lhk($kode,$tahun,$act){
    if($act==1){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->count();
    }
-   if($act==2){
+   if($act==3){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->wherenotIn('sts_tl',array('B','S'))->count();
    }
-   if($act==3){
+   if($act==2){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHK')->where('sts_tl','S')->count();
    }
    if($act==4){
@@ -1862,14 +1866,30 @@ function total_lhk($kode,$tahun,$act){
    
    return $data;
 }
+function total_temuan_dirut($kds,$kode,$tahun,$act){
+   if($act==1){
+      $data=App\Viewtemuan::where('kode_direktur',$kode)->whereYear('terbit',$tahun)->where('kode_sumber',$kds)->count();
+   }
+   if($act==3){
+      $data=App\Viewtemuan::where('kode_direktur',$kode)->whereYear('terbit',$tahun)->where('kode_sumber',$kds)->wherenotIn('sts_tl',array('B','S'))->count();
+   }
+   if($act==2){
+      $data=App\Viewtemuan::where('kode_direktur',$kode)->whereYear('terbit',$tahun)->where('kode_sumber',$kds)->where('sts_tl','S')->count();
+   }
+   if($act==4){
+      $data=App\Viewtemuan::where('kode_direktur',$kode)->whereYear('terbit',$tahun)->where('kode_sumber',$kds)->where('sts_tl','B')->count();
+   }
+   
+   return $data;
+}
 function total_lhp($kode,$tahun,$act){
    if($act==1){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->count();
    }
-   if($act==2){
+   if($act==3){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->wherenotIn('sts_tl',array('B','S'))->count();
    }
-   if($act==3){
+   if($act==2){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHP')->where('sts_tl','S')->count();
    }
    if($act==4){
@@ -1881,10 +1901,10 @@ function total_lha($kode,$tahun,$act){
    if($act==1){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->count();
    }
-   if($act==2){
+   if($act==3){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->wherenotIn('sts_tl',array('B','S'))->count();
    }
-   if($act==3){
+   if($act==2){
       $data=App\Rekomendasi::where('kode_unit',$kode)->whereYear('terbit',$tahun)->where('kode_sumber','LHA')->where('sts_tl','S')->count();
    }
    if($act==4){

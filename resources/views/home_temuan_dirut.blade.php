@@ -63,56 +63,24 @@
 								<tbody>
 									
 									@foreach(get_direktur() as $ned=>$dir)
+										
 										<?php 
-											$lhkb=0;
-											$lhkp=0;
-											$lhks=0;
-											$lhkt=0;
-											$lhab=0;
-											$lhap=0;
-											$lhas=0;
-											$lhts=0;
-											$lhpb=0;
-											$lhpp=0;
-											$lhps=0;
-											$lhpt=0;
+											$lhkb=total_temuan_dirut('LHK',$dir->kode,$tahun,4);
+											$lhkp=total_temuan_dirut('LHK',$dir->kode,$tahun,3);
+											$lhks=total_temuan_dirut('LHK',$dir->kode,$tahun,2);
+											$lhkt=total_temuan_dirut('LHK',$dir->kode,$tahun,1);
+
+											$lhab=total_temuan_dirut('LHA',$dir->kode,$tahun,4);
+											$lhap=total_temuan_dirut('LHA',$dir->kode,$tahun,3);
+											$lhas=total_temuan_dirut('LHA',$dir->kode,$tahun,2);
+											$lhat=total_temuan_dirut('LHA',$dir->kode,$tahun,1);
+
+											$lhpb=total_temuan_dirut('LHP',$dir->kode,$tahun,4);
+											$lhpp=total_temuan_dirut('LHP',$dir->kode,$tahun,3);
+											$lhps=total_temuan_dirut('LHP',$dir->kode,$tahun,2);
+											$lhpt=total_temuan_dirut('LHP',$dir->kode,$tahun,1);
 										?>
-										
-											@foreach(get_subdit($dir->kode) as $no=>$get)
-												<?php 
-													$lhkb+=total_lhk($get->kode,$tahun,4);
-													$lhkp+=total_lhk($get->kode,$tahun,3);
-													$lhks+=total_lhk($get->kode,$tahun,2);
-													$lhkt+=total_lhk($get->kode,$tahun,1);
-													$lhab+=total_lha($get->kode,$tahun,4);
-													$lhap+=total_lha($get->kode,$tahun,3);
-													$lhas+=total_lha($get->kode,$tahun,2);
-													$lhat+=total_lha($get->kode,$tahun,1);
-													$lhpb+=total_lhp($get->kode,$tahun,4);
-													$lhpp+=total_lhp($get->kode,$tahun,3);
-													$lhps+=total_lhp($get->kode,$tahun,2);
-													$lhpt+=total_lhp($get->kode,$tahun,1);
-												?>
-												
-												@foreach(get_divisi($get->kode) as $no=>$div)
-													<?php 
-														$lhkb+=total_lhk($div->kode,$tahun,4);
-														$lhkp+=total_lhk($div->kode,$tahun,3);
-														$lhks+=total_lhk($div->kode,$tahun,2);
-														$lhkt+=total_lhk($div->kode,$tahun,1);
-														$lhab+=total_lha($div->kode,$tahun,4);
-														$lhap+=total_lha($div->kode,$tahun,3);
-														$lhas+=total_lha($div->kode,$tahun,2);
-														$lhat+=total_lha($div->kode,$tahun,1);
-														$lhpb+=total_lhp($div->kode,$tahun,4);
-														$lhpp+=total_lhp($div->kode,$tahun,3);
-														$lhps+=total_lhp($div->kode,$tahun,2);
-														$lhpt+=total_lhp($div->kode,$tahun,1);
-													?>
-													
-												@endforeach
-											@endforeach
-										
+											
 										<tr>
 											<td >{{$ned+1}}</td>
 											<td >{{$dir->name}}</td>
