@@ -124,8 +124,8 @@
                             <td class="thb" >
                                 Cilegon, {{bulan_indo()}}<br>
                                 INTERNAL AUDIT<br><br>
-                                @if($data->surattugas['tgl_approval']!=null)
-                                <?php $drf=head_of()['name'].'/ Head of Internal Audit/'.$data->surattugas['tgl_approval'] ?>
+                                @if($data->surattugas['tgl_head']!=null)
+                                <?php $drf=head_of()['name'].'/ Head of Internal Audit/'.$data->surattugas['tgl_head'] ?>
                                 <img src="data:image/png;base64,{!!DNS2D::getBarcodePNG($drf, 'QRCODE',2,2)!!}" width="30%" alt="barcode"   /><br><br>
                                 @endif
                                 <u style="display:block">{{head_of()['name']}}</u>

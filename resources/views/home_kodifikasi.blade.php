@@ -29,7 +29,32 @@
 					</div>
 				</div>
 				<div class="panel-body" style="background: #bfbfd3">
-				<canvas id="bar-chart" data-render="chart-js"></canvas>
+				
+					<div class="row">
+						<div class="col-md-7">
+							<canvas id="bar-chart" data-render="chart-js"></canvas>
+						</div>
+						<div class="col-md-5" style="height:330px;overflow-y:scroll;">
+							<table class="table table-condensed">
+								<tbody>
+									<tr>
+										<th  width="5%">No</th>
+										<th  width="20%">Kode</th>
+										<th>Keterangan</th>
+										<th width="10%">Total</th>
+									</tr>
+									@foreach(kodefikasi_get() as $no=>$o)
+										<tr bgcolor="#ebebeb">
+											<td>{{$no+1}}</td>
+											<td>{{$o->kodifikasi}}</td>
+											<td>{{$o->kategori}}</td>
+											<td>{{total_kodifikasi($o->kodifikasi,$tahun)}}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- end panel -->
@@ -47,8 +72,34 @@
 					</div>
 				</div>
 				<div class="panel-body" style="background:#bfbfd3">
-				<canvas id="bar2-chart" data-render="chart-js"></canvas>
+					<div class="row">
+						<div class="col-md-7">
+							<canvas id="bar2-chart" data-render="chart-js"></canvas>
+						</div>
+						<div class="col-md-5" style="height:330px;overflow-y:scroll;">
+							<table class="table table-condensed">
+								<tbody>
+									<tr>
+										<th  width="5%">No</th>
+										<th  width="20%">Kode</th>
+										<th>Keterangan</th>
+										<th width="10%">Total</th>
+									</tr>
+									@foreach(kodefikasi_get() as $no=>$o)
+										<tr bgcolor="#ebebeb">
+											<td>{{$no+1}}</td>
+											<td>{{$o->kodifikasi}}</td>
+											<td>{{$o->kategori}}</td>
+											<td>{{total_kodifikasi_rekomendasi($o->kodifikasi,$tahun)}}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
 				</div>
+				
 			</div>
 			<!-- end panel -->
 		</div>
@@ -80,7 +131,7 @@ var randomScalingFactor = function() {
 
 var barChartData = {
 	labels: [@foreach(kodefikasi_get() as $kodefikasi_get)
-			'{{$kodefikasi_get->kodifikasi}} {{$kodefikasi_get->kategori}}',
+			'{{$kodefikasi_get->kodifikasi}}',
 			@endforeach],
 	datasets: [{
 		label: 'Cumulative Return',
@@ -96,7 +147,7 @@ var barChartData = {
 };
 var barChartData2 = {
 	labels: [@foreach(kodefikasi_get() as $kodefikasi_get)
-			'{{$kodefikasi_get->kodifikasi}} {{$kodefikasi_get->kategori}}',
+			'{{$kodefikasi_get->kodifikasi}}',
 			@endforeach],
 	datasets: [{
 		label: 'Cumulative Return',
