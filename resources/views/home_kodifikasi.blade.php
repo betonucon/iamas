@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div class="panel-body" style="background: #bfbfd3">
-					<div id="nv-bar-chart" class="height-sm"></div>
+				<canvas id="bar-chart" data-render="chart-js"></canvas>
 				</div>
 			</div>
 			<!-- end panel -->
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 				<div class="panel-body" style="background:#bfbfd3">
-					<div id="nv-bar-chart-rekomendasi" class="height-sm"></div>
+				<canvas id="bar2-chart" data-render="chart-js"></canvas>
 				</div>
 			</div>
 			<!-- end panel -->
@@ -58,103 +58,89 @@
 	
 @endsection
 @push('ajax')
-<script src="{{url('assets/assets/plugins/d3/d3.min.js')}}"></script>
-<script src="{{url('assets/assets/plugins/nvd3/build/nv.d3.min.js')}}"></script>
-
 <script>
 function pilih_tahun(tahun){
 		location.assign("{{url('DashboardKodifikasi')}}?tahun="+tahun);
 	}
-var handleBarChart = function() {
-	"use strict";
+/*
+Template Name: Color Admin - Responsive Admin Dashboard Template build with Twitter Bootstrap 4
+Version: 4.6.0
+Author: Sean Ngu
+Website: http://www.seantheme.com/color-admin/admin/
+*/
 
-	var barChartData = [{
-		key: 'Cumulative Return',
-		values: [
-			@foreach(kodefikasi_get() as $kodefikasi_get)
-			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi($kodefikasi_get->kodifikasi,$tahun)}}, 'color' : COLOR_PURPLE }, 
-			// { 'label' : 'A', 'value' : 29, 'color' : COLOR_RED }, 
-			// { 'label' : 'B', 'value' : 15, 'color' : COLOR_ORANGE }, 
-			// { 'label' : 'C', 'value' : 32, 'color' : COLOR_GREEN }, 
-			// { 'label' : 'D', 'value' : 196, 'color' : COLOR_AQUA },  
-			// { 'label' : 'E', 'value' : 44, 'color' : COLOR_BLUE },  
-			// { 'label' : 'F', 'value' : 98, 'color' : COLOR_PURPLE },  
-			// { 'label' : 'G', 'value' : 13, 'color' : COLOR_GREY },  
-			// { 'label' : 'H', 'value' : 5, 'color' : COLOR_BLACK }
-			@endforeach
-		]
-	}];
+Chart.defaults.global.defaultFontColor = COLOR_DARK;
+Chart.defaults.global.defaultFontFamily = FONT_FAMILY;
+Chart.defaults.global.defaultFontStyle = FONT_WEIGHT;
 
-	nv.addGraph(function() {
-		var barChart = nv.models.discreteBarChart()
-		  .x(function(d) { return d.label })
-		  .y(function(d) { return d.value })
-		  .showValues(true)
-		  .duration(250);
+var randomScalingFactor = function() { 
+	return Math.round(Math.random()*100)
+};
 
-		barChart.yAxis.axisLabel("Jumlah Kodifikasi");
-		barChart.xAxis.axisLabel('Kodifikasi');
 
-		d3.select('#nv-bar-chart').append('svg').datum(barChartData).call(barChart);
-		nv.utils.windowResize(barChart.update);
+var barChartData = {
+	labels: [@foreach(kodefikasi_get() as $kodefikasi_get)
+			'{{$kodefikasi_get->kodifikasi}} {{$kodefikasi_get->kategori}}',
+			@endforeach],
+	datasets: [{
+		label: 'Cumulative Return',
+		borderWidth: 2,
+		borderColor: "red",
+		backgroundColor: "red",
+		data: [@foreach(kodefikasi_get() as $kodefikasi_get)
+				{{total_kodifikasi($kodefikasi_get->kodifikasi,$tahun)}},
+			@endforeach],
+			
 
-		return barChart;
+	}]
+};
+var barChartData2 = {
+	labels: [@foreach(kodefikasi_get() as $kodefikasi_get)
+			'{{$kodefikasi_get->kodifikasi}} {{$kodefikasi_get->kategori}}',
+			@endforeach],
+	datasets: [{
+		label: 'Cumulative Return',
+		borderWidth: 2,
+		borderColor: "orange",
+		backgroundColor: "orange",
+		data: [@foreach(kodefikasi_get() as $kodefikasi_get)
+				{{total_kodifikasi_rekomendasi($kodefikasi_get->kodifikasi,$tahun)}},
+			@endforeach],
+			
+
+	}]
+};
+
+
+var handleChartJs = function() {
+	
+	var ctx2 = document.getElementById('bar-chart').getContext('2d');
+	var barChart = new Chart(ctx2, {
+		type: 'bar',
+		data: barChartData
 	});
-}
 
-var handleBarChartrekomendasi = function() {
-	"use strict";
-
-	var barChartDatarekomendasi = [{
-		key: 'Cumulative Return',
-		values: [
-			@foreach(kodefikasi_get() as $kodefikasi_get)
-			{ 'label' : '{{$kodefikasi_get->kodifikasi}}', 'value' : {{total_kodifikasi_rekomendasi($kodefikasi_get->kodifikasi,$tahun)}}, 'color' : COLOR_ORANGE }, 
-			// { 'label' : 'A', 'value' : 29, 'color' : COLOR_RED }, 
-			// { 'label' : 'B', 'value' : 15, 'color' : COLOR_ORANGE }, 
-			// { 'label' : 'C', 'value' : 32, 'color' : COLOR_GREEN }, 
-			// { 'label' : 'D', 'value' : 196, 'color' : COLOR_AQUA },  
-			// { 'label' : 'E', 'value' : 44, 'color' : COLOR_BLUE },  
-			// { 'label' : 'F', 'value' : 98, 'color' : COLOR_PURPLE },  
-			// { 'label' : 'G', 'value' : 13, 'color' : COLOR_GREY },  
-			// { 'label' : 'H', 'value' : 5, 'color' : COLOR_BLACK }
-			@endforeach
-		]
-	}];
-
-	nv.addGraph(function() {
-		var barChartrekomendasi = nv.models.discreteBarChart()
-		  .x(function(d) { return d.label })
-		  .y(function(d) { return d.value })
-		  .showValues(true)
-		  .duration(250);
-
-		barChartrekomendasi.yAxis.axisLabel("Jumlah Kodifikasi");
-		barChartrekomendasi.xAxis.axisLabel('Kodifikasi');
-
-		d3.select('#nv-bar-chart-rekomendasi').append('svg').datum(barChartDatarekomendasi).call(barChartrekomendasi);
-		nv.utils.windowResize(barChartrekomendasi.update);
-
-		return barChartrekomendasi;
+	var ctx3 = document.getElementById('bar2-chart').getContext('2d');
+	var barChart = new Chart(ctx3, {
+		type: 'bar',
+		data: barChartData2
 	});
-}
 
+	
+};
 
-
-
-var ChartNvd3 = function () {
+var ChartJs = function () {
 	"use strict";
 	return {
 		//main function
 		init: function () {
-			handleBarChart();
-			handleBarChartrekomendasi();
+			handleChartJs();
 		}
 	};
 }();
 
 $(document).ready(function() {
-	ChartNvd3.init();
+	ChartJs.init();
 });
 </script>
 @endpush
